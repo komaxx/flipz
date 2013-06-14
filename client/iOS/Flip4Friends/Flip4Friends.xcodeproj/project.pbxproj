@@ -1,0 +1,471 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		CEBBC114176B5FF3006F600E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEBBC113176B5FF3006F600E /* UIKit.framework */; };
+		CEBBC116176B5FF3006F600E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEBBC115176B5FF3006F600E /* Foundation.framework */; };
+		CEBBC118176B5FF3006F600E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEBBC117176B5FF3006F600E /* CoreGraphics.framework */; };
+		CEBBC11E176B5FF4006F600E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEBBC11C176B5FF4006F600E /* InfoPlist.strings */; };
+		CEBBC120176B5FF4006F600E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBBC11F176B5FF4006F600E /* main.m */; };
+		CEBBC124176B5FF4006F600E /* FFAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBBC123176B5FF4006F600E /* FFAppDelegate.m */; };
+		CEBBC126176B5FF4006F600E /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBBC125176B5FF4006F600E /* Default.png */; };
+		CEBBC128176B5FF4006F600E /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBBC127176B5FF4006F600E /* Default@2x.png */; };
+		CEBBC12A176B5FF4006F600E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBBC129176B5FF4006F600E /* Default-568h@2x.png */; };
+		CEBBC12D176B5FF4006F600E /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEBBC12B176B5FF4006F600E /* MainStoryboard.storyboard */; };
+		CEBBC130176B5FF4006F600E /* FFViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBBC12F176B5FF4006F600E /* FFViewController.m */; };
+		CEBBC138176B5FF4006F600E /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEBBC137176B5FF4006F600E /* SenTestingKit.framework */; };
+		CEBBC139176B5FF4006F600E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEBBC113176B5FF3006F600E /* UIKit.framework */; };
+		CEBBC13A176B5FF4006F600E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEBBC115176B5FF3006F600E /* Foundation.framework */; };
+		CEBBC142176B5FF4006F600E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEBBC140176B5FF4006F600E /* InfoPlist.strings */; };
+		CEBBC145176B5FF4006F600E /* Flip4FriendsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBBC144176B5FF4006F600E /* Flip4FriendsTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CEBBC13B176B5FF4006F600E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CEBBC108176B5FF3006F600E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CEBBC10F176B5FF3006F600E;
+			remoteInfo = Flip4Friends;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		CEBBC110176B5FF3006F600E /* Flip4Friends.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flip4Friends.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CEBBC113176B5FF3006F600E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		CEBBC115176B5FF3006F600E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		CEBBC117176B5FF3006F600E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		CEBBC11B176B5FF4006F600E /* Flip4Friends-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Flip4Friends-Info.plist"; sourceTree = "<group>"; };
+		CEBBC11D176B5FF4006F600E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CEBBC11F176B5FF4006F600E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		CEBBC121176B5FF4006F600E /* Flip4Friends-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Flip4Friends-Prefix.pch"; sourceTree = "<group>"; };
+		CEBBC122176B5FF4006F600E /* FFAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FFAppDelegate.h; sourceTree = "<group>"; };
+		CEBBC123176B5FF4006F600E /* FFAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FFAppDelegate.m; sourceTree = "<group>"; };
+		CEBBC125176B5FF4006F600E /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		CEBBC127176B5FF4006F600E /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		CEBBC129176B5FF4006F600E /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		CEBBC12C176B5FF4006F600E /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
+		CEBBC12E176B5FF4006F600E /* FFViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FFViewController.h; sourceTree = "<group>"; };
+		CEBBC12F176B5FF4006F600E /* FFViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FFViewController.m; sourceTree = "<group>"; };
+		CEBBC136176B5FF4006F600E /* Flip4FriendsTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Flip4FriendsTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CEBBC137176B5FF4006F600E /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		CEBBC13F176B5FF4006F600E /* Flip4FriendsTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Flip4FriendsTests-Info.plist"; sourceTree = "<group>"; };
+		CEBBC141176B5FF4006F600E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CEBBC143176B5FF4006F600E /* Flip4FriendsTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Flip4FriendsTests.h; sourceTree = "<group>"; };
+		CEBBC144176B5FF4006F600E /* Flip4FriendsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Flip4FriendsTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CEBBC10D176B5FF3006F600E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEBBC114176B5FF3006F600E /* UIKit.framework in Frameworks */,
+				CEBBC116176B5FF3006F600E /* Foundation.framework in Frameworks */,
+				CEBBC118176B5FF3006F600E /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CEBBC132176B5FF4006F600E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEBBC138176B5FF4006F600E /* SenTestingKit.framework in Frameworks */,
+				CEBBC139176B5FF4006F600E /* UIKit.framework in Frameworks */,
+				CEBBC13A176B5FF4006F600E /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		CEBBC107176B5FF3006F600E = {
+			isa = PBXGroup;
+			children = (
+				CEBBC119176B5FF4006F600E /* Flip4Friends */,
+				CEBBC13D176B5FF4006F600E /* Flip4FriendsTests */,
+				CEBBC112176B5FF3006F600E /* Frameworks */,
+				CEBBC111176B5FF3006F600E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CEBBC111176B5FF3006F600E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CEBBC110176B5FF3006F600E /* Flip4Friends.app */,
+				CEBBC136176B5FF4006F600E /* Flip4FriendsTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CEBBC112176B5FF3006F600E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CEBBC113176B5FF3006F600E /* UIKit.framework */,
+				CEBBC115176B5FF3006F600E /* Foundation.framework */,
+				CEBBC117176B5FF3006F600E /* CoreGraphics.framework */,
+				CEBBC137176B5FF4006F600E /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CEBBC119176B5FF4006F600E /* Flip4Friends */ = {
+			isa = PBXGroup;
+			children = (
+				CEBBC122176B5FF4006F600E /* FFAppDelegate.h */,
+				CEBBC123176B5FF4006F600E /* FFAppDelegate.m */,
+				CEBBC12B176B5FF4006F600E /* MainStoryboard.storyboard */,
+				CEBBC12E176B5FF4006F600E /* FFViewController.h */,
+				CEBBC12F176B5FF4006F600E /* FFViewController.m */,
+				CEBBC11A176B5FF4006F600E /* Supporting Files */,
+			);
+			path = Flip4Friends;
+			sourceTree = "<group>";
+		};
+		CEBBC11A176B5FF4006F600E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CEBBC11B176B5FF4006F600E /* Flip4Friends-Info.plist */,
+				CEBBC11C176B5FF4006F600E /* InfoPlist.strings */,
+				CEBBC11F176B5FF4006F600E /* main.m */,
+				CEBBC121176B5FF4006F600E /* Flip4Friends-Prefix.pch */,
+				CEBBC125176B5FF4006F600E /* Default.png */,
+				CEBBC127176B5FF4006F600E /* Default@2x.png */,
+				CEBBC129176B5FF4006F600E /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CEBBC13D176B5FF4006F600E /* Flip4FriendsTests */ = {
+			isa = PBXGroup;
+			children = (
+				CEBBC143176B5FF4006F600E /* Flip4FriendsTests.h */,
+				CEBBC144176B5FF4006F600E /* Flip4FriendsTests.m */,
+				CEBBC13E176B5FF4006F600E /* Supporting Files */,
+			);
+			path = Flip4FriendsTests;
+			sourceTree = "<group>";
+		};
+		CEBBC13E176B5FF4006F600E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CEBBC13F176B5FF4006F600E /* Flip4FriendsTests-Info.plist */,
+				CEBBC140176B5FF4006F600E /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CEBBC10F176B5FF3006F600E /* Flip4Friends */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CEBBC148176B5FF4006F600E /* Build configuration list for PBXNativeTarget "Flip4Friends" */;
+			buildPhases = (
+				CEBBC10C176B5FF3006F600E /* Sources */,
+				CEBBC10D176B5FF3006F600E /* Frameworks */,
+				CEBBC10E176B5FF3006F600E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Flip4Friends;
+			productName = Flip4Friends;
+			productReference = CEBBC110176B5FF3006F600E /* Flip4Friends.app */;
+			productType = "com.apple.product-type.application";
+		};
+		CEBBC135176B5FF4006F600E /* Flip4FriendsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CEBBC14B176B5FF4006F600E /* Build configuration list for PBXNativeTarget "Flip4FriendsTests" */;
+			buildPhases = (
+				CEBBC131176B5FF4006F600E /* Sources */,
+				CEBBC132176B5FF4006F600E /* Frameworks */,
+				CEBBC133176B5FF4006F600E /* Resources */,
+				CEBBC134176B5FF4006F600E /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CEBBC13C176B5FF4006F600E /* PBXTargetDependency */,
+			);
+			name = Flip4FriendsTests;
+			productName = Flip4FriendsTests;
+			productReference = CEBBC136176B5FF4006F600E /* Flip4FriendsTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CEBBC108176B5FF3006F600E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = FF;
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = FlippyFriends;
+			};
+			buildConfigurationList = CEBBC10B176B5FF3006F600E /* Build configuration list for PBXProject "Flip4Friends" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = CEBBC107176B5FF3006F600E;
+			productRefGroup = CEBBC111176B5FF3006F600E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CEBBC10F176B5FF3006F600E /* Flip4Friends */,
+				CEBBC135176B5FF4006F600E /* Flip4FriendsTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CEBBC10E176B5FF3006F600E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEBBC11E176B5FF4006F600E /* InfoPlist.strings in Resources */,
+				CEBBC126176B5FF4006F600E /* Default.png in Resources */,
+				CEBBC128176B5FF4006F600E /* Default@2x.png in Resources */,
+				CEBBC12A176B5FF4006F600E /* Default-568h@2x.png in Resources */,
+				CEBBC12D176B5FF4006F600E /* MainStoryboard.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CEBBC133176B5FF4006F600E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEBBC142176B5FF4006F600E /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		CEBBC134176B5FF4006F600E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CEBBC10C176B5FF3006F600E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEBBC120176B5FF4006F600E /* main.m in Sources */,
+				CEBBC124176B5FF4006F600E /* FFAppDelegate.m in Sources */,
+				CEBBC130176B5FF4006F600E /* FFViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CEBBC131176B5FF4006F600E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEBBC145176B5FF4006F600E /* Flip4FriendsTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CEBBC13C176B5FF4006F600E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CEBBC10F176B5FF3006F600E /* Flip4Friends */;
+			targetProxy = CEBBC13B176B5FF4006F600E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		CEBBC11C176B5FF4006F600E /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CEBBC11D176B5FF4006F600E /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		CEBBC12B176B5FF4006F600E /* MainStoryboard.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CEBBC12C176B5FF4006F600E /* en */,
+			);
+			name = MainStoryboard.storyboard;
+			sourceTree = "<group>";
+		};
+		CEBBC140176B5FF4006F600E /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CEBBC141176B5FF4006F600E /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CEBBC146176B5FF4006F600E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		CEBBC147176B5FF4006F600E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		CEBBC149176B5FF4006F600E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Flip4Friends/Flip4Friends-Prefix.pch";
+				INFOPLIST_FILE = "Flip4Friends/Flip4Friends-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		CEBBC14A176B5FF4006F600E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Flip4Friends/Flip4Friends-Prefix.pch";
+				INFOPLIST_FILE = "Flip4Friends/Flip4Friends-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		CEBBC14C176B5FF4006F600E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Flip4Friends.app/Flip4Friends";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Flip4Friends/Flip4Friends-Prefix.pch";
+				INFOPLIST_FILE = "Flip4FriendsTests/Flip4FriendsTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		CEBBC14D176B5FF4006F600E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Flip4Friends.app/Flip4Friends";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Flip4Friends/Flip4Friends-Prefix.pch";
+				INFOPLIST_FILE = "Flip4FriendsTests/Flip4FriendsTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CEBBC10B176B5FF3006F600E /* Build configuration list for PBXProject "Flip4Friends" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CEBBC146176B5FF4006F600E /* Debug */,
+				CEBBC147176B5FF4006F600E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CEBBC148176B5FF4006F600E /* Build configuration list for PBXNativeTarget "Flip4Friends" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CEBBC149176B5FF4006F600E /* Debug */,
+				CEBBC14A176B5FF4006F600E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		CEBBC14B176B5FF4006F600E /* Build configuration list for PBXNativeTarget "Flip4FriendsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CEBBC14C176B5FF4006F600E /* Debug */,
+				CEBBC14D176B5FF4006F600E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CEBBC108176B5FF3006F600E /* Project object */;
+}
