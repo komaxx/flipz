@@ -7,8 +7,12 @@
 //
 
 #import "FFViewController.h"
+#import "FFBoardView.h"
+#import "FFGame.h"
 
 @interface FFViewController ()
+
+@property (weak, nonatomic) IBOutlet FFBoardView *boardView;
 
 @end
 
@@ -16,12 +20,26 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
 }
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self.boardView didAppear];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [self.boardView didDisappear];
+    [super viewDidDisappear:animated];
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewDidUnload {
+    [self setBoardView:nil];
+    [super viewDidUnload];
+}
 @end

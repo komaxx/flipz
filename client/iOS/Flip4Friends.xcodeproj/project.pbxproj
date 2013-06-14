@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B64592839F62BB9661F84CA1 /* FFTileView.m in Sources */ = {isa = PBXBuildFile; fileRef = B645943C3F94EFC03E9CC33A /* FFTileView.m */; };
+		B6459B45660C538B80CA8CD6 /* FFGamesControl.m in Sources */ = {isa = PBXBuildFile; fileRef = B6459D650EE8DD7C7DA947FD /* FFGamesControl.m */; };
+		CEA707E9176B817700DD93E9 /* FFGame.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA707E8176B817700DD93E9 /* FFGame.m */; };
+		CEA707EF176B81FA00DD93E9 /* FFBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA707EE176B81FA00DD93E9 /* FFBoard.m */; };
+		CEA707F2176B824D00DD93E9 /* FFTile.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA707F1176B824D00DD93E9 /* FFTile.m */; };
 		CEBBC114176B5FF3006F600E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEBBC113176B5FF3006F600E /* UIKit.framework */; };
 		CEBBC116176B5FF3006F600E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEBBC115176B5FF3006F600E /* Foundation.framework */; };
 		CEBBC118176B5FF3006F600E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEBBC117176B5FF3006F600E /* CoreGraphics.framework */; };
@@ -24,7 +29,6 @@
 		CEBBC142176B5FF4006F600E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEBBC140176B5FF4006F600E /* InfoPlist.strings */; };
 		CEBBC145176B5FF4006F600E /* Flip4FriendsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBBC144176B5FF4006F600E /* Flip4FriendsTests.m */; };
 		CEBBC151176B776E006F600E /* FFBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBBC150176B776E006F600E /* FFBoardView.m */; };
-		CEBBC154176B7826006F600E /* FFFlipTile.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBBC153176B7826006F600E /* FFFlipTile.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +42,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B645943C3F94EFC03E9CC33A /* FFTileView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFTileView.m; sourceTree = "<group>"; };
+		B6459BA8F7AFCEE5A996C0FD /* FFGamesControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFGamesControl.h; sourceTree = "<group>"; };
+		B6459D650EE8DD7C7DA947FD /* FFGamesControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFGamesControl.m; sourceTree = "<group>"; };
+		B6459F60217E95E2A2B3517E /* FFTileView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFTileView.h; sourceTree = "<group>"; };
+		CEA707E7176B817700DD93E9 /* FFGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFGame.h; path = Model/FFGame.h; sourceTree = "<group>"; };
+		CEA707E8176B817700DD93E9 /* FFGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFGame.m; path = Model/FFGame.m; sourceTree = "<group>"; };
+		CEA707ED176B81FA00DD93E9 /* FFBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFBoard.h; path = Model/FFBoard.h; sourceTree = "<group>"; };
+		CEA707EE176B81FA00DD93E9 /* FFBoard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFBoard.m; path = Model/FFBoard.m; sourceTree = "<group>"; };
+		CEA707F0176B824D00DD93E9 /* FFTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFTile.h; path = Model/FFTile.h; sourceTree = "<group>"; };
+		CEA707F1176B824D00DD93E9 /* FFTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFTile.m; path = Model/FFTile.m; sourceTree = "<group>"; };
 		CEBBC110176B5FF3006F600E /* Flip4Friends.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flip4Friends.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEBBC113176B5FF3006F600E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		CEBBC115176B5FF3006F600E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -62,8 +76,6 @@
 		CEBBC144176B5FF4006F600E /* Flip4FriendsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Flip4FriendsTests.m; sourceTree = "<group>"; };
 		CEBBC14F176B776E006F600E /* FFBoardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFBoardView.h; path = UI/FFBoardView.h; sourceTree = "<group>"; };
 		CEBBC150176B776E006F600E /* FFBoardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFBoardView.m; path = UI/FFBoardView.m; sourceTree = "<group>"; };
-		CEBBC152176B7826006F600E /* FFFlipTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFFlipTile.h; path = UI/FFFlipTile.h; sourceTree = "<group>"; };
-		CEBBC153176B7826006F600E /* FFFlipTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFFlipTile.m; path = UI/FFFlipTile.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +102,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CEA707E6176B814C00DD93E9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CEA707E7176B817700DD93E9 /* FFGame.h */,
+				CEA707E8176B817700DD93E9 /* FFGame.m */,
+				CEA707ED176B81FA00DD93E9 /* FFBoard.h */,
+				CEA707EE176B81FA00DD93E9 /* FFBoard.m */,
+				CEA707F0176B824D00DD93E9 /* FFTile.h */,
+				CEA707F1176B824D00DD93E9 /* FFTile.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		CEBBC107176B5FF3006F600E = {
 			isa = PBXGroup;
 			children = (
@@ -123,13 +148,15 @@
 		CEBBC119176B5FF4006F600E /* Flip4Friends */ = {
 			isa = PBXGroup;
 			children = (
+				CEA707E6176B814C00DD93E9 /* Model */,
 				CEBBC14E176B773C006F600E /* UI */,
 				CEBBC122176B5FF4006F600E /* FFAppDelegate.h */,
 				CEBBC123176B5FF4006F600E /* FFAppDelegate.m */,
-				CEBBC12B176B5FF4006F600E /* MainStoryboard.storyboard */,
 				CEBBC12E176B5FF4006F600E /* FFViewController.h */,
 				CEBBC12F176B5FF4006F600E /* FFViewController.m */,
 				CEBBC11A176B5FF4006F600E /* Supporting Files */,
+				B6459D650EE8DD7C7DA947FD /* FFGamesControl.m */,
+				B6459BA8F7AFCEE5A996C0FD /* FFGamesControl.h */,
 			);
 			path = Flip4Friends;
 			sourceTree = "<group>";
@@ -170,10 +197,11 @@
 		CEBBC14E176B773C006F600E /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				CEBBC12B176B5FF4006F600E /* MainStoryboard.storyboard */,
 				CEBBC14F176B776E006F600E /* FFBoardView.h */,
 				CEBBC150176B776E006F600E /* FFBoardView.m */,
-				CEBBC152176B7826006F600E /* FFFlipTile.h */,
-				CEBBC153176B7826006F600E /* FFFlipTile.m */,
+				B645943C3F94EFC03E9CC33A /* FFTileView.m */,
+				B6459F60217E95E2A2B3517E /* FFTileView.h */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -293,7 +321,11 @@
 				CEBBC124176B5FF4006F600E /* FFAppDelegate.m in Sources */,
 				CEBBC130176B5FF4006F600E /* FFViewController.m in Sources */,
 				CEBBC151176B776E006F600E /* FFBoardView.m in Sources */,
-				CEBBC154176B7826006F600E /* FFFlipTile.m in Sources */,
+				CEA707E9176B817700DD93E9 /* FFGame.m in Sources */,
+				CEA707EF176B81FA00DD93E9 /* FFBoard.m in Sources */,
+				CEA707F2176B824D00DD93E9 /* FFTile.m in Sources */,
+				B6459B45660C538B80CA8CD6 /* FFGamesControl.m in Sources */,
+				B64592839F62BB9661F84CA1 /* FFTileView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

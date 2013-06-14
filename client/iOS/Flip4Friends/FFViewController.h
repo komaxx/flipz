@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+@class FFGame;
 @interface FFViewController : UIViewController
+
+@property (strong, nonatomic) FFGame *activeGame;
 
 @end
