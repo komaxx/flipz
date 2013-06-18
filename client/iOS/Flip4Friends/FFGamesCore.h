@@ -21,13 +21,13 @@ extern NSString *const kFFNotificationGameChanged_gameId;
 * Class that is concerned with loading/saving gamesById and handling communication
 * with servers.
 */
-@interface FFGamesControl : NSObject
+@interface FFGamesCore : NSObject
 
 /**
 * Singleton instance. Each access of the gamesById control should happen through this call. Do
 * not initialize your own.
 */
-+(FFGamesControl *) instance;
++(FFGamesCore *) instance;
 
 - (FFGame *)gameWithId:(NSString *)string;
 @end

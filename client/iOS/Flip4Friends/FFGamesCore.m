@@ -4,17 +4,17 @@
 //
 
 
-#import "FFGamesControl.h"
+#import "FFGamesCore.h"
 #import "FFGame.h"
 
 NSString *const kFFNotificationGameChanged = @"ffGameChanged";
 NSString *const kFFNotificationGameChanged_gameId = @"gameId";
 
-@interface FFGamesControl ()
+@interface FFGamesCore ()
 @property (strong, nonatomic) NSMutableDictionary *gamesById;
 @end
 
-@implementation FFGamesControl {
+@implementation FFGamesCore {
 }
 
 - (id)init {
@@ -29,10 +29,10 @@ NSString *const kFFNotificationGameChanged_gameId = @"gameId";
 // ////////////////////////////////////////////////////////////////////////
 // Singleton
 
-+ (FFGamesControl *)instance {
-    static FFGamesControl *singleInstance;
++ (FFGamesCore *)instance {
+    static FFGamesCore *singleInstance;
     if (!singleInstance) {
-        singleInstance = [[FFGamesControl alloc] init];
+        singleInstance = [[FFGamesCore alloc] init];
     }
     return singleInstance;
 }
