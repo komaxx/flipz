@@ -8,4 +8,7 @@
 
 
 @interface FFPlayer : NSObject
+
+@property BOOL local;
+
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "FFBoardView.h"
-#import "FFGamesControl.h"
+#import "FFGamesCore.h"
 #import "FFTileView.h"
 #import "FFGame.h"
 #import "FFBoard.h"
@@ -29,9 +29,22 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        self.tileViews = [[NSMutableArray alloc] initWithCapacity:(8*8)];
+        [self setup];
     }
     return self;
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        [self setup];
+    }
+    return self;
+}
+
+- (void)setup {
+    self.tileViews = [[NSMutableArray alloc] initWithCapacity:(8*8)];
+
 }
 
 - (void)didAppear {
@@ -41,16 +54,12 @@
 - (void)gameChanged:(NSNotification *)notification {
     NSString *changedGameID = [notification.userInfo objectForKey:kFFNotificationGameChanged_gameId];
     if ([changedGameID isEqualToString:self.activeGameId]) {
-        FFGame *game = [[FFGamesControl instance] gameWithId:changedGameID];
-        [self updateWithGame:game];
+        FFGame *game = [[FFGamesCore instance] gameWithId:changedGameID];
+        if (game) [self updateWithGame:game];
     }
 }
 
 - (void)updateWithGame:(FFGame *)game {
-    if (!game){
-        NSLog(@"[FFBoardView]: Got an update with a nil game. Ignored.");
-    }
-
     if (![game.Id isEqualToString:self.activeGameId]){
         self.activeGameId = game.Id;
         [self updateTileCountFromGame:game];

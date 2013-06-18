@@ -31,4 +31,7 @@
 */
 - (FFTile *)tileAtX:(NSUInteger)x andY:(NSUInteger) y;
 
+- (void)shuffle;
+
+- (void)flipCoords:(NSArray *)array;
 @end

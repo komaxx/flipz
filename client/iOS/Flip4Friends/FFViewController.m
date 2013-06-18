@@ -8,11 +8,11 @@
 
 #import "FFViewController.h"
 #import "FFBoardView.h"
-#import "FFGame.h"
+#import "FFGameViewController.h"
 
 @interface FFViewController ()
 
-@property (weak, nonatomic) IBOutlet FFBoardView *boardView;
+@property (weak, nonatomic) IBOutlet FFGameViewController *gameViewController;
 
 @end
 
@@ -24,11 +24,11 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self.boardView didAppear];
+    [self.gameViewController didAppear];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
-    [self.boardView didDisappear];
+    [self.gameViewController didDisappear];
     [super viewDidDisappear:animated];
 }
 
@@ -39,7 +39,8 @@
 }
 
 - (void)viewDidUnload {
-    [self setBoardView:nil];
+    [self setGameViewController:nil];
+    [self setGameViewController:nil];
     [super viewDidUnload];
 }
 @end

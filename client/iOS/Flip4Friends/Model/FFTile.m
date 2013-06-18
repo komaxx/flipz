@@ -8,6 +8,15 @@
 
 #import "FFTile.h"
 
+@interface FFTile ()
+@end
+
 @implementation FFTile
 
+/**
+* Only to be called by the Board. Never manipulate directly!
+*/
+- (void)flip {
+    self.color = (_color+1) % 2;
+}
 @end

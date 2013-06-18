@@ -4,8 +4,13 @@
 //
 
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 
-@interface FFGameViewController : NSObject
+@interface FFGameViewController : UIView
+
+- (void)didAppear;
+
+- (void)didDisappear;
+
 @end

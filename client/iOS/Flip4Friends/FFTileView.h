@@ -5,6 +5,7 @@
 
 
 #import <UIKit/UIKit.h>
+#import "FFTile.h"
 
 @interface FFTileView : UIView
 
@@ -13,4 +14,5 @@
 - (void)removeYourself;
 
 - (void)positionAt:(CGRect)rect;
+
 @end

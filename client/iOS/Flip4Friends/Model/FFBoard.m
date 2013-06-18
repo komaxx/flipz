@@ -7,7 +7,7 @@
 //
 
 #import "FFBoard.h"
-#import "FFTile.h"
+#import "FFCoord.h"
 
 @interface FFBoard ()
 /**
@@ -20,23 +20,41 @@
 */
 @property (strong, nonatomic) NSArray *tiles;
 
+@property(nonatomic, readwrite) NSUInteger BoardSize;
+
+
 @end
 
 @implementation FFBoard
-- (id)initWithSize:(NSInteger)boardSize {
+
+- (id)initWithSize:(NSUInteger)boardSize {
     self = [super init];
     if (self) {
-        _BoardSize = boardSize;
+        self.BoardSize = boardSize;
+
+        NSUInteger tileCount = boardSize*boardSize;
+        self.tiles = [[NSMutableArray alloc] initWithCapacity:tileCount];
+        for (NSUInteger i = 0; i < tileCount; i++){
+            [(NSMutableArray *) self.tiles addObject:[[FFTile alloc] init]];
+        }
     }
 
     return self;
 }
 
-
-
 - (FFTile *)tileAtX:(NSUInteger)x andY:(NSUInteger)y {
-    return nil;
+    return [self.tiles objectAtIndex:(y*self.BoardSize + x)];
 }
 
+- (void)shuffle {
+    for (FFTile *tile in self.tiles) {
+        tile.color = arc4random() % 2;
+    }
+}
 
+- (void)flipCoords:(NSArray *)coords {
+    for (FFCoord* c in coords) {
+        [[self tileAtX:c.x andY:c.y] flip];
+    }
+}
 @end

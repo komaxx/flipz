@@ -5,7 +5,6 @@
 
 
 #import "FFTileView.h"
-#import "FFTile.h"
 
 @implementation FFTileView {
 }
@@ -21,6 +20,8 @@
 
 
 - (void)updateFromTile:(FFTile *)tile {
+    self.backgroundColor = tile.color==0 ? [UIColor blackColor] : [UIColor whiteColor];
+
     // TODO: flip to new color if necessary
 }
 

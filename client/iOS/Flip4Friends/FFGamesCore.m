@@ -7,9 +7,6 @@
 #import "FFGamesCore.h"
 #import "FFGame.h"
 
-NSString *const kFFNotificationGameChanged = @"ffGameChanged";
-NSString *const kFFNotificationGameChanged_gameId = @"gameId";
-
 @interface FFGamesCore ()
 @property (strong, nonatomic) NSMutableDictionary *gamesById;
 @end

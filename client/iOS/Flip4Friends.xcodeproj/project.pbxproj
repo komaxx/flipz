@@ -8,7 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		B64592839F62BB9661F84CA1 /* FFTileView.m in Sources */ = {isa = PBXBuildFile; fileRef = B645943C3F94EFC03E9CC33A /* FFTileView.m */; };
-		B6459B45660C538B80CA8CD6 /* FFGamesControl.m in Sources */ = {isa = PBXBuildFile; fileRef = B6459D650EE8DD7C7DA947FD /* FFGamesControl.m */; };
+		B64594770D9FB09BD2C623E2 /* FFCoord.m in Sources */ = {isa = PBXBuildFile; fileRef = B645980C027083820A3C125A /* FFCoord.m */; };
+		B64595B9B5072D416D5547A9 /* FFPattern.m in Sources */ = {isa = PBXBuildFile; fileRef = B6459ACD945C050F35B6DB67 /* FFPattern.m */; };
+		B645980102D932D93CC16027 /* FFGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6459955E7244639B7EC9634 /* FFGameViewController.m */; };
+		B6459B45660C538B80CA8CD6 /* FFGamesCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B6459D650EE8DD7C7DA947FD /* FFGamesCore.m */; };
+		B6459D38B5124639F4E20382 /* FFMove.m in Sources */ = {isa = PBXBuildFile; fileRef = B6459DE4CD778D3FBA506044 /* FFMove.m */; };
+		B6459DAF3602AC4B9F7ABAAF /* FFPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = B6459A8603D0B4A2FFEC85D4 /* FFPlayer.m */; };
 		CEA707E9176B817700DD93E9 /* FFGame.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA707E8176B817700DD93E9 /* FFGame.m */; };
 		CEA707EF176B81FA00DD93E9 /* FFBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA707EE176B81FA00DD93E9 /* FFBoard.m */; };
 		CEA707F2176B824D00DD93E9 /* FFTile.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA707F1176B824D00DD93E9 /* FFTile.m */; };
@@ -43,8 +48,18 @@
 
 /* Begin PBXFileReference section */
 		B645943C3F94EFC03E9CC33A /* FFTileView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFTileView.m; sourceTree = "<group>"; };
-		B6459BA8F7AFCEE5A996C0FD /* FFGamesControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFGamesControl.h; sourceTree = "<group>"; };
-		B6459D650EE8DD7C7DA947FD /* FFGamesControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFGamesControl.m; sourceTree = "<group>"; };
+		B645974FD0AC315D6039709A /* FFCoord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFCoord.h; sourceTree = "<group>"; };
+		B645980C027083820A3C125A /* FFCoord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFCoord.m; sourceTree = "<group>"; };
+		B6459955E7244639B7EC9634 /* FFGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFGameViewController.m; sourceTree = "<group>"; };
+		B64599B4080C7661188AB3E1 /* FFPattern.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFPattern.h; path = Model/FFPattern.h; sourceTree = "<group>"; };
+		B6459A6840F024E037B6B15A /* FFGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFGameViewController.h; sourceTree = "<group>"; };
+		B6459A8603D0B4A2FFEC85D4 /* FFPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFPlayer.m; path = Model/FFPlayer.m; sourceTree = "<group>"; };
+		B6459ACD945C050F35B6DB67 /* FFPattern.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFPattern.m; path = Model/FFPattern.m; sourceTree = "<group>"; };
+		B6459BA8F7AFCEE5A996C0FD /* FFGamesCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFGamesCore.h; sourceTree = "<group>"; };
+		B6459BCDC9EA0F616D1B005B /* FFPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFPlayer.h; path = Model/FFPlayer.h; sourceTree = "<group>"; };
+		B6459C2A558844401ED2183E /* FFMove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFMove.h; sourceTree = "<group>"; };
+		B6459D650EE8DD7C7DA947FD /* FFGamesCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFGamesCore.m; sourceTree = "<group>"; };
+		B6459DE4CD778D3FBA506044 /* FFMove.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFMove.m; sourceTree = "<group>"; };
 		B6459F60217E95E2A2B3517E /* FFTileView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFTileView.h; sourceTree = "<group>"; };
 		CEA707E7176B817700DD93E9 /* FFGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFGame.h; path = Model/FFGame.h; sourceTree = "<group>"; };
 		CEA707E8176B817700DD93E9 /* FFGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFGame.m; path = Model/FFGame.m; sourceTree = "<group>"; };
@@ -111,6 +126,14 @@
 				CEA707EE176B81FA00DD93E9 /* FFBoard.m */,
 				CEA707F0176B824D00DD93E9 /* FFTile.h */,
 				CEA707F1176B824D00DD93E9 /* FFTile.m */,
+				B6459A8603D0B4A2FFEC85D4 /* FFPlayer.m */,
+				B6459BCDC9EA0F616D1B005B /* FFPlayer.h */,
+				B6459ACD945C050F35B6DB67 /* FFPattern.m */,
+				B64599B4080C7661188AB3E1 /* FFPattern.h */,
+				B645980C027083820A3C125A /* FFCoord.m */,
+				B645974FD0AC315D6039709A /* FFCoord.h */,
+				B6459DE4CD778D3FBA506044 /* FFMove.m */,
+				B6459C2A558844401ED2183E /* FFMove.h */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -155,8 +178,8 @@
 				CEBBC12E176B5FF4006F600E /* FFViewController.h */,
 				CEBBC12F176B5FF4006F600E /* FFViewController.m */,
 				CEBBC11A176B5FF4006F600E /* Supporting Files */,
-				B6459D650EE8DD7C7DA947FD /* FFGamesControl.m */,
-				B6459BA8F7AFCEE5A996C0FD /* FFGamesControl.h */,
+				B6459D650EE8DD7C7DA947FD /* FFGamesCore.m */,
+				B6459BA8F7AFCEE5A996C0FD /* FFGamesCore.h */,
 			);
 			path = Flip4Friends;
 			sourceTree = "<group>";
@@ -202,6 +225,8 @@
 				CEBBC150176B776E006F600E /* FFBoardView.m */,
 				B645943C3F94EFC03E9CC33A /* FFTileView.m */,
 				B6459F60217E95E2A2B3517E /* FFTileView.h */,
+				B6459955E7244639B7EC9634 /* FFGameViewController.m */,
+				B6459A6840F024E037B6B15A /* FFGameViewController.h */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -324,8 +349,13 @@
 				CEA707E9176B817700DD93E9 /* FFGame.m in Sources */,
 				CEA707EF176B81FA00DD93E9 /* FFBoard.m in Sources */,
 				CEA707F2176B824D00DD93E9 /* FFTile.m in Sources */,
-				B6459B45660C538B80CA8CD6 /* FFGamesControl.m in Sources */,
+				B6459B45660C538B80CA8CD6 /* FFGamesCore.m in Sources */,
 				B64592839F62BB9661F84CA1 /* FFTileView.m in Sources */,
+				B645980102D932D93CC16027 /* FFGameViewController.m in Sources */,
+				B6459DAF3602AC4B9F7ABAAF /* FFPlayer.m in Sources */,
+				B64595B9B5072D416D5547A9 /* FFPattern.m in Sources */,
+				B64594770D9FB09BD2C623E2 /* FFCoord.m in Sources */,
+				B6459D38B5124639F4E20382 /* FFMove.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
