@@ -9,6 +9,12 @@
 
 @interface FFPlayer : NSObject
 
-@property BOOL local;
+@property (strong, nonatomic) NSString *id;
+
+@property (nonatomic) BOOL local;
+@property (strong, nonatomic) NSString *name;
+
+@property (strong, nonatomic) NSArray *playablePatterns;
+@property (strong, nonatomic) NSDictionary *alreadyPlayedPatternIds;
 
 @end

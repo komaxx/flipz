@@ -48,7 +48,12 @@
 }
 
 - (void)didAppear {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameChanged:) name:kFFNotificationGameChanged object:nil];
+    [[NSNotificationCenter defaultCenter]
+            addObserver:self selector:@selector(gameChanged:) name:kFFNotificationGameChanged object:nil];
+}
+
+- (void)didDisappear {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)gameChanged:(NSNotification *)notification {
@@ -113,9 +118,5 @@
 
 - (FFTileView *)getTileAtX:(NSUInteger)x andY:(NSUInteger)y {
     return [self.tileViews objectAtIndex:(y*_shownBoardSize + x)];
-}
-
-- (void)didDisappear {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 @end

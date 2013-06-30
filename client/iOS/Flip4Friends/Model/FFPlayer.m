@@ -11,4 +11,15 @@
 
 }
 
+- (id)init {
+    self = [super init];
+    if (self) {
+        self.playablePatterns = [[NSArray alloc] initWithObjects:nil];
+        self.alreadyPlayedPatternIds = [[NSMutableDictionary alloc] initWithCapacity:5];
+    }
+
+    return self;
+}
+
+
 @end

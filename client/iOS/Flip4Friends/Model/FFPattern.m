@@ -16,6 +16,8 @@
 @end
 
 @implementation FFPattern
+@synthesize Id = _Id;
+
 
 - (id)initWithCoords:(NSArray *)coords {
     self = [super init];

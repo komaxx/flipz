@@ -7,7 +7,6 @@
 //
 
 #import "FFGame.h"
-#import "FFPlayer.h"
 
 NSString *const kFFNotificationGameChanged = @"ffGameChanged";
 NSString *const kFFNotificationGameChanged_gameId = @"gameId";
@@ -52,6 +51,7 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
         NSLog(@"Illegal move: outside of board. Declined.");
         return -2;
     }
+
     // TODO check move by correct player
 
     [self.Board flipCoords:[move buildCoordsToFlip]];

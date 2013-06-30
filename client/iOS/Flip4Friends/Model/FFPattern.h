@@ -22,6 +22,8 @@
 @property (nonatomic) NSUInteger SizeX;
 @property (nonatomic) NSUInteger SizeY;
 
+@property(nonatomic, copy) NSString *Id;
+
 - (id)initWithRandomCoords:(NSUInteger)count andMaxDistance:(NSUInteger)maxDistance;
 
 - (FFPattern *)copyForOrientation:(FFOrientation)orientation;

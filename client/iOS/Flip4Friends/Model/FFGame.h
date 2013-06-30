@@ -9,8 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "FFBoard.h"
 #import "FFMove.h"
-
-@class FFPlayer;
+#import "FFPlayer.h"
 
 
 /**
@@ -45,12 +44,19 @@ typedef enum {
 } GameState;
 
 
-
 @interface FFGame : NSObject
 
 @property (nonatomic, copy, readonly) NSString *Id;
 @property (nonatomic, readonly) GameState gameState;
 @property (nonatomic, readonly) NSString *const Type;
+
+@property (nonatomic, readonly) FFPlayer *player1;
+@property (nonatomic, readonly) FFPlayer *player2;
+
+/**
+* Either nil (e.g., at demo games) player1 or player2.
+*/
+@property (nonatomic, readonly) FFPlayer *activePlayer;
 
 @property (nonatomic, strong, readonly) FFBoard *Board;
 
@@ -59,7 +65,7 @@ typedef enum {
 
 /**
 * The given move is executed, with all consequences (board adjustment, player's turn change,
-* if applicable sending the move to a remote player, ...).
+* if applicable sending the move to a remote server, ...).
 * When this returns !=0, the move was declined as illegal (game already finished, not the
 * given player's turn, move outside of board, ...)
 */

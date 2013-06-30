@@ -8,12 +8,14 @@
 #import "FFBoardView.h"
 #import "FFGame.h"
 #import "FFPattern.h"
-#import "FFMove.h"
+#import "FFPatternsViewControl.h"
 
 
 @interface FFGameViewController ()
 
 @property (weak, nonatomic) FFBoardView *boardView;
+@property (weak, nonatomic) FFPatternsViewControl* patternsView;
+
 @property (strong, nonatomic) FFGame *activeGame;
 
 @end
@@ -27,10 +29,11 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         self.boardView = (FFBoardView *) [self viewWithTag:100];
+        self.patternsView = (FFPatternsViewControl *) [self viewWithTag:200];
 
         // create a mock-up game that just makes the board flip a lot...
         _runningIntro = YES;
-        self.activeGame = [[FFGame alloc] initWithId:@"introDemoGameId" Type:kFFGameTypeDemo andBoardSize:8];
+        self.activeGame = [[FFGame alloc] initWithId:@"introDemoGameId" Type:kFFGameTypeDemo andBoardSize:6];
         [self.activeGame.Board shuffle];
 
         [self.boardView updateWithGame:self.activeGame];
@@ -42,9 +45,14 @@
 - (void)didAppear {
     _visible = YES;
     [self.boardView didAppear];
+    [self.patternsView didAppear];
 
     [self doRandomIntroMove];
 }
+
+
+// ///////////////////////////////////////////////////////////////////////////
+// intro stuff
 
 - (void)doRandomIntroMove {
     if (!_runningIntro || !_visible) return;
@@ -71,5 +79,6 @@
 - (void)didDisappear {
     _visible = NO;
     [self.boardView didDisappear];
+    [self.patternsView didDisappear];
 }
 @end
