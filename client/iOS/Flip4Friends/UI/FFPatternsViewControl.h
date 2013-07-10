@@ -10,14 +10,12 @@
 * Responsible for displaying the currently available patterns
 */
 @interface FFPatternsViewControl : NSObject
-
-@property (strong, nonatomic) UIScrollView *scrollView;
-
+@property (copy, nonatomic) NSString *activeGameId;
 
 - (id)initWithScrollView:(UIScrollView *)scrollView;
 
-
 - (void)didAppear;
-
 - (void)didDisappear;
+
+
 @end

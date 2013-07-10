@@ -12,8 +12,10 @@
 @interface FFPattern ()
 
 @property(strong, nonatomic, readwrite) NSArray *Coords;
-
+@property(nonatomic, readwrite) NSUInteger SizeX;
+@property(nonatomic, readwrite) NSUInteger SizeY;
 @end
+
 
 @implementation FFPattern
 @synthesize Id = _Id;
@@ -25,6 +27,8 @@
     if (self){
         self.Coords = coords;
         [self trim];
+
+        // TODO add ID!
     }
 
     return self;
@@ -33,6 +37,7 @@
 - (id)initWithRandomCoords:(NSUInteger)count andMaxDistance:(NSUInteger)maxDistance{
     self = [super init];
     if (self){
+        if (count < 1) count = 1;
         self.Coords = [[NSMutableArray alloc] initWithCapacity:count];
 
         NSUInteger patternArea = (maxDistance+1) * (maxDistance+1);
@@ -64,6 +69,10 @@
         }
 
         [self trim];
+
+        static NSInteger stId = 0;
+        stId++;
+        self.Id = [NSString stringWithFormat:@"%i", stId];
     }
     return self;
 }

@@ -14,7 +14,8 @@
 @interface FFGameViewController ()
 
 @property (weak, nonatomic) FFBoardView *boardView;
-@property (weak, nonatomic) FFPatternsViewControl* patternsView;
+@property (weak, nonatomic) UIScrollView *patternScrollView;
+@property (strong, nonatomic) FFPatternsViewControl* patternsControl;
 
 @property (strong, nonatomic) FFGame *activeGame;
 
@@ -29,7 +30,9 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         self.boardView = (FFBoardView *) [self viewWithTag:100];
-        self.patternsView = (FFPatternsViewControl *) [self viewWithTag:200];
+        self.patternScrollView = (UIScrollView *) [self viewWithTag:200];
+
+        self.patternsControl = [[FFPatternsViewControl alloc] initWithScrollView:self.patternScrollView];
 
         // create a mock-up game that just makes the board flip a lot...
         _runningIntro = YES;
@@ -37,6 +40,8 @@
         [self.activeGame.Board shuffle];
 
         [self.boardView updateWithGame:self.activeGame];
+
+        self.patternsControl.activeGameId = @"fake";
     }
 
     return self;
@@ -45,7 +50,7 @@
 - (void)didAppear {
     _visible = YES;
     [self.boardView didAppear];
-    [self.patternsView didAppear];
+    [self.patternsControl didAppear];
 
     [self doRandomIntroMove];
 }
@@ -57,7 +62,7 @@
 - (void)doRandomIntroMove {
     if (!_runningIntro || !_visible) return;
 
-    FFPattern *randomPattern = [[FFPattern alloc] initWithRandomCoords:(arc4random()%5) andMaxDistance:3];
+    FFPattern *randomPattern = [[FFPattern alloc] initWithRandomCoords:(arc4random()%8) andMaxDistance:3];
     FFMove *randomMove = [self makeRandomMoveWithPattern:randomPattern];
 
     [self.activeGame executeMove:randomMove byPlayer:nil];
@@ -79,6 +84,6 @@
 - (void)didDisappear {
     _visible = NO;
     [self.boardView didDisappear];
-    [self.patternsView didDisappear];
+    [self.patternsControl didDisappear];
 }
 @end

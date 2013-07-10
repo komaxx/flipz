@@ -13,4 +13,6 @@
 @property (weak, nonatomic) FFPattern* pattern;
 
 - (void)removeYourself;
+
+- (void)positionAtX:(CGFloat)x andY:(CGFloat)y;
 @end

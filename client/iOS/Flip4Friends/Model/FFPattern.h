@@ -19,8 +19,8 @@
 * An array of FFCoord objects
 */
 @property (strong, nonatomic, readonly) NSArray *Coords;
-@property (nonatomic) NSUInteger SizeX;
-@property (nonatomic) NSUInteger SizeY;
+@property (nonatomic, readonly) NSUInteger SizeX;
+@property (nonatomic, readonly) NSUInteger SizeY;
 
 @property(nonatomic, copy) NSString *Id;
 
