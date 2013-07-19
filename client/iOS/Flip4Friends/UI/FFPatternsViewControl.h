@@ -6,11 +6,15 @@
 
 #import <Foundation/Foundation.h>
 
+@class FFGameViewController;
+
 /**
 * Responsible for displaying the currently available patterns
 */
 @interface FFPatternsViewControl : NSObject
+
 @property (copy, nonatomic) NSString *activeGameId;
+@property (weak, nonatomic) FFGameViewController *delegate;
 
 - (id)initWithScrollView:(UIScrollView *)scrollView;
 

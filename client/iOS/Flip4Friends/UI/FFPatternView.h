@@ -8,11 +8,11 @@
 #import "FFPattern.h"
 
 
-@interface FFPatternView : UIView
+@interface FFPatternView : UIButton
 
-@property (weak, nonatomic) FFPattern* pattern;
+@property (strong, nonatomic) FFPattern* pattern;
 
 - (void)removeYourself;
-
 - (void)positionAtX:(CGFloat)x andY:(CGFloat)y;
+
 @end

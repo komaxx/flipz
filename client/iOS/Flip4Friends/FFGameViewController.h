@@ -5,6 +5,7 @@
 
 
 #import <UIKit/UIKit.h>
+#import "FFPattern.h"
 
 
 @interface FFGameViewController : UIView
@@ -13,4 +14,7 @@
 
 - (void)didDisappear;
 
+- (void)setPatternSelectedForMove:(FFPattern *)pattern;
+
+- (void)didLoad;
 @end

@@ -25,4 +25,8 @@
 - (void)updateWithGame:(FFGame *)game;
 
 - (void)didDisappear;
+
+- (CGFloat)computeTileSize;
+
+- (NSInteger)boardSize;
 @end

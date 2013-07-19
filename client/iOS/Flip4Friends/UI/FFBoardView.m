@@ -17,14 +17,15 @@
 * One-dimensional array of tile-views, constructed when a game is set.
 */
 @property (strong, nonatomic) NSMutableArray* tileViews;
-@property (nonatomic) NSUInteger shownBoardSize;
 
 @property (copy, nonatomic) NSString *activeGameId;
 
 @end
 
-@implementation FFBoardView
-
+@implementation FFBoardView {
+    CGFloat _tileSize;
+    NSUInteger _shownBoardSize;
+}
 
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -79,6 +80,14 @@
     }
 }
 
+- (NSInteger)boardSize {
+    return _shownBoardSize;
+}
+
+- (CGFloat)computeTileSize {
+    return _tileSize;
+}
+
 /**
 * Checks, whether the board shows the right count of tiles. Will update the view if not.
 */
@@ -104,14 +113,14 @@
         // nothing changed. Do nothing.
         return;
     }
-    self.shownBoardSize = nuBoardSize;
+    _shownBoardSize = nuBoardSize;
 
     // reposition tiles
-    CGFloat tileSize = self.bounds.size.width / nuBoardSize;
+    _tileSize = self.bounds.size.width / nuBoardSize;
 
     for (NSUInteger y = 0; y < nuBoardSize; y++){
         for (NSUInteger x = 0; x < nuBoardSize; x++){
-            [[self getTileAtX:x andY:y] positionAt:CGRectMake(x*tileSize, y*tileSize, tileSize, tileSize)];
+            [[self getTileAtX:x andY:y] positionAt:CGRectMake(x*_tileSize, y*_tileSize, _tileSize, _tileSize)];
         }
     }
 }

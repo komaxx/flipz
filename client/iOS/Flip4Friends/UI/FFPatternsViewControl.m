@@ -8,8 +8,9 @@
 #import "FFGame.h"
 #import "FFGamesCore.h"
 #import "FFPatternView.h"
+#import "FFGameViewController.h"
 
-#define PATTERN_VIEW_SIZE 60
+#define PATTERN_VIEW_SIZE 55
 
 @interface FFPatternsViewControl ()
 
@@ -22,6 +23,8 @@
 
 @implementation FFPatternsViewControl {
 }
+@synthesize delegate = _delegate;
+
 
 - (id)initWithScrollView:(UIScrollView *)scrollView {
     self = [super init];
@@ -107,12 +110,12 @@
     [self.tmpRemovedCollector removeAllObjects];
     [self.tmpRemovedCollector addEntriesFromDictionary:self.patternViewsById];
 
-    CGFloat x = 0;
-    CGFloat y = 3;
-
     NSInteger xCount = (NSInteger) (self.scrollView.bounds.size.width / PATTERN_VIEW_SIZE);
-    CGFloat xPadding = (self.scrollView.bounds.size.width - (xCount*PATTERN_VIEW_SIZE)) / xCount;
+    CGFloat xPadding = (NSInteger)( (self.scrollView.bounds.size.width - (xCount*PATTERN_VIEW_SIZE)) / xCount );
     CGFloat yPadding = 5;
+
+    CGFloat x = (NSInteger)(xPadding / 2.0);
+    CGFloat y = 3;
 
     for (FFPattern *pattern in patterns) {
         NSString *patternId = pattern.Id;
@@ -123,6 +126,7 @@
             view = [[FFPatternView alloc] initWithFrame:CGRectMake(-100, 5,
                     PATTERN_VIEW_SIZE, PATTERN_VIEW_SIZE)];
             view.pattern = pattern;
+            [view addTarget:self action:@selector(patternTapped:) forControlEvents:UIControlEventTouchUpInside];
             [self.scrollView addSubview:view];
             [self.patternViewsById setObject:view forKey:patternId];
         }
@@ -131,7 +135,7 @@
 
         x += (PATTERN_VIEW_SIZE + xPadding);
         if (x+PATTERN_VIEW_SIZE > self.scrollView.bounds.size.width){
-            x = 0;
+            x = (NSInteger)(xPadding / 2.0);
             y += PATTERN_VIEW_SIZE + yPadding;
         }
     }
@@ -145,6 +149,10 @@
     [self.tmpRemovedCollector removeAllObjects];
 
     self.scrollView.contentSize = CGSizeMake(0, y);
+}
+
+- (void)patternTapped:(id)view {
+    [self.delegate setPatternSelectedForMove:((FFPatternView *)view).pattern];
 }
 
 - (void)sortPatterns:(NSMutableArray *)patterns {

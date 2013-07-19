@@ -20,11 +20,15 @@
                                         <rect key="frame" x="10" y="10" width="300" height="300"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     </view>
-                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" tag="200" contentMode="scaleToFill" id="ida-7u-wt5">
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" tag="200" contentMode="scaleToFill" id="ida-7u-wt5" userLabel="Pattern Scroll View">
                                         <rect key="frame" x="10" y="318" width="300" height="130"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                     </scrollView>
+                                    <view hidden="YES" tag="300" contentMode="scaleToFill" id="Cgm-yF-yug" userLabel="Move View" customClass="FFMoveViewControl">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    </view>
                                 </subviews>
                             </view>
                         </subviews>
@@ -45,6 +49,9 @@
         </class>
         <class className="FFGameViewController" superclassName="UIView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FFGameViewController.h"/>
+        </class>
+        <class className="FFMoveViewControl" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FFMoveViewControl.h"/>
         </class>
         <class className="FFViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FFViewController.h"/>

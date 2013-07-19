@@ -23,8 +23,17 @@
     if (self) {
         self.tileSubLayers = [[NSMutableArray alloc] initWithCapacity:5];
         self.backgroundColor = [UIColor colorWithWhite:0.6 alpha:0.2];
+
         self.layer.masksToBounds = YES;
         self.layer.cornerRadius = 10;
+
+        self.layer.borderWidth = 2;
+        self.layer.borderColor = [[UIColor colorWithWhite:0.55 alpha:0.3] CGColor];
+
+        [self setBackgroundImage:[UIImage imageNamed:@"Default.png"] forState:UIControlStateHighlighted];
+        [self setBackgroundImage:[UIImage imageNamed:@"Default.png"] forState:UIControlStateSelected];
+
+        self.showsTouchWhenHighlighted = YES;
     }
 
     return self;
@@ -49,23 +58,55 @@
 
     CGFloat squareSize = self.bounds.size.width / (size + 2.0);
 
+    [self addInactiveTilesWithSize:squareSize];
+    [self addActiveTitlesWithSize:squareSize];
+
+    [self.layer setSublayers:self.tileSubLayers];
+}
+
+- (void)addInactiveTilesWithSize:(CGFloat)squareSize {
+    CGFloat xOffset = self.pattern.SizeX%2==0 ? squareSize/2.0 : 0;
+    CGFloat yOffset = self.pattern.SizeY%2==0 ? squareSize/2.0 : 0;
+
+    NSInteger count = (NSInteger) ceilf(self.bounds.size.width / squareSize);
+    for (int y = 0; y < count; y ++){
+        for (int x = y%2==0?0:1; x < count; x+=2){
+            CALayer *subLayer = [[CALayer alloc] init];
+            subLayer.borderColor = [[UIColor lightGrayColor] CGColor];
+            subLayer.borderWidth = 1;
+            subLayer.cornerRadius = 3;
+            subLayer.masksToBounds = YES;
+
+            subLayer.bounds = CGRectMake(0, 0, squareSize, squareSize);
+            subLayer.position = CGPointMake(xOffset + x*squareSize, yOffset + y*squareSize);
+
+            [self.tileSubLayers addObject:subLayer];
+        }
+    }
+}
+
+- (void)addActiveTitlesWithSize:(CGFloat)squareSize {
     CGFloat baseX = (self.bounds.size.width - self.pattern.SizeX*squareSize)/2;
     CGFloat baseY = (self.bounds.size.height - self.pattern.SizeY*squareSize)/2;
 
-    NSMutableArray *nuSubLayers = [[NSMutableArray alloc] initWithCapacity:self.pattern.Coords.count];
     for (FFCoord *coord in self.pattern.Coords) {
         CALayer *subLayer = [[CALayer alloc] init];
-        subLayer.borderColor = [[UIColor redColor] CGColor];
+        subLayer.borderColor = [[UIColor cyanColor] CGColor];
+        subLayer.backgroundColor = [[UIColor colorWithRed:0 green:1 blue:1 alpha:0.7] CGColor];
         subLayer.borderWidth = 2;
         subLayer.cornerRadius = 3;
-        subLayer.masksToBounds = YES;
 
-        subLayer.bounds = CGRectMake(0, 0, squareSize, squareSize);
-        subLayer.position = CGPointMake(baseX + (coord.x+0.5)*squareSize, baseY + (coord.y+0.5)*squareSize);
+        subLayer.shadowOffset = CGSizeMake(0, 1);
+        subLayer.shadowOpacity = 0.7;
+        subLayer.shadowRadius = 1;
+        subLayer.shadowColor = [[UIColor blackColor] CGColor];
 
-        [nuSubLayers addObject:subLayer];
+
+        subLayer.bounds = CGRectMake(1, 1, squareSize-2, squareSize-2);
+        subLayer.position = CGPointMake(baseX + (coord.x+0.5)*squareSize, baseY + (coord.y+0.5)*squareSize - 1);
+
+        [self.tileSubLayers addObject:subLayer];
     }
-    [self.layer setSublayers:nuSubLayers];
 }
 
 - (void)removeYourself {
