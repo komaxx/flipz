@@ -15,10 +15,17 @@
 @interface FFGamesCore : NSObject
 
 /**
-* Singleton instance. Each access of the gamesById control should happen through this call. Do
+* Singleton instance. Each access should happen through this call. Do
 * not initialize your own.
 */
 +(FFGamesCore *) instance;
+
+@property (strong, nonatomic, readonly) NSArray *activeGames;
+
+/**
+* All challenges.
+*/
+@property (strong, nonatomic, readonly) NSArray *challenges;
 
 - (FFGame *)gameWithId:(NSString *)string;
 

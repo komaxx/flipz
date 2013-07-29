@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FFGameViewController.h"
+#import "FFMenuViewController.h"
 
 @class FFGame;
-@interface FFViewController : UIViewController
 
-@property (strong, nonatomic) FFGame *activeGame;
+@interface FFViewController : UIViewController <FFGameViewControllerDelegate, FFMenuViewControllerDelegate>
+
+@property (copy, nonatomic, readonly) NSString *activeGameId;
 
 @end

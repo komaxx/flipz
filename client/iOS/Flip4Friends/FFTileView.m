@@ -35,14 +35,19 @@
         perspective.m34 = -1.0 / 1200.0;
         layer.sublayerTransform = perspective;
 
-        UIView* whiteView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1000, 1000)];
-        whiteView.backgroundColor = [UIColor whiteColor];
+
+        UIView* whiteView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"white_pattern.png"]];
+        whiteView.frame = CGRectMake(0, 0, 200, 200);
+//        UIView* whiteView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
+//        whiteView.backgroundColor = [UIColor colorWithWhite:1 alpha:1];
         self.white.alpha = 0;
         [self addSubview:whiteView];
         self.white = whiteView;
 
-        UIView* blackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1000, 1000)];
-        blackView.backgroundColor = [UIColor blackColor];
+        UIView* blackView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"black_pattern.png"]];
+        blackView.frame = CGRectMake(0, 0, 200, 200);
+//        UIView* blackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1000, 1000)];
+//        blackView.backgroundColor = [UIColor colorWithWhite:0 alpha:1];
         [self addSubview:blackView];
         self.black.alpha = 0;
         self.black = blackView;
@@ -73,6 +78,8 @@
 - (void)positionAt:(CGRect)rect {
     [UIView animateWithDuration:0.5 animations:^{
         self.frame = CGRectInset(rect, 1, 1);
+        self.white.frame = CGRectMake(0, 0, rect.size.width-2, rect.size.height-2);
+        self.black.frame = CGRectMake(0, 0, rect.size.width-2, rect.size.height-2);
         self.alpha = 1;         // will make the tile appear in case it was invisible before.
     }];
 }

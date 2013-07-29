@@ -24,10 +24,9 @@ extern NSString *const kFFNotificationGameChanged_gameId;
 
 
 /**
-* This game type is not really a game. It contains no real game but is just used as a visual
-* backdrop and for development/testing/debugging purposes.
+* A local game where the player tries to use the patterns to flip all tiles to the same color.
 */
-extern NSString *const kFFGameTypeDemo;
+extern NSString *const kFFGameTypeSingleChallenge;
 /**
 * Game type for a local game: Two players in front of the same device, handing each other the
 * device after their move.
@@ -50,8 +49,11 @@ typedef enum {
 @property (nonatomic, readonly) GameState gameState;
 @property (nonatomic, readonly) NSString *const Type;
 
-@property (nonatomic, readonly) FFPlayer *player1;
-@property (nonatomic, readonly) FFPlayer *player2;
+@property (nonatomic, strong, readonly) FFPlayer *player1;
+/**
+* Maybe nil when playing a challenge!
+*/
+@property (nonatomic, strong, readonly) FFPlayer *player2;
 
 /**
 * Either nil (e.g., at demo games) player1 or player2.
@@ -71,4 +73,9 @@ typedef enum {
 */
 - (NSInteger)executeMove:(FFMove *)move byPlayer:(FFPlayer*)player;
 
+- (id)initChallengeWithDifficulty:(int)i;
+
+- (void)start;
+
+- (void)undoMove:(FFMove *)move;
 @end

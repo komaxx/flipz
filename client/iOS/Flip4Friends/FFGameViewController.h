@@ -7,14 +7,25 @@
 #import <UIKit/UIKit.h>
 #import "FFPattern.h"
 
+@protocol FFGameViewControllerDelegate <NSObject>
+- (NSString *)activeGameId;
+- (void) pauseTapped;
+@end
 
 @interface FFGameViewController : UIView
 
+@property (weak, nonatomic) id<FFGameViewControllerDelegate> delegate;
+
+- (void)didLoad;
 - (void)didAppear;
+
+- (void)selectedGameWithId:(NSString *)gameID;
 
 - (void)didDisappear;
 
-- (void)setPatternSelectedForMove:(FFPattern *)pattern;
+- (void)setPatternSelectedForMove:(FFPattern *)pattern fromView:(UIView *)view;
+- (void)moveCompletedWithPattern:(FFPattern *)pattern at:(FFCoord *)coord withDirection:(NSInteger)direction;
 
-- (void)didLoad;
+- (void)cancelMoveWithPattern:(FFPattern *)pattern;
+
 @end

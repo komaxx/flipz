@@ -106,7 +106,7 @@
 - (FFPattern *)copyForOrientation:(FFOrientation)orientation {
     NSArray *rotCoords = [[NSArray alloc] initWithArray:self.Coords];
 
-    // TODO implement the rotation!
+    // TODO
 
     return [[FFPattern alloc] initWithCoords:rotCoords];
 }

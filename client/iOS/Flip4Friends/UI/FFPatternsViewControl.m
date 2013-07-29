@@ -10,14 +10,17 @@
 #import "FFPatternView.h"
 #import "FFGameViewController.h"
 
-#define PATTERN_VIEW_SIZE 55
+#define PATTERN_VIEW_SIZE 54
 
 @interface FFPatternsViewControl ()
 
 @property (weak, nonatomic) UIScrollView *scrollView;
 @property (copy, nonatomic) NSString *shownActivePlayerId;
+
 @property (strong, nonatomic) NSMutableDictionary *patternViewsById;
 @property (strong, nonatomic) NSMutableDictionary *tmpRemovedCollector;
+
+@property (weak, nonatomic) FFPatternView *nowActivePatternView;
 
 @end
 
@@ -46,32 +49,16 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)cancelMove {
+    [self cancelSelection];
+}
+
 - (void)setActiveGameId:(NSString *)activeGameId {
-    if (![_activeGameId isEqualToString:activeGameId]) {
-        _activeGameId = activeGameId;
-        self.shownActivePlayerId = nil;
-        [self checkUpdateForGameId:activeGameId];
-    }
+    _activeGameId = activeGameId;
+    self.shownActivePlayerId = nil;
 
-    // TODO remove DEV code
-    FFPlayer *player = [[FFPlayer alloc] init];
-    player.id = @"fake";
-    player.name = @"fake1";
-
-    NSMutableArray *patterns = [[NSMutableArray alloc] initWithCapacity:10];
-    for (int i = 0; i < 20; i++){
-        FFPattern *randomPattern = [[FFPattern alloc] initWithRandomCoords:(arc4random()%8) andMaxDistance:3];
-        [patterns addObject:randomPattern];
-    }
-    player.playablePatterns = patterns;
-
-    NSMutableDictionary *alreadyPlayeds = [[NSMutableDictionary alloc] initWithCapacity:5];
-    for (FFPattern *pattern in patterns) {
-        if (arc4random()%5 == 0) [alreadyPlayeds setObject:pattern.Id forKey:pattern.Id];
-    }
-    player.alreadyPlayedPatternIds = alreadyPlayeds;
-
-    [self replacePatternsForPlayer:player];
+    FFGame *game = [[FFGamesCore instance] gameWithId:activeGameId];
+    [self replacePatternsForPlayer:game.activePlayer];
 }
 
 - (void)gameChanged:(NSNotification *)notification {
@@ -88,6 +75,17 @@
     FFGame *game = [[FFGamesCore instance] gameWithId:changedGameID];
     if (![game.activePlayer.id isEqualToString:self.shownActivePlayerId]){
         [self replacePatternsForPlayer:game.activePlayer];
+    } else {
+        [self updatePatternStatesWithPlayer:game.activePlayer];
+    }
+}
+
+- (void)updatePatternStatesWithPlayer:(FFPlayer *)player {
+    for (NSString *key in self.patternViewsById) {
+        FFPatternView *view = (FFPatternView *) [self.patternViewsById objectForKey:key];
+        if (view == self.nowActivePatternView) continue;
+        view.viewState = [player.doneMoves objectForKey:key]== nil ?
+                kFFPatternViewStateNormal : kFFPatternViewStateAlreadyPlayed;
     }
 }
 
@@ -148,11 +146,28 @@
     }
     [self.tmpRemovedCollector removeAllObjects];
 
-    self.scrollView.contentSize = CGSizeMake(0, y);
+    self.scrollView.contentSize = CGSizeMake(0, y + PATTERN_VIEW_SIZE);
 }
 
-- (void)patternTapped:(id)view {
-    [self.delegate setPatternSelectedForMove:((FFPatternView *)view).pattern];
+- (void)patternTapped:(FFPatternView *)view {
+    [self cancelSelection];
+
+    if (self.nowActivePatternView == view){
+        self.nowActivePatternView = nil;
+        return;
+    }
+
+    self.nowActivePatternView = view;
+    [view setViewState:kFFPatternViewStateActive];
+
+    [self.delegate setPatternSelectedForMove:view.pattern fromView:view];
+}
+
+- (void)cancelSelection {
+    FFPlayer *activePlayer = [[FFGamesCore instance] gameWithId:self.activeGameId].activePlayer;
+    [self.nowActivePatternView setViewState:
+            [activePlayer.doneMoves objectForKey:self.nowActivePatternView.pattern.Id] == nil ?
+                    kFFPatternViewStateNormal : kFFPatternViewStateAlreadyPlayed];
 }
 
 - (void)sortPatterns:(NSMutableArray *)patterns {

@@ -46,6 +46,12 @@
     return [self.tiles objectAtIndex:(y*self.BoardSize + x)];
 }
 
+- (void)cleanMonochromaticToWhite {
+    for (FFTile *tile in self.tiles) {
+        tile.color = 0;
+    }
+}
+
 - (void)shuffle {
     for (FFTile *tile in self.tiles) {
         tile.color = arc4random() % 2;
@@ -57,4 +63,13 @@
         [[self tileAtX:c.x andY:c.y] flip];
     }
 }
+
+- (BOOL)isSingleChromatic {
+    NSUInteger firstColor =[(FFTile *) [self.tiles objectAtIndex:0] color];
+    for (FFTile *tile in self.tiles) {
+        if (tile.color != firstColor) return NO;
+    }
+    return YES;
+}
+
 @end

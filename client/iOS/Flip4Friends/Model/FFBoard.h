@@ -34,4 +34,8 @@
 - (void)shuffle;
 
 - (void)flipCoords:(NSArray *)array;
+
+- (BOOL)isSingleChromatic;
+
+- (void)cleanMonochromaticToWhite;
 @end

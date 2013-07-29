@@ -6,8 +6,9 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "FFPatternView.h"
+#import "UIColor+FFColors.h"
 
-#define DEFAULT_PATTERN_SIZE 4
+#define DEFAULT_PATTERN_SIZE 3
 
 @interface FFPatternView ()
 
@@ -22,18 +23,19 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.tileSubLayers = [[NSMutableArray alloc] initWithCapacity:5];
-        self.backgroundColor = [UIColor colorWithWhite:0.6 alpha:0.2];
+
+        self.opaque = YES;
 
         self.layer.masksToBounds = YES;
         self.layer.cornerRadius = 10;
-
-        self.layer.borderWidth = 2;
-        self.layer.borderColor = [[UIColor colorWithWhite:0.55 alpha:0.3] CGColor];
+        self.layer.opaque = YES;
 
         [self setBackgroundImage:[UIImage imageNamed:@"Default.png"] forState:UIControlStateHighlighted];
         [self setBackgroundImage:[UIImage imageNamed:@"Default.png"] forState:UIControlStateSelected];
 
         self.showsTouchWhenHighlighted = YES;
+
+        [self setViewState:kFFPatternViewStateNormal];
     }
 
     return self;
@@ -43,6 +45,33 @@
     _pattern = pattern;
     [self updatePatternSublayers];
 }
+
+- (void)setViewState:(FFPatternViewState)viewState {
+    if (viewState == kFFPatternViewStateNormal){
+        self.layer.borderWidth = 0;
+        self.layer.borderColor = [[UIColor clearColor] CGColor];
+        self.backgroundColor = [UIColor colorWithWhite:0.6 alpha:1];
+        [self.layer removeAllAnimations];
+    } else if (viewState == kFFPatternViewStateActive){
+        self.backgroundColor = [UIColor colorWithWhite:0.5 alpha:1];
+        self.layer.borderColor = [[UIColor clearColor] CGColor];
+        self.layer.borderWidth = 3;
+        [UIView animateWithDuration:0.4 delay:0
+                            options:(UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat)
+                         animations:^{
+                             self.backgroundColor = [UIColor movePatternBack];
+                             self.layer.borderColor = [[UIColor movePatternBack] CGColor];
+                         } completion:nil];
+    } else if (viewState == kFFPatternViewStateAlreadyPlayed){
+        self.layer.borderWidth = 2;
+        self.layer.borderColor = [[UIColor movePatternBorder_removing] CGColor];
+        self.backgroundColor = [UIColor colorWithWhite:0.5 alpha:1];
+        [self.layer removeAllAnimations];
+    }
+
+    _viewState = viewState;
+}
+
 
 - (void)updatePatternSublayers {
     for (CALayer *layer in self.tileSubLayers) {
@@ -65,16 +94,16 @@
 }
 
 - (void)addInactiveTilesWithSize:(CGFloat)squareSize {
-    CGFloat xOffset = self.pattern.SizeX%2==0 ? squareSize/2.0 : 0;
-    CGFloat yOffset = self.pattern.SizeY%2==0 ? squareSize/2.0 : 0;
+    CGFloat xOffset = self.pattern.SizeX%2==1 ? squareSize/2.0 : 0;
+    CGFloat yOffset = self.pattern.SizeY%2==1 ? squareSize/2.0 : 0;
 
-    NSInteger count = (NSInteger) ceilf(self.bounds.size.width / squareSize);
+    NSInteger count = (NSInteger) ceilf(self.bounds.size.width / squareSize) + 1;
     for (int y = 0; y < count; y ++){
         for (int x = y%2==0?0:1; x < count; x+=2){
             CALayer *subLayer = [[CALayer alloc] init];
-            subLayer.borderColor = [[UIColor lightGrayColor] CGColor];
+            subLayer.borderColor = [[UIColor colorWithWhite:0.65 alpha:1] CGColor];
             subLayer.borderWidth = 1;
-            subLayer.cornerRadius = 3;
+            subLayer.cornerRadius = 2;
             subLayer.masksToBounds = YES;
 
             subLayer.bounds = CGRectMake(0, 0, squareSize, squareSize);
@@ -91,8 +120,8 @@
 
     for (FFCoord *coord in self.pattern.Coords) {
         CALayer *subLayer = [[CALayer alloc] init];
-        subLayer.borderColor = [[UIColor cyanColor] CGColor];
-        subLayer.backgroundColor = [[UIColor colorWithRed:0 green:1 blue:1 alpha:0.7] CGColor];
+        subLayer.borderColor = [[UIColor movePatternBorder] CGColor];
+        subLayer.backgroundColor = [[UIColor movePatternBack] CGColor];
         subLayer.borderWidth = 2;
         subLayer.cornerRadius = 3;
 
@@ -100,7 +129,6 @@
         subLayer.shadowOpacity = 0.7;
         subLayer.shadowRadius = 1;
         subLayer.shadowColor = [[UIColor blackColor] CGColor];
-
 
         subLayer.bounds = CGRectMake(1, 1, squareSize-2, squareSize-2);
         subLayer.position = CGPointMake(baseX + (coord.x+0.5)*squareSize, baseY + (coord.y+0.5)*squareSize - 1);

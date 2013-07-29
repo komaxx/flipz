@@ -15,12 +15,13 @@
 @property (weak, nonatomic) FFGameViewController *delegate;
 @property(nonatomic, weak) FFBoardView *boardView;
 
-- (void)didAppear;
-
-- (void)didDisappear;
-
 
 - (void)didLoad;
+- (void)didAppear;
+- (void)didDisappear;
 
-- (void)startMoveWithPattern:(FFPattern *)pattern;
+- (void)moveFinished;
+
+- (void)startMoveWithPattern:(FFPattern *)pattern atCoord:(FFCoord *)coord andAppearFrom:(UIView *)appearView;
+
 @end

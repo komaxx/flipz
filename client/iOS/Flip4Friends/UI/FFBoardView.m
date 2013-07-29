@@ -11,6 +11,7 @@
 #import "FFTileView.h"
 #import "FFGame.h"
 #import "FFBoard.h"
+#import "FFPattern.h"
 
 @interface FFBoardView()
 /**
@@ -20,11 +21,15 @@
 
 @property (copy, nonatomic) NSString *activeGameId;
 
+@property FFBoard *introBoard;
+
 @end
 
 @implementation FFBoardView {
     CGFloat _tileSize;
     NSUInteger _shownBoardSize;
+
+    BOOL _visible;
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -45,15 +50,20 @@
 
 - (void)setup {
     self.tileViews = [[NSMutableArray alloc] initWithCapacity:(8*8)];
-
 }
 
 - (void)didAppear {
+    _visible = YES;
+    if (!_activeGameId){
+        [self startIntroFlipping];
+    }
+
     [[NSNotificationCenter defaultCenter]
             addObserver:self selector:@selector(gameChanged:) name:kFFNotificationGameChanged object:nil];
 }
 
 - (void)didDisappear {
+    _visible = NO;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -66,12 +76,18 @@
 }
 
 - (void)updateWithGame:(FFGame *)game {
-    if (![game.Id isEqualToString:self.activeGameId]){
-        self.activeGameId = game.Id;
-        [self updateTileCountFromGame:game];
-    }
+    if (!game) return;
 
     FFBoard *board = game.Board;
+
+    if (![game.Id isEqualToString:self.activeGameId]){
+        self.activeGameId = game.Id;
+        [self updateTileCountFromBoard:board];
+    }
+    [self updateTilesFromBoard:board];
+}
+
+- (void)updateTilesFromBoard:(FFBoard *)board {
     NSUInteger size = board.BoardSize;
     for (NSUInteger y = 0; y < size; y++){
         for (NSUInteger x = 0; x < size; x++){
@@ -91,8 +107,8 @@
 /**
 * Checks, whether the board shows the right count of tiles. Will update the view if not.
 */
-- (void)updateTileCountFromGame:(FFGame *)game {
-    NSUInteger nuBoardSize = game.Board.BoardSize;
+- (void)updateTileCountFromBoard:(FFBoard *)board {
+    NSUInteger nuBoardSize = board.BoardSize;
     NSUInteger nuTileCount = nuBoardSize * nuBoardSize;
 
     if (nuTileCount > self.tileViews.count){
@@ -128,4 +144,32 @@
 - (FFTileView *)getTileAtX:(NSUInteger)x andY:(NSUInteger)y {
     return [self.tileViews objectAtIndex:(y*_shownBoardSize + x)];
 }
+
+
+// //////////////////////////////////////////////////////////////////////////
+// intro / no game selected stuff
+
+- (void)startIntroFlipping {
+    self.introBoard = [[FFBoard alloc] initWithSize:7];
+    [self.introBoard shuffle];
+
+    [self updateTileCountFromBoard:self.introBoard];
+    [self updateTilesFromBoard:self.introBoard];
+
+    [self performSelector:@selector(doRandomIntroMove) withObject:nil afterDelay:1 inModes:@[NSRunLoopCommonModes]];
+}
+
+- (void)doRandomIntroMove {
+    if (self.activeGameId || !_visible) return;
+
+    if (arc4random()%3 == 0){
+        self.introBoard = [[FFBoard alloc] initWithSize:(2 + arc4random()%6)];
+        [self updateTileCountFromBoard:self.introBoard];
+    }
+    [self.introBoard shuffle];
+    [self updateTilesFromBoard:self.introBoard];
+
+    [self performSelector:@selector(doRandomIntroMove) withObject:nil afterDelay:1 inModes:@[NSRunLoopCommonModes]];
+}
+
 @end

@@ -10,8 +10,10 @@
 #import "FFPattern.h"
 #import "FFPatternsViewControl.h"
 #import "FFMoveViewControl.h"
-
-//#define DO_INTRO_RANDOM_MOVES
+#import "FFPatternView.h"
+#import "FFGamesCore.h"
+#import "FFPatternGenerator.h"
+#import "FFViewController.h"
 
 @interface FFGameViewController ()
 
@@ -19,74 +21,60 @@
 @property (weak, nonatomic) FFMoveViewControl* moveViewControl;
 @property (strong, nonatomic) FFPatternsViewControl* patternsControl;
 
-@property (strong, nonatomic) FFGame *activeGame;
-
 @end
 
 @implementation FFGameViewController {
-    BOOL _visible;
-    BOOL _runningIntro;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
+        self.backgroundColor = [UIColor darkGrayColor];
+
         self.boardView = (FFBoardView *) [self viewWithTag:100];
+
         self.patternsControl = [[FFPatternsViewControl alloc] initWithScrollView:(UIScrollView *) [self viewWithTag:200]];
         self.patternsControl.delegate = self;
+
         self.moveViewControl = (FFMoveViewControl *) [self viewWithTag:300];
         self.moveViewControl.delegate = self;
         self.moveViewControl.boardView = self.boardView;
-
-        // create a mock-up game that just makes the board flip a lot...
-        _runningIntro = YES;
-        self.activeGame = [[FFGame alloc] initWithId:@"introDemoGameId" Type:kFFGameTypeDemo andBoardSize:6];
-        [self.activeGame.Board shuffle];
-
-        [self.boardView updateWithGame:self.activeGame];
-
-        self.patternsControl.activeGameId = @"fake";
     }
 
     return self;
 }
 
+- (void)pauseTapped {
+    [self.delegate pauseTapped];
+}
 
 - (void)didAppear {
-    _visible = YES;
     [self.boardView didAppear];
     [self.patternsControl didAppear];
     [self.moveViewControl didAppear];
 
-#ifdef DO_INTRO_RANDOM_MOVES
-    [self doRandomIntroMove];
-    #endif
+    [self updateElementPositionsAnimated:NO];
 }
 
+- (void)selectedGameWithId:(NSString *)gameID{
+    [self updateElementPositionsAnimated:YES];
 
-// ///////////////////////////////////////////////////////////////////////////
-// intro stuff
+    FFGame *game = [[FFGamesCore instance] gameWithId:gameID];
+    [self.boardView updateWithGame:game];
 
-- (void)doRandomIntroMove {
-    if (!_runningIntro || !_visible) return;
-
-    FFPattern *randomPattern = [[FFPattern alloc] initWithRandomCoords:(arc4random()%8) andMaxDistance:3];
-    FFMove *randomMove = [self makeRandomMoveWithPattern:randomPattern];
-
-    [self.activeGame executeMove:randomMove byPlayer:nil];
-    [self.boardView updateWithGame:self.activeGame];
-
-    [self performSelector:@selector(doRandomIntroMove) withObject:nil afterDelay:0.4];
+    self.patternsControl.activeGameId = nil;
+    self.patternsControl.activeGameId = gameID;
 }
 
-- (FFMove *)makeRandomMoveWithPattern:(FFPattern *)pattern {
-    NSUInteger maxX = self.activeGame.Board.BoardSize - pattern.SizeX;
-    NSUInteger maxY = self.activeGame.Board.BoardSize - pattern.SizeY;
+- (void)updateElementPositionsAnimated:(BOOL)animated {
+    if (![self.delegate activeGameId]){
+        self.boardView.center = self.center;
+    } else {
+        CGRect rect = self.boardView.frame;
+        rect.origin = CGPointMake(rect.origin.x, 10);
+        self.boardView.frame = rect;
+    }
 
-    FFCoord *movePos = [[FFCoord alloc] initWithX:(ushort)(rand()%(maxX+1)) andY:(ushort)(rand()%(maxY+1))];
-
-    FFMove *move = [[FFMove alloc] initWithPattern:pattern atPosition:movePos andOrientation:kFFOrientation_0_degrees];
-    return move;
 }
 
 - (void)didLoad {
@@ -94,7 +82,6 @@
 }
 
 - (void)didDisappear {
-    _visible = NO;
     [self.boardView didDisappear];
     [self.patternsControl didDisappear];
     [self.moveViewControl didDisappear];
@@ -103,8 +90,30 @@
 // //////////////////////////////////////////////////////////////////////////////
 // calls from child controls
 
-- (void)setPatternSelectedForMove:(FFPattern *)pattern {
-    [self.moveViewControl startMoveWithPattern:pattern];
+- (void)setPatternSelectedForMove:(FFPattern *)pattern fromView:(UIView *)view {
+    FFGame* game = [[FFGamesCore instance] gameWithId:[self.delegate activeGameId]];
+    FFMove *move = [game.activePlayer.doneMoves objectForKey:pattern.Id];
+    if (move){
+        [game undoMove:move];
+    }
+
+    [self.moveViewControl startMoveWithPattern:pattern atCoord:[move Position] andAppearFrom:view];
+}
+
+- (void)moveCompletedWithPattern:(FFPattern *)pattern at:(FFCoord *)coord withDirection:(NSInteger)direction {
+    // make sure, we have the freshest one!
+    FFGame *activeGame = [[FFGamesCore instance] gameWithId:[self.delegate activeGameId]];
+
+    FFMove *move = [[FFMove alloc] initWithPattern:pattern atPosition:coord andOrientation:(FFOrientation) direction];
+    [activeGame executeMove:move byPlayer:activeGame.activePlayer];
+
+    [self.moveViewControl moveFinished];
+    [self.patternsControl cancelMove];
+}
+
+- (void)cancelMoveWithPattern:(FFPattern *)pattern {
+    [self.moveViewControl moveFinished];
+    [self.patternsControl cancelMove];
 }
 
 // calls from child controls

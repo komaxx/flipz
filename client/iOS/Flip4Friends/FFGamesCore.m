@@ -9,6 +9,8 @@
 
 @interface FFGamesCore ()
 @property (strong, nonatomic) NSMutableDictionary *gamesById;
+@property(strong, nonatomic, readwrite) NSArray *challenges;
+
 @end
 
 @implementation FFGamesCore {
@@ -18,8 +20,23 @@
     self = [super init];
     if (self) {
         self.gamesById = [[NSMutableDictionary alloc] initWithCapacity:10];
+
+        [self loadOrBuildChallenges];
     }
     return self;
+}
+
+- (void)loadOrBuildChallenges {
+    self.challenges = [[NSMutableArray alloc] initWithCapacity:20];
+
+    // TODO loading
+
+    for (int i = 0; i < 20; i++){
+        FFGame *challenge = [[FFGame alloc] initChallengeWithDifficulty:i];
+
+        [(NSMutableArray*)self.challenges addObject:challenge];
+        [self.gamesById setObject:challenge forKey:challenge.Id];
+    }
 }
 
 

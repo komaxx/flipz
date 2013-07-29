@@ -22,4 +22,5 @@
 - (void)didDisappear;
 
 
+- (void)cancelMove;
 @end
