@@ -7,8 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FFCoord.h"
 
 @class FFGame;
+@class FFTile;
+
+
+@protocol FFTileView <NSObject>
+- (void)updateFromTile:(FFTile *)tile;
+- (void)removeYourself;
+- (void)positionAt:(CGRect)rect;
+@end
+
 
 /**
 * This is the basic class that manages the Board, i.e. it knows all the
@@ -22,11 +32,16 @@
 * To be called whenever the game changes. The board will itself listen for changes
 * to the game that was last given with this call (and only to that one).
 */
-- (void)updateWithGame:(FFGame *)game;
+- (void)setActiveGame:(FFGame *)game;
 
 - (void)didDisappear;
 
 - (CGFloat)computeTileSize;
 
+- (void)showHistoryStartingFromStepsBack:(NSUInteger)startStepsBack;
+- (void)hideHistory;
+
 - (NSInteger)boardSize;
+
+- (CGPoint)computeTileCenterOfCoord:(FFCoord *)coord;
 @end

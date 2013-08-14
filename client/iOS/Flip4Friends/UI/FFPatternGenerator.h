@@ -8,5 +8,6 @@
 
 
 @interface FFPatternGenerator : NSObject
-+ (UIImage *)createBackgroundPattern;
+    + (UIImage *)createBackgroundPattern;
+    + (UIImage *)createHistoryMoveOverlayPatternForStep:(NSInteger)step;
 @end

@@ -9,6 +9,9 @@
 
 #define RADIUS 10
 
+@interface FFMenuBackgroundView ()
+@end
+
 @implementation FFMenuBackgroundView {
 
 }
@@ -21,7 +24,7 @@
                 [UIColor colorWithHue:0.70 saturation:0.4 brightness:0.4 alpha:0.9];
         self.layer.cornerRadius = RADIUS;
         self.layer.borderWidth = RADIUS/2;
-        self.layer.borderColor = [[UIColor colorWithHue:0.70 saturation:0.5 brightness:0.5 alpha:0.1] CGColor];
+        self.layer.borderColor = [[UIColor colorWithHue:0.70 saturation:0.5 brightness:0.5 alpha:0.3] CGColor];
         self.layer.masksToBounds = YES;
 
     }
@@ -41,8 +44,10 @@
 //            [UIColor colorWithHue:0.20 saturation:0.4 brightness:0.4 alpha:1],
     ];
 
+    int count = MIN(colors.count, (NSInteger)(self.bounds.size.height/(2* RADIUS)/2));
+
     CGRect circleRect = CGRectMake(0, 0, 2*RADIUS, 2*RADIUS);
-    for (int i = 0; i < colors.count; i++){
+    for (NSUInteger i = 0; i < count; i++){
         circleRect.origin.x = 0;
         circleRect.origin.y = i*2*RADIUS;
         for (int x = 0; x <= rect.size.width; x+=2*RADIUS){

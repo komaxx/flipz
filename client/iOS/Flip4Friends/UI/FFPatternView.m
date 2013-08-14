@@ -7,12 +7,14 @@
 #import <QuartzCore/QuartzCore.h>
 #import "FFPatternView.h"
 #import "UIColor+FFColors.h"
+#import "FFPatternGenerator.h"
 
 #define DEFAULT_PATTERN_SIZE 3
 
 @interface FFPatternView ()
 
-@property (strong, nonatomic) NSMutableArray *tileSubLayers;
+@property (weak, nonatomic) UIView *activeOverlayView;
+@property (weak, nonatomic) UIView *historyOverlayView;
 
 @end
 
@@ -22,19 +24,29 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        self.tileSubLayers = [[NSMutableArray alloc] initWithCapacity:5];
-
         self.opaque = YES;
 
-        self.layer.masksToBounds = YES;
         self.layer.cornerRadius = 10;
-        self.layer.opaque = YES;
-
-        [self setBackgroundImage:[UIImage imageNamed:@"Default.png"] forState:UIControlStateHighlighted];
-        [self setBackgroundImage:[UIImage imageNamed:@"Default.png"] forState:UIControlStateSelected];
-
+        self.layer.masksToBounds = YES;
         self.showsTouchWhenHighlighted = YES;
 
+        UIView *historyView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+        historyView.backgroundColor = [UIColor greenColor];
+        historyView.alpha = 0.8;
+        historyView.hidden = YES;
+        historyView.userInteractionEnabled = NO;
+        [self addSubview:historyView];
+        self.historyOverlayView = historyView;
+
+        UIView *highView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+        highView.backgroundColor = [UIColor movePatternBack];
+        highView.hidden = YES;
+        highView.userInteractionEnabled = NO;
+        [self addSubview:highView];
+        self.activeOverlayView = highView;
+
+
+        [self setViewState:kFFPatternViewStateAlreadyPlayed];
         [self setViewState:kFFPatternViewStateNormal];
     }
 
@@ -43,97 +55,103 @@
 
 - (void)setPattern:(FFPattern *)pattern {
     _pattern = pattern;
-    [self updatePatternSublayers];
+    [self setNeedsDisplay];
 }
 
 - (void)setViewState:(FFPatternViewState)viewState {
+    if (_viewState == viewState) return;
+
     if (viewState == kFFPatternViewStateNormal){
         self.layer.borderWidth = 0;
         self.layer.borderColor = [[UIColor clearColor] CGColor];
         self.backgroundColor = [UIColor colorWithWhite:0.6 alpha:1];
         [self.layer removeAllAnimations];
+        self.activeOverlayView.hidden = YES;
     } else if (viewState == kFFPatternViewStateActive){
-        self.backgroundColor = [UIColor colorWithWhite:0.5 alpha:1];
-        self.layer.borderColor = [[UIColor clearColor] CGColor];
-        self.layer.borderWidth = 3;
-        [UIView animateWithDuration:0.4 delay:0
-                            options:(UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat)
+        self.activeOverlayView.backgroundColor = [UIColor clearColor];
+        self.activeOverlayView.layer.borderColor = [[UIColor clearColor] CGColor];
+        self.activeOverlayView.layer.borderWidth = 5;
+        self.activeOverlayView.hidden = NO;
+        [UIView animateWithDuration:0.5 delay:0
+                            options:(UIViewAnimationOptionCurveEaseInOut
+                                    |UIViewAnimationOptionAutoreverse
+                                    |UIViewAnimationOptionRepeat)
                          animations:^{
-                             self.backgroundColor = [UIColor movePatternBack];
-                             self.layer.borderColor = [[UIColor movePatternBack] CGColor];
+                             self.activeOverlayView.backgroundColor = [UIColor movePatternBack];
+                             self.activeOverlayView.layer.borderColor = [[UIColor movePatternBack] CGColor];
                          } completion:nil];
     } else if (viewState == kFFPatternViewStateAlreadyPlayed){
         self.layer.borderWidth = 2;
-        self.layer.borderColor = [[UIColor movePatternBorder_removing] CGColor];
-        self.backgroundColor = [UIColor colorWithWhite:0.5 alpha:1];
+        self.layer.borderColor = [[UIColor patternBorder_alreadyPlayed] CGColor];
+        self.backgroundColor = [UIColor patternBack_alreadyPlayed];
         [self.layer removeAllAnimations];
+        self.activeOverlayView.hidden = YES;
     }
+
+    [self setNeedsDisplay];
 
     _viewState = viewState;
 }
 
-
-- (void)updatePatternSublayers {
-    for (CALayer *layer in self.tileSubLayers) {
-        [layer removeFromSuperlayer];
-    }
-    [self.tileSubLayers removeAllObjects];
-
+- (void)drawRect:(CGRect)rect {
     if (!self.pattern) return;
 
-    int size = self.pattern.SizeX;
-    if (self.pattern.SizeY > size) size = self.pattern.SizeY;
-    if (DEFAULT_PATTERN_SIZE > size) size = DEFAULT_PATTERN_SIZE;
+    int size = MAX(self.pattern.SizeX, self.pattern.SizeY);
+    size = MAX(size, DEFAULT_PATTERN_SIZE);
 
     CGFloat squareSize = self.bounds.size.width / (size + 2.0);
 
-    [self addInactiveTilesWithSize:squareSize];
-    [self addActiveTitlesWithSize:squareSize];
-
-    [self.layer setSublayers:self.tileSubLayers];
+    [self drawInactiveTilesWithSize:squareSize];
+    [self drawActiveTitlesWithSize:squareSize];
 }
 
-- (void)addInactiveTilesWithSize:(CGFloat)squareSize {
-    CGFloat xOffset = self.pattern.SizeX%2==1 ? squareSize/2.0 : 0;
-    CGFloat yOffset = self.pattern.SizeY%2==1 ? squareSize/2.0 : 0;
+
+- (void)drawInactiveTilesWithSize:(CGFloat)squareSize {
+    CGContextRef c = UIGraphicsGetCurrentContext();
+
+    CGFloat xOffset = self.pattern.SizeX%2==0 ? -squareSize/2.0 : 0;
+    CGFloat yOffset = self.pattern.SizeY%2==0 ? -squareSize/2.0 : 0;
 
     NSInteger count = (NSInteger) ceilf(self.bounds.size.width / squareSize) + 1;
     for (int y = 0; y < count; y ++){
         for (int x = y%2==0?0:1; x < count; x+=2){
-            CALayer *subLayer = [[CALayer alloc] init];
-            subLayer.borderColor = [[UIColor colorWithWhite:0.65 alpha:1] CGColor];
-            subLayer.borderWidth = 1;
-            subLayer.cornerRadius = 2;
-            subLayer.masksToBounds = YES;
-
-            subLayer.bounds = CGRectMake(0, 0, squareSize, squareSize);
-            subLayer.position = CGPointMake(xOffset + x*squareSize, yOffset + y*squareSize);
-
-            [self.tileSubLayers addObject:subLayer];
+            CGContextAddRect(c, CGRectMake(xOffset + x*squareSize, yOffset + y*squareSize, squareSize, squareSize));
         }
     }
+
+    if (self.viewState == kFFPatternViewStateAlreadyPlayed){
+        CGContextSetFillColorWithColor(c, [[UIColor colorWithWhite:0.2 alpha:0.1] CGColor]);
+    } else {
+        CGContextSetFillColorWithColor(c, [[UIColor colorWithWhite:0.65 alpha:1] CGColor]);
+    }
+    CGContextFillPath(c);
 }
 
-- (void)addActiveTitlesWithSize:(CGFloat)squareSize {
+- (void)drawActiveTitlesWithSize:(CGFloat)squareSize {
+    CGContextRef c = UIGraphicsGetCurrentContext();
+
+    if (self.viewState == kFFPatternViewStateAlreadyPlayed){
+        CGContextSetFillColorWithColor(c, [[UIColor colorWithWhite:0.4 alpha:0.5] CGColor]);
+        CGContextSetStrokeColorWithColor(c, [[UIColor colorWithWhite:0.4 alpha:0.8] CGColor]);
+    } else {
+        CGContextSetFillColorWithColor(c, [[UIColor movePatternBack] CGColor]);
+        CGContextSetStrokeColorWithColor(c, [[UIColor movePatternBorder] CGColor]);
+    }
+    CGContextSetShadowWithColor(c, CGSizeMake(0, 1), 2, [[UIColor blackColor] CGColor]);
+    CGContextSetLineWidth(c, 2.5);
+
     CGFloat baseX = (self.bounds.size.width - self.pattern.SizeX*squareSize)/2;
     CGFloat baseY = (self.bounds.size.height - self.pattern.SizeY*squareSize)/2;
 
+    CGRect fillRect = CGRectMake(0, 0, squareSize-4, squareSize-4);
+
     for (FFCoord *coord in self.pattern.Coords) {
-        CALayer *subLayer = [[CALayer alloc] init];
-        subLayer.borderColor = [[UIColor movePatternBorder] CGColor];
-        subLayer.backgroundColor = [[UIColor movePatternBack] CGColor];
-        subLayer.borderWidth = 2;
-        subLayer.cornerRadius = 3;
+        fillRect.origin.x = baseX + coord.x*squareSize + 2;
+        fillRect.origin.y = baseY + coord.y*squareSize + 2;
 
-        subLayer.shadowOffset = CGSizeMake(0, 1);
-        subLayer.shadowOpacity = 0.7;
-        subLayer.shadowRadius = 1;
-        subLayer.shadowColor = [[UIColor blackColor] CGColor];
+        CGContextFillRect(c, fillRect);
+        CGContextStrokeRect(c, fillRect);
 
-        subLayer.bounds = CGRectMake(1, 1, squareSize-2, squareSize-2);
-        subLayer.position = CGPointMake(baseX + (coord.x+0.5)*squareSize, baseY + (coord.y+0.5)*squareSize - 1);
-
-        [self.tileSubLayers addObject:subLayer];
     }
 }
 
@@ -156,4 +174,9 @@
     }];
 }
 
+- (void)setHistoryHighlighted:(BOOL)historyHighlighted asStepBack:(NSInteger)stepBack{
+    self.historyOverlayView.backgroundColor =
+            [UIColor colorWithPatternImage:[FFPatternGenerator createHistoryMoveOverlayPatternForStep:stepBack]];
+    self.historyOverlayView.hidden = !historyHighlighted;
+}
 @end

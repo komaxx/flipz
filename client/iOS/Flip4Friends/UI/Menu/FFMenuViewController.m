@@ -7,15 +7,17 @@
 //
 
 #import "FFMenuViewController.h"
-#import "FFChallengeMenuControl.h"
+#import "FFChallengeMenu.h"
 #import "FFGamesCore.h"
 #import "FFGameFinishedMenu.h"
 #import "FFGamePausedMenu.h"
+#import "FFMainMenu.h"
 
 
 typedef enum {
     menuState_unset,
-    menuState_chooseGame,
+    menuState_mainMenu,
+    menuState_chooseChallenge,
     menuState_gameStarting,
     menuState_gameRunning,
     menuState_gamePaused,
@@ -23,7 +25,8 @@ typedef enum {
 } menuState;
 
 @interface FFMenuViewController ()
-@property (strong, nonatomic) FFChallengeMenuControl* challengeMenu;
+@property (strong, nonatomic) FFMainMenu * mainMenu;
+@property (strong, nonatomic) FFChallengeMenu * challengeMenu;
 @property (weak, nonatomic) FFGameFinishedMenu* finishedMenu;
 @property (weak, nonatomic) FFGamePausedMenu* pausedMenu;
 @property (weak, nonatomic) UIView* activeFooter;
@@ -34,7 +37,10 @@ typedef enum {
 }
 
 - (void)didLoad {
-    self.challengeMenu = [[FFChallengeMenuControl alloc] initWithScrollView:(UITableView *) [self viewWithTag:500]];
+    self.mainMenu = (FFMainMenu *)[self viewWithTag:10];
+    self.mainMenu.delegate = self;
+
+    self.challengeMenu = (FFChallengeMenu *) [self viewWithTag:500];
     self.challengeMenu.delegate = self;
 
     self.finishedMenu = (FFGameFinishedMenu *) [self viewWithTag:600];
@@ -45,42 +51,38 @@ typedef enum {
 
     self.activeFooter = [self.superview viewWithTag:400];
     [(UIButton *) [self.activeFooter viewWithTag:401] addTarget:self action:@selector(pauseTapped) forControlEvents:UIControlEventTouchUpInside];
+    [(UIButton *) [self.activeFooter viewWithTag:402] addTarget:self action:@selector(cleanTapped) forControlEvents:UIControlEventTouchUpInside];
+    [(UIButton *) [self.activeFooter viewWithTag:403] addTarget:self action:@selector(undoTapped) forControlEvents:UIControlEventTouchUpInside];
 
-    [self changeState:menuState_chooseGame];
+    [self changeState:menuState_mainMenu];
 }
 
 - (void)changeState:(menuState)state {
+    if (state == _state) return;
+
+    self.hidden = state==menuState_gameRunning;
+    [self.challengeMenu hide:state != menuState_chooseChallenge];
+    [self.pausedMenu hide:state!=menuState_gamePaused];
+    [self showFooter:state==menuState_gameRunning];
+    self.finishedMenu.hidden = state!=menuState_gameFinished;
+    self.mainMenu.hidden = state!=menuState_mainMenu;
+
     switch (state){
-        case menuState_chooseGame:
-            self.hidden = NO;
-            [self.challengeMenu hide:NO];
-            [self.pausedMenu hide:YES];
-            [self showFooter:NO];
-            self.finishedMenu.hidden = YES;
+        case menuState_mainMenu:
+            [self.delegate activateGameWithId:nil];
+        case menuState_chooseChallenge:
+            [self.delegate activateGameWithId:nil];
             break;
         case menuState_gameStarting:
-            self.hidden = NO;
-            [self.pausedMenu hide:YES];
-            [self.challengeMenu hide:YES];
-            [self showFooter:NO];
             break;
         case menuState_gameRunning:
-            self.hidden = YES;
-            [self showFooter:YES];
-            [self.pausedMenu hide:YES];
-            [self.challengeMenu hide:YES];
             break;
         case menuState_gamePaused:
-            self.hidden = NO;
-            [self showFooter:YES];
-            [self.pausedMenu hide:NO];
             break;
         case menuState_gameFinished:
-            self.hidden = NO;
-            [self showFooter:NO];
-            self.finishedMenu.hidden = NO;
             break;
     }
+
     _state = state;
 }
 
@@ -107,12 +109,51 @@ typedef enum {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)pauseTapped {
+    [self changeState:menuState_gamePaused];
+}
+
+- (void)cleanTapped {
+    [self.delegate cleanCurrentGame];
+    FFGame *game = [[FFGamesCore instance] gameWithId:[self.delegate activeGameId]];
+    [game clean];
+}
+
+- (void)undoTapped {
+    FFGame *game = [[FFGamesCore instance] gameWithId:[self.delegate activeGameId]];
+    [game undoLastMove];
+}
+
 // ////////////////////////////////////////////////////////////
-// parent calls
+// sub-menu calls
 
-- (void)selectedGameWithId:(NSString *)gameId {
+- (void)goBackToMainMenu {
+    [self changeState:menuState_mainMenu];
+}
+
+- (void)hotSeatTapped {
     [self changeState:menuState_gameRunning];
+    FFGame *hotSeatGame = [[FFGamesCore instance] generateNewHotSeatGame];
+    [hotSeatGame start];
 
+    [self.delegate activateGameWithId:hotSeatGame.Id];
+}
+
+- (void)localChallengeSelected {
+    [self changeState:menuState_chooseChallenge];
+}
+
+- (void)goBackToChallengeMenuAfterFinished {
+    [self changeState:menuState_chooseChallenge];
+}
+
+- (void)giveUpAndBackToChallengeMenu {
+    FFGame *selectedGame = [[FFGamesCore instance] gameWithId:[self.delegate activeGameId]];
+    [selectedGame giveUp];
+    [self changeState:menuState_chooseChallenge];
+}
+
+- (void) activateGameWithId:(NSString *)gameId {
     // start the game
     FFGame *selectedGame = [[FFGamesCore instance] gameWithId:gameId];
 
@@ -131,31 +172,16 @@ typedef enum {
         [self changeState:menuState_gameRunning];
         [selectedGame start];
     }
-}
 
-- (void)pauseTapped {
-    [self changeState:menuState_gamePaused];
-}
-
-
-// parent calls
-// ////////////////////////////////////////////////////////////
-// sub-menu calls
-
-- (void)goBackToMenuAfterFinished {
-    [self changeState:menuState_chooseGame];
-}
-
-- (void)giveUpAndBackToMenu {
-    [self changeState:menuState_chooseGame];
-}
-
-- (void) activateGameWithId:(NSString *)gameId {
     [self.delegate activateGameWithId:gameId];
 }
 
 - (void)restartGame {
+    FFGame *selectedGame = [[FFGamesCore instance] gameWithId:[self.delegate activeGameId]];
+    [selectedGame start];
+
     [self.delegate restartCurrentGame];
+    [self changeState:menuState_gameRunning];
 }
 
 - (void)resumeGame {
@@ -164,6 +190,5 @@ typedef enum {
 
 // sub-menu calls
 // ////////////////////////////////////////////////////////////
-
 
 @end

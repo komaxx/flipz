@@ -14,8 +14,9 @@
 - (void) activateGameWithId:(NSString *)gameId;
 
 - (void)restartCurrentGame;
-@end
 
+- (void)cleanCurrentGame;
+@end
 
 
 @interface FFMenuViewController : UIView
@@ -29,9 +30,9 @@
 
 - (void)didDisappear;
 
-- (void)selectedGameWithId:(NSString *)string;
+- (void)localChallengeSelected;
 
-- (void)goBackToMenuAfterFinished;
+- (void)goBackToChallengeMenuAfterFinished;
 
 - (void)restartGame;
 
@@ -39,5 +40,9 @@
 
 - (void)resumeGame;
 
-- (void)giveUpAndBackToMenu;
+- (void)giveUpAndBackToChallengeMenu;
+
+- (void)goBackToMainMenu;
+
+- (void)hotSeatTapped;
 @end

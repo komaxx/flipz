@@ -9,6 +9,10 @@
 #import <Foundation/Foundation.h>
 #import "FFTile.h"
 
+typedef enum {
+    kFFBoardType_twoStated,
+    kFFBoardType_multiStated
+} FFBoardType;
 
 /**
 * Represents the board, i.e., it contains all the tiles that make up the gaming board.
@@ -19,6 +23,11 @@
 * All boards are squares, thus only one value.
 */
 @property (nonatomic, readonly) NSUInteger BoardSize;
+
+/**
+* How the tiles will behave.
+*/
+@property (nonatomic) FFBoardType BoardType;
 
 /**
 * Mandatory initializer. Others just don't count.
@@ -33,9 +42,9 @@
 
 - (void)shuffle;
 
-- (void)flipCoords:(NSArray *)array;
+- (void)flipCoords:(NSArray *)array countingUp:(BOOL)up;
 
 - (BOOL)isSingleChromatic;
 
-- (void)cleanMonochromaticToWhite;
+- (void)cleanMonochromaticTo:(NSUInteger)cleanColor;
 @end

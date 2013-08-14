@@ -5,8 +5,6 @@
 
 
 #import "FFPattern.h"
-#import "FFCoord.h"
-#import "FFMove.h"
 
 
 @interface FFPattern ()
@@ -28,7 +26,10 @@
         self.Coords = coords;
         [self trim];
 
-        // TODO add ID!
+        // TODO add game-unique ID!
+        static NSInteger stId = 1234;
+        stId++;
+        self.Id = [NSString stringWithFormat:@"p%i", stId];
     }
 
     return self;
@@ -104,9 +105,35 @@
 }
 
 - (FFPattern *)copyForOrientation:(FFOrientation)orientation {
-    NSArray *rotCoords = [[NSArray alloc] initWithArray:self.Coords];
+    NSMutableArray *rotCoords = [[NSMutableArray alloc] initWithCapacity:self.Coords.count];
 
-    // TODO
+    switch (orientation) {
+        case kFFOrientation_90_degrees:
+            for (FFCoord *coord in self.Coords){
+                [rotCoords addObject:[[FFCoord alloc] initWithX:(ushort) (self.SizeY - coord.y - 1)
+                                                           andY:coord.x]];
+            }
+            break;
+        case kFFOrientation_180_degrees:
+            for (FFCoord *coord in self.Coords){
+                [rotCoords addObject:[[FFCoord alloc] initWithX:(ushort) (self.SizeX - coord.x - 1)
+                                                           andY:(ushort) (self.SizeY - coord.y - 1)]];
+            }
+            break;
+        case kFFOrientation_270degrees:
+            for (FFCoord *coord in self.Coords){
+                [rotCoords addObject:[[FFCoord alloc] initWithX:coord.y
+                                                           andY:(ushort) (self.SizeX - coord.x - 1)]];
+            }
+            break;
+        case kFFOrientation_0_degrees:
+        default:
+            // just copy it
+            for (FFCoord *coord in self.Coords){
+                [rotCoords addObject:[[FFCoord alloc] initWithX:coord.x andY:coord.y]];
+            }
+            break;
+    }
 
     return [[FFPattern alloc] initWithCoords:rotCoords];
 }

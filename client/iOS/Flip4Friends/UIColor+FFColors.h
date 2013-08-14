@@ -24,4 +24,11 @@
 + (UIColor *)movePatternBack_removing;
 
 
++ (UIColor *)patternBorder_alreadyPlayed;
+
++ (UIColor *)patternBack_alreadyPlayed;
+
++ (UIColor *)player1color;
+
++ (UIColor *)player2color;
 @end

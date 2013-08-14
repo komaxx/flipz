@@ -33,6 +33,17 @@ static UIColor *backFill2;
 + (UIColor *)movePatternBorder_removing { COLOR_MACRO(movePatternBorder_removal, @"D95252FF") }
 
 
+    static UIColor *patternBorderAlreadyPlayed;
++ (UIColor *)patternBorder_alreadyPlayed { COLOR_MACRO(patternBorderAlreadyPlayed, @"A59999FF") }
+    static UIColor *patternBackAlreadyPlayed;
++ (UIColor *)patternBack_alreadyPlayed { COLOR_MACRO(patternBackAlreadyPlayed, @"A59999FF") }
+
+
+    static UIColor *p1Color;
++ (UIColor *)player1color { COLOR_MACRO(p1Color, @"7835EDFF") }
+    static UIColor *p2Color;
++ (UIColor *)player2color { COLOR_MACRO(p2Color, @"ED7835FF") }
+
 
 
 + (UIColor *) colorFromHexString:(NSString *)hexString {
@@ -57,4 +68,5 @@ static UIColor *backFill2;
 
     return [UIColor colorWithRed:red green:green blue:blue alpha:alpha];
 }
+
 @end

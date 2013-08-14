@@ -35,7 +35,7 @@
 }
 
 - (void)menuTapped:(id)menuTapped {
-    [self.delegate goBackToMenuAfterFinished];
+    [self.delegate goBackToChallengeMenuAfterFinished];
 }
 
 @end

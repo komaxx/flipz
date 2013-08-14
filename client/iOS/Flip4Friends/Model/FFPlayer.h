@@ -27,5 +27,7 @@
 
 - (void)undoMove:(FFMove *)move;
 
-- (void)resetWithPatterns:(NSMutableArray *)array;
+- (void)resetWithPatterns:(NSArray *)array;
+
+- (BOOL)allPatternsPlayed;
 @end

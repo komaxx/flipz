@@ -22,4 +22,5 @@ typedef enum {
 - (void)removeYourself;
 - (void)positionAtX:(CGFloat)x andY:(CGFloat)y;
 
+- (void)setHistoryHighlighted:(BOOL)historyHighlighted asStepBack:(NSInteger)stepBack;
 @end

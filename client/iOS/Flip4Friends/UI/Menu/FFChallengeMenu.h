@@ -4,15 +4,14 @@
 //
 
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @class FFMenuViewController;
 
-@interface FFChallengeMenuControl : NSObject <UITableViewDelegate, UITableViewDataSource>
+@interface FFChallengeMenu : UIView <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, weak) FFMenuViewController *delegate;
 
-- (id)initWithScrollView:(UITableView *)view;
 - (void)hide:(BOOL)b;
 
 @end

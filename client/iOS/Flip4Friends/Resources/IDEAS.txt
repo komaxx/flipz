@@ -1,0 +1,10 @@
+
+
+Challenge Mode
+
+* Flip Count:
+    As a hint: Show, how many times a tile was flipped when requesting help (counts as x (e.g., 5) moves)
+    As a game mode: Each tile has to be flipped EXACTLY as often as in the generation process. Tiles have more states to visualize the rest-flips.
+
+* History View:
+    A slide to the side of the board can be used to visualize the moves in the history

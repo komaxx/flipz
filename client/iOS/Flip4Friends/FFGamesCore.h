@@ -29,4 +29,5 @@
 
 - (FFGame *)gameWithId:(NSString *)string;
 
+- (FFGame *)generateNewHotSeatGame;
 @end

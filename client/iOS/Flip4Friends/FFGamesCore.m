@@ -16,6 +16,10 @@
 @implementation FFGamesCore {
 }
 
+// ////////////////////////////////////////////////////////////////////////
+// StartUp
+
+
 - (id)init {
     self = [super init];
     if (self) {
@@ -39,6 +43,20 @@
     }
 }
 
+// StartUp
+// ////////////////////////////////////////////////////////////////////////
+
+
+- (FFGame *)generateNewHotSeatGame {
+    FFGame *nuHotSeat = [[FFGame alloc] initHotSeat];
+    [self.gamesById setObject:nuHotSeat forKey:nuHotSeat.Id];
+
+    return nuHotSeat;
+}
+
+- (FFGame *)gameWithId:(NSString *)string {
+    return [self.gamesById objectForKey:string];
+}
 
 // ////////////////////////////////////////////////////////////////////////
 // Singleton
@@ -49,10 +67,6 @@
         singleInstance = [[FFGamesCore alloc] init];
     }
     return singleInstance;
-}
-
-- (FFGame *)gameWithId:(NSString *)string {
-    return [self.gamesById objectForKey:string];
 }
 
 @end

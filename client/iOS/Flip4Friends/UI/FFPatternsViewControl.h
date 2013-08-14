@@ -16,11 +16,20 @@
 @property (copy, nonatomic) NSString *activeGameId;
 @property (weak, nonatomic) FFGameViewController *delegate;
 
+@property(nonatomic) BOOL secondPlayer;
+
 - (id)initWithScrollView:(UIScrollView *)scrollView;
 
 - (void)didAppear;
 - (void)didDisappear;
 
-
 - (void)cancelMove;
+
+- (CGPoint)computeCenterOfPatternViewForId:(NSString *)string;
+
+- (UIScrollView *)scrollView;
+
+- (void)showHistoryStartingFromStepsBack:(NSUInteger)i;
+- (void)hideHistory;
+
 @end

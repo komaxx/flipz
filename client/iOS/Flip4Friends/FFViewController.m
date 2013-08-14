@@ -47,27 +47,20 @@
 
 - (void)activateGameWithId:(NSString *)gameId {
     self.activeGameId = gameId;
-
     [self.gameViewController selectedGameWithId:gameId];
-    [self.menuViewController selectedGameWithId:gameId];
 }
 
 - (void)restartCurrentGame {
-    FFGame *selectedGame = [[FFGamesCore instance] gameWithId:self.activeGameId];
-    [selectedGame start];
-
     [self.gameViewController selectedGameWithId:self.activeGameId];
-    [self.menuViewController selectedGameWithId:self.activeGameId];
+}
+
+- (void)cleanCurrentGame {
+    [self.gameViewController gameCleaned];
 }
 
 - (NSString *)activeGameId {
     return _activeGameId;
 }
-
-- (void)pauseTapped {
-    [self.menuViewController pauseTapped];
-}
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

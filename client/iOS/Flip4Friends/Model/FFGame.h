@@ -43,6 +43,8 @@ typedef enum {
 } GameState;
 
 
+
+
 @interface FFGame : NSObject
 
 @property (nonatomic, copy, readonly) NSString *Id;
@@ -60,10 +62,16 @@ typedef enum {
 */
 @property (nonatomic, readonly) FFPlayer *activePlayer;
 
+/**
+* Guess.
+*/
 @property (nonatomic, strong, readonly) FFBoard *Board;
 
+@property (nonatomic, strong, readonly) NSArray *moveHistory;
 
 - (id)initWithId:(NSString *)id Type:(NSString * const)type andBoardSize:(NSUInteger)size;
+
+- (id)initChallengeWithDifficulty:(int)i;
 
 /**
 * The given move is executed, with all consequences (board adjustment, player's turn change,
@@ -73,9 +81,15 @@ typedef enum {
 */
 - (NSInteger)executeMove:(FFMove *)move byPlayer:(FFPlayer*)player;
 
-- (id)initChallengeWithDifficulty:(int)i;
+- (id)initHotSeat;
 
 - (void)start;
 
+- (void)undoLastMove;
+
 - (void)undoMove:(FFMove *)move;
+
+- (void)giveUp;
+
+- (void)clean;
 @end

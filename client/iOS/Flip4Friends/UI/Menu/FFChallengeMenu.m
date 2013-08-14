@@ -4,31 +4,35 @@
 //
 
 
-#import "FFChallengeMenuControl.h"
+#import "FFChallengeMenu.h"
 #import "FFGamesCore.h"
 #import "FFMenuViewController.h"
 
-@interface FFChallengeMenuControl ()
+@interface FFChallengeMenu ()
 @property (weak, nonatomic) UITableView *tableView;
 @end
 
-@implementation FFChallengeMenuControl {
+@implementation FFChallengeMenu {
 }
 @synthesize delegate = _delegate;
 
 
-- (id)initWithScrollView:(UITableView *)tableView {
-    self = [super init];
-
-    if (self){
-        self.tableView = tableView;
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        self.tableView = (UITableView *) [self viewWithTag:501];
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
 
+        [(UIButton*)[self viewWithTag:502] addTarget:self action:@selector(backToMainMenuTapped) forControlEvents:UIControlEventTouchUpInside];
+
         self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"menu_back_pattern.png"]];
     }
-
     return self;
+}
+
+- (void)backToMainMenuTapped {
+    [self.delegate goBackToMainMenu];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -68,6 +72,6 @@
 }
 
 - (void)hide:(BOOL)hidden {
-    self.tableView.hidden = hidden;
+    self.hidden = hidden;
 }
 @end

@@ -8,10 +8,9 @@
 
 #import "FFBoardView.h"
 #import "FFGamesCore.h"
-#import "FFTileView.h"
-#import "FFGame.h"
-#import "FFBoard.h"
 #import "FFPattern.h"
+#import "FFTileViewMultiStated.h"
+#import "FFPatternGenerator.h"
 
 @interface FFBoardView()
 /**
@@ -21,11 +20,17 @@
 
 @property (copy, nonatomic) NSString *activeGameId;
 
+@property (strong, nonatomic) NSMutableDictionary * historyTileSets;
+@property (strong, nonatomic) NSMutableDictionary * removeCollector;
+
 @property FFBoard *introBoard;
 
 @end
 
+#define MAX_HISTORY_MOVES 1
+
 @implementation FFBoardView {
+    BOOL _introFlipping;
     CGFloat _tileSize;
     NSUInteger _shownBoardSize;
 
@@ -50,6 +55,9 @@
 
 - (void)setup {
     self.tileViews = [[NSMutableArray alloc] initWithCapacity:(8*8)];
+
+    self.historyTileSets = [[NSMutableDictionary alloc] initWithCapacity:10];
+    self.removeCollector = [[NSMutableDictionary alloc] initWithCapacity:10];
 }
 
 - (void)didAppear {
@@ -71,12 +79,16 @@
     NSString *changedGameID = [notification.userInfo objectForKey:kFFNotificationGameChanged_gameId];
     if ([changedGameID isEqualToString:self.activeGameId]) {
         FFGame *game = [[FFGamesCore instance] gameWithId:changedGameID];
-        if (game) [self updateWithGame:game];
+        if (game) [self setActiveGame:game];
     }
 }
 
-- (void)updateWithGame:(FFGame *)game {
-    if (!game) return;
+- (void)setActiveGame:(FFGame *)game {
+    if (!game){
+        self.activeGameId = nil;
+        [self startIntroFlipping];
+        return;
+    }
 
     FFBoard *board = game.Board;
 
@@ -84,6 +96,13 @@
         self.activeGameId = game.Id;
         [self updateTileCountFromBoard:board];
     }
+
+    if (game.Type == kFFGameTypeSingleChallenge){
+        for (FFTileViewMultiStated *view in self.tileViews) view.tileType = kFFBoardType_multiStated;
+    } else if (game.Type == kFFGameTypeHotSeat){
+        for (FFTileViewMultiStated *view in self.tileViews) view.tileType = kFFBoardType_twoStated;
+    }
+
     [self updateTilesFromBoard:board];
 }
 
@@ -104,6 +123,54 @@
     return _tileSize;
 }
 
+- (void) showHistoryStartingFromStepsBack:(NSUInteger)startStepsBack {
+    [self.removeCollector removeAllObjects];
+    [self.removeCollector addEntriesFromDictionary:self.historyTileSets];
+
+    NSArray *moves = [[FFGamesCore instance] gameWithId:self.activeGameId].moveHistory;
+
+    int startMoveIndex = moves.count-startStepsBack-1;
+    int endMoveIndex = MAX(-1, startMoveIndex - MAX_HISTORY_MOVES);
+    int backStep = 0;
+    for (NSInteger i = startMoveIndex; i > endMoveIndex; i--){
+        FFMove *nowMove = [moves objectAtIndex:(NSUInteger) i];
+        [self.removeCollector removeObjectForKey:nowMove.Pattern.Id];
+
+        NSArray *tiles = [self.historyTileSets objectForKey:nowMove.Pattern.Id];
+        if (!tiles){
+            // make
+            NSArray *flipCoords = nowMove.buildCoordsToFlip;
+            tiles = [[NSMutableArray alloc] initWithCapacity:flipCoords.count];
+            for (FFCoord *coord in flipCoords) {
+                UIView *tileView = [[UIView alloc] initWithFrame:[self getTileAtX:coord.x andY:coord.y].frame];
+                [(NSMutableArray *) tiles addObject:tileView];
+                [self addSubview:tileView];
+            }
+            [self.historyTileSets setObject:tiles forKey:nowMove.Pattern.Id];
+        }
+        for (UIView *tileView in tiles) {
+            tileView.backgroundColor =
+                    [UIColor colorWithPatternImage:[FFPatternGenerator createHistoryMoveOverlayPatternForStep:backStep]];
+        }
+
+        backStep++;
+    }
+
+    // remove invisibles
+    for (NSString *key in self.removeCollector) {
+        NSArray *tileSetToRemove = [self.removeCollector objectForKey:key];
+        for (UIView *toRemove in tileSetToRemove) {
+            [toRemove removeFromSuperview];
+        }
+        [self.historyTileSets removeObjectForKey:key];
+    }
+    [self.removeCollector removeAllObjects];
+}
+
+- (void)hideHistory {
+    [self showHistoryStartingFromStepsBack:1000];
+}
+
 /**
 * Checks, whether the board shows the right count of tiles. Will update the view if not.
 */
@@ -115,14 +182,14 @@
         // add some tiles!
         CGRect centerFrame = CGRectMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds), 1, 1);
         for (int i = self.tileViews.count; i < nuTileCount; i++){
-            FFTileView *nuTileView = [[FFTileView alloc] initWithFrame:centerFrame];
+            UIView<FFTileView> *nuTileView = [[FFTileViewMultiStated alloc] initWithFrame:centerFrame];
             [self.tileViews addObject:nuTileView];
             [self addSubview:nuTileView];
         }
     } else if (nuTileCount < self.tileViews.count){
         // remove some views
         for (NSUInteger i = self.tileViews.count-1; i >= nuTileCount; i--){
-            [(FFTileView *)[self.tileViews objectAtIndex:i] removeYourself];
+            [(UIView<FFTileView>*)[self.tileViews objectAtIndex:i] removeYourself];
             [self.tileViews removeObjectAtIndex:i];
         }
     } else {
@@ -141,7 +208,7 @@
     }
 }
 
-- (FFTileView *)getTileAtX:(NSUInteger)x andY:(NSUInteger)y {
+- (UIView<FFTileView> *)getTileAtX:(NSUInteger)x andY:(NSUInteger)y {
     return [self.tileViews objectAtIndex:(y*_shownBoardSize + x)];
 }
 
@@ -150,8 +217,13 @@
 // intro / no game selected stuff
 
 - (void)startIntroFlipping {
+    if (_introFlipping) return;
+    _introFlipping = YES;
+
     self.introBoard = [[FFBoard alloc] initWithSize:7];
     [self.introBoard shuffle];
+
+    for (FFTileViewMultiStated *view in self.tileViews) view.tileType = kFFBoardType_twoStated;
 
     [self updateTileCountFromBoard:self.introBoard];
     [self updateTilesFromBoard:self.introBoard];
@@ -160,7 +232,10 @@
 }
 
 - (void)doRandomIntroMove {
-    if (self.activeGameId || !_visible) return;
+    if (self.activeGameId || !_visible){
+        _introFlipping = NO;
+        return;
+    }
 
     if (arc4random()%3 == 0){
         self.introBoard = [[FFBoard alloc] initWithSize:(2 + arc4random()%6)];
@@ -172,4 +247,7 @@
     [self performSelector:@selector(doRandomIntroMove) withObject:nil afterDelay:1 inModes:@[NSRunLoopCommonModes]];
 }
 
+- (CGPoint)computeTileCenterOfCoord:(FFCoord *)coord {
+    return CGPointMake(_tileSize/2 + coord.x*_tileSize, _tileSize/2 + coord.y*_tileSize);
+}
 @end

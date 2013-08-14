@@ -22,6 +22,9 @@
 
 - (void)moveFinished;
 
-- (void)startMoveWithPattern:(FFPattern *)pattern atCoord:(FFCoord *)coord andAppearFrom:(UIView *)appearView;
+- (void)startMoveWithPattern:(FFPattern *)pattern
+                     atCoord:(FFCoord *)atCoord
+               andAppearFrom:(UIView *)appearView
+                withRotation:(NSInteger)startDirection;
 
 @end

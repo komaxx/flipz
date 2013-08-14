@@ -22,7 +22,6 @@
 
 @property(nonatomic, readwrite) NSUInteger BoardSize;
 
-
 @end
 
 @implementation FFBoard
@@ -46,30 +45,32 @@
     return [self.tiles objectAtIndex:(y*self.BoardSize + x)];
 }
 
-- (void)cleanMonochromaticToWhite {
+- (void)cleanMonochromaticTo:(NSUInteger)cleanColor {
     for (FFTile *tile in self.tiles) {
-        tile.color = 0;
+        tile.color = cleanColor;
     }
 }
 
 - (void)shuffle {
     for (FFTile *tile in self.tiles) {
-        tile.color = arc4random() % 2;
+        tile.color = arc4random() % 2 == 0 ? 0 : 99;
     }
 }
 
-- (void)flipCoords:(NSArray *)coords {
+- (void)flipCoords:(NSArray *)coords countingUp:(BOOL)up{
     for (FFCoord* c in coords) {
-        [[self tileAtX:c.x andY:c.y] flip];
+        FFTile *tile = [self tileAtX:c.x andY:c.y];
+        if (self.BoardType == kFFBoardType_twoStated) tile.color = (tile.color+1)%2;
+        else [tile flipCountingUp:up];
+
     }
 }
 
 - (BOOL)isSingleChromatic {
-    NSUInteger firstColor =[(FFTile *) [self.tiles objectAtIndex:0] color];
+    NSInteger firstColor =[(FFTile *) [self.tiles objectAtIndex:0] color];
     for (FFTile *tile in self.tiles) {
         if (tile.color != firstColor) return NO;
     }
     return YES;
 }
-
 @end

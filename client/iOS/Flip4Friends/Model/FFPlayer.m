@@ -31,9 +31,13 @@
     [((NSMutableDictionary *) self.doneMoves) removeObjectForKey:move.Pattern.Id];
 }
 
-- (void)resetWithPatterns:(NSMutableArray *)array {
+- (void)resetWithPatterns:(NSArray *)array {
     [(NSMutableDictionary *) self.doneMoves removeAllObjects];
     self.playablePatterns = array;
 
+}
+
+- (BOOL)allPatternsPlayed {
+    return self.playablePatterns.count == self.doneMoves.count;
 }
 @end

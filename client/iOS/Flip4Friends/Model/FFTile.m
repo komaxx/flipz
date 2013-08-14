@@ -16,7 +16,9 @@
 /**
 * Only to be called by the Board. Never manipulate directly!
 */
-- (void)flip {
-    self.color = (_color+1) % 2;
+- (void)flipCountingUp:(BOOL)up {
+    if (up) _color++;
+//    else if (self.color > 0) _color--;
+    else _color--;
 }
 @end

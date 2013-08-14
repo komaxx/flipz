@@ -8,4 +8,5 @@
 
 
 @interface FFMenuBackgroundView : UIView
+@property (copy, nonatomic) NSString *text;
 @end

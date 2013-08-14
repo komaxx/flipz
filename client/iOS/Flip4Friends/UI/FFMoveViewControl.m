@@ -178,7 +178,7 @@
             snapPoint.x + snapDelta.x/5,
             snapPoint.y + snapDelta.y/5);
 
-    if (snapDelta.y > self.boardView.computeTileSize) {
+    if (ABS(snapDelta.y) > [self.boardView computeTileSize]) {
         if (!_inRemovalPosition){
             [UIView animateWithDuration:0.2 animations:^{
                 for (UIView *view in self.patternViews) {
@@ -263,7 +263,11 @@
     }];
 }
 
-- (void)startMoveWithPattern:(FFPattern *)pattern atCoord:(FFCoord*)coord andAppearFrom:(UIView*)appearView {
+- (void)startMoveWithPattern:(FFPattern *)pattern
+                     atCoord:(FFCoord *)atCoord
+               andAppearFrom:(UIView *)appearView
+                withRotation:(NSInteger)startDirection{
+
     self.activePattern = pattern;
 
     // clean up the last view
@@ -285,7 +289,7 @@
     self.movingPatternRoot.frame = CGRectMake(0, 0, pattern.SizeX*tileSize, pattern.SizeY*tileSize);
     // reset the interaction variables
     _nowRotationDirection = 0;
-    _targetDirection = 0;
+    _targetDirection = startDirection;
 
     UIColor *borderColor = [UIColor movePatternBorder];
     UIColor *fillColor = [UIColor movePatternBack]; //[UIColor colorWithRed:0 green:1 blue:1 alpha:0.25];
@@ -332,9 +336,9 @@
     // compute start position
     CGRect targetRect = self.movingPatternRoot.frame;
 
-    if (coord){
-        targetRect.origin.x = self.boardView.frame.origin.x + coord.x*tileSize;
-        targetRect.origin.y = self.boardView.frame.origin.y + coord.y*tileSize;
+    if (atCoord){
+        targetRect.origin.x = self.boardView.frame.origin.x + atCoord.x*tileSize;
+        targetRect.origin.y = self.boardView.frame.origin.y + atCoord.y*tileSize;
     } else {
         NSInteger baseX = (boardSize - pattern.SizeX) / 2;
         NSInteger baseY = (boardSize - pattern.SizeY) / 2;

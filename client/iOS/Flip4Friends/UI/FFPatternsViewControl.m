@@ -15,24 +15,23 @@
 @interface FFPatternsViewControl ()
 
 @property (weak, nonatomic) UIScrollView *scrollView;
-@property (copy, nonatomic) NSString *shownActivePlayerId;
 
 @property (strong, nonatomic) NSMutableDictionary *patternViewsById;
 @property (strong, nonatomic) NSMutableDictionary *tmpRemovedCollector;
 
 @property (weak, nonatomic) FFPatternView *nowActivePatternView;
 
+@property (weak, nonatomic) NSString* lastShownPlayerId;
+
 @end
 
 @implementation FFPatternsViewControl {
 }
-@synthesize delegate = _delegate;
 
 
 - (id)initWithScrollView:(UIScrollView *)scrollView {
     self = [super init];
     if (self) {
-
         _scrollView = scrollView;
         self.patternViewsById = [[NSMutableDictionary alloc] initWithCapacity:20];
         self.tmpRemovedCollector = [[NSMutableDictionary alloc] initWithCapacity:20];
@@ -44,6 +43,8 @@
 - (void)didAppear {
     [[NSNotificationCenter defaultCenter]
             addObserver:self selector:@selector(gameChanged:) name:kFFNotificationGameChanged object:nil];
+
+    if (self.secondPlayer) _scrollView.transform = CGAffineTransformMakeRotation((CGFloat) M_PI);
 }
 - (void)didDisappear {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -55,29 +56,22 @@
 
 - (void)setActiveGameId:(NSString *)activeGameId {
     _activeGameId = activeGameId;
-    self.shownActivePlayerId = nil;
+    [self replacePatternsForPlayer:[self shownPlayer]];
+}
 
-    FFGame *game = [[FFGamesCore instance] gameWithId:activeGameId];
-    [self replacePatternsForPlayer:game.activePlayer];
+- (FFPlayer *)shownPlayer {
+    FFGame *game = [[FFGamesCore instance] gameWithId:self.activeGameId];
+    return self.secondPlayer ? game.player2 : game.player1;
 }
 
 - (void)gameChanged:(NSNotification *)notification {
     NSString *changedGameID = [notification.userInfo objectForKey:kFFNotificationGameChanged_gameId];
-    [self checkUpdateForGameId:changedGameID];
-}
-
-- (void)checkUpdateForGameId:(NSString *)changedGameID {
     if (![changedGameID isEqualToString:self.activeGameId]) {
         // ignore. Update for the wrong game (not the active one).
         return;
     }
 
-    FFGame *game = [[FFGamesCore instance] gameWithId:changedGameID];
-    if (![game.activePlayer.id isEqualToString:self.shownActivePlayerId]){
-        [self replacePatternsForPlayer:game.activePlayer];
-    } else {
-        [self updatePatternStatesWithPlayer:game.activePlayer];
-    }
+    [self updatePatternStatesWithPlayer:[self shownPlayer]];
 }
 
 - (void)updatePatternStatesWithPlayer:(FFPlayer *)player {
@@ -89,15 +83,18 @@
     }
 }
 
+- (CGPoint)computeCenterOfPatternViewForId:(NSString *)patternId {
+    return [(FFPatternView *) [self.patternViewsById objectForKey:patternId] center];
+}
+
 - (void)replacePatternsForPlayer:(FFPlayer *)player {
-    if (![player.id isEqualToString:self.shownActivePlayerId]){
+    if (![player.id isEqualToString:([self shownPlayer].id)]){
         // remove ALL
         for (NSString *key in self.patternViewsById) {
             FFPatternView* view = [self.patternViewsById objectForKey:key];
             [view removeYourself];
         }
         [self.patternViewsById removeAllObjects];
-        self.shownActivePlayerId = player.id;
     }
 
     // first: build sorted list of patterns
@@ -109,10 +106,10 @@
     [self.tmpRemovedCollector addEntriesFromDictionary:self.patternViewsById];
 
     NSInteger xCount = (NSInteger) (self.scrollView.bounds.size.width / PATTERN_VIEW_SIZE);
-    CGFloat xPadding = (NSInteger)( (self.scrollView.bounds.size.width - (xCount*PATTERN_VIEW_SIZE)) / xCount );
+    CGFloat xPadding = (NSInteger)( (self.scrollView.bounds.size.width - (xCount*PATTERN_VIEW_SIZE)) / (xCount-1) );
     CGFloat yPadding = 5;
 
-    CGFloat x = (NSInteger)(xPadding / 2.0);
+    CGFloat x = 0;//(NSInteger)(xPadding / 2.0);
     CGFloat y = 3;
 
     for (FFPattern *pattern in patterns) {
@@ -133,7 +130,7 @@
 
         x += (PATTERN_VIEW_SIZE + xPadding);
         if (x+PATTERN_VIEW_SIZE > self.scrollView.bounds.size.width){
-            x = (NSInteger)(xPadding / 2.0);
+            x = 0;//(NSInteger)(xPadding / 2.0);
             y += PATTERN_VIEW_SIZE + yPadding;
         }
     }
@@ -150,12 +147,25 @@
 }
 
 - (void)patternTapped:(FFPatternView *)view {
-    [self cancelSelection];
+    // allowed?
+    FFGame *game = [[FFGamesCore instance] gameWithId:self.activeGameId] ;
+    if (game.Type != kFFGameTypeSingleChallenge && [[self shownPlayer].doneMoves objectForKey:view.pattern.Id]){
+        NSLog(@"This pattern was already played. Ignore.");
+        return;
+    }
+    if (game.activePlayer==game.player1 && self.secondPlayer){
+        NSLog(@"Not accepting tap - not this player's turn!");
+        return;
+    }
 
     if (self.nowActivePatternView == view){
         self.nowActivePatternView = nil;
+        [self cancelSelection];
+        [self.delegate cancelMoveWithPattern:self.nowActivePatternView.pattern];
         return;
     }
+
+    [self cancelSelection];
 
     self.nowActivePatternView = view;
     [view setViewState:kFFPatternViewStateActive];
@@ -164,10 +174,10 @@
 }
 
 - (void)cancelSelection {
-    FFPlayer *activePlayer = [[FFGamesCore instance] gameWithId:self.activeGameId].activePlayer;
     [self.nowActivePatternView setViewState:
-            [activePlayer.doneMoves objectForKey:self.nowActivePatternView.pattern.Id] == nil ?
+            [[self shownPlayer].doneMoves objectForKey:self.nowActivePatternView.pattern.Id] == nil ?
                     kFFPatternViewStateNormal : kFFPatternViewStateAlreadyPlayed];
+    self.nowActivePatternView = nil;
 }
 
 - (void)sortPatterns:(NSMutableArray *)patterns {
@@ -178,6 +188,27 @@
         return o1>o2 ? NSOrderedDescending :
                 (o2>o1 ? NSOrderedAscending : NSOrderedSame);
     }];
+}
+
+- (void)showHistoryStartingFromStepsBack:(NSUInteger)stepsBack {
+    FFGame *game = [[FFGamesCore instance] gameWithId:self.activeGameId];
+
+    NSString *highlightPatternId = [(FFMove *) [game.moveHistory objectAtIndex:
+            game.moveHistory.count - stepsBack - 1
+    ] Pattern].Id;
+    for (NSString *patternViewId in self.patternViewsById) {
+        if ( ([patternViewId isEqualToString:highlightPatternId])){
+            [(FFPatternView *)[self.patternViewsById objectForKey:patternViewId] setHistoryHighlighted:YES asStepBack:0];
+        } else{
+            [(FFPatternView *)[self.patternViewsById objectForKey:patternViewId] setHistoryHighlighted:NO asStepBack:0];
+        }
+    }
+}
+
+- (void)hideHistory {
+    for (NSString *patternViewId in self.patternViewsById) {
+        [(FFPatternView *)[self.patternViewsById objectForKey:patternViewId] setHistoryHighlighted:NO asStepBack:0];
+    }
 }
 
 @end

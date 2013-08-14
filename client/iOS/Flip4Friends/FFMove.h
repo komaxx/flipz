@@ -19,6 +19,12 @@ typedef enum {
 */
 @interface FFMove : NSObject
 
+/**
+* All moves in a game are sorted along this number. The higher the number, the later in the game
+* was the move executed.
+*/
+@property (nonatomic) NSUInteger ordinal;
+
 @property (strong, nonatomic, readonly) FFPattern* Pattern;
 @property (strong, nonatomic, readonly) FFCoord* Position;
 @property (nonatomic, readonly) FFOrientation Orientation;

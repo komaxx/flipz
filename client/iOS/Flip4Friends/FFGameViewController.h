@@ -9,7 +9,6 @@
 
 @protocol FFGameViewControllerDelegate <NSObject>
 - (NSString *)activeGameId;
-- (void) pauseTapped;
 @end
 
 @interface FFGameViewController : UIView
@@ -27,5 +26,10 @@
 - (void)moveCompletedWithPattern:(FFPattern *)pattern at:(FFCoord *)coord withDirection:(NSInteger)direction;
 
 - (void)cancelMoveWithPattern:(FFPattern *)pattern;
+
+- (void)showHistoryStartingFromStepsBack:(NSInteger)stepsBack;
+- (void)hideHistory;
+
+- (void)gameCleaned;
 
 @end

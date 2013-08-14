@@ -6,13 +6,10 @@
 
 #import <UIKit/UIKit.h>
 #import "FFTile.h"
+#import "FFBoard.h"
 
-@interface FFTileView : UIView
+@interface FFTileViewMultiStated : UIView <FFTileView>
 
-- (void)updateFromTile:(FFTile *)tile;
-
-- (void)removeYourself;
-
-- (void)positionAt:(CGRect)rect;
+@property(nonatomic) FFBoardType tileType;
 
 @end

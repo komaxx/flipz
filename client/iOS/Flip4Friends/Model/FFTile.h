@@ -10,7 +10,8 @@
 
 @interface FFTile : NSObject
 
-@property (nonatomic) NSUInteger color;
+@property (nonatomic) NSInteger color;
 
-- (void)flip;
+- (void)flipCountingUp:(BOOL)b;
+
 @end
