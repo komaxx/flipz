@@ -24,9 +24,11 @@ static UIColor *backFill2;
 
 
     static UIColor *movePatternBack;
-+ (UIColor *)movePatternBack { COLOR_MACRO(movePatternBack, @"7835ED66") }
+//+ (UIColor *)movePatternBack { COLOR_MACRO(movePatternBack, @"7835ED66") }
++ (UIColor *)movePatternBack { COLOR_MACRO(movePatternBack, @"3498db66") }
     static UIColor *movePatternBorder;
-+ (UIColor *)movePatternBorder { COLOR_MACRO(movePatternBorder, @"7835EDFF") }
+//+ (UIColor *)movePatternBorder { COLOR_MACRO(movePatternBorder, @"7835EDFF") }
++ (UIColor *)movePatternBorder { COLOR_MACRO(movePatternBorder, @"3498dbFF") }
     static UIColor *movePatternBack_removal;
 + (UIColor *)movePatternBack_removing { COLOR_MACRO(movePatternBack_removal, @"D9525280") }
     static UIColor *movePatternBorder_removal;

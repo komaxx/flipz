@@ -42,9 +42,24 @@ typedef enum {
 
 - (void)shuffle;
 
-- (void)flipCoords:(NSArray *)array countingUp:(BOOL)up;
+/**
+* Delivers the coords that were actually flipped.
+*/
+- (NSArray *)flipCoords:(NSArray *)array countingUp:(BOOL)up andLock:(BOOL)lock;
 
 - (BOOL)isSingleChromatic;
 
 - (void)cleanMonochromaticTo:(NSUInteger)cleanColor;
+
+- (void)checker;
+
+- (NSUInteger)scoreForColor:(int)color;
+
+- (NSUInteger)countTilesWithColor:(int)color;
+
+- (NSUInteger)computeMaxClusterSizeForColor:(int)i;
+
+- (void)unlock;
+
+- (void)duplicateStateFrom:(FFBoard *)board;
 @end

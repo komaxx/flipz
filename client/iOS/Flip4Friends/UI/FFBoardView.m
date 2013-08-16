@@ -139,7 +139,7 @@
         NSArray *tiles = [self.historyTileSets objectForKey:nowMove.Pattern.Id];
         if (!tiles){
             // make
-            NSArray *flipCoords = nowMove.buildCoordsToFlip;
+            NSArray *flipCoords = nowMove.FlippedCoords;
             tiles = [[NSMutableArray alloc] initWithCapacity:flipCoords.count];
             for (FFCoord *coord in flipCoords) {
                 UIView *tileView = [[UIView alloc] initWithFrame:[self getTileAtX:coord.x andY:coord.y].frame];

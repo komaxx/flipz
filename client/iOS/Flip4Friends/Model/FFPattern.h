@@ -29,4 +29,6 @@
 - (FFPattern *)copyForOrientation:(FFOrientation)orientation;
 
 - (id)initWithCoords:(NSArray *)array;
+
+- (id)initAsMirroredCloneFrom:(FFPattern *)pattern;
 @end

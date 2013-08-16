@@ -159,7 +159,6 @@
     }
 
     if (self.nowActivePatternView == view){
-        self.nowActivePatternView = nil;
         [self cancelSelection];
         [self.delegate cancelMoveWithPattern:self.nowActivePatternView.pattern];
         return;
@@ -185,8 +184,8 @@
         NSUInteger o1 = ((FFPattern *)obj1).Coords.count;
         NSUInteger o2 = ((FFPattern *)obj2).Coords.count;
 
-        return o1>o2 ? NSOrderedDescending :
-                (o2>o1 ? NSOrderedAscending : NSOrderedSame);
+        return o1<o2 ? NSOrderedDescending :
+                (o2<o1 ? NSOrderedAscending : NSOrderedSame);
     }];
 }
 

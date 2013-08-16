@@ -12,6 +12,7 @@
 #import "FFGameFinishedMenu.h"
 #import "FFGamePausedMenu.h"
 #import "FFMainMenu.h"
+#import "FFAutoPlayer.h"
 
 
 typedef enum {
@@ -30,6 +31,9 @@ typedef enum {
 @property (weak, nonatomic) FFGameFinishedMenu* finishedMenu;
 @property (weak, nonatomic) FFGamePausedMenu* pausedMenu;
 @property (weak, nonatomic) UIView* activeFooter;
+
+@property (strong, nonatomic) FFAutoPlayer *tmpAutoPlayer;
+
 @end
 
 @implementation FFMenuViewController {
@@ -64,12 +68,13 @@ typedef enum {
     [self.challengeMenu hide:state != menuState_chooseChallenge];
     [self.pausedMenu hide:state!=menuState_gamePaused];
     [self showFooter:state==menuState_gameRunning];
-    self.finishedMenu.hidden = state!=menuState_gameFinished;
+    [self.finishedMenu hide:state!=menuState_gameFinished];
     self.mainMenu.hidden = state!=menuState_mainMenu;
 
     switch (state){
         case menuState_mainMenu:
             [self.delegate activateGameWithId:nil];
+            break;
         case menuState_chooseChallenge:
             [self.delegate activateGameWithId:nil];
             break;
@@ -101,6 +106,11 @@ typedef enum {
 
     FFGame *game = [[FFGamesCore instance] gameWithId:gameID];
     if (_state == menuState_gameRunning && game.gameState==kFFGameState_Finished){
+        if (self.tmpAutoPlayer){
+            [self.tmpAutoPlayer endPlaying];
+            self.tmpAutoPlayer = nil;
+        }
+
         [self changeState:menuState_gameFinished];
     }
 }
@@ -137,14 +147,22 @@ typedef enum {
     [hotSeatGame start];
 
     [self.delegate activateGameWithId:hotSeatGame.Id];
+
+//    self.tmpAutoPlayer = [[FFAutoPlayer alloc] initWithGameId:hotSeatGame.Id andPlayerId:hotSeatGame.player2.id];
+//    [self.tmpAutoPlayer startPlaying];
 }
 
 - (void)localChallengeSelected {
     [self changeState:menuState_chooseChallenge];
 }
 
-- (void)goBackToChallengeMenuAfterFinished {
-    [self changeState:menuState_chooseChallenge];
+- (void)goBackToMenuAfterFinished {
+    FFGame *game = [[FFGamesCore instance] gameWithId:[self.delegate activeGameId]];
+    if ([game.Type isEqualToString:kFFGameTypeSingleChallenge]){
+        [self changeState:menuState_chooseChallenge];
+    } else {
+        [self changeState:menuState_mainMenu];
+    }
 }
 
 - (void)giveUpAndBackToChallengeMenu {

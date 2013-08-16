@@ -17,7 +17,6 @@
 @end
 
 @implementation FFMove {
-
 }
 
 - (id)initWithPattern:(FFPattern *)pattern atPosition:(FFCoord *)position andOrientation:(FFOrientation)orientation {
@@ -39,7 +38,7 @@
             && self.Position.y + rotatedPattern.SizeY <= boardSize;
 }
 
-- (NSArray*)buildCoordsToFlip {
+- (NSArray*)buildToFlipCoords {
     NSMutableArray *ret = [[NSMutableArray alloc] initWithCapacity:self.Pattern.Coords.count];
 
     FFPattern *rotatedPattern = [self.Pattern copyForOrientation:self.Orientation];

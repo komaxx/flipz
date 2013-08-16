@@ -1,0 +1,9 @@
+/****************************************************************************/
+/* Localization file */
+
+
+"finished_title_success" = "SUCCESS";
+"finished_message_challenge_complete" = "You figured it out!";
+
+"finished_title_congratulations" = "YOU WON";
+"finished_message_you_won" = "Congratulations!";

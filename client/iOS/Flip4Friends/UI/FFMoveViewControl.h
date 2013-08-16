@@ -10,7 +10,7 @@
 @class FFGameViewController;
 @class FFBoardView;
 
-@interface FFMoveViewControl : UIView
+@interface FFMoveViewControl : UIView <UIGestureRecognizerDelegate>
 
 @property (weak, nonatomic) FFGameViewController *delegate;
 @property(nonatomic, weak) FFBoardView *boardView;

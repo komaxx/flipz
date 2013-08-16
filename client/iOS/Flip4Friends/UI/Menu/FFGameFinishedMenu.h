@@ -14,4 +14,6 @@
 @interface FFGameFinishedMenu : FFMenuBackgroundView
 
 @property(nonatomic, weak) FFMenuViewController *delegate;
+
+- (void)hide:(BOOL)b;
 @end

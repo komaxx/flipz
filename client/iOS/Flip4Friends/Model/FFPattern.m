@@ -25,15 +25,28 @@
     if (self){
         self.Coords = coords;
         [self trim];
-
-        // TODO add game-unique ID!
-        static NSInteger stId = 1234;
-        stId++;
-        self.Id = [NSString stringWithFormat:@"p%i", stId];
+        [self makeId];
     }
 
     return self;
 }
+
+
+- (id)initAsMirroredCloneFrom:(FFPattern *)pattern {
+    self = [super init];
+
+    if (self){
+        self.Coords = [[NSMutableArray alloc] initWithCapacity:pattern.Coords.count];
+        for (FFCoord *coord in pattern.Coords) {
+            [(NSMutableArray *) self.Coords addObject:[[FFCoord alloc] initWithX:(ushort)(pattern.SizeX - coord.x - 1) andY:coord.y]];
+        }
+        [self trim];
+        [self makeId];
+    }
+
+    return self;
+}
+
 
 - (id)initWithRandomCoords:(NSUInteger)count andMaxDistance:(NSUInteger)maxDistance{
     self = [super init];
@@ -104,6 +117,12 @@
     self.SizeY += 1;
 }
 
+- (void)makeId {
+    static NSInteger stId = 1234;
+    stId++;
+    self.Id = [NSString stringWithFormat:@"p%i", stId];
+}
+
 - (FFPattern *)copyForOrientation:(FFOrientation)orientation {
     NSMutableArray *rotCoords = [[NSMutableArray alloc] initWithCapacity:self.Coords.count];
 
@@ -137,4 +156,5 @@
 
     return [[FFPattern alloc] initWithCoords:rotCoords];
 }
+
 @end

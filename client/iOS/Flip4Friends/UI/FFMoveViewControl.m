@@ -59,10 +59,6 @@
 }
 
 - (void)didLoad {
-    UIPanGestureRecognizer *panGestureRecognizer =
-            [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panning:)];
-    [self addGestureRecognizer:panGestureRecognizer];
-
     UIRotationGestureRecognizer *rotationGestureRecognizer =
             [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotating:)];
     [self addGestureRecognizer:rotationGestureRecognizer];
@@ -71,6 +67,24 @@
             [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapped:)];
     doubleTapGestureRecognizer.numberOfTapsRequired = 2;
     [self addGestureRecognizer:doubleTapGestureRecognizer];
+
+    UISwipeGestureRecognizer *swipeGestureRecognizer =
+            [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swiped:)];
+    swipeGestureRecognizer.delegate = self;
+    [self addGestureRecognizer:swipeGestureRecognizer];
+
+    UIPanGestureRecognizer *panGestureRecognizer =
+            [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panning:)];
+    [self addGestureRecognizer:panGestureRecognizer];
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return YES;
+}
+
+
+- (void)swiped:(UISwipeGestureRecognizer*)recognizer {
+    NSLog(@"SWIPE: %i", recognizer.direction);
 }
 
 - (void)doubleTapped:(id)doubleTapped {
@@ -286,9 +300,11 @@
         [self addSubview:nuRoot];
         self.movingPatternRoot = nuRoot;
     }
+    _nowRotation = 0;
+    self.movingPatternRoot.layer.transform = CATransform3DMakeRotation(_nowRotation, 0, 0, 1);
     self.movingPatternRoot.frame = CGRectMake(0, 0, pattern.SizeX*tileSize, pattern.SizeY*tileSize);
     // reset the interaction variables
-    _nowRotationDirection = 0;
+    _nowRotationDirection = startDirection;
     _targetDirection = startDirection;
 
     UIColor *borderColor = [UIColor movePatternBorder];
@@ -302,6 +318,7 @@
         UIView *v = [[UIView alloc] initWithFrame:CGRectMake(
                 coord.x * tileSize + 2, coord.y * tileSize + 2, tileSize - 4, tileSize - 4)];
         v.backgroundColor = fillColor;
+        v.layer.masksToBounds = NO;
 
         v.layer.cornerRadius = cornerRadius;
         v.layer.borderWidth = borderWidth;
@@ -318,7 +335,9 @@
         innerView1.backgroundColor = fillColor;
         innerView1.layer.cornerRadius = cornerRadius;
         innerView1.layer.borderWidth = borderWidth;
-        innerView1.layer.borderColor = [borderColor CGColor];
+        innerView1.layer.borderColor = [[UIColor colorWithWhite:1 alpha:0.5] CGColor]; //[borderColor CGColor];
+        innerView1.layer.masksToBounds = NO;
+        innerView1.hidden = YES;
         [v addSubview:innerView1];
 
         UIView *innerView2 = [[UIView alloc] initWithFrame:CGRectMake(
@@ -326,7 +345,9 @@
         innerView2.backgroundColor = fillColor;
         innerView2.layer.cornerRadius = cornerRadius;
         innerView2.layer.borderWidth = borderWidth;
-        innerView2.layer.borderColor = [borderColor CGColor];
+        innerView2.layer.borderColor = [[UIColor colorWithWhite:0 alpha:0.5] CGColor]; //[borderColor CGColor];
+        innerView2.layer.masksToBounds = NO;
+        innerView2.hidden = YES;
         [v addSubview:innerView2];
 
         [self.movingPatternRoot addSubview:v];
@@ -349,7 +370,7 @@
 
     self.movingPatternRoot.frame = [self convertRect:appearView.bounds fromView:appearView];
 
-    self.movingPatternRoot.alpha = 0;
+    self.movingPatternRoot.alpha = 0.1;
     [UIView animateWithDuration:0.2 animations:^{
         self.movingPatternRoot.frame = targetRect;
         self.movingPatternRoot.alpha = 1;

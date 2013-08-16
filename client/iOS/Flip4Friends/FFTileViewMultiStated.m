@@ -12,12 +12,14 @@
 @interface FFTileViewMultiStated ()
 
 @property (strong, nonatomic) CAShapeLayer *patternLayer;
+@property (strong, nonatomic) CAShapeLayer *lockedLayer;
 
 @end
 
 @implementation FFTileViewMultiStated {
     NSInteger _currentColor;
     CGFloat _currentRotation;
+    BOOL _currentlyLocked;
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -29,15 +31,21 @@
         self.layer.cornerRadius=3;
         self.backgroundColor = [UIColor whiteColor];
 
+        self.lockedLayer = [[CAShapeLayer alloc] init];
+        self.lockedLayer.strokeColor = [[UIColor colorWithRed:1 green:0 blue:0 alpha:0.5] CGColor];
+        [self.layer addSublayer:self.lockedLayer];
+        self.lockedLayer.hidden = YES;
+
         self.patternLayer = [[CAShapeLayer alloc] init];
         self.patternLayer.fillColor = [[UIColor colorWithWhite:0 alpha:0.4] CGColor];
         [self.layer addSublayer:self.patternLayer];
         self.patternLayer.hidden = YES;
+
+        _currentlyLocked = NO;
     }
 
     return self;
 }
-
 
 - (void)updateFromTile:(FFTile *)tile {
     if (_currentColor != tile.color){
@@ -47,6 +55,15 @@
         _currentRotation = (CGFloat) (tile.color%2==1 ? M_PI : 0);
     }
     _currentColor = tile.color;
+
+    if (_currentlyLocked && !tile.locked){
+        [UIView animateWithDuration:0.3 animations:^{
+            self.lockedLayer.lineWidth = 0;
+        } completion:^(BOOL finished) {
+            if (_currentlyLocked) self.lockedLayer.hidden = YES;
+        }];
+    }
+    _currentlyLocked = tile.locked;
 
     if (self.tileType == kFFBoardType_twoStated){
         [UIView animateWithDuration:1 animations:^{
@@ -64,12 +81,18 @@
 }
 
 - (void)updateTileImage {
+    CGFloat width = self.bounds.size.width / 6;
+    if (_currentlyLocked){
+        self.lockedLayer.lineWidth = width;
+    }
+
+    self.lockedLayer.hidden = !_currentlyLocked;
     if (_currentColor == 0 || self.tileType == kFFBoardType_twoStated){
         self.patternLayer.hidden = YES;
         return;
     }
 
-    CGFloat width = self.bounds.size.width / 6;
+
     CGMutablePathRef path = CGPathCreateMutable();
 
     if (_currentColor == 1){
@@ -109,7 +132,22 @@
         self.alpha = 1;         // will make the tile appear in case it was invisible before.
     } completion:^(BOOL finished) {
         [self updateTileImage];
+        [self resetLockedLayer];
     }];
+}
+
+- (void)resetLockedLayer {
+    CGMutablePathRef path = CGPathCreateMutable();
+
+    self.lockedLayer.lineWidth = self.bounds.size.width / 6;
+
+    CGPathMoveToPoint(path, &CGAffineTransformIdentity, 0, 0);
+    CGPathAddLineToPoint(path, &CGAffineTransformIdentity, self.bounds.size.width, self.bounds.size.height);
+
+    CGPathMoveToPoint(path, &CGAffineTransformIdentity, 0, self.bounds.size.height);
+    CGPathAddLineToPoint(path, &CGAffineTransformIdentity, self.bounds.size.width, 0);
+
+    [self.lockedLayer setPath:path];
 }
 
 - (void)removeYourself {

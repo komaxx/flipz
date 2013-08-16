@@ -32,7 +32,7 @@
 
 - (void)localChallengeSelected;
 
-- (void)goBackToChallengeMenuAfterFinished;
+- (void)goBackToMenuAfterFinished;
 
 - (void)restartGame;
 

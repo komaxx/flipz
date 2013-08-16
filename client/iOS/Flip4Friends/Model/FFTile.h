@@ -12,6 +12,18 @@
 
 @property (nonatomic) NSInteger color;
 
-- (void)flipCountingUp:(BOOL)b;
+/**
+* When a tile is locked, it can not be changed in the next move.
+*/
+@property (nonatomic) BOOL locked;
 
+/**
+* For core internal use (e.g., cluster finding). Not to be used by any other thing but
+* the FFBoard.
+*/
+@property(nonatomic) NSInteger marked;
+
+- (void)flipCountingUp:(BOOL)up;
+
+- (void)duplicateStateFrom:(id)o;
 @end

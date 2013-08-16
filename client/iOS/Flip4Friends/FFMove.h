@@ -27,6 +27,7 @@ typedef enum {
 
 @property (strong, nonatomic, readonly) FFPattern* Pattern;
 @property (strong, nonatomic, readonly) FFCoord* Position;
+@property (strong, nonatomic) NSArray* FlippedCoords;
 @property (nonatomic, readonly) FFOrientation Orientation;
 
 - (id)initWithPattern:(FFPattern *)pattern atPosition:(FFCoord *)position andOrientation:(FFOrientation)orientation;
@@ -37,5 +38,5 @@ typedef enum {
  * Computes all coords that are to be flipped by this move. No guarantees about the order
  * of these coords.
  */
-- (NSArray*)buildCoordsToFlip;
+- (NSArray*)buildToFlipCoords;
 @end

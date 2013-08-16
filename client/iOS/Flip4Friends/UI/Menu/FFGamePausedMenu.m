@@ -8,6 +8,7 @@
 #import "FFGamePausedMenu.h"
 #import "FFMenuViewController.h"
 #import "FFButton.h"
+#import "FFGamesCore.h"
 
 
 @implementation FFGamePausedMenu {
@@ -37,8 +38,16 @@
     [self.delegate giveUpAndBackToChallengeMenu];
 }
 
-
 - (void)hide:(BOOL)b {
+    if (!b && self.hidden){
+        FFGame *game = [[FFGamesCore instance] gameWithId:self.delegate.delegate.activeGameId];
+        if (game && [game.Type isEqualToString:kFFGameTypeHotSeat]){
+            self.transform = CGAffineTransformMakeRotation((CGFloat) M_PI / -2.0);
+        } else {
+            self.transform = CGAffineTransformIdentity;
+        }
+    }
+
     self.hidden = b;
 }
 @end

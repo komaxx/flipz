@@ -86,6 +86,7 @@
 - (void)updateBoardAndDrawerPosition {
     FFGame *game = [[FFGamesCore instance] gameWithId:[self.delegate activeGameId ]];
     BOOL centerBoard = !game || game.moveHistory.count < 1;
+    centerBoard = YES;          //
 
     self.historySlider.hidden = centerBoard;
 
@@ -138,13 +139,13 @@
     FFGame *game = [[FFGamesCore instance] gameWithId:gameID];
     [self.boardView setActiveGame:game];
 
-    if ([game.Type isEqualToString:kFFGameTypeSingleChallenge]){
+//    if ([game.Type isEqualToString:kFFGameTypeSingleChallenge]){
         self.gameBoardDrawer.alwaysBounceVertical = NO;
-    } else if ([game.Type isEqualToString:kFFGameTypeHotSeat]){
-        self.gameBoardDrawer.alwaysBounceVertical = YES;
-    } else if ([game.Type isEqualToString:kFFGameTypeRemote]){
-        self.gameBoardDrawer.alwaysBounceVertical = YES;
-    }
+//    } else if ([game.Type isEqualToString:kFFGameTypeHotSeat]){
+//        self.gameBoardDrawer.alwaysBounceVertical = YES;
+//    } else if ([game.Type isEqualToString:kFFGameTypeRemote]){
+//        self.gameBoardDrawer.alwaysBounceVertical = YES;
+//    }
 
     self.player1PatternsControl.activeGameId = nil;
     self.player2PatternsControl.activeGameId = nil;

@@ -21,4 +21,9 @@
 //    else if (self.color > 0) _color--;
     else _color--;
 }
+
+- (void)duplicateStateFrom:(FFTile *)source {
+    self.locked = source.locked;
+    self.color = source.color;
+}
 @end

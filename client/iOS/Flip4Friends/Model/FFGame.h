@@ -92,4 +92,9 @@ typedef enum {
 - (void)giveUp;
 
 - (void)clean;
+
+/**
+* nil/wrong unless in state kFFGameFinished
+*/
+- (FFPlayer*)winningPlayer;
 @end
