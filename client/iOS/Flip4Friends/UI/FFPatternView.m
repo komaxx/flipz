@@ -31,7 +31,6 @@
         self.showsTouchWhenHighlighted = YES;
 
         UIView *historyView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
-        historyView.backgroundColor = [UIColor greenColor];
         historyView.alpha = 0.8;
         historyView.hidden = YES;
         historyView.userInteractionEnabled = NO;
@@ -52,6 +51,12 @@
 
     return self;
 }
+
+- (void)setForPlayer2:(BOOL)forPlayer2 {
+    _forPlayer2 = forPlayer2;
+    self.activeOverlayView.backgroundColor = forPlayer2 ? [UIColor movePattern2Back] : [UIColor movePatternBack];
+}
+
 
 - (void)setPattern:(FFPattern *)pattern {
     _pattern = pattern;
@@ -134,8 +139,8 @@
         CGContextSetFillColorWithColor(c, [[UIColor colorWithWhite:0.4 alpha:0.5] CGColor]);
         CGContextSetStrokeColorWithColor(c, [[UIColor colorWithWhite:0.4 alpha:0.8] CGColor]);
     } else {
-        CGContextSetFillColorWithColor(c, [[UIColor movePatternBack] CGColor]);
-        CGContextSetStrokeColorWithColor(c, [[UIColor movePatternBorder] CGColor]);
+        CGContextSetFillColorWithColor(c, self.forPlayer2 ? [[UIColor movePattern2Back] CGColor] : [[UIColor movePatternBack] CGColor]);
+        CGContextSetStrokeColorWithColor(c, self.forPlayer2 ? [[UIColor movePattern2Border] CGColor] : [[UIColor movePatternBorder] CGColor]);
     }
     CGContextSetShadowWithColor(c, CGSizeMake(0, 1), 2, [[UIColor blackColor] CGColor]);
     CGContextSetLineWidth(c, 2.5);

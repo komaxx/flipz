@@ -18,6 +18,7 @@ typedef enum {
 
 @property (strong, nonatomic) FFPattern* pattern;
 @property (nonatomic) FFPatternViewState viewState;
+@property (nonatomic) BOOL forPlayer2;
 
 - (void)removeYourself;
 - (void)positionAtX:(CGFloat)x andY:(CGFloat)y;

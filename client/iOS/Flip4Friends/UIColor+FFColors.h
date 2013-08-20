@@ -18,6 +18,12 @@
 
 
 + (UIColor *)movePatternBorder;
+
++ (UIColor *)movePattern2Back;
+
++ (UIColor *)movePattern2Border;
+
+
 + (UIColor *)movePatternBack;
 
 + (UIColor *)movePatternBorder_removing;

@@ -36,8 +36,6 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
 
     NSInteger _challengeDifficulty;         // only for challenges...
     NSInteger _challengeMoves;
-
-    NSInteger _hotSeatMoves;
 }
 @synthesize Board = _Board;
 @synthesize Id = _Id;
@@ -178,6 +176,11 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
 }
 
 - (void)notifyChange {
+    [self doNotify];
+//    [self performSelector:@selector(doNotify) withObject:nil afterDelay:0];
+}
+
+- (void)doNotify {
     NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:self.Id, kFFNotificationGameChanged_gameId, nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:kFFNotificationGameChanged object:nil userInfo:userInfo];
 }
@@ -336,7 +339,9 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
 
     for (int i = 0; i < 10; i++){
         NSUInteger maxDistance = 3 + arc4random()%2;
-        NSUInteger tileCount = MAX(2, arc4random()%3 + arc4random()%3 + arc4random()%3);
+        NSUInteger tileCount = MAX(2,
+//                    arc4random()%3 + arc4random()%3 + arc4random()%3);
+                    arc4random()%3 + arc4random()%3 + arc4random()%3);
         tileCount = MIN(tileCount, maxDistance*maxDistance);
 
 

@@ -26,6 +26,7 @@
 @end
 
 @implementation FFPatternsViewControl {
+    BOOL _needsScrolling;        // YES when the view needs to scroll == not all patterns visible at once
 }
 
 
@@ -75,6 +76,10 @@
 }
 
 - (void)updatePatternStatesWithPlayer:(FFPlayer *)player {
+    // ONLY necessary to resort the patterns
+    if (_needsScrolling) [self replacePatternsForPlayer:player];
+    // remove me
+
     for (NSString *key in self.patternViewsById) {
         FFPatternView *view = (FFPatternView *) [self.patternViewsById objectForKey:key];
         if (view == self.nowActivePatternView) continue;
@@ -121,6 +126,7 @@
             view = [[FFPatternView alloc] initWithFrame:CGRectMake(-100, 5,
                     PATTERN_VIEW_SIZE, PATTERN_VIEW_SIZE)];
             view.pattern = pattern;
+            view.forPlayer2 = self.secondPlayer;
             [view addTarget:self action:@selector(patternTapped:) forControlEvents:UIControlEventTouchUpInside];
             [self.scrollView addSubview:view];
             [self.patternViewsById setObject:view forKey:patternId];
@@ -144,6 +150,8 @@
     [self.tmpRemovedCollector removeAllObjects];
 
     self.scrollView.contentSize = CGSizeMake(0, y + PATTERN_VIEW_SIZE);
+
+    _needsScrolling = self.scrollView.contentSize.height > CGRectGetHeight(self.scrollView.bounds);
 }
 
 - (void)patternTapped:(FFPatternView *)view {
@@ -181,6 +189,15 @@
 
 - (void)sortPatterns:(NSMutableArray *)patterns {
     [patterns sortUsingComparator:^NSComparisonResult(id obj1, id obj2){
+        if (_needsScrolling){
+            BOOL o1Played = [[self shownPlayer].doneMoves objectForKey:((FFPattern *)obj1).Id] != nil;
+            BOOL o2Played = [[self shownPlayer].doneMoves objectForKey:((FFPattern *)obj2).Id] != nil;
+
+            if (o1Played != o2Played){
+                return o1Played ? NSOrderedDescending : NSOrderedAscending;
+            }
+        }
+
         NSUInteger o1 = ((FFPattern *)obj1).Coords.count;
         NSUInteger o2 = ((FFPattern *)obj2).Coords.count;
 

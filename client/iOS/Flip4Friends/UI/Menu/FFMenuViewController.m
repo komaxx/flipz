@@ -13,6 +13,8 @@
 #import "FFGamePausedMenu.h"
 #import "FFMainMenu.h"
 #import "FFAutoPlayer.h"
+#import "FFChallengeFooter.h"
+#import "FFVersusFooter.h"
 
 
 typedef enum {
@@ -26,13 +28,17 @@ typedef enum {
 } menuState;
 
 @interface FFMenuViewController ()
+
 @property (strong, nonatomic) FFMainMenu * mainMenu;
 @property (strong, nonatomic) FFChallengeMenu * challengeMenu;
 @property (weak, nonatomic) FFGameFinishedMenu* finishedMenu;
 @property (weak, nonatomic) FFGamePausedMenu* pausedMenu;
-@property (weak, nonatomic) UIView* activeFooter;
 
-@property (strong, nonatomic) FFAutoPlayer *tmpAutoPlayer;
+@property (weak, nonatomic) FFChallengeFooter *challengeFooter;
+@property (weak, nonatomic) FFVersusFooter* versusFooter;
+
+@property (strong, nonatomic) FFAutoPlayer *tmpAutoPlayer1;
+@property (strong, nonatomic) FFAutoPlayer *tmpAutoPlayer2;
 
 @end
 
@@ -53,10 +59,11 @@ typedef enum {
     self.pausedMenu = (FFGamePausedMenu *) [self viewWithTag:700];
     self.pausedMenu.delegate = self;
 
-    self.activeFooter = [self.superview viewWithTag:400];
-    [(UIButton *) [self.activeFooter viewWithTag:401] addTarget:self action:@selector(pauseTapped) forControlEvents:UIControlEventTouchUpInside];
-    [(UIButton *) [self.activeFooter viewWithTag:402] addTarget:self action:@selector(cleanTapped) forControlEvents:UIControlEventTouchUpInside];
-    [(UIButton *) [self.activeFooter viewWithTag:403] addTarget:self action:@selector(undoTapped) forControlEvents:UIControlEventTouchUpInside];
+    self.challengeFooter = (FFChallengeFooter *) [self.superview viewWithTag:400];
+    self.challengeFooter.delegate = self;
+
+    self.versusFooter = (FFVersusFooter *) [self.superview viewWithTag:410];
+    self.versusFooter.delegate = self;
 
     [self changeState:menuState_mainMenu];
 }
@@ -92,7 +99,10 @@ typedef enum {
 }
 
 - (void)showFooter:(BOOL)b {
-    self.activeFooter.hidden = !b;
+    BOOL isChallenge = [[[FFGamesCore instance] gameWithId:self.delegate.activeGameId].Type isEqualToString:kFFGameTypeSingleChallenge];
+
+    self.challengeFooter.hidden = !b || !isChallenge;
+    self.versusFooter.hidden = !b || isChallenge;
 }
 
 - (void)didAppear {
@@ -106,9 +116,11 @@ typedef enum {
 
     FFGame *game = [[FFGamesCore instance] gameWithId:gameID];
     if (_state == menuState_gameRunning && game.gameState==kFFGameState_Finished){
-        if (self.tmpAutoPlayer){
-            [self.tmpAutoPlayer endPlaying];
-            self.tmpAutoPlayer = nil;
+        if (self.tmpAutoPlayer1){
+            [self.tmpAutoPlayer1 endPlaying];
+            [self.tmpAutoPlayer2 endPlaying];
+            self.tmpAutoPlayer1 = nil;
+            self.tmpAutoPlayer2 = nil;
         }
 
         [self changeState:menuState_gameFinished];
@@ -123,17 +135,6 @@ typedef enum {
     [self changeState:menuState_gamePaused];
 }
 
-- (void)cleanTapped {
-    [self.delegate cleanCurrentGame];
-    FFGame *game = [[FFGamesCore instance] gameWithId:[self.delegate activeGameId]];
-    [game clean];
-}
-
-- (void)undoTapped {
-    FFGame *game = [[FFGamesCore instance] gameWithId:[self.delegate activeGameId]];
-    [game undoLastMove];
-}
-
 // ////////////////////////////////////////////////////////////
 // sub-menu calls
 
@@ -144,9 +145,21 @@ typedef enum {
 - (void)hotSeatTapped {
     [self changeState:menuState_gameRunning];
     FFGame *hotSeatGame = [[FFGamesCore instance] generateNewHotSeatGame];
+
+
+    /*/ /////////////////////////////////////////////////////////////
+    // TODO remove for manual play
+    self.tmpAutoPlayer1 = [[FFAutoPlayer alloc] initWithGameId:hotSeatGame.Id andPlayerId:hotSeatGame.player1.id];
+    self.tmpAutoPlayer2 = [[FFAutoPlayer alloc] initWithGameId:hotSeatGame.Id andPlayerId:hotSeatGame.player2.id];
+
+    [self.tmpAutoPlayer2 startPlaying];
+    [self.tmpAutoPlayer1 startPlaying];
+    //*/ /////////////////////////////////////////////////////////////
+
     [hotSeatGame start];
 
     [self.delegate activateGameWithId:hotSeatGame.Id];
+
 
 //    self.tmpAutoPlayer = [[FFAutoPlayer alloc] initWithGameId:hotSeatGame.Id andPlayerId:hotSeatGame.player2.id];
 //    [self.tmpAutoPlayer startPlaying];

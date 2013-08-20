@@ -85,6 +85,7 @@
             // each position
             int maxX = self.tmpBoard.BoardSize - xSize;
             int maxY = self.tmpBoard.BoardSize - ySize;
+
             for (ushort y = 0; y < maxY; y++){
                 @autoreleasepool {
                     for (ushort x = 0; x < maxX; x++){
@@ -97,7 +98,7 @@
 
                         NSInteger nowScore =
                                 [self.tmpBoard scoreForColor:myColor] - [self.tmpBoard scoreForColor:otherColor];
-                        if (nowScore > bestScore){
+                        if (nowScore >= bestScore){
                             bestMove = tstMove;
                             bestScore = nowScore;
                         }
@@ -109,10 +110,17 @@
 
     // and do it!
     if (bestMove){
-        [game executeMove:bestMove byPlayer:player];
+//        [self executeMove:@[bestMove,player]];
+//        [self performSelector:@selector(executeMove:) withObject:@[bestMove,player] afterDelay:0];
+        [self performSelector:@selector(executeMove:) withObject:@[bestMove,player]];
     } else {
         NSLog(@"ERROR!! no move found!");
     }
+}
+
+- (void)executeMove:(NSArray *)moveAndPlayer {
+    [[[FFGamesCore instance] gameWithId:self.gameId]
+            executeMove:[moveAndPlayer objectAtIndex:0] byPlayer:[moveAndPlayer objectAtIndex:1]];
 }
 
 

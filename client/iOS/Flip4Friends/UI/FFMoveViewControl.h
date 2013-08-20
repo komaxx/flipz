@@ -25,6 +25,7 @@
 - (void)startMoveWithPattern:(FFPattern *)pattern
                      atCoord:(FFCoord *)atCoord
                andAppearFrom:(UIView *)appearView
-                withRotation:(NSInteger)startDirection;
+                withRotation:(NSInteger)startDirection
+                  forPlayer2:(BOOL)player2;
 
 @end

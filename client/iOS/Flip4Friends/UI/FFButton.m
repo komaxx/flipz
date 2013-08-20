@@ -16,36 +16,49 @@
 
 @implementation FFButton
 
+- (id)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self setup];
+    }
+
+    return self;
+}
+
+- (void)setup {
+    self.layer.cornerRadius = 20;
+
+    self.backColor = [UIColor colorWithHue:230.0/360 saturation:0.7 brightness:0.5 alpha:1];
+    self.backColorHighlighted = [UIColor colorWithHue:230.0/360 saturation:0.9 brightness:0.7 alpha:1];
+
+    self.layer.borderWidth = 5;
+    self.layer.borderColor = [[UIColor whiteColor] CGColor];
+    self.backgroundColor = self.backColor;
+
+    self.layer.shadowOpacity = 1;
+    self.layer.shadowOffset = CGSizeMake(0, 5);
+    self.layer.shadowRadius = 0;
+    self.layer.shadowColor = [self.backColor CGColor];
+
+    [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self setTitleShadowColor:[UIColor blackColor] forState:UIControlStateNormal];
+
+    [self setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
+    [self setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
+    [self setTitleShadowColor:[UIColor whiteColor] forState:UIControlStateSelected];
+    [self setTitleShadowColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+
+    [self addTarget:self action:@selector(touchDown:) forControlEvents:UIControlEventTouchDown];
+    [self addTarget:self action:@selector(touchCancel:) forControlEvents:UIControlEventTouchCancel];
+    [self addTarget:self action:@selector(touchCancel:) forControlEvents:UIControlEventTouchUpInside];
+    [self addTarget:self action:@selector(touchCancel:) forControlEvents:UIControlEventTouchDragExit];
+    [self addTarget:self action:@selector(touchCancel:) forControlEvents:UIControlEventTouchUpOutside];
+}
+
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        self.layer.cornerRadius = 20;
-
-        self.backColor = [UIColor colorWithHue:230.0/360 saturation:0.7 brightness:0.5 alpha:1];
-        self.backColorHighlighted = [UIColor colorWithHue:230.0/360 saturation:0.9 brightness:0.7 alpha:1];
-
-        self.layer.borderWidth = 5;
-        self.layer.borderColor = [[UIColor whiteColor] CGColor];
-        self.backgroundColor = self.backColor;
-
-        self.layer.shadowOpacity = 1;
-        self.layer.shadowOffset = CGSizeMake(0, 5);
-        self.layer.shadowRadius = 0;
-        self.layer.shadowColor = [self.backColor CGColor];
-
-        [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [self setTitleShadowColor:[UIColor blackColor] forState:UIControlStateNormal];
-
-        [self setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
-        [self setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
-        [self setTitleShadowColor:[UIColor whiteColor] forState:UIControlStateSelected];
-        [self setTitleShadowColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
-
-        [self addTarget:self action:@selector(touchDown:) forControlEvents:UIControlEventTouchDown];
-        [self addTarget:self action:@selector(touchCancel:) forControlEvents:UIControlEventTouchCancel];
-        [self addTarget:self action:@selector(touchCancel:) forControlEvents:UIControlEventTouchUpInside];
-        [self addTarget:self action:@selector(touchCancel:) forControlEvents:UIControlEventTouchDragExit];
-        [self addTarget:self action:@selector(touchCancel:) forControlEvents:UIControlEventTouchUpOutside];
+        [self setup];
     }
 
     return self;

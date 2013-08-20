@@ -28,6 +28,11 @@
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="290"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
+                                            <view tag="350" contentMode="scaleToFill" id="VW0-hd-Ij3" userLabel="History Slider" customClass="FFHistorySlider">
+                                                <rect key="frame" x="281" y="10" width="38" height="260"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                            </view>
                                             <view contentMode="scaleToFill" id="tGw-Ew-eap" userLabel="background">
                                                 <rect key="frame" x="0.0" y="0.0" width="320" height="290"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -36,11 +41,6 @@
                                             <view opaque="NO" tag="100" contentMode="scaleToFill" id="Jrg-sS-7GL" customClass="FFBoardView">
                                                 <rect key="frame" x="10" y="10" width="270" height="270"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                            </view>
-                                            <view tag="350" contentMode="scaleToFill" id="VW0-hd-Ij3" userLabel="History Slider" customClass="FFHistorySlider">
-                                                <rect key="frame" x="290" y="10" width="20" height="260"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                             </view>
                                             <view hidden="YES" tag="300" contentMode="scaleToFill" id="Cgm-yF-yug" userLabel="Move View" customClass="FFMoveViewControl">
                                                 <rect key="frame" x="0.0" y="0.0" width="320" height="290"/>
@@ -462,7 +462,7 @@
                                     </view>
                                 </subviews>
                             </view>
-                            <view tag="400" contentMode="scaleToFill" id="emv-7M-Mft" userLabel="challenge footer">
+                            <view tag="400" contentMode="scaleToFill" id="emv-7M-Mft" userLabel="challenge footer" customClass="FFChallengeFooter">
                                 <rect key="frame" x="10" y="415" width="300" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
@@ -504,6 +504,24 @@
                                     </button>
                                 </subviews>
                             </view>
+                            <view tag="410" contentMode="scaleToFill" id="uWK-mt-eiY" userLabel="vs footer" customClass="FFVersusFooter">
+                                <rect key="frame" x="10" y="415" width="300" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" tag="411" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="sgX-m9-d9r" userLabel="menu" customClass="FFButton">
+                                        <rect key="frame" x="250" y="0.0" width="50" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="Futura-CondensedExtraBold" family="Futura" pointSize="17"/>
+                                        <state key="normal" title="[] []">
+                                            <color key="titleColor" red="1" green="0.99997437" blue="0.99999129769999995" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                     </view>
@@ -526,6 +544,9 @@
         </class>
         <class className="FFButton" superclassName="UIButton">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FFButton.h"/>
+        </class>
+        <class className="FFChallengeFooter" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FFChallengeFooter.h"/>
         </class>
         <class className="FFChallengeMenu" superclassName="UIView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FFChallengeMenu.h"/>
@@ -553,6 +574,9 @@
         </class>
         <class className="FFMoveViewControl" superclassName="UIView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FFMoveViewControl.h"/>
+        </class>
+        <class className="FFVersusFooter" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FFVersusFooter.h"/>
         </class>
         <class className="FFViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FFViewController.h"/>

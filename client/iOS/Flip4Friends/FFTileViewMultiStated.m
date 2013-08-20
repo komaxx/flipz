@@ -33,6 +33,7 @@
 
         self.lockedLayer = [[CAShapeLayer alloc] init];
         self.lockedLayer.strokeColor = [[UIColor colorWithRed:1 green:0 blue:0 alpha:0.5] CGColor];
+        self.lockedLayer.lineCap = @"round";
         [self.layer addSublayer:self.lockedLayer];
         self.lockedLayer.hidden = YES;
 
@@ -139,13 +140,15 @@
 - (void)resetLockedLayer {
     CGMutablePathRef path = CGPathCreateMutable();
 
-    self.lockedLayer.lineWidth = self.bounds.size.width / 6;
+    CGFloat lineWidth = self.bounds.size.width / 6;
+    self.lockedLayer.lineWidth = lineWidth;
 
-    CGPathMoveToPoint(path, &CGAffineTransformIdentity, 0, 0);
-    CGPathAddLineToPoint(path, &CGAffineTransformIdentity, self.bounds.size.width, self.bounds.size.height);
+    CGPathMoveToPoint(path, &CGAffineTransformIdentity, lineWidth, lineWidth);
+    CGPathAddLineToPoint(path, &CGAffineTransformIdentity,
+            self.bounds.size.width-lineWidth, self.bounds.size.height-lineWidth);
 
-    CGPathMoveToPoint(path, &CGAffineTransformIdentity, 0, self.bounds.size.height);
-    CGPathAddLineToPoint(path, &CGAffineTransformIdentity, self.bounds.size.width, 0);
+    CGPathMoveToPoint(path, &CGAffineTransformIdentity, lineWidth, self.bounds.size.height-lineWidth);
+    CGPathAddLineToPoint(path, &CGAffineTransformIdentity, self.bounds.size.width-lineWidth, lineWidth);
 
     [self.lockedLayer setPath:path];
 }

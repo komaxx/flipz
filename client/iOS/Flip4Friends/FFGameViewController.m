@@ -186,11 +186,14 @@
         [game undoMove:move];
     }
 
+    BOOL player1Active = game.activePlayer==game.player1;
+
     [self.moveViewControl
             startMoveWithPattern:pattern
                          atCoord:[move Position]
                    andAppearFrom:view
-                    withRotation:game.activePlayer==game.player1 ? 0 : 2];
+                    withRotation:player1Active ? 0 : 2
+                      forPlayer2:!player1Active];
 }
 
 - (void)moveCompletedWithPattern:(FFPattern *)pattern at:(FFCoord *)coord withDirection:(NSInteger)direction {

@@ -14,6 +14,9 @@
 
 @interface FFMoveViewControl ()
 
+@property (strong, nonatomic) CAShapeLayer *rotRingLayerOuter;
+@property (strong, nonatomic) CAShapeLayer *rotRingLayerInner;
+
 @property (strong, nonatomic) FFPattern *activePattern;
 
 /**
@@ -31,6 +34,7 @@
     BOOL _rotating;
     BOOL _panning;
     BOOL _inRemovalPosition;
+    BOOL _player2;
 
     NSInteger _targetDirection;
 
@@ -40,10 +44,14 @@
     NSInteger _nowRotationDirection;
     CGFloat _nowRotation;
 
-    CGPoint _downTouchPoint;
+    CGFloat _rotationRingRadius;
+
     CGPoint _downMoveViewCoords;
+    CGPoint _downTouchPoint;
 
     CGFloat _downAngle;
+    CGFloat _downTouchAngle;
+    NSInteger _downDirection;
 }
 @synthesize delegate = _delegate;
 @synthesize boardView = _boardView;
@@ -59,32 +67,34 @@
 }
 
 - (void)didLoad {
+
     UIRotationGestureRecognizer *rotationGestureRecognizer =
             [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotating:)];
+    rotationGestureRecognizer.delegate = self;
+    rotationGestureRecognizer.cancelsTouchesInView = NO;
     [self addGestureRecognizer:rotationGestureRecognizer];
 
     UITapGestureRecognizer *doubleTapGestureRecognizer =
             [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapped:)];
     doubleTapGestureRecognizer.numberOfTapsRequired = 2;
+    doubleTapGestureRecognizer.delegate = self;
+    doubleTapGestureRecognizer.cancelsTouchesInView = NO;
     [self addGestureRecognizer:doubleTapGestureRecognizer];
-
-    UISwipeGestureRecognizer *swipeGestureRecognizer =
-            [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swiped:)];
-    swipeGestureRecognizer.delegate = self;
-    [self addGestureRecognizer:swipeGestureRecognizer];
 
     UIPanGestureRecognizer *panGestureRecognizer =
             [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panning:)];
+    panGestureRecognizer.delegate = self;
+    panGestureRecognizer.cancelsTouchesInView = NO;
     [self addGestureRecognizer:panGestureRecognizer];
 }
 
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
     return YES;
 }
 
-
-- (void)swiped:(UISwipeGestureRecognizer*)recognizer {
-    NSLog(@"SWIPE: %i", recognizer.direction);
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
+        shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return YES;
 }
 
 - (void)doubleTapped:(id)doubleTapped {
@@ -161,24 +171,73 @@
 
 - (void)panning:(UIPanGestureRecognizer *)rec {
     if (rec.state == UIGestureRecognizerStateBegan){
-        _panning = YES;
-        _downTouchPoint = [rec translationInView:self];
-        _downMoveViewCoords = self.movingPatternRoot.center;
-    } else if (rec.state == UIGestureRecognizerStateChanged){
-        CGPoint p = [rec translationInView:self];
-        CGPoint center = self.movingPatternRoot.center;
-        center.x = _downMoveViewCoords.x + p.x;
-        center.y = _downMoveViewCoords.y + p.y;
 
-        self.movingPatternRoot.center = center;
-        [self limitMovement];
-    } else {
-        if (_inRemovalPosition) {
-            [self.delegate cancelMoveWithPattern:self.activePattern];
-            _inRemovalPosition = NO;
+        _downTouchPoint = [rec locationInView:self];
+        _downTouchPoint.x -= self.movingPatternRoot.center.x;
+        _downTouchPoint.y -= self.movingPatternRoot.center.y;
+        CGFloat touchRadius = sqrtf(_downTouchPoint.x*_downTouchPoint.x + _downTouchPoint.y*_downTouchPoint.y);
+        if (ABS(touchRadius - _rotationRingRadius - 10) < 25){           // -10: move the touchable area outwards a bit
+            _downAngle = _nowRotation;
+            _downTouchAngle = atan2f(_downTouchPoint.y, _downTouchPoint.x);
+            _downDirection = _targetDirection;
+            self.rotRingLayerInner.strokeColor = [[UIColor colorWithWhite:1 alpha:1] CGColor];
+            self.rotRingLayerOuter.strokeColor =
+                    [_player2 ? [UIColor movePattern2Border] : [UIColor movePatternBorder] CGColor];
+            _rotating = YES;
+        } else {
+            _downMoveViewCoords = self.movingPatternRoot.center;
+            _panning = YES;
         }
+    } else if (rec.state == UIGestureRecognizerStateChanged){
+        if (_panning){
+            CGPoint p = [rec translationInView:self];
+            CGPoint center = self.movingPatternRoot.center;
+            center.x = _downMoveViewCoords.x + p.x;
+            center.y = _downMoveViewCoords.y + p.y;
 
-        _panning = NO;
+            self.movingPatternRoot.center = center;
+            [self limitMovement];
+        } else if (_rotating){
+            CGPoint p = [rec locationInView:self];
+            p.x -= self.movingPatternRoot.center.x;
+            p.y -= self.movingPatternRoot.center.y;
+
+            CGFloat nowTouchAngle = atan2f(p.y, p.x);
+            _nowRotation = _downAngle + nowTouchAngle-_downTouchAngle;
+            self.movingPatternRoot.layer.transform = CATransform3DMakeRotation(_nowRotation, 0, 0, 1);
+        }
+    } else {
+        if (_panning){
+            if (_inRemovalPosition) {
+                [self.delegate cancelMoveWithPattern:self.activePattern];
+                _inRemovalPosition = NO;
+            }
+
+            _panning = NO;
+        } else if (_rotating){
+            _rotating = NO;
+            self.rotRingLayerInner.strokeColor = [[UIColor colorWithWhite:1 alpha:0.5] CGColor];
+            self.rotRingLayerOuter.strokeColor =
+                    [_player2 ? [UIColor movePattern2Back] : [UIColor movePatternBack] CGColor];
+            [self recomputeCurrentOrientation];
+
+            if (_nowRotationDirection != _targetDirection){
+                _targetDirection = _nowRotationDirection;
+            } else {    // flicking?
+                CGPoint velocity = [rec velocityInView:self];
+                if (ABS(_downTouchPoint.x) > ABS(_downTouchPoint.y) && ABS(velocity.y)>400){
+                    if (velocity.y>0 == _downTouchPoint.x>0)
+                        _targetDirection = (_targetDirection+1) % 5;
+                    else
+                        _targetDirection = (_targetDirection+4) % 5;
+                } else if (ABS(_downTouchPoint.x) < ABS(_downTouchPoint.y) && ABS(velocity.x)>400){
+                    if (velocity.x>0 == _downTouchPoint.y<0)
+                        _targetDirection = (_targetDirection+1) % 5;
+                    else
+                        _targetDirection = (_targetDirection+4) % 5;
+                }
+            }
+        }
     }
 }
 
@@ -207,11 +266,15 @@
 
     } else if (_inRemovalPosition) {
         [UIView animateWithDuration:0.2 animations:^{
+            UIColor *backColor = _player2 ? [UIColor movePattern2Back] : [UIColor movePatternBack];
             for (UIView *view in self.patternViews) {
-                view.backgroundColor = [UIColor movePatternBack];
-                view.layer.borderColor = [[UIColor movePatternBorder] CGColor];
-                ((UIView *)[view.subviews objectAtIndex:0]).backgroundColor = [UIColor movePatternBack];
-                ((UIView *)[view.subviews objectAtIndex:1]).backgroundColor = [UIColor movePatternBack];
+                view.backgroundColor = backColor;
+                view.layer.borderColor = _player2 ?
+                        [[UIColor movePattern2Border] CGColor] :
+                        [[UIColor movePatternBorder] CGColor];
+
+                ((UIView *)[view.subviews objectAtIndex:0]).backgroundColor = backColor;
+                ((UIView *)[view.subviews objectAtIndex:1]).backgroundColor = backColor;
             }
         }];
         _inRemovalPosition = NO;
@@ -280,9 +343,11 @@
 - (void)startMoveWithPattern:(FFPattern *)pattern
                      atCoord:(FFCoord *)atCoord
                andAppearFrom:(UIView *)appearView
-                withRotation:(NSInteger)startDirection{
+                withRotation:(NSInteger)startDirection
+                  forPlayer2:(BOOL)player2{
 
     self.activePattern = pattern;
+    _player2 = player2;
 
     // clean up the last view
     // remove old views
@@ -299,18 +364,39 @@
         UIView *nuRoot = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
         [self addSubview:nuRoot];
         self.movingPatternRoot = nuRoot;
+
+        CAShapeLayer *ringLayer1 = [[CAShapeLayer alloc] init];
+        ringLayer1.lineWidth = 6;
+        ringLayer1.lineCap = @"round";
+        ringLayer1.strokeColor = [[UIColor movePatternBorder] CGColor];
+        ringLayer1.fillColor = [[UIColor clearColor] CGColor];
+        [self.movingPatternRoot.layer addSublayer:ringLayer1];
+        self.rotRingLayerOuter = ringLayer1;
+
+        CAShapeLayer *ringLayer2 = [[CAShapeLayer alloc] init];
+        ringLayer2.lineWidth = 2.5;
+        ringLayer2.lineCap = @"round";
+        ringLayer2.strokeColor = [[UIColor colorWithWhite:1 alpha:0.5] CGColor];
+        ringLayer2.fillColor = [[UIColor clearColor] CGColor];
+
+        [self.movingPatternRoot.layer addSublayer:ringLayer2];
+        self.rotRingLayerInner = ringLayer2;
     }
     _nowRotation = 0;
     self.movingPatternRoot.layer.transform = CATransform3DMakeRotation(_nowRotation, 0, 0, 1);
     self.movingPatternRoot.frame = CGRectMake(0, 0, pattern.SizeX*tileSize, pattern.SizeY*tileSize);
+
+    [self resetRingLayer];
+
     // reset the interaction variables
     _nowRotationDirection = startDirection;
     _targetDirection = startDirection;
 
-    UIColor *borderColor = [UIColor movePatternBorder];
-    UIColor *fillColor = [UIColor movePatternBack]; //[UIColor colorWithRed:0 green:1 blue:1 alpha:0.25];
+
+    UIColor *borderColor = _player2 ? [UIColor movePattern2Border] : [UIColor movePatternBorder];
+    UIColor *fillColor = _player2 ? [UIColor movePattern2Back] : [UIColor movePatternBack];
     CGFloat cornerRadius = 18;
-    CGFloat borderWidth = 2.5;
+    CGFloat borderWidth = 5;
 
     // add the pattern views
     NSMutableArray *coords = [self sortPatternCoordsOfPattern:pattern];
@@ -325,11 +411,6 @@
         v.layer.borderColor = [borderColor CGColor];
         v.layer.borderColor = [borderColor CGColor];
 
-        v.layer.shadowColor = [[UIColor purpleColor] CGColor];
-        v.layer.shadowRadius = 3;
-        v.layer.shadowOpacity = 0.6;
-        v.layer.shadowOffset = CGSizeMake(0, 0);
-
         UIView *innerView1 = [[UIView alloc] initWithFrame:CGRectMake(
                 v.frame.size.width/6, v.frame.size.height/6, v.frame.size.width*2/3, v.frame.size.height*2/3)];
         innerView1.backgroundColor = fillColor;
@@ -337,7 +418,7 @@
         innerView1.layer.borderWidth = borderWidth;
         innerView1.layer.borderColor = [[UIColor colorWithWhite:1 alpha:0.5] CGColor]; //[borderColor CGColor];
         innerView1.layer.masksToBounds = NO;
-        innerView1.hidden = YES;
+//        innerView1.hidden = YES;
         [v addSubview:innerView1];
 
         UIView *innerView2 = [[UIView alloc] initWithFrame:CGRectMake(
@@ -375,9 +456,47 @@
         self.movingPatternRoot.frame = targetRect;
         self.movingPatternRoot.alpha = 1;
     }];
+    self.rotRingLayerOuter.strokeColor = [fillColor CGColor];
 
     self.alpha = 1;
     self.hidden = NO;
+}
+
+- (void)resetRingLayer {
+    CGMutablePathRef path = CGPathCreateMutable();
+
+    // compute radius
+    CGFloat centerX = CGRectGetMidX(self.movingPatternRoot.bounds);
+    CGFloat centerY = CGRectGetMidY(self.movingPatternRoot.bounds);
+    _rotationRingRadius = sqrtf(centerX * centerX + centerY * centerY) + 6;
+    _rotationRingRadius = MAX(50, _rotationRingRadius);
+
+    CGFloat arrowRadius = _rotationRingRadius-5;
+
+    CGFloat anglePadding = (CGFloat) (M_PI / 9.0);
+    CGFloat arrowAnglePadding = (CGFloat) (M_PI / 18.0);
+
+    for (int i = 0; i < 4; i++){
+        CGFloat startAngle = (CGFloat) (-M_PI/4+ anglePadding + i* M_PI/2);
+        CGFloat endAngle = (CGFloat) (startAngle + M_PI/2 - 2*anglePadding);
+
+        CGPathMoveToPoint(path, &CGAffineTransformIdentity,
+                centerX + cosf(startAngle+arrowAnglePadding)*arrowRadius,
+                centerY + sinf(startAngle+arrowAnglePadding)*arrowRadius);
+        CGPathAddLineToPoint(path, &CGAffineTransformIdentity,
+                centerX + cosf(startAngle)*_rotationRingRadius, centerY + sinf(startAngle)*_rotationRingRadius);
+
+        CGPathAddArc(path, &CGAffineTransformIdentity, centerX, centerY, _rotationRingRadius, startAngle, endAngle, NO);
+
+        CGPathAddLineToPoint(path, &CGAffineTransformIdentity,
+                centerX + cosf(endAngle-arrowAnglePadding)*arrowRadius,
+                centerY + sinf(endAngle-arrowAnglePadding)*arrowRadius);
+    }
+
+    [self.rotRingLayerInner setPath:path];
+    [self.rotRingLayerOuter setPath:path];
+
+    CGPathRelease(path);
 }
 
 - (NSMutableArray *)sortPatternCoordsOfPattern:(FFPattern *)pattern {
