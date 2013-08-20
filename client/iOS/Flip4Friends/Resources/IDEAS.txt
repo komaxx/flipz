@@ -8,3 +8,16 @@ Challenge Mode
 
 * History View:
     A slide to the side of the board can be used to visualize the moves in the history
+
+* Check auto player: Are the moves actually optimal? Factor count of pattern tiles in!!
+
+
+Challenge Parameters:
+* Board size
+* Number of patterns
+* Maximum possible different solutions
+* Lock turns: 0,1,2,...
+* Covered necessary moves! Its "black" until it was turned enough times
+* Clear target color (e.g. 0, 1, 2, ...)
+* Enable/disable rotate
+* Enable/disable mirror
