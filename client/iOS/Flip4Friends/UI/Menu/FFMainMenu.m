@@ -26,12 +26,17 @@
         [(UIButton *)[self viewWithTag:12]
                 addTarget:self action:@selector(buttonHotSeatTapped) forControlEvents:UIControlEventTouchUpInside];
         [(UIButton *)[self viewWithTag:13]
-                addTarget:self action:@selector(buttonTestRunTapped) forControlEvents:UIControlEventTouchUpInside];
+                addTarget:self action:@selector(buttonGenerate) forControlEvents:UIControlEventTouchUpInside];
 
         self.autoPlayer = [[NSMutableDictionary alloc] initWithCapacity:1000];
     }
 
     return self;
+}
+
+- (void)buttonGenerate {
+    FFGame *game = [[FFGamesCore instance] generateNewChallenge];
+    [self.delegate activateGameWithId:game.Id];
 }
 
 - (void)buttonTestRunTapped {

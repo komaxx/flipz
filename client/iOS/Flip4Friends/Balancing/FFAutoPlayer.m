@@ -46,8 +46,6 @@
 }
 
 - (void)checkIfMyTurn {
-//    NSLog(@"Update!");
-
     FFGame *game = [[FFGamesCore instance] gameWithId:self.gameId];
     if (![game.activePlayer.id isEqualToString:self.myPlayerId]){
         return;    // not my turn
@@ -71,7 +69,7 @@
     int otherColor = myColor==0 ? 1 : 0;
 
     FFMove *bestMove = nil;
-    NSInteger bestScore = -1000;
+    CGFloat bestScore = -1000;
 
     FFPlayer *player = game.activePlayer;
     for (FFPattern *pattern in player.playablePatterns) {
@@ -86,18 +84,24 @@
             int maxX = self.tmpBoard.BoardSize - xSize;
             int maxY = self.tmpBoard.BoardSize - ySize;
 
-            for (ushort y = 0; y < maxY; y++){
+            for (ushort y = 0; y <= maxY; y++){
                 @autoreleasepool {
-                    for (ushort x = 0; x < maxX; x++){
+                    for (ushort x = 0; x <= maxX; x++){
                         [self.tmpBoard duplicateStateFrom:game.Board];
 
                         FFMove *tstMove = [[FFMove alloc] initWithPattern:pattern
                                                                atPosition:[[FFCoord alloc] initWithX:x andY:y]
                                                            andOrientation:(FFOrientation) orientation];
-                        [self.tmpBoard flipCoords:[tstMove buildToFlipCoords] countingUp:NO andLock:YES];
+                        [self.tmpBoard doMoveWithCoords:[tstMove buildToFlipCoords]];
 
-                        NSInteger nowScore =
-                                [self.tmpBoard scoreForColor:myColor] - [self.tmpBoard scoreForColor:otherColor];
+                        CGFloat nowMyScore = [self.tmpBoard scoreForColor:myColor];
+                        CGFloat nowOtherScore = [self.tmpBoard scoreForColor:otherColor];
+
+                        CGFloat nowScore = nowMyScore - nowOtherScore;
+                        nowScore = nowScore / (float)pattern.Coords.count;
+
+                        nowScore -= (CGFloat)tstMove.Pattern.Coords.count / 100.0f;
+
                         if (nowScore >= bestScore){
                             bestMove = tstMove;
                             bestScore = nowScore;
@@ -112,7 +116,9 @@
     if (bestMove){
 //        [self executeMove:@[bestMove,player]];
 //        [self performSelector:@selector(executeMove:) withObject:@[bestMove,player] afterDelay:0];
+
         [self performSelector:@selector(executeMove:) withObject:@[bestMove,player]];
+//        [self performSelector:@selector(executeMove:) withObject:@[bestMove,player] afterDelay:1];
     } else {
         NSLog(@"ERROR!! no move found!");
     }

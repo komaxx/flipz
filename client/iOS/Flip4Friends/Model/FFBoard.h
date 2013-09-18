@@ -10,8 +10,12 @@
 #import "FFTile.h"
 
 typedef enum {
-    kFFBoardType_twoStated,
-    kFFBoardType_multiStated
+    /**
+    * flips just let a tile alternate between black and white
+    */
+    kFFBoardType_twoStated=0,
+    kFFBoardType_multiStated_clamped=1,
+    kFFBoardType_multiStated_rollover=2,
 } FFBoardType;
 
 /**
@@ -30,9 +34,17 @@ typedef enum {
 @property (nonatomic) FFBoardType BoardType;
 
 /**
+* How long after a tile was flipped it stays unflippable.
+*/
+@property (nonatomic) NSInteger lockMoves;
+
+/**
 * Mandatory initializer. Others just don't count.
 */
 - (id)initWithSize:(NSUInteger)boardSize;
+
+- (id)initWithBoard:(FFBoard *)board;
+
 
 /**
 * Delivers a tile at the given coordinate (coordinate system is computed from
@@ -45,7 +57,9 @@ typedef enum {
 /**
 * Delivers the coords that were actually flipped.
 */
-- (NSArray *)flipCoords:(NSArray *)array countingUp:(BOOL)up andLock:(BOOL)lock;
+- (NSArray *)doMoveWithCoords:(NSArray *)coords;
+
+- (void)undoMoveWithCoords:(NSArray *)coords;
 
 - (BOOL)isSingleChromatic;
 
@@ -62,4 +76,12 @@ typedef enum {
 - (void)unlock;
 
 - (void)duplicateStateFrom:(FFBoard *)board;
+
+- (void)buildGameByFlippingCoords:(NSArray *)array;
+
+- (BOOL)isInTargetState;
+
+- (NSUInteger)computeMinimumRestFlips;
+
+- (void)colorTile:(NSUInteger)i withColor:(NSNumber *)color;
 @end

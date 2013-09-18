@@ -9,6 +9,7 @@
 #import "FFBoardView.h"
 #import "FFGameViewController.h"
 #import "UIColor+FFColors.h"
+#import "FFGame.h"
 
 #define TWO_PI (2*M_PI)
 
@@ -26,6 +27,9 @@
 @property (strong, nonatomic) NSMutableArray *patternViews;
 
 @property (strong, nonatomic) CADisplayLink *displayLink;
+
+@property (nonatomic) BOOL enableRotation;
+@property (nonatomic) BOOL enableMirroring;
 
 @end
 
@@ -67,7 +71,6 @@
 }
 
 - (void)didLoad {
-
     UIRotationGestureRecognizer *rotationGestureRecognizer =
             [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotating:)];
     rotationGestureRecognizer.delegate = self;
@@ -86,6 +89,11 @@
     panGestureRecognizer.delegate = self;
     panGestureRecognizer.cancelsTouchesInView = NO;
     [self addGestureRecognizer:panGestureRecognizer];
+}
+
+- (void)setRulesFromGame:(FFGame *)game {
+    self.enableRotation = game.ruleAllowPatternRotation;
+    self.enableMirroring = game.ruleAllowPatternMirroring;
 }
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
@@ -114,6 +122,8 @@
 }
 
 - (void)frame:(CADisplayLink *)displayLink {
+    if (_panning || _rotating) return;
+
     for (UIView *view in self.patternViews) {
         CGFloat sinus = (CGFloat) sin(displayLink.timestamp*3);
         CGFloat cornerRadius = 4 + ABS(sinus) * 10;
@@ -124,7 +134,7 @@
         ((UIView *)[view.subviews objectAtIndex:1]).layer.cornerRadius = cornerRadius;
     }
 
-    if (_panning || _rotating) return;
+//    if (_panning || _rotating) return;
 
     // rotation snap
     CGFloat targetRotation = (CGFloat) (_targetDirection *M_PI_2);
@@ -152,6 +162,8 @@
 }
 
 - (void)rotating:(UIRotationGestureRecognizer *)rec {
+    if (!self.enableRotation) return;
+
     if (rec.state == UIGestureRecognizerStateBegan){
         _downAngle = _nowRotation;
         _rotating = YES;
@@ -176,7 +188,7 @@
         _downTouchPoint.x -= self.movingPatternRoot.center.x;
         _downTouchPoint.y -= self.movingPatternRoot.center.y;
         CGFloat touchRadius = sqrtf(_downTouchPoint.x*_downTouchPoint.x + _downTouchPoint.y*_downTouchPoint.y);
-        if (ABS(touchRadius - _rotationRingRadius - 10) < 25){           // -10: move the touchable area outwards a bit
+        if (self.enableRotation && ABS(touchRadius - _rotationRingRadius - 10) < 25){           // -10: move the touchable area outwards a bit
             _downAngle = _nowRotation;
             _downTouchAngle = atan2f(_downTouchPoint.y, _downTouchPoint.x);
             _downDirection = _targetDirection;
@@ -457,6 +469,9 @@
         self.movingPatternRoot.alpha = 1;
     }];
     self.rotRingLayerOuter.strokeColor = [fillColor CGColor];
+
+    self.rotRingLayerInner.hidden = !self.enableRotation;
+    self.rotRingLayerOuter.hidden = !self.enableRotation;
 
     self.alpha = 1;
     self.hidden = NO;

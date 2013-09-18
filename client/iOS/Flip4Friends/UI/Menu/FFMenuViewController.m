@@ -93,6 +93,10 @@ typedef enum {
             break;
         case menuState_gameFinished:
             break;
+        case menuState_unset:
+            // should never happen
+            NSLog(@"ERROR: MenuController reset to 'unset'!");
+            break;
     }
 
     _state = state;
@@ -149,20 +153,16 @@ typedef enum {
 
     /*/ /////////////////////////////////////////////////////////////
     // TODO remove for manual play
-    self.tmpAutoPlayer1 = [[FFAutoPlayer alloc] initWithGameId:hotSeatGame.Id andPlayerId:hotSeatGame.player1.id];
-    self.tmpAutoPlayer2 = [[FFAutoPlayer alloc] initWithGameId:hotSeatGame.Id andPlayerId:hotSeatGame.player2.id];
+//    self.tmpAutoPlayer1 = [[FFAutoPlayer alloc] initWithGameId:hotSeatGame.Id andPlayerId:hotSeatGame.player1.id];
+//    [self.tmpAutoPlayer1 startPlaying];
 
+    self.tmpAutoPlayer2 = [[FFAutoPlayer alloc] initWithGameId:hotSeatGame.Id andPlayerId:hotSeatGame.player2.id];
     [self.tmpAutoPlayer2 startPlaying];
-    [self.tmpAutoPlayer1 startPlaying];
     //*/ /////////////////////////////////////////////////////////////
 
     [hotSeatGame start];
 
     [self.delegate activateGameWithId:hotSeatGame.Id];
-
-
-//    self.tmpAutoPlayer = [[FFAutoPlayer alloc] initWithGameId:hotSeatGame.Id andPlayerId:hotSeatGame.player2.id];
-//    [self.tmpAutoPlayer startPlaying];
 }
 
 - (void)localChallengeSelected {
@@ -187,6 +187,7 @@ typedef enum {
 - (void) activateGameWithId:(NSString *)gameId {
     // start the game
     FFGame *selectedGame = [[FFGamesCore instance] gameWithId:gameId];
+    [self.delegate activateGameWithId:gameId];
 
     if (selectedGame.gameState == kFFGameState_NotYetStarted){
         [self changeState:menuState_gameRunning];
@@ -203,7 +204,6 @@ typedef enum {
         [self changeState:menuState_gameRunning];
         [selectedGame start];
     }
-
     [self.delegate activateGameWithId:gameId];
 }
 

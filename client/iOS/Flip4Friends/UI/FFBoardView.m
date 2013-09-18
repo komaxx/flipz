@@ -92,13 +92,13 @@
 
     FFBoard *board = game.Board;
 
-    if (![game.Id isEqualToString:self.activeGameId]){
+    if (![game.Id isEqualToString:self.activeGameId] || game.Board.BoardSize != _shownBoardSize){
         self.activeGameId = game.Id;
         [self updateTileCountFromBoard:board];
     }
 
     if (game.Type == kFFGameTypeSingleChallenge){
-        for (FFTileViewMultiStated *view in self.tileViews) view.tileType = kFFBoardType_multiStated;
+        for (FFTileViewMultiStated *view in self.tileViews) view.tileType = game.Board.BoardType;
     } else if (game.Type == kFFGameTypeHotSeat){
         for (FFTileViewMultiStated *view in self.tileViews) view.tileType = kFFBoardType_twoStated;
     }
@@ -220,7 +220,7 @@
     if (_introFlipping) return;
     _introFlipping = YES;
 
-    self.introBoard = [[FFBoard alloc] initWithSize:7];
+    self.introBoard = [[FFBoard alloc] initWithSize:6];
     [self.introBoard shuffle];
 
     for (FFTileViewMultiStated *view in self.tileViews) view.tileType = kFFBoardType_twoStated;
@@ -238,7 +238,7 @@
     }
 
     if (arc4random()%3 == 0){
-        self.introBoard = [[FFBoard alloc] initWithSize:(2 + arc4random()%6)];
+        self.introBoard = [[FFBoard alloc] initWithSize:(2 + arc4random()%3)];
         [self updateTileCountFromBoard:self.introBoard];
     }
     [self.introBoard shuffle];

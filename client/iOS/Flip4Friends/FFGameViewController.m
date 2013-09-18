@@ -114,25 +114,26 @@
             }];
         }
     }
-//    if (![self.delegate activeGameId]){
-//        self.gameBoardDrawer.center = self.center;
-//
-//        CGRect frame = self.boardView.frame;
-//        frame.origin.x = 25;
-//        self.boardView.frame = frame;
-//
-//        self.historySlider.hidden = YES;
-//    } else {
+
+    if (![self.delegate activeGameId]){
+        self.gameBoardDrawer.center = self.center;
+
+        CGRect frame = self.boardView.frame;
+        frame.origin.x = 25;
+        self.boardView.frame = frame;
+
+        self.historySlider.hidden = YES;
+    } else {
 //        CGRect frame = self.gameBoardDrawer.frame;
 //        frame.origin.y = 0;
 //        self.gameBoardDrawer.frame = frame;
-//
-//        frame = self.boardView.frame;
-//        frame.origin.x = 10;
-//        self.boardView.frame = frame;
-//
-//        self.historySlider.hidden = NO;
-//    }
+
+        CGRect boardFrame = self.boardView.frame;
+        boardFrame.origin.x = 10;
+        self.boardView.frame = boardFrame;
+
+        self.historySlider.hidden = NO;
+    }
 }
 
 - (void)selectedGameWithId:(NSString *)gameID{
@@ -150,6 +151,7 @@
     self.player1PatternsControl.activeGameId = nil;
     self.player2PatternsControl.activeGameId = nil;
     [self.moveViewControl moveFinished];
+    [self.moveViewControl setRulesFromGame:game];
     self.player1PatternsControl.activeGameId = gameID;
     self.player2PatternsControl.activeGameId = gameID;
     
@@ -183,7 +185,8 @@
     FFGame* game = [[FFGamesCore instance] gameWithId:[self.delegate activeGameId]];
     FFMove *move = [game.activePlayer.doneMoves objectForKey:pattern.Id];
     if (move){
-        [game undoMove:move];
+        // already moved -> illegal!
+        return;
     }
 
     BOOL player1Active = game.activePlayer==game.player1;

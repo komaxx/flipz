@@ -35,7 +35,13 @@
 }
 
 - (void)menuTapped:(id)menuTapped {
-    [self.delegate giveUpAndBackToChallengeMenu];
+    FFGame *game = [[FFGamesCore instance] gameWithId:self.delegate.delegate.activeGameId];
+
+    if (game && [game.Type isEqualToString:kFFGameTypeSingleChallenge]){
+        [self.delegate giveUpAndBackToChallengeMenu];
+    } else {
+        [self.delegate goBackToMainMenu];
+    }
 }
 
 - (void)hide:(BOOL)b {

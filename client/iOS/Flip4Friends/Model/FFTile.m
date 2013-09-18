@@ -13,17 +13,10 @@
 
 @implementation FFTile
 
-/**
-* Only to be called by the Board. Never manipulate directly!
-*/
-- (void)flipCountingUp:(BOOL)up {
-    if (up) _color++;
-//    else if (self.color > 0) _color--;
-    else _color--;
-}
-
 - (void)duplicateStateFrom:(FFTile *)source {
-    self.locked = source.locked;
+    self.marked = source.marked;
+    self.nowLocked = source.nowLocked;
+    self.unlockTime = source.unlockTime;
     self.color = source.color;
 }
 @end

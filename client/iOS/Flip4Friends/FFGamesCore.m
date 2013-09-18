@@ -6,10 +6,15 @@
 
 #import "FFGamesCore.h"
 #import "FFGame.h"
+#import "FFChallengeGenerator.h"
+#import "FFChallengeLoader.h"
 
 @interface FFGamesCore ()
 @property (strong, nonatomic) NSMutableDictionary *gamesById;
-@property(strong, nonatomic, readwrite) NSArray *challenges;
+@property (strong, nonatomic) NSMutableDictionary *challengeByNumber;
+
+
+@property(strong, nonatomic) FFChallengeLoader *loader;
 
 @end
 
@@ -24,23 +29,39 @@
     self = [super init];
     if (self) {
         self.gamesById = [[NSMutableDictionary alloc] initWithCapacity:10];
+        self.challengeByNumber = [[NSMutableDictionary alloc] initWithCapacity:10];
 
-        [self loadOrBuildChallenges];
+        self.loader = [[FFChallengeLoader alloc] init];
     }
     return self;
 }
 
-- (void)loadOrBuildChallenges {
-    self.challenges = [[NSMutableArray alloc] initWithCapacity:20];
+- (FFGame *)generateNewChallenge {
+    FFChallengeGenerator *generator = [[FFChallengeGenerator alloc] init];
 
-    // TODO loading
+    FFGame *nuChallenge = [generator
+            generateWithBoardSize:10
+                   andOverLapping:YES
+                      andRotation:NO
+                     andLockTurns:0];
 
-    for (int i = 0; i < 20; i++){
-        FFGame *challenge = [[FFGame alloc] initChallengeWithDifficulty:i];
+    [self.gamesById setObject:nuChallenge forKey:nuChallenge.Id];
 
-        [(NSMutableArray*)self.challenges addObject:challenge];
+    return nuChallenge;
+}
+
+- (NSUInteger)challengesCount {
+    return [self.loader numberOfChallenges];
+}
+
+- (FFGame *)challenge:(NSUInteger)i {
+    FFGame *challenge = [self.challengeByNumber objectForKey:[NSNumber numberWithUnsignedInteger:i]];
+    if (!challenge){
+        challenge = [self.loader loadLevel:i];
         [self.gamesById setObject:challenge forKey:challenge.Id];
     }
+
+    return challenge;
 }
 
 // StartUp

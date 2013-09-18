@@ -114,7 +114,7 @@
     CGFloat xPadding = (NSInteger)( (self.scrollView.bounds.size.width - (xCount*PATTERN_VIEW_SIZE)) / (xCount-1) );
     CGFloat yPadding = 5;
 
-    CGFloat x = 0;//(NSInteger)(xPadding / 2.0);
+    CGFloat x = 0;
     CGFloat y = 3;
 
     for (FFPattern *pattern in patterns) {
@@ -136,7 +136,7 @@
 
         x += (PATTERN_VIEW_SIZE + xPadding);
         if (x+PATTERN_VIEW_SIZE > self.scrollView.bounds.size.width){
-            x = 0;//(NSInteger)(xPadding / 2.0);
+            x = 0;
             y += PATTERN_VIEW_SIZE + yPadding;
         }
     }
@@ -149,7 +149,12 @@
     }
     [self.tmpRemovedCollector removeAllObjects];
 
-    self.scrollView.contentSize = CGSizeMake(0, y + PATTERN_VIEW_SIZE);
+    if (x < PATTERN_VIEW_SIZE){     // just started a new line
+        self.scrollView.contentSize = CGSizeMake(0, y);
+    } else {
+        self.scrollView.contentSize = CGSizeMake(0, y + PATTERN_VIEW_SIZE);
+    }
+
 
     _needsScrolling = self.scrollView.contentSize.height > CGRectGetHeight(self.scrollView.bounds);
 }
@@ -157,10 +162,14 @@
 - (void)patternTapped:(FFPatternView *)view {
     // allowed?
     FFGame *game = [[FFGamesCore instance] gameWithId:self.activeGameId] ;
-    if (game.Type != kFFGameTypeSingleChallenge && [[self shownPlayer].doneMoves objectForKey:view.pattern.Id]){
+    if ([[self shownPlayer].doneMoves objectForKey:view.pattern.Id]){
+
         NSLog(@"This pattern was already played. Ignore.");
+        // TODO: Show history pattern!
+
         return;
     }
+
     if (game.activePlayer==game.player1 && self.secondPlayer){
         NSLog(@"Not accepting tap - not this player's turn!");
         return;

@@ -1,0 +1,40 @@
+[
+    {
+        "__comments":"boardtype 0 = twostated, 1 = multi-clamp, 2 = multi-rollover",
+
+        "level":1,
+        "boardsize":4,
+        "lockmoves":0,
+        "boardtype":0,
+        "rotate_patterns":0,
+        "patterns": [
+            {   "tiles":3, "distance":2    },
+            {   "tiles":5, "distance":3    }
+        ]
+    },
+    {
+        "level":2,
+        "boardsize":4,
+        "lockmoves":0,
+        "boardtype":1,
+        "rotate_patterns":1,
+        "patterns": [
+            {   "tiles":4, "distance":3    },
+            {   "tiles":5, "distance":3    }
+        ]
+    },
+    {
+        "level":3,
+        "boardsize":5,
+        "lockmoves":0,
+        "boardtype":1,
+        "rotate_patterns":1,
+        "patterns": [
+            {   "tiles":2, "distance":2    },
+            {   "tiles":3, "distance":2    },
+            {   "tiles":4, "distance":3    },
+            {   "tiles":5, "distance":4    },
+            {   "tiles":6, "distance":4    },
+        ]
+    }
+]

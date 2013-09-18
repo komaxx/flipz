@@ -11,19 +11,16 @@
 
 
 typedef enum {
-    kFFOrientation_0_degrees, kFFOrientation_90_degrees, kFFOrientation_180_degrees, kFFOrientation_270degrees
+    kFFOrientation_0_degrees = 0,
+    kFFOrientation_90_degrees = 1,
+    kFFOrientation_180_degrees = 2,
+    kFFOrientation_270degrees = 3
 } FFOrientation;
 
 /**
 * Something a player does. Consists of a pattern, a position and an orientation.
 */
 @interface FFMove : NSObject
-
-/**
-* All moves in a game are sorted along this number. The higher the number, the later in the game
-* was the move executed.
-*/
-@property (nonatomic) NSUInteger ordinal;
 
 @property (strong, nonatomic, readonly) FFPattern* Pattern;
 @property (strong, nonatomic, readonly) FFCoord* Position;

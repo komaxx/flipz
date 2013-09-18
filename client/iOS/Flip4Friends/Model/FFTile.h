@@ -15,15 +15,19 @@
 /**
 * When a tile is locked, it can not be changed in the next move.
 */
-@property (nonatomic) BOOL locked;
+@property (nonatomic) NSInteger unlockTime;
+
+/**
+* Only to be set by the board!
+*/
+@property (nonatomic) BOOL nowLocked;
 
 /**
 * For core internal use (e.g., cluster finding). Not to be used by any other thing but
 * the FFBoard.
 */
-@property(nonatomic) NSInteger marked;
-
-- (void)flipCountingUp:(BOOL)up;
+@property (nonatomic) NSInteger marked;
 
 - (void)duplicateStateFrom:(id)o;
+
 @end

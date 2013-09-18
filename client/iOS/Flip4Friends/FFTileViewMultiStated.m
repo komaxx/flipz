@@ -50,21 +50,18 @@
 
 - (void)updateFromTile:(FFTile *)tile {
     if (_currentColor != tile.color){
-//        _currentRotation += M_PI;
-//        NSLog(@"color : %i, from _rotation: %f to %f", tile.color, _currentRotation, (CGFloat) (tile.color%2==1 ? M_PI : 0));
-
         _currentRotation = (CGFloat) (tile.color%2==1 ? M_PI : 0);
     }
     _currentColor = tile.color;
 
-    if (_currentlyLocked && !tile.locked){
+    if (_currentlyLocked && !tile.nowLocked){
         [UIView animateWithDuration:0.3 animations:^{
             self.lockedLayer.lineWidth = 0;
         } completion:^(BOOL finished) {
             if (_currentlyLocked) self.lockedLayer.hidden = YES;
         }];
     }
-    _currentlyLocked = tile.locked;
+    _currentlyLocked = tile.nowLocked;
 
     if (self.tileType == kFFBoardType_twoStated){
         [UIView animateWithDuration:1 animations:^{

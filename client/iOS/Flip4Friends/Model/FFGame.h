@@ -49,9 +49,17 @@ typedef enum {
 
 @property (nonatomic, copy, readonly) NSString *Id;
 @property (nonatomic, readonly) GameState gameState;
+
+/**
+* kFFGameTypeSingleChallenge, kFFGameTypeHotSeat, ..
+*/
 @property (nonatomic, readonly) NSString *const Type;
 
+/**
+* Holds all the patterns that were played and can still be played.
+*/
 @property (nonatomic, strong, readonly) FFPlayer *player1;
+
 /**
 * Maybe nil when playing a challenge!
 */
@@ -67,9 +75,19 @@ typedef enum {
 */
 @property (nonatomic, strong, readonly) FFBoard *Board;
 
-@property (nonatomic, strong, readonly) NSArray *moveHistory;
+/**
+* When YES, a tile will only be painted black or white, even if it needs
+* to be turned more than once.
+*/
+@property (nonatomic) BOOL ruleObfuscateTileState;
+@property (nonatomic) BOOL ruleAllowPatternRotation;
+@property (nonatomic) BOOL ruleAllowPatternMirroring;
 
-- (id)initWithId:(NSString *)id Type:(NSString * const)type andBoardSize:(NSUInteger)size;
+@property (nonatomic, strong, readonly) NSArray *moveHistory;
+@property (nonatomic, strong, readonly) NSArray *boardHistory;
+
+
+- (id)initWithId:(NSString *)id Type:(NSString * const)type andBoardSize:(NSInteger)size;
 
 - (id)initChallengeWithDifficulty:(int)i;
 
@@ -81,13 +99,13 @@ typedef enum {
 */
 - (NSInteger)executeMove:(FFMove *)move byPlayer:(FFPlayer*)player;
 
+- (void)undo;
+
+- (void)redo;
+
 - (id)initHotSeat;
 
 - (void)start;
-
-- (void)undoLastMove;
-
-- (void)undoMove:(FFMove *)move;
 
 - (void)giveUp;
 
@@ -97,4 +115,6 @@ typedef enum {
 * nil/wrong unless in state kFFGameFinished
 */
 - (FFPlayer*)winningPlayer;
+
+- (void)DEBUG_replaceBoardWith:(FFBoard *)board;
 @end

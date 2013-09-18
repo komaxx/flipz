@@ -22,12 +22,12 @@
 
 @property (strong, nonatomic, readonly) NSArray *activeGames;
 
-/**
-* All challenges.
-*/
-@property (strong, nonatomic, readonly) NSArray *challenges;
+- (NSUInteger)challengesCount;
+- (FFGame *)challenge:(NSUInteger)index;
 
 - (FFGame *)gameWithId:(NSString *)string;
 
 - (FFGame *)generateNewHotSeatGame;
+
+- (FFGame *)generateNewChallenge;
 @end

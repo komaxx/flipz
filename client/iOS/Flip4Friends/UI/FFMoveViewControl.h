@@ -9,6 +9,7 @@
 
 @class FFGameViewController;
 @class FFBoardView;
+@class FFGame;
 
 @interface FFMoveViewControl : UIView <UIGestureRecognizerDelegate>
 
@@ -28,4 +29,5 @@
                 withRotation:(NSInteger)startDirection
                   forPlayer2:(BOOL)player2;
 
+- (void)setRulesFromGame:(FFGame *)game;
 @end

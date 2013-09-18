@@ -1,23 +1,45 @@
+* Extras, power-cards, ...: Break the lock, multiply times flipped (e.g., *2, *-1,)
+
+* Racing mode: Measure time until solution of a puzzle (more puzzles), send as challenge to friend.
+
+* Assign challenge stars based on time
+
+* Generate from picture!
 
 
-Challenge Mode
-
-* Flip Count:
-    As a hint: Show, how many times a tile was flipped when requesting help (counts as x (e.g., 5) moves)
-    As a game mode: Each tile has to be flipped EXACTLY as often as in the generation process. Tiles have more states to visualize the rest-flips.
-
-* History View:
-    A slide to the side of the board can be used to visualize the moves in the history
-
-* Check auto player: Are the moves actually optimal? Factor count of pattern tiles in!!
+Compute difficulty:
+* How many obviously valid moves are available (less == easier)
+* Percentage of obviously valid moves that are part of a winning path (higher == easier)
+* Average number of moves in winning paths (more == harder)
 
 
 Challenge Parameters:
 * Board size
 * Number of patterns
 * Maximum possible different solutions
+* Maximum alternatives per decision
 * Lock turns: 0,1,2,...
-* Covered necessary moves! Its "black" until it was turned enough times
+* Covered/obfuscated necessary moves! Its "black" until it was turned enough times
 * Clear target color (e.g. 0, 1, 2, ...)
+* Clear target pattern
 * Enable/disable rotate
 * Enable/disable mirror
+* Triggered in-between moves (triggered when flipping a tile, triggered after x moves)
+
+
+    -> Parameters of FFGame
+     * State visibility (stays black until white)  ->  harder
+     * Enable/disable rotate
+     * Enable/disable mirror
+
+    -> Parameters of FFBoard
+     * Board Size
+     * Lock turns
+     * Tile behavior ((x+1)%2, max(x-1,0), (x+99)%100 )
+     * Target Pattern
+     * Triggered Moves
+
+    -> Emerging difficulty estimation
+     * Number of decisions
+     * Winning paths
+     * Alternatives per decision

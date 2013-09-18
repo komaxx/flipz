@@ -36,7 +36,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [FFGamesCore instance].challenges.count;
+    return [[FFGamesCore instance] challengesCount];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -48,18 +48,18 @@
     [cell viewWithTag:index%2==1?1:11].hidden = YES;
     [cell viewWithTag:index%2==1?2:12].hidden = YES;
 
-    UIView *difficultyBoxBack =  [cell viewWithTag:index%2==0?1:11];
+    UIView *difficultyBoxBack = [cell viewWithTag:index%2==0?1:11];
     UILabel *difficultyNumber = (UILabel *) [cell viewWithTag:index%2==0?2:12];
 
     difficultyBoxBack.hidden = NO;
     difficultyBoxBack.backgroundColor =
-        [UIColor colorWithHue:(1.0-((CGFloat)index/ (CGFloat)[FFGamesCore instance].challenges.count)) * 120.0/360.0
+        [UIColor colorWithHue:(1.0-((CGFloat)index/ (CGFloat)[[FFGamesCore instance] challengesCount])) * 120.0/360.0
                    saturation:0.8
                    brightness:0.7
                         alpha:1];
 
     difficultyNumber.hidden = NO;
-    difficultyNumber.text = [NSString stringWithFormat:@"%i", index];
+    difficultyNumber.text = [NSString stringWithFormat:@"%i", index+1];
 
     return cell;
 }
@@ -67,7 +67,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSUInteger index = (NSUInteger) indexPath.row;
 
-    FFGame *game = [[FFGamesCore instance].challenges objectAtIndex:index];
+    FFGame *game = [[FFGamesCore instance] challenge:(NSUInteger) index];
     [self.delegate activateGameWithId:game.Id];
 }
 
