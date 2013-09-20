@@ -18,7 +18,7 @@
 @property (nonatomic) NSInteger unlockTime;
 
 /**
-* Only to be set by the board!
+* Only to be set by the boardView!
 */
 @property (nonatomic) BOOL nowLocked;
 

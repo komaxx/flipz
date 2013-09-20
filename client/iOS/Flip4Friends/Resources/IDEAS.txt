@@ -2,9 +2,11 @@
 
 * Racing mode: Measure time until solution of a puzzle (more puzzles), send as challenge to friend.
 
-* Assign challenge stars based on time
+* Assign challenge stars based on
+    + time
+    + turns over par/minimum
 
-* Generate from picture!
+* Limited number of rotations / mirrorings
 
 
 Compute difficulty:

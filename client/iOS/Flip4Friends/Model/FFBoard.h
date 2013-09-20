@@ -19,7 +19,7 @@ typedef enum {
 } FFBoardType;
 
 /**
-* Represents the board, i.e., it contains all the tiles that make up the gaming board.
+* Represents the boardView, i.e., it contains all the tiles that make up the gaming boardView.
 */
 @interface FFBoard : NSObject
 
@@ -84,4 +84,6 @@ typedef enum {
 - (NSUInteger)computeMinimumRestFlips;
 
 - (void)colorTile:(NSUInteger)i withColor:(NSNumber *)color;
+
+- (void)printColorsToLog;
 @end

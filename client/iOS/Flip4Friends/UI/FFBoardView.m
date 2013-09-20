@@ -11,6 +11,7 @@
 #import "FFPattern.h"
 #import "FFTileViewMultiStated.h"
 #import "FFPatternGenerator.h"
+#import "FFBoard.h"
 
 @interface FFBoardView()
 /**
@@ -108,6 +109,9 @@
 
 - (void)updateTilesFromBoard:(FFBoard *)board {
     NSUInteger size = board.BoardSize;
+
+    if (size != _shownBoardSize) [self updateTileCountFromBoard:board];
+
     for (NSUInteger y = 0; y < size; y++){
         for (NSUInteger x = 0; x < size; x++){
             [[self getTileAtX:x andY:y] updateFromTile:[board tileAtX:x andY:y]];
@@ -123,7 +127,7 @@
     return _tileSize;
 }
 
-- (void) showHistoryStartingFromStepsBack:(NSUInteger)startStepsBack {
+- (void)showHistoryStartingFromStepsBack:(NSUInteger)startStepsBack {
     [self.removeCollector removeAllObjects];
     [self.removeCollector addEntriesFromDictionary:self.historyTileSets];
 
@@ -172,7 +176,7 @@
 }
 
 /**
-* Checks, whether the board shows the right count of tiles. Will update the view if not.
+* Checks, whether the boardView shows the right count of tiles. Will update the view if not.
 */
 - (void)updateTileCountFromBoard:(FFBoard *)board {
     NSUInteger nuBoardSize = board.BoardSize;
@@ -198,12 +202,16 @@
     }
     _shownBoardSize = nuBoardSize;
 
+    // set right type to tiles
+    for (FFTileViewMultiStated *view in self.tileViews) view.tileType = board.BoardType;
+
     // reposition tiles
     _tileSize = self.bounds.size.width / nuBoardSize;
 
     for (NSUInteger y = 0; y < nuBoardSize; y++){
         for (NSUInteger x = 0; x < nuBoardSize; x++){
-            [[self getTileAtX:x andY:y] positionAt:CGRectMake(x*_tileSize, y*_tileSize, _tileSize, _tileSize)];
+            UIView <FFTileView> *tileView = [self getTileAtX:x andY:y];
+            [tileView positionAt:CGRectMake(x*_tileSize, y*_tileSize, _tileSize, _tileSize)];
         }
     }
 }

@@ -48,7 +48,7 @@ static NSUInteger creationId;
     challenge.Board.BoardType = (FFBoardType) [(NSNumber *)[definition objectForKey:@"boardtype"] intValue];
 
     // //////////////////////////////////////////////////////////////////////////////////////////
-    // load board
+    // load boardView
     NSArray *colors = [definition objectForKey:@"boardcolors"];
     for (NSUInteger i = 0; i < colors.count; i++){
         [challenge.Board colorTile:i withColor:(NSNumber *)[colors objectAtIndex:i]];

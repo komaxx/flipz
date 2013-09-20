@@ -92,10 +92,10 @@ typedef enum {
 - (id)initChallengeWithDifficulty:(int)i;
 
 /**
-* The given move is executed, with all consequences (board adjustment, player's turn change,
+* The given move is executed, with all consequences (boardView adjustment, player's turn change,
 * if applicable sending the move to a remote server, ...).
 * When this returns !=0, the move was declined as illegal (game already finished, not the
-* given player's turn, move outside of board, ...)
+* given player's turn, move outside of boardView, ...)
 */
 - (NSInteger)executeMove:(FFMove *)move byPlayer:(FFPlayer*)player;
 

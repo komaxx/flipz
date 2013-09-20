@@ -35,8 +35,8 @@
 }
 
 - (void)buttonGenerate {
-    FFGame *game = [[FFGamesCore instance] generateNewChallenge];
-    [self.delegate activateGameWithId:game.Id];
+//    FFGame *game = [[FFGamesCore instance] generateNewChallenge];
+//    [self.delegate activateGameWithId:game.Id];
 }
 
 - (void)buttonTestRunTapped {

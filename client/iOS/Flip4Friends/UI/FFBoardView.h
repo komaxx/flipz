@@ -11,6 +11,7 @@
 
 @class FFGame;
 @class FFTile;
+@class FFBoard;
 
 
 @protocol FFTileView <NSObject>
@@ -29,7 +30,7 @@
 - (void)didAppear;
 
 /**
-* To be called whenever the game changes. The board will itself listen for changes
+* To be called whenever the game changes. The boardView will itself listen for changes
 * to the game that was last given with this call (and only to that one).
 */
 - (void)setActiveGame:(FFGame *)game;
@@ -40,6 +41,12 @@
 
 - (void)showHistoryStartingFromStepsBack:(NSUInteger)startStepsBack;
 - (void)hideHistory;
+
+/**
+* Should only be called during creation of a new challenge, NEVER for
+ * a running game!
+*/
+- (void)updateTilesFromBoard:(FFBoard *)board;
 
 - (NSInteger)boardSize;
 

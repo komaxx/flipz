@@ -112,7 +112,7 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
         NSLog(@"Illegal move: game already finished. Declined.");
         return -1;
     } else if (![move isLegalOnBoardWithSize:self.Board.BoardSize]){
-        NSLog(@"Illegal move: outside of board. Declined.");
+        NSLog(@"Illegal move: outside of boardView. Declined.");
         return -2;
     }
 
@@ -318,7 +318,7 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
     self.ruleAllowPatternRotation = YES;
     self.ruleAllowPatternMirroring = NO;
 
-    // make the board: random coloring
+    // make the boardView: random coloring
     self.Board = [[FFBoard alloc] initWithSize:6];
     [self.Board checker];
 

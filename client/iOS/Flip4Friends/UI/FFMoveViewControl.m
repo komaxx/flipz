@@ -299,7 +299,7 @@
 
     CGPoint snapPoint = CGPointMake(snapCoord.x * tileSize, snapCoord.y * tileSize);
 
-    // and back to the real coordinate system based on the BoardView
+    // and back to the real coordinate system based on t    he BoardView
     BOOL toppled = _targetDirection %2 == 1;
     NSInteger width = toppled ? self.activePattern.SizeY : self.activePattern.SizeX;
     NSInteger height = toppled ? self.activePattern.SizeX : self.activePattern.SizeY;

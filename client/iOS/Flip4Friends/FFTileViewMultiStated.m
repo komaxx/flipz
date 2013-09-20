@@ -30,6 +30,7 @@
 
         self.layer.cornerRadius=3;
         self.backgroundColor = [UIColor whiteColor];
+        self.userInteractionEnabled = NO;
 
         self.lockedLayer = [[CAShapeLayer alloc] init];
         self.lockedLayer.strokeColor = [[UIColor colorWithRed:1 green:0 blue:0 alpha:0.5] CGColor];
@@ -89,7 +90,6 @@
         self.patternLayer.hidden = YES;
         return;
     }
-
 
     CGMutablePathRef path = CGPathCreateMutable();
 

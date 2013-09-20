@@ -11,7 +11,7 @@
 
 @interface FFBoard ()
 /**
-* one dimensional array. Represents the square gaming board row-first:
+* one dimensional array. Represents the square gaming boardView row-first:
 *     _____
 *    |1|2|3|
 *    |-|-|-|
@@ -220,7 +220,7 @@
 }
 
 /**
-* Whether or not this board is in the state that was defined for a challenge as
+* Whether or not this boardView is in the state that was defined for a challenge as
 * target
 */
 - (BOOL)isInTargetState {
@@ -240,5 +240,19 @@
 */
 - (void)colorTile:(NSUInteger)i withColor:(NSNumber *)color {
     ((FFTile*) [self.tiles objectAtIndex:i]).color = [color integerValue];
+}
+
+- (void)printColorsToLog {
+    NSString *ret = [NSString stringWithFormat:@"[ "];
+    for (NSUInteger y = 0; y < self.BoardSize; y++){
+        for (NSUInteger x = 0; x < self.BoardSize; x++){
+            ret = [ret stringByAppendingString:
+                    [NSString stringWithFormat:@"%i,",[self tileAtX:x andY:y].color]];
+        }
+        ret = [ret stringByAppendingString:@"  "];
+    }
+    ret = [ret stringByAppendingString:@"  ],"];
+
+    NSLog(ret);
 }
 @end
