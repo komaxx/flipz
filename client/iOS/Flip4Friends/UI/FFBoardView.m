@@ -111,6 +111,9 @@
     NSUInteger size = board.BoardSize;
 
     if (size != _shownBoardSize) [self updateTileCountFromBoard:board];
+    if ([(FFTileViewMultiStated *)[self.tileViews objectAtIndex:0] tileType] != board.BoardType){
+        for (FFTileViewMultiStated *view in self.tileViews) view.tileType = board.BoardType;
+    }
 
     for (NSUInteger y = 0; y < size; y++){
         for (NSUInteger x = 0; x < size; x++){

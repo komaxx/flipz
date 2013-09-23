@@ -6,16 +6,16 @@
 //  Copyright (c) 2013 FlippyFriends. All rights reserved.
 //
 
-#import "FFChallengePaintView.h"
+#import "FFBoardPaintView.h"
 #import "FFBoardView.h"
-#import "FFChallengeCreatorController.h"
+#import "FFBoardCreatorController.h"
 
-@interface FFChallengePaintView ()
+@interface FFBoardPaintView ()
 @property (strong, nonatomic) FFCoord *lastPannedCoord;
 @end
 
 
-@implementation FFChallengePaintView
+@implementation FFBoardPaintView
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
@@ -52,8 +52,11 @@
 }
 
 - (void)panned:(UIPanGestureRecognizer*)panCognizer {
-    if (panCognizer.state == UIGestureRecognizerStateCancelled || panCognizer.state == UIGestureRecognizerStateEnded){
+    if (panCognizer.state == UIGestureRecognizerStateCancelled){
         self.lastPannedCoord = nil;
+    } else if (panCognizer.state == UIGestureRecognizerStateEnded) {
+        self.lastPannedCoord = nil;
+        [self.delegate paintingEnded];
     } else {
         CGFloat tileSize = [self.boardView computeTileSize];
         CGPoint tapPos = [panCognizer locationOfTouch:0 inView:self];
@@ -63,7 +66,7 @@
 
         if (!self.lastPannedCoord || xCoord != self.lastPannedCoord.x || yCoord != self.lastPannedCoord.y){
             NSLog(@"now on %ix%i", xCoord, yCoord);
-            [self.delegate tileTappedToPaintX:xCoord andY:yCoord];
+            [self.delegate tileTappedToPaintX:xCoord andY:yCoord done:NO];
             self.lastPannedCoord = [[FFCoord alloc] initWithX:xCoord andY:yCoord];
         }
     }
@@ -84,7 +87,7 @@
     NSUInteger xCoord = (NSUInteger) (tapPos.x / tileSize);
     NSUInteger yCoord = (NSUInteger) (tapPos.y / tileSize);
 
-    [self.delegate tileTappedToPaintX:xCoord andY:yCoord];
+    [self.delegate tileTappedToPaintX:xCoord andY:yCoord done:YES];
 }
 
 @end

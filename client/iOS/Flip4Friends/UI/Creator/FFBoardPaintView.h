@@ -9,11 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @class FFBoardView;
-@class FFChallengeCreatorController;
+@class FFBoardCreatorController;
 
-@interface FFChallengePaintView : UIView <UIGestureRecognizerDelegate>
+@interface FFBoardPaintView : UIView <UIGestureRecognizerDelegate>
 
-@property (weak, nonatomic) FFChallengeCreatorController *delegate;
+@property (weak, nonatomic) FFBoardCreatorController *delegate;
 @property (weak, nonatomic) FFBoardView* boardView;
 
 @end

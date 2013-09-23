@@ -62,6 +62,18 @@
     return self;
 }
 
+- (void)setBoardType:(FFBoardType)BoardType {
+    if (BoardType == self.BoardType) return;
+
+    _BoardType = BoardType;
+    if (_BoardType == kFFBoardType_twoStated){
+        for (FFTile *tile in self.tiles) {
+            tile.color = tile.color%2;
+        }
+    }
+}
+
+
 - (FFTile *)tileAtX:(NSUInteger)x andY:(NSUInteger)y {
     return [self.tiles objectAtIndex:(y*self.BoardSize + x)];
 }
@@ -89,7 +101,7 @@
     }
 }
 
-- (NSArray *) doMoveWithCoords:(NSArray *)coords {
+- (NSArray *)doMoveWithCoords:(NSArray *)coords {
     NSMutableArray *ret = [[NSMutableArray alloc] initWithCapacity:coords.count];
 
     for (FFCoord* c in coords) {
@@ -130,7 +142,7 @@
     [self recomputeNowLocked];
 }
 
-- (void) undoMoveWithCoords:(NSArray *)coords {
+- (void)undoMoveWithCoords:(NSArray *)coords {
     for (FFCoord* c in coords) {
         FFTile *tile = [self tileAtX:c.x andY:c.y];
         if (tile.unlockTime > self.moveIndex) continue;
@@ -225,6 +237,7 @@
 */
 - (BOOL)isInTargetState {
     // TODO
+
     for (FFTile *tile in self.tiles) if (tile.color != 0) return NO;
     return YES;
 }

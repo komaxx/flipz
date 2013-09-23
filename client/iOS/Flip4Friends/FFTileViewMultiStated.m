@@ -108,7 +108,7 @@
                 CGRectMake(CGRectGetMidX(self.bounds) + width/2, 0, width, self.bounds.size.height));
         CGPathAddRect(path, &CGAffineTransformIdentity,
                 CGRectMake(0, CGRectGetMidY(self.bounds) - width/2, self.bounds.size.height, width));
-    } else if (_currentColor > 3){
+    } else if (_currentColor == 4){
         CGPathAddRect(path, &CGAffineTransformIdentity,
                 CGRectMake(CGRectGetMidX(self.bounds) - 3*width/2, 0, width, self.bounds.size.height));
         CGPathAddRect(path, &CGAffineTransformIdentity,
@@ -118,6 +118,19 @@
                 CGRectMake(0, CGRectGetMidY(self.bounds) - 3*width/2, self.bounds.size.height, width));
         CGPathAddRect(path, &CGAffineTransformIdentity,
                 CGRectMake(0, CGRectGetMidY(self.bounds) + width/2, self.bounds.size.height, width));
+    } else if (_currentColor > 4){
+        CGPathAddRect(path, &CGAffineTransformIdentity,
+                CGRectMake(CGRectGetMidX(self.bounds) - 3*width/2, 0, width, self.bounds.size.height));
+        CGPathAddRect(path, &CGAffineTransformIdentity,
+                CGRectMake(CGRectGetMidX(self.bounds) + width/2, 0, width, self.bounds.size.height));
+
+        CGPathAddRect(path, &CGAffineTransformIdentity,
+                CGRectMake(0, CGRectGetMidY(self.bounds) - 3*width/2, self.bounds.size.height, width));
+        CGPathAddRect(path, &CGAffineTransformIdentity,
+                CGRectMake(0, CGRectGetMidY(self.bounds) + width/2, self.bounds.size.height, width));
+
+        CGPathAddRect(path, &CGAffineTransformIdentity,
+                CGRectMake(width, width, self.bounds.size.width-2*width, self.bounds.size.height-2*width));
     }
 
     [self.patternLayer setPath:path];

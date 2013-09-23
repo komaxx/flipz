@@ -7,27 +7,28 @@
 //
 
 #import <QuartzCore/QuartzCore.h>
-#import "FFChallengeCreatorController.h"
+#import "FFBoardCreatorController.h"
 #import "FFBoardView.h"
 #import "FFBoard.h"
-#import "FFChallengePaintView.h"
+#import "FFBoardPaintView.h"
 
-@interface FFChallengeCreatorController ()
+@interface FFBoardCreatorController ()
 
 @property (strong, nonatomic) FFBoard* board;
 
 @property (weak, nonatomic) IBOutlet FFBoardView *boardView;
-@property (weak, nonatomic) IBOutlet FFChallengePaintView *paintView;
+@property (weak, nonatomic) IBOutlet FFBoardPaintView *paintView;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *paintOrEraseSelect;
+@property (weak, nonatomic) IBOutlet UIView *paramtersOverlay;
+@property (weak, nonatomic) IBOutlet UITableView *flipTypeTable;
 
 @end
 
-@implementation FFChallengeCreatorController
+@implementation FFBoardCreatorController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.paintOrEraseSelect.layer.transform = CATransform3DMakeRotation((CGFloat) (-M_PI/2), 0, 0, 1);
 
     self.board = [[FFBoard alloc] initWithSize:8];
     self.board.BoardType = kFFBoardType_multiStated_clamped;
@@ -36,22 +37,72 @@
     
     self.paintView.boardView = self.boardView;
     self.paintView.delegate = self;
+
+    self.flipTypeTable.dataSource = self;
+    self.flipTypeTable.delegate = self;
+
+    [self.flipTypeTable selectRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0] animated:NO scrollPosition:(UITableViewScrollPosition) 0];
 }
 
 - (IBAction)backButtonTapped:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (IBAction)forwardTapped:(id)sender {
+}
+
+- (IBAction)parametersButtonTapped:(id)sender {
+    self.paramtersOverlay.hidden = NO;
+}
+
+- (IBAction)parametersTapGuardTapped:(id)sender {
+    self.paramtersOverlay.hidden = YES;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 3;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+
+    UILabel *label = (UILabel *) [cell viewWithTag:5];
+    label.text = @"Two Stated";
+    if (indexPath.row == 1) label.text = @"Multi (clamped)";
+    if (indexPath.row == 2) label.text = @"Multi (rollover)";
+
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    FFBoardType nuType = (FFBoardType) indexPath.row;
+
+    if (nuType != self.board.BoardType){
+        self.board.BoardType = nuType;
+
+        [self createUndoPoint];
+        [self.boardView updateTilesFromBoard:self.board];
+    }
+}
+
 // /////////////////////////////////////////////////////
 // board painting
 
-- (void)tileTappedToPaintX:(NSUInteger)x andY:(NSUInteger)y {
+- (void)tileTappedToPaintX:(NSUInteger)x andY:(NSUInteger)y done:(BOOL)done {
     int toAdd = self.paintOrEraseSelect.selectedSegmentIndex==0 ? -1 : +1;
+
+    if (done) [self createUndoPoint];
+
     [self.board tileAtX:x andY:y].color += toAdd;
     [self updateBoardWith:self.board];
 
     [self.boardView updateTilesFromBoard:self.board];
 }
+
+- (void)paintingEnded {
+    [self createUndoPoint];
+}
+
 
 - (void)movePainting:(UISwipeGestureRecognizerDirection)direction {
     FFBoard *movedBoard = [[FFBoard alloc] initWithBoard:self.board];
@@ -101,5 +152,9 @@
 
 // board painting
 // /////////////////////////////////////////////////////
+
+- (void)createUndoPoint {
+    // TODO
+}
 
 @end

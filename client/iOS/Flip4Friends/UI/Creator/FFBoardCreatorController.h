@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FFChallengeCreatorController : UIViewController
+@interface FFBoardCreatorController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
-- (void)tileTappedToPaintX:(NSUInteger)i andY:(NSUInteger)y;
+- (void)tileTappedToPaintX:(NSUInteger)x andY:(NSUInteger)y done:(BOOL)done;
 
 - (void)movePainting:(UISwipeGestureRecognizerDirection)direction;
+
+- (void)paintingEnded;
 @end

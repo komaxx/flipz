@@ -63,8 +63,9 @@
 		CEBD2C2817A18032008C0835 /* menu_back_pattern.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBD2C2717A18032008C0835 /* menu_back_pattern.png */; };
 		CEBD2C2B17A1BC19008C0835 /* FFGameFinishedMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBD2C2A17A1BC19008C0835 /* FFGameFinishedMenu.m */; };
 		CEBD2C3017A55AF7008C0835 /* FFButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBD2C2F17A55AF7008C0835 /* FFButton.m */; };
-		CEE6C37117EA348A0026F2E8 /* FFChallengeCreatorController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE6C37017EA348A0026F2E8 /* FFChallengeCreatorController.m */; };
-		CEE6C37417EA37E00026F2E8 /* FFChallengePaintView.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE6C37317EA37E00026F2E8 /* FFChallengePaintView.m */; };
+		CEDDF26617F0A97400A15B7A /* FFChallengeCreatorControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEDDF26517F0A97400A15B7A /* FFChallengeCreatorControllerViewController.m */; };
+		CEE6C37117EA348A0026F2E8 /* FFBoardCreatorController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE6C37017EA348A0026F2E8 /* FFBoardCreatorController.m */; };
+		CEE6C37417EA37E00026F2E8 /* FFBoardPaintView.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE6C37317EA37E00026F2E8 /* FFBoardPaintView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -170,10 +171,12 @@
 		CEBD2C2A17A1BC19008C0835 /* FFGameFinishedMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFGameFinishedMenu.m; path = UI/Menu/FFGameFinishedMenu.m; sourceTree = "<group>"; };
 		CEBD2C2E17A55AF7008C0835 /* FFButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFButton.h; path = UI/FFButton.h; sourceTree = "<group>"; };
 		CEBD2C2F17A55AF7008C0835 /* FFButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFButton.m; path = UI/FFButton.m; sourceTree = "<group>"; };
-		CEE6C36F17EA348A0026F2E8 /* FFChallengeCreatorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFChallengeCreatorController.h; path = UI/Creator/FFChallengeCreatorController.h; sourceTree = "<group>"; };
-		CEE6C37017EA348A0026F2E8 /* FFChallengeCreatorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFChallengeCreatorController.m; path = UI/Creator/FFChallengeCreatorController.m; sourceTree = "<group>"; };
-		CEE6C37217EA37E00026F2E8 /* FFChallengePaintView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFChallengePaintView.h; path = UI/Creator/FFChallengePaintView.h; sourceTree = "<group>"; };
-		CEE6C37317EA37E00026F2E8 /* FFChallengePaintView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFChallengePaintView.m; path = UI/Creator/FFChallengePaintView.m; sourceTree = "<group>"; };
+		CEDDF26417F0A97400A15B7A /* FFChallengeCreatorControllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFChallengeCreatorControllerViewController.h; path = UI/Creator/FFChallengeCreatorControllerViewController.h; sourceTree = "<group>"; };
+		CEDDF26517F0A97400A15B7A /* FFChallengeCreatorControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFChallengeCreatorControllerViewController.m; path = UI/Creator/FFChallengeCreatorControllerViewController.m; sourceTree = "<group>"; };
+		CEE6C36F17EA348A0026F2E8 /* FFBoardCreatorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFBoardCreatorController.h; path = UI/Creator/FFBoardCreatorController.h; sourceTree = "<group>"; };
+		CEE6C37017EA348A0026F2E8 /* FFBoardCreatorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFBoardCreatorController.m; path = UI/Creator/FFBoardCreatorController.m; sourceTree = "<group>"; };
+		CEE6C37217EA37E00026F2E8 /* FFBoardPaintView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFBoardPaintView.h; path = UI/Creator/FFBoardPaintView.h; sourceTree = "<group>"; };
+		CEE6C37317EA37E00026F2E8 /* FFBoardPaintView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFBoardPaintView.m; path = UI/Creator/FFBoardPaintView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -399,10 +402,12 @@
 		CEE6C36E17EA34280026F2E8 /* ChallengeBuilder */ = {
 			isa = PBXGroup;
 			children = (
-				CEE6C36F17EA348A0026F2E8 /* FFChallengeCreatorController.h */,
-				CEE6C37017EA348A0026F2E8 /* FFChallengeCreatorController.m */,
-				CEE6C37217EA37E00026F2E8 /* FFChallengePaintView.h */,
-				CEE6C37317EA37E00026F2E8 /* FFChallengePaintView.m */,
+				CEE6C36F17EA348A0026F2E8 /* FFBoardCreatorController.h */,
+				CEE6C37017EA348A0026F2E8 /* FFBoardCreatorController.m */,
+				CEE6C37217EA37E00026F2E8 /* FFBoardPaintView.h */,
+				CEE6C37317EA37E00026F2E8 /* FFBoardPaintView.m */,
+				CEDDF26417F0A97400A15B7A /* FFChallengeCreatorControllerViewController.h */,
+				CEDDF26517F0A97400A15B7A /* FFChallengeCreatorControllerViewController.m */,
 			);
 			name = ChallengeBuilder;
 			sourceTree = "<group>";
@@ -560,8 +565,9 @@
 				B64596554E12012732F35E91 /* FFAutoSolver.m in Sources */,
 				B6459A6C42EA2CF39F9745D7 /* FFChallengeGenerator.m in Sources */,
 				B6459F1CE7FAB5C908986645 /* FFChallengeLoader.m in Sources */,
-				CEE6C37117EA348A0026F2E8 /* FFChallengeCreatorController.m in Sources */,
-				CEE6C37417EA37E00026F2E8 /* FFChallengePaintView.m in Sources */,
+				CEE6C37117EA348A0026F2E8 /* FFBoardCreatorController.m in Sources */,
+				CEE6C37417EA37E00026F2E8 /* FFBoardPaintView.m in Sources */,
+				CEDDF26617F0A97400A15B7A /* FFChallengeCreatorControllerViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
