@@ -37,13 +37,68 @@ static NSUInteger creationId;
     }
 }
 
-- (FFGame *)loadLevel:(NSUInteger)level __unused {
++ (NSString *)encodeGameAsJson:(FFGame*)game {
+     NSMutableDictionary *toJson = [[NSMutableDictionary alloc] initWithCapacity:10];
+
+    [toJson setObject:[NSNumber numberWithInt:game.Board.lockMoves] forKey:@"lockmoves"];
+    [toJson setObject:[NSNumber numberWithInt:game.Board.BoardType] forKey:@"boardtype"];
+    [toJson setObject:[NSNumber numberWithInt:game.Board.BoardSize] forKey:@"boardsize"];
+
+
+    NSMutableArray *colors = [[NSMutableArray alloc] initWithCapacity:game.Board.BoardSize*game.Board.BoardSize];
+    [game.Board addColorsToArray:colors];
+    [toJson setObject:colors forKey:@"boardcolors"];
+
+    // and: patterns
+    NSMutableArray *patterns = [[NSMutableArray alloc] initWithCapacity:game.player1.playablePatterns.count];
+    for (FFPattern *pat in game.player1.playablePatterns) {
+        NSMutableDictionary *patDic = [[NSMutableDictionary alloc] initWithCapacity:2];
+        [patDic setObject:[NSNumber numberWithBool:(pat.differingOrientations>1)] forKey:@"rotating"];
+
+        NSMutableArray *coords = [[NSMutableArray alloc] initWithCapacity:pat.Coords.count];
+        for (FFCoord *coord in pat.Coords) {
+            [coords addObject:@[[NSNumber numberWithInt:coord.x], [NSNumber numberWithInt:coord.y]]];
+        }
+        [patDic setObject:coords forKey:@"coords"];
+
+        [patterns addObject:patDic];
+    }
+
+    [toJson setObject:patterns forKey:@"patterns"];
+
+    NSError *error = nil;
+    NSData *data = [NSJSONSerialization dataWithJSONObject:toJson options:0 error:&error];
+    if (error){
+        NSLog(@"ERROR when writing game: %@", error);
+    }
+    NSString* jsonString =[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    return jsonString;
+
+
+//    {
+//        "level":2,
+//        "lockmoves":0,"boardtype":0,
+//        "boardsize":4,
+//        "boardcolors":[
+//                0,0,0,1,
+//                0,1,1,1,
+//                0,0,1,1,
+//                0,1,1,1
+//        ],
+//        "patterns": [
+//              { "coords":[[1,0],[1,1],[0,2],[1,2]], "rotating":0 },
+//              { "coords":[[0,0],[1,0]], "rotating":0 },
+//              { "coords":[[0,0],[1,0],[2,0]], "rotating":0 },
+//        ],
+//   },
+}
+
+- (FFGame *)loadLevel:(NSUInteger)level {
     NSDictionary *definition = [levelDefinitions objectAtIndex:level];
 
     FFGame *challenge = [[FFGame alloc] initWithId:[NSString stringWithFormat:@"challenge%i_%i", level, creationId++]
                                               Type:kFFGameTypeSingleChallenge
                                       andBoardSize:[(NSNumber*)[definition objectForKey:@"boardsize"] intValue]];
-    challenge.ruleAllowPatternRotation = [(NSNumber *)[definition objectForKey:@"rotate_patterns"] boolValue];
     challenge.Board.lockMoves = [(NSNumber *)[definition objectForKey:@"lockmoves"] intValue];
     challenge.Board.BoardType = (FFBoardType) [(NSNumber *)[definition objectForKey:@"boardtype"] intValue];
 
@@ -59,17 +114,21 @@ static NSUInteger creationId;
     NSArray *patternDefs = [definition objectForKey:@"patterns"];
     NSMutableArray *patterns = [[NSMutableArray alloc] initWithCapacity:patternDefs.count];
 
-    for (NSArray *patternDef in patternDefs) {
-        NSMutableArray *coords = [[NSMutableArray alloc] initWithCapacity:patternDef.count];
+    for (NSDictionary *patternDef in patternDefs) {
+        NSArray *coordDefs = [patternDef objectForKey:@"coords"];
+        NSMutableArray *coords = [[NSMutableArray alloc] initWithCapacity:coordDefs.count];
 
-        for (NSArray *coord in patternDef) {
+        for (NSArray *coord in coordDefs) {
             [coords addObject:
                     [[FFCoord alloc] initWithX:(ushort) [(NSNumber *) [coord objectAtIndex:0] integerValue]
                                           andY:(ushort) [(NSNumber *) [coord objectAtIndex:1] integerValue]]
             ];
         }
 
-        [patterns addObject:[[FFPattern alloc] initWithCoords:coords]];
+        BOOL rotating = [(NSNumber *)[patternDef objectForKey:@"rotating"] boolValue];
+
+        FFPattern *loadedPattern = [[FFPattern alloc] initWithCoords:coords andAllowRotation:rotating];
+        [patterns addObject:loadedPattern];
     }
     [challenge.player1 resetWithPatterns:patterns];
 

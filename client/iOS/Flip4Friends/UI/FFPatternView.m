@@ -107,7 +107,23 @@
     CGFloat squareSize = self.bounds.size.width / (size + 2.0);
 
     [self drawInactiveTilesWithSize:squareSize];
+    [self drawRotationRingInRect:rect];
     [self drawActiveTitlesWithSize:squareSize];
+}
+
+- (void)drawRotationRingInRect:(CGRect)rect {
+    if ([self.pattern differingOrientations] < 2) return;
+
+    CGContextRef c = UIGraphicsGetCurrentContext();
+    CGContextAddEllipseInRect(c, CGRectInset(rect, 2, 2));
+
+    if (self.viewState == kFFPatternViewStateAlreadyPlayed){
+        CGContextSetStrokeColorWithColor(c, [[UIColor colorWithWhite:0.1 alpha:0.3] CGColor]);
+    } else {
+        CGContextSetStrokeColorWithColor(c, [[UIColor colorWithWhite:0.2 alpha:0.5] CGColor]);
+    }
+    CGContextSetLineWidth(c, 3);
+    CGContextDrawPath(c, kCGPathStroke);
 }
 
 

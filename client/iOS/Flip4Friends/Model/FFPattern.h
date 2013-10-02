@@ -24,11 +24,18 @@
 
 @property(nonatomic, copy) NSString *Id;
 
-- (id)initWithRandomCoords:(NSUInteger)count andMaxDistance:(NSUInteger)maxDistance;
+- (id)initWithRandomCoords:(NSUInteger)count andMaxDistance:(NSUInteger)maxDistance andAllowRotating:(BOOL)rotating;
 
 - (FFPattern *)copyForOrientation:(FFOrientation)orientation;
 
-- (id)initWithCoords:(NSArray *)array;
+- (id)initWithCoords:(NSArray *)array andAllowRotation:(BOOL)allowRotation;
 
 - (id)initAsMirroredCloneFrom:(FFPattern *)pattern;
+
+/**
+* Used to count the orientations that are actually different from the basic orientation.
+* So: For a completely symmetrical pattern (e.g., a single block), this would return 1;
+* a completely asymmetrical pattnern (e.g., 'L') would deliver 4.
+*/
+- (int)differingOrientations;
 @end

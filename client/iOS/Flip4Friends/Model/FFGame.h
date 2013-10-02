@@ -80,16 +80,12 @@ typedef enum {
 * to be turned more than once.
 */
 @property (nonatomic) BOOL ruleObfuscateTileState;
-@property (nonatomic) BOOL ruleAllowPatternRotation;
-@property (nonatomic) BOOL ruleAllowPatternMirroring;
 
 @property (nonatomic, strong, readonly) NSArray *moveHistory;
 @property (nonatomic, strong, readonly) NSArray *boardHistory;
 
 
 - (id)initWithId:(NSString *)id Type:(NSString * const)type andBoardSize:(NSInteger)size;
-
-- (id)initChallengeWithDifficulty:(int)i;
 
 /**
 * The given move is executed, with all consequences (boardView adjustment, player's turn change,
@@ -102,6 +98,8 @@ typedef enum {
 - (void)undo;
 
 - (void)redo;
+
+- (id)initTestChallengeWithId:(NSString *)id1 andBoard:(FFBoard *)board;
 
 - (id)initHotSeat;
 

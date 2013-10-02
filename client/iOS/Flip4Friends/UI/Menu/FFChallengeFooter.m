@@ -49,8 +49,7 @@
 }
 
 - (void)undoTapped {
-    FFGame *game = [[FFGamesCore instance] gameWithId:[self.delegate.delegate activeGameId]];
-    [game undo];
+    [self.delegate.delegate undoTapped];
 }
 
 @end

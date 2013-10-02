@@ -64,8 +64,10 @@
         ushort xCoord = (ushort)(tapPos.x / tileSize);
         ushort yCoord = (ushort)(tapPos.y / tileSize);
 
+        xCoord = (ushort) MIN(xCoord, self.boardView.boardSize-1);
+        yCoord = (ushort) MIN(yCoord, self.boardView.boardSize-1);
+
         if (!self.lastPannedCoord || xCoord != self.lastPannedCoord.x || yCoord != self.lastPannedCoord.y){
-            NSLog(@"now on %ix%i", xCoord, yCoord);
             [self.delegate tileTappedToPaintX:xCoord andY:yCoord done:NO];
             self.lastPannedCoord = [[FFCoord alloc] initWithX:xCoord andY:yCoord];
         }

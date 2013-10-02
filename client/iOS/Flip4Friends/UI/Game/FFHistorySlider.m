@@ -95,7 +95,7 @@
     CGFloat midX = CGRectGetMidX(self.bounds);
 
     // current point in time
-    CGContextAddEllipseInRect(c, CGRectMake(2, 2, self.bounds.size.width-4, self.bounds.size.width-4));
+    CGContextAddEllipseInRect(c, CGRectMake(midX-10, midX-10, 20, 20));
     CGContextAddEllipseInRect(c, CGRectMake(midX-2, midX-2, 4, 4));
     CGContextSetStrokeColorWithColor(c, [[UIColor whiteColor] CGColor]);
     CGContextSetShadowWithColor(c, CGSizeMake(0, 5), 1,

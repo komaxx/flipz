@@ -11,6 +11,8 @@
 
 @interface FFChallengeLoader : NSObject
 
++ (NSString *)encodeGameAsJson:(FFGame *)game;
+
 - (FFGame *)loadLevel:(NSUInteger)level;
 
 - (NSUInteger)numberOfChallenges;

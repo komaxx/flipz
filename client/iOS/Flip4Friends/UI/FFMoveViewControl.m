@@ -28,9 +28,6 @@
 
 @property (strong, nonatomic) CADisplayLink *displayLink;
 
-@property (nonatomic) BOOL enableRotation;
-@property (nonatomic) BOOL enableMirroring;
-
 @end
 
 
@@ -89,11 +86,6 @@
     panGestureRecognizer.delegate = self;
     panGestureRecognizer.cancelsTouchesInView = NO;
     [self addGestureRecognizer:panGestureRecognizer];
-}
-
-- (void)setRulesFromGame:(FFGame *)game {
-    self.enableRotation = game.ruleAllowPatternRotation;
-    self.enableMirroring = game.ruleAllowPatternMirroring;
 }
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
@@ -162,7 +154,7 @@
 }
 
 - (void)rotating:(UIRotationGestureRecognizer *)rec {
-    if (!self.enableRotation) return;
+    if (self.activePattern.differingOrientations < 2) return;
 
     if (rec.state == UIGestureRecognizerStateBegan){
         _downAngle = _nowRotation;
@@ -188,7 +180,7 @@
         _downTouchPoint.x -= self.movingPatternRoot.center.x;
         _downTouchPoint.y -= self.movingPatternRoot.center.y;
         CGFloat touchRadius = sqrtf(_downTouchPoint.x*_downTouchPoint.x + _downTouchPoint.y*_downTouchPoint.y);
-        if (self.enableRotation && ABS(touchRadius - _rotationRingRadius - 10) < 25){           // -10: move the touchable area outwards a bit
+        if (self.activePattern.differingOrientations > 1 && ABS(touchRadius - _rotationRingRadius - 10) < 25){           // -10: move the touchable area outwards a bit
             _downAngle = _nowRotation;
             _downTouchAngle = atan2f(_downTouchPoint.y, _downTouchPoint.x);
             _downDirection = _targetDirection;
@@ -461,7 +453,12 @@
         targetRect.origin.y = self.boardView.frame.origin.y + baseY*tileSize;
     }
 
-    self.movingPatternRoot.frame = [self convertRect:appearView.bounds fromView:appearView];
+
+    if (appearView){
+        self.movingPatternRoot.frame = [self convertRect:appearView.bounds fromView:appearView];
+    } else {
+        self.movingPatternRoot.frame = CGRectMake(self.center.x-20, self.center.y-20, 40, 40);
+    }
 
     self.movingPatternRoot.alpha = 0.1;
     [UIView animateWithDuration:0.2 animations:^{
@@ -470,8 +467,8 @@
     }];
     self.rotRingLayerOuter.strokeColor = [fillColor CGColor];
 
-    self.rotRingLayerInner.hidden = !self.enableRotation;
-    self.rotRingLayerOuter.hidden = !self.enableRotation;
+    self.rotRingLayerInner.hidden = [pattern differingOrientations]<2;
+    self.rotRingLayerOuter.hidden = [pattern differingOrientations]<2;;
 
     self.alpha = 1;
     self.hidden = NO;

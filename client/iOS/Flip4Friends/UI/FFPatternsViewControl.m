@@ -9,6 +9,7 @@
 #import "FFGamesCore.h"
 #import "FFPatternView.h"
 #import "FFGameViewController.h"
+#import "FFPattern.h"
 
 #define PATTERN_VIEW_SIZE 54
 
@@ -187,6 +188,16 @@
     [view setViewState:kFFPatternViewStateActive];
 
     [self.delegate setPatternSelectedForMove:view.pattern fromView:view];
+}
+
+- (void)activatePatternWithId:(NSString *)patternId {
+    [self cancelSelection];
+
+    FFPatternView *view = [self.patternViewsById objectForKey:patternId];
+    if (!view) return;
+
+    self.nowActivePatternView = view;
+    [view setViewState:kFFPatternViewStateActive];
 }
 
 - (void)cancelSelection {

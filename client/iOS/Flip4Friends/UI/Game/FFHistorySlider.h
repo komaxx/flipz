@@ -10,9 +10,15 @@
 
 @class FFGameViewController;
 
+
+@protocol FFHistorySliderProtocol
+- (void)showHistoryStartingFromStepsBack:(NSInteger)stepsBack;
+- (void)hideHistory;
+@end
+
 @interface FFHistorySlider : UIControl
 
-@property (nonatomic, weak) FFGameViewController *delegate;
+@property (nonatomic, weak) id<FFHistorySliderProtocol> delegate;
 
 @property (nonatomic, weak) FFBoardView *boardView;
 @property(nonatomic, copy) NSString *activeGameId;

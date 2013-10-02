@@ -39,7 +39,7 @@ static NSUInteger creationId;
 }
 
 
-- (void)generateForLevel:(NSUInteger)level andCallback:(void (^)(FFGame *, NSUInteger level))callbackBlock {
+- (FFGame*) generateRandomForLevel:(NSUInteger)level {
     NSLog(@"Challenges: %i", levelDefinitions.count);
 
     NSDictionary *definition = [levelDefinitions objectAtIndex:level];
@@ -49,7 +49,6 @@ static NSUInteger creationId;
     FFGame *challenge = [[FFGame alloc] initWithId:[NSString stringWithFormat:@"challenge%i_%i", level, creationId++]
                                               Type:kFFGameTypeSingleChallenge
                                       andBoardSize:[(NSNumber*)[definition objectForKey:@"boardsize"] intValue]];
-    challenge.ruleAllowPatternRotation = [(NSNumber *)[definition objectForKey:@"rotate_patterns"] boolValue];
     challenge.Board.lockMoves = [(NSNumber *)[definition objectForKey:@"lockmoves"] intValue];
     challenge.Board.BoardType = (FFBoardType) [(NSNumber *)[definition objectForKey:@"boardtype"] intValue];
 
@@ -61,7 +60,8 @@ static NSUInteger creationId;
 
     for (NSDictionary *patternDef in patternDefs) {
         FFPattern *pattern = [[FFPattern alloc] initWithRandomCoords:(NSUInteger) [(NSNumber *)[patternDef objectForKey:@"tiles"] intValue]
-                                                     andMaxDistance:(NSUInteger) [(NSNumber *)[patternDef objectForKey:@"distance"] intValue]];
+                                                     andMaxDistance:(NSUInteger) [(NSNumber *)[patternDef objectForKey:@"distance"] intValue]
+                                                   andAllowRotating:[(NSNumber *)[patternDef objectForKey:@"rotating"] boolValue]];
         [patterns addObject:pattern];
     }
 
@@ -85,7 +85,7 @@ static NSUInteger creationId;
         difficultyIsOk = YES;
     }
 
-    callbackBlock(challenge, level);
+    return challenge;
 }
 
 - (FFMove *)makeRandomMoveWithPattern:(FFPattern *)pattern forGame:(FFGame *)game {
@@ -94,7 +94,10 @@ static NSUInteger creationId;
 
     FFCoord *movePos = [[FFCoord alloc] initWithX:(ushort)(arc4random()%(maxX+1)) andY:(ushort)(arc4random()%(maxY+1))];
 
-    FFOrientation orientation = (FFOrientation) (game.ruleAllowPatternRotation ? arc4random()%4 : 0);
+//    TODO
+//    FFOrientation orientation = (FFOrientation) (game.ruleAllowPatternRotation ? arc4random()%4 : 0);
+    FFOrientation orientation = kFFOrientation_0_degrees;
+
     FFMove *move = [[FFMove alloc] initWithPattern:pattern atPosition:movePos andOrientation:orientation];
 
     return move;
@@ -112,7 +115,6 @@ static NSUInteger creationId;
     FFGame *challenge = [[FFGame alloc] initWithId:[NSString stringWithFormat:@"generated_challenge_%i", generatedChallenge++]
                                               Type:kFFGameTypeSingleChallenge andBoardSize:boardSize];
 
-    challenge.ruleAllowPatternRotation = rotation;
     challenge.Board.lockMoves = lockTurns;
     challenge.Board.BoardType = kFFBoardType_multiStated_rollover;
 
@@ -133,7 +135,8 @@ static NSUInteger creationId;
 
     for (NSArray *def in patternDefs) {
         FFPattern *pattern = [[FFPattern alloc] initWithRandomCoords:(NSUInteger) [(NSNumber *)[def objectAtIndex:0] intValue]
-                                                      andMaxDistance:(NSUInteger) [(NSNumber *)[def objectAtIndex:1] intValue]];
+                                                      andMaxDistance:(NSUInteger) [(NSNumber *)[def objectAtIndex:1] intValue]
+                                                    andAllowRotating:YES];
         [patterns addObject:pattern];
     }
 

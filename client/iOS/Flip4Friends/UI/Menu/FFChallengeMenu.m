@@ -44,6 +44,7 @@
 
     NSUInteger index = (NSUInteger) indexPath.row;
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifierContact];
+    [cell setBackgroundColor:[UIColor clearColor]];
 
     [cell viewWithTag:index%2==1?1:11].hidden = YES;
     [cell viewWithTag:index%2==1?2:12].hidden = YES;

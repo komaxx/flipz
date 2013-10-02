@@ -109,11 +109,7 @@
         if (tile.nowLocked) continue;
 
         NSInteger preColor = tile.color;
-
-        if (self.BoardType == kFFBoardType_twoStated) tile.color = (tile.color+1)%2;
-        else if (self.BoardType == kFFBoardType_multiStated_clamped) tile.color = MAX(tile.color-1, 0);
-        else if (self.BoardType == kFFBoardType_multiStated_rollover) tile.color = (tile.color+99)%100;
-
+        [self flipTile:tile];
         tile.unlockTime = self.moveIndex + self.lockMoves + 1;
 
         if (tile.color != preColor) [ret addObject:c];
@@ -123,6 +119,12 @@
     [self recomputeNowLocked];
 
     return ret;
+}
+
+- (void)flipTile:(FFTile *)tile {
+    if (self.BoardType == kFFBoardType_twoStated) tile.color = (tile.color+1)%2;
+    else if (self.BoardType == kFFBoardType_multiStated_clamped) tile.color = MAX(tile.color-1, 0);
+    else if (self.BoardType == kFFBoardType_multiStated_rollover) tile.color = (tile.color+99)%100;
 }
 
 - (void)buildGameByFlippingCoords:(NSArray *)coords {
@@ -255,7 +257,7 @@
     ((FFTile*) [self.tiles objectAtIndex:i]).color = [color integerValue];
 }
 
-- (void)printColorsToLog {
+- (NSString *) makeColorsString {
     NSString *ret = [NSString stringWithFormat:@"[ "];
     for (NSUInteger y = 0; y < self.BoardSize; y++){
         for (NSUInteger x = 0; x < self.BoardSize; x++){
@@ -264,8 +266,27 @@
         }
         ret = [ret stringByAppendingString:@"  "];
     }
-    ret = [ret stringByAppendingString:@"  ],"];
+    return [ret stringByAppendingString:@" ]"];
+}
 
-    NSLog(ret);
+- (void)printColorsToLog {
+    NSLog(@"%@",[self makeColorsString]);
+}
+
+- (void)clampTiles {
+    for (FFTile *tile in self.tiles){
+        if (self.BoardType == kFFBoardType_twoStated) tile.color = (tile.color+2)%2;
+        else if (self.BoardType == kFFBoardType_multiStated_clamped) tile.color = MAX(tile.color, 0);
+        else if (self.BoardType == kFFBoardType_multiStated_rollover) tile.color = (tile.color+100)%100;
+    }
+}
+
+/**
+* Used for debugging and serialization purposes
+*/
+- (void)addColorsToArray:(NSMutableArray *)array {
+    for (FFTile *tile in self.tiles) {
+        [array addObject:[NSNumber numberWithInt:tile.color]];
+    }
 }
 @end

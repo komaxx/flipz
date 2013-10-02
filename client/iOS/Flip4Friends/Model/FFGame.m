@@ -34,7 +34,6 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
 @end
 
 @implementation FFGame {
-    NSInteger _challengeDifficulty;         // only for challenges...
     NSInteger _challengeMoves;
 }
 @synthesize Board = _Board;
@@ -61,6 +60,25 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
     return self;
 }
 
+- (id)initTestChallengeWithId:(NSString*)id andBoard:(FFBoard *)board{
+    self = [super init];
+    if (self){
+        self.Id = id;
+        self.Type = kFFGameTypeSingleChallenge;
+        self.gameState = kFFGameState_NotYetStarted;
+        self.Board = board;
+
+        self.moveHistory = [[NSMutableArray alloc] initWithCapacity:10];
+        self.boardHistory = [[NSMutableArray alloc] initWithCapacity:10];
+
+        self.player1 = [[FFPlayer alloc] init];
+        self.player1.id = @"challengeTestPlayer";
+        self.player1.local = YES;
+
+    }
+    return self;
+}
+
 - (id)initHotSeat {
     self = [super init];
     if (self){
@@ -82,26 +100,6 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
         self.player2 = [[FFPlayer alloc] init];
         self.player2.local = YES;
         self.player2.id = [NSString stringWithFormat:@"_LocalHotSeat%iPlayer2", id];
-    }
-    return self;
-}
-
-- (id)initChallengeWithDifficulty:(int)difficulty {
-    self = [super init];
-    if (self){
-        _challengeDifficulty = difficulty;
-
-        self.Id = [NSString stringWithFormat:@"local_challenge_%i", difficulty];
-        self.Type = kFFGameTypeSingleChallenge;
-        self.gameState = kFFGameState_NotYetStarted;
-        self.Board = [[FFBoard alloc] initWithSize:2];
-
-        self.moveHistory = [[NSMutableArray alloc] initWithCapacity:10];
-        self.boardHistory = [[NSMutableArray alloc] initWithCapacity:10];
-
-        self.player1 = [[FFPlayer alloc] init];
-        self.player1.local = YES;
-        self.player1.id = @"_LocalChallengePlayer_";
     }
     return self;
 }
@@ -315,9 +313,6 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
 // hot seat
 
 - (void)generateHotSeatGame {
-    self.ruleAllowPatternRotation = YES;
-    self.ruleAllowPatternMirroring = NO;
-
     // make the boardView: random coloring
     self.Board = [[FFBoard alloc] initWithSize:6];
     [self.Board checker];
@@ -334,7 +329,8 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
 
         FFPattern *p1Pattern = [[FFPattern alloc]
                 initWithRandomCoords:tileCount
-                      andMaxDistance:maxDistance];
+                      andMaxDistance:maxDistance
+                    andAllowRotating:YES];
         [player1Patterns addObject:p1Pattern];
 
         [player2Patterns addObject:[[FFPattern alloc] initAsMirroredCloneFrom:p1Pattern]];
@@ -342,7 +338,7 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
 
     // corrections
     //* give white an extra move
-    FFPattern *p1Pattern = [[FFPattern alloc] initWithRandomCoords:1 andMaxDistance:4];
+    FFPattern *p1Pattern = [[FFPattern alloc] initWithRandomCoords:1 andMaxDistance:4 andAllowRotating:YES];
     [player1Patterns addObject:p1Pattern];
     //*/
 
@@ -358,7 +354,7 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
     for (int i = 1; i < pattern.Coords.count; i++) [nuPatternCoords addObject:[pattern.Coords objectAtIndex:i]];
 
     [player1Patterns removeObject:pattern];
-    [player1Patterns addObject:[[FFPattern alloc] initWithCoords:nuPatternCoords]];
+    [player1Patterns addObject:[[FFPattern alloc] initWithCoords:nuPatternCoords andAllowRotation:YES]];
     //*/
 
     [self.player1 resetWithPatterns:player1Patterns];

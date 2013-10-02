@@ -59,8 +59,6 @@ typedef enum {
 */
 - (NSArray *)doMoveWithCoords:(NSArray *)coords;
 
-- (void)undoMoveWithCoords:(NSArray *)coords;
-
 - (BOOL)isSingleChromatic;
 
 - (void)cleanMonochromaticTo:(NSUInteger)cleanColor;
@@ -77,6 +75,8 @@ typedef enum {
 
 - (void)duplicateStateFrom:(FFBoard *)board;
 
+- (void)flipTile:(FFTile *)tile;
+
 - (void)buildGameByFlippingCoords:(NSArray *)array;
 
 - (BOOL)isInTargetState;
@@ -85,5 +85,11 @@ typedef enum {
 
 - (void)colorTile:(NSUInteger)i withColor:(NSNumber *)color;
 
+- (NSString *)makeColorsString;
+
 - (void)printColorsToLog;
+
+- (void)clampTiles;
+
+- (void)addColorsToArray:(NSMutableArray *)array;
 @end

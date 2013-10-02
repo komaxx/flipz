@@ -12,7 +12,7 @@
 
 @property(nonatomic) NSUInteger numberOfChallenges;
 
-- (void) generateForLevel:(NSUInteger)level andCallback:(void (^)(FFGame *, NSUInteger))callbackBlock;
+- (FFGame*) generateRandomForLevel:(NSUInteger)level;
 
 - (FFGame *)generateWithBoardSize:(int)i andOverLapping:(BOOL)lapping andRotation:(BOOL)rotation andLockTurns:(int)lockTurns;
 @end

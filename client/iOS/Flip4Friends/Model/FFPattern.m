@@ -12,6 +12,11 @@
 @property(strong, nonatomic, readwrite) NSArray *Coords;
 @property(nonatomic, readwrite) NSUInteger SizeX;
 @property(nonatomic, readwrite) NSUInteger SizeY;
+
+@property (nonatomic) BOOL rotating;
+
+@property (nonatomic) int orientations;
+
 @end
 
 
@@ -19,13 +24,14 @@
 @synthesize Id = _Id;
 
 
-- (id)initWithCoords:(NSArray *)coords {
+- (id)initWithCoords:(NSArray *)coords andAllowRotation:(BOOL)rotating {
     self = [super init];
 
     if (self){
         self.Coords = coords;
         [self trim];
         [self makeId];
+        _rotating = rotating;
     }
 
     return self;
@@ -40,6 +46,7 @@
         for (FFCoord *coord in pattern.Coords) {
             [(NSMutableArray *) self.Coords addObject:[[FFCoord alloc] initWithX:(ushort)(pattern.SizeX - coord.x - 1) andY:coord.y]];
         }
+        self.rotating = pattern.rotating;
         [self trim];
         [self makeId];
     }
@@ -48,11 +55,12 @@
 }
 
 
-- (id)initWithRandomCoords:(NSUInteger)count andMaxDistance:(NSUInteger)maxDistance{
+- (id)initWithRandomCoords:(NSUInteger)count andMaxDistance:(NSUInteger)maxDistance andAllowRotating:(BOOL)rotating{
     self = [super init];
     if (self){
         if (count < 1) count = 1;
         self.Coords = [[NSMutableArray alloc] initWithCapacity:count];
+        self.rotating = rotating;
 
         NSUInteger patternArea = (maxDistance+1) * (maxDistance+1);
 
@@ -154,7 +162,49 @@
             break;
     }
 
-    return [[FFPattern alloc] initWithCoords:rotCoords];
+    return [[FFPattern alloc] initWithCoords:rotCoords andAllowRotation:self.rotating];
 }
 
+- (BOOL)isEqualPattern:(id)other {
+    if (other == self) return YES;
+    if (!other || ![[other class] isEqual:[self class]]) return NO;
+
+    FFPattern *o = other;
+    if (self.Coords.count != o.Coords.count || self.SizeX!=o.SizeX || self.SizeY!=o.SizeY) return NO;
+
+    for (FFCoord *sCo in self.Coords) {
+        BOOL found = NO;
+        for (FFCoord *oCo in o.Coords) {
+            if (sCo.x == oCo.x && sCo.y == oCo.y){
+                found = YES;
+                break;
+            }
+        }
+        if (!found) return NO;
+    }
+
+    return YES;
+}
+
+
+- (int)differingOrientations {
+    if (self.orientations == 0){
+        if (!self.rotating){
+            self.orientations = 1;
+        } else {
+            FFPattern *rotPattern1 = [self copyForOrientation:kFFOrientation_90_degrees];
+            if ([rotPattern1 isEqualPattern:self]){
+                self.orientations = 1;
+            } else {
+                FFPattern *rotPattern2 = [self copyForOrientation:kFFOrientation_180_degrees];
+                if ([rotPattern2 isEqualPattern:self]){
+                    self.orientations = 2;
+                } else {
+                    self.orientations = 4;
+                }
+            }
+        }
+    }
+    return self.orientations;
+}
 @end

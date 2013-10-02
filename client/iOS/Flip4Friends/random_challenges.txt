@@ -6,10 +6,9 @@
         "boardsize":4,
         "lockmoves":0,
         "boardtype":0,
-        "rotate_patterns":0,
         "patterns": [
-            {   "tiles":3, "distance":2    },
-            {   "tiles":5, "distance":3    }
+            {   "tiles":3, "distance":2, "rotating":0 },
+            {   "tiles":5, "distance":3, "rotating":0 }
         ]
     },
     {
@@ -17,10 +16,9 @@
         "boardsize":4,
         "lockmoves":0,
         "boardtype":1,
-        "rotate_patterns":1,
         "patterns": [
-            {   "tiles":4, "distance":3    },
-            {   "tiles":5, "distance":3    }
+            {   "tiles":4, "distance":3, "rotating":1 },
+            {   "tiles":5, "distance":3, "rotating":1 }
         ]
     },
     {
@@ -28,13 +26,12 @@
         "boardsize":5,
         "lockmoves":0,
         "boardtype":1,
-        "rotate_patterns":1,
         "patterns": [
-            {   "tiles":2, "distance":2    },
-            {   "tiles":3, "distance":2    },
-            {   "tiles":4, "distance":3    },
-            {   "tiles":5, "distance":4    },
-            {   "tiles":6, "distance":4    },
+            {   "tiles":2, "distance":2, "rotating":1 },
+            {   "tiles":3, "distance":2, "rotating":1 },
+            {   "tiles":4, "distance":3, "rotating":1 },
+            {   "tiles":5, "distance":4, "rotating":1 },
+            {   "tiles":6, "distance":4, "rotating":1 },
         ]
     }
 ]

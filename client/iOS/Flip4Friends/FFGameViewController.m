@@ -5,12 +5,8 @@
 
 
 #import "FFGameViewController.h"
-#import "FFBoardView.h"
 #import "FFGame.h"
-#import "FFPatternsViewControl.h"
-#import "FFMoveViewControl.h"
 #import "FFGamesCore.h"
-#import "FFHistorySlider.h"
 
 @interface FFGameViewController ()
 
@@ -86,7 +82,7 @@
 - (void)updateBoardAndDrawerPosition {
     FFGame *game = [[FFGamesCore instance] gameWithId:[self.delegate activeGameId ]];
     BOOL centerBoard = !game || game.moveHistory.count < 1;
-    centerBoard = YES;          //
+//    centerBoard = YES;          //
 
     self.historySlider.hidden = centerBoard;
 
@@ -151,7 +147,6 @@
     self.player1PatternsControl.activeGameId = nil;
     self.player2PatternsControl.activeGameId = nil;
     [self.moveViewControl moveFinished];
-    [self.moveViewControl setRulesFromGame:game];
     self.player1PatternsControl.activeGameId = gameID;
     self.player2PatternsControl.activeGameId = gameID;
     
@@ -162,6 +157,29 @@
 
 - (void)gameCleaned {
     [self selectedGameWithId:[self.delegate activeGameId]];
+}
+
+- (void)undo {
+    FFGame *game = [[FFGamesCore instance] gameWithId:[self.delegate activeGameId]];
+    if (game.moveHistory.count < 1){
+        NSLog(@"can't undo. At starting point.");
+        return;
+    }
+
+    FFMove* undoneMove = [game.moveHistory lastObject];
+    [game undo];
+
+    [self performSelector:@selector(activateUndonePatternWithId:) withObject:undoneMove afterDelay:0.05];
+}
+
+- (void)activateUndonePatternWithId:(FFMove *)undoneMove {
+    [self.player1PatternsControl activatePatternWithId:undoneMove.Pattern.Id];
+    [self.moveViewControl
+            startMoveWithPattern:undoneMove.Pattern
+                         atCoord:undoneMove.Position
+                   andAppearFrom:nil
+                    withRotation:undoneMove.Orientation
+                      forPlayer2:NO];
 }
 
 - (void)didLoad {

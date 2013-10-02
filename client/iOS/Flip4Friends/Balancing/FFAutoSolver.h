@@ -6,6 +6,8 @@
 
 #import <Foundation/Foundation.h>
 @class FFGame;
+@class FFPattern;
+@class FFBoard;
 
 /**
 * Brute-force solves every challenge. Analyzes the difficulty along the way.
@@ -26,4 +28,5 @@
 - (void)solveSynchronously;
 
 
+- (int) findValidPositionsForPattern:(FFPattern *)pattern onBoard:(FFBoard *)board;
 @end

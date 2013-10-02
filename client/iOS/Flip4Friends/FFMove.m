@@ -17,6 +17,8 @@
 @end
 
 @implementation FFMove {
+    BOOL _moveSumComputed;
+    NSInteger _moveSum;
 }
 
 - (id)initWithPattern:(FFPattern *)pattern atPosition:(FFCoord *)position andOrientation:(FFOrientation)orientation {
@@ -47,4 +49,26 @@
     }
     return ret;
 }
+
+/**
+* Computes the specific hash sum of the move - disregarding the actual effect
+* as the move is applied to a board.
+*/
+- (NSInteger)moveSum {
+    if (!_moveSumComputed){
+        _moveSum = 0;
+
+        NSArray *flipCoords = [self buildToFlipCoords];
+
+        for (FFCoord* coord in flipCoords) {
+            _moveSum += (coord.x + self.Position.x) * 64;     // WARNING: Assumption here is that boards are never bigger than 64 tiles (reasonable now...)
+            _moveSum += coord.y + self.Position.y;
+        }
+
+        _moveSumComputed = YES;
+    }
+
+    return _moveSum;
+}
+
 @end

@@ -67,6 +67,9 @@
 // StartUp
 // ////////////////////////////////////////////////////////////////////////
 
+- (void)registerGame:(FFGame *)game {
+    [self.gamesById setObject:game forKey:game.Id];
+}
 
 - (FFGame *)generateNewHotSeatGame {
     FFGame *nuHotSeat = [[FFGame alloc] initHotSeat];

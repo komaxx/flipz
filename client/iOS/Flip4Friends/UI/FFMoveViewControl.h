@@ -11,9 +11,14 @@
 @class FFBoardView;
 @class FFGame;
 
+@protocol FFMoveViewControlDelegate
+- (void)moveCompletedWithPattern:(FFPattern *)pattern at:(FFCoord *)coord withDirection:(NSInteger)direction;
+- (void)cancelMoveWithPattern:(FFPattern *)pattern;
+@end
+
 @interface FFMoveViewControl : UIView <UIGestureRecognizerDelegate>
 
-@property (weak, nonatomic) FFGameViewController *delegate;
+@property (weak, nonatomic) id<FFMoveViewControlDelegate> delegate;
 @property(nonatomic, weak) FFBoardView *boardView;
 
 
@@ -29,5 +34,4 @@
                 withRotation:(NSInteger)startDirection
                   forPlayer2:(BOOL)player2;
 
-- (void)setRulesFromGame:(FFGame *)game;
 @end

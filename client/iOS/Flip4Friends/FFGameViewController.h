@@ -6,12 +6,15 @@
 
 #import <UIKit/UIKit.h>
 #import "FFPattern.h"
+#import "FFPatternsViewControl.h"
+#import "FFHistorySlider.h"
+#import "FFMoveViewControl.h"
 
 @protocol FFGameViewControllerDelegate <NSObject>
 - (NSString *)activeGameId;
 @end
 
-@interface FFGameViewController : UIView
+@interface FFGameViewController : UIView <FFPatternsViewControlDelegate, FFHistorySliderProtocol, FFMoveViewControlDelegate>
 
 @property (weak, nonatomic) id<FFGameViewControllerDelegate> delegate;
 
@@ -32,4 +35,5 @@
 
 - (void)gameCleaned;
 
+- (void)undo;
 @end

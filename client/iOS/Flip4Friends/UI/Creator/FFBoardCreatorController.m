@@ -11,10 +11,9 @@
 #import "FFBoardView.h"
 #import "FFBoard.h"
 #import "FFBoardPaintView.h"
+#import "FFCreateChallengeSession.h"
 
 @interface FFBoardCreatorController ()
-
-@property (strong, nonatomic) FFBoard* board;
 
 @property (weak, nonatomic) IBOutlet FFBoardView *boardView;
 @property (weak, nonatomic) IBOutlet FFBoardPaintView *paintView;
@@ -29,11 +28,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-
-    self.board = [[FFBoard alloc] initWithSize:8];
-    self.board.BoardType = kFFBoardType_multiStated_clamped;
-
-    [self.boardView updateTilesFromBoard:self.board];
+    [self.boardView updateTilesFromBoard:[FFCreateChallengeSession instance].paintedBoard];
     
     self.paintView.boardView = self.boardView;
     self.paintView.delegate = self;
@@ -77,11 +72,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     FFBoardType nuType = (FFBoardType) indexPath.row;
 
-    if (nuType != self.board.BoardType){
-        self.board.BoardType = nuType;
+    if (nuType != [FFCreateChallengeSession instance].paintedBoard.BoardType){
+        [FFCreateChallengeSession instance].paintedBoard.BoardType = nuType;
 
         [self createUndoPoint];
-        [self.boardView updateTilesFromBoard:self.board];
+        [self.boardView updateTilesFromBoard:[FFCreateChallengeSession instance].paintedBoard];
     }
 }
 
@@ -93,21 +88,21 @@
 
     if (done) [self createUndoPoint];
 
-    [self.board tileAtX:x andY:y].color += toAdd;
-    [self updateBoardWith:self.board];
+    FFBoard *board = [FFCreateChallengeSession instance].paintedBoard;
+    [board tileAtX:x andY:y].color += toAdd;
+    [board clampTiles];
 
-    [self.boardView updateTilesFromBoard:self.board];
+    [self updateBoardWith:[FFCreateChallengeSession instance].paintedBoard];
 }
 
 - (void)paintingEnded {
     [self createUndoPoint];
 }
 
-
 - (void)movePainting:(UISwipeGestureRecognizerDirection)direction {
-    FFBoard *movedBoard = [[FFBoard alloc] initWithBoard:self.board];
-    for (NSUInteger y = 0; y < self.board.BoardSize; y++){
-        for (NSUInteger x = 0; x < self.board.BoardSize; x++){
+    FFBoard *movedBoard = [[FFBoard alloc] initWithBoard:[FFCreateChallengeSession instance].paintedBoard];
+    for (NSUInteger y = 0; y < [FFCreateChallengeSession instance].paintedBoard.BoardSize; y++){
+        for (NSUInteger x = 0; x < [FFCreateChallengeSession instance].paintedBoard.BoardSize; x++){
             int sourceTileX = x;
             if (direction==UISwipeGestureRecognizerDirectionLeft) sourceTileX++;
             else if (direction==UISwipeGestureRecognizerDirectionRight) sourceTileX--;
@@ -120,7 +115,10 @@
                     ||sourceTileY<0||sourceTileY>=movedBoard.BoardSize){
                 [movedBoard tileAtX:x andY:y].color = 0;
             } else {
-                [movedBoard tileAtX:x andY:y].color = [self.board tileAtX:(NSUInteger) sourceTileX andY:(NSUInteger) sourceTileY].color;
+                [movedBoard tileAtX:x andY:y].color =
+                        [[FFCreateChallengeSession instance].paintedBoard
+                                tileAtX:(NSUInteger)sourceTileX
+                                   andY:(NSUInteger) sourceTileY].color;
             }
         }
     }
@@ -132,11 +130,11 @@
     NSUInteger nuSize = (NSUInteger) [(UIStepper *) sender value];
 
     FFBoard *nuBoard = [[FFBoard alloc] initWithSize:nuSize];
-    nuBoard.BoardType = self.board.BoardType;
-    NSUInteger minSize = MIN(nuSize, self.board.BoardSize);
+    nuBoard.BoardType = [FFCreateChallengeSession instance].paintedBoard.BoardType;
+    NSUInteger minSize = MIN(nuSize, [FFCreateChallengeSession instance].paintedBoard.BoardSize);
     for (NSUInteger y = 0; y < minSize; y++){
         for (NSUInteger x = 0; x < minSize; x++){
-            [nuBoard tileAtX:x andY:y].color = [self.board tileAtX:x andY:y].color;
+            [nuBoard tileAtX:x andY:y].color = [[FFCreateChallengeSession instance].paintedBoard tileAtX:x andY:y].color;
         }
     }
 
@@ -144,10 +142,9 @@
 }
 
 - (void)updateBoardWith:(FFBoard *)nuBoard {
-    self.board = nuBoard;
-    [self.boardView updateTilesFromBoard:self.board];
-
-    [self.board printColorsToLog];
+    [[FFCreateChallengeSession instance] updatePaintBoardWith:nuBoard];
+    [self.boardView updateTilesFromBoard:[FFCreateChallengeSession instance].paintedBoard];
+    [[FFCreateChallengeSession instance].paintedBoard printColorsToLog];
 }
 
 // board painting

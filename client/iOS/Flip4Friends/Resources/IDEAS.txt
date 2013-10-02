@@ -2,12 +2,15 @@
 
 * Racing mode: Measure time until solution of a puzzle (more puzzles), send as challenge to friend.
 
+* [other game]: Take 4. The user is must flip exactly 4 tiles in an area of 3x3 until everything is white.
+
+* Auto-reset after a set amount of moves ->
+
 * Assign challenge stars based on
     + time
     + turns over par/minimum
 
-* Limited number of rotations / mirrorings
-
+* -> "Lights out", simple playable patterns, fields trigger moves
 
 Compute difficulty:
 * How many obviously valid moves are available (less == easier)
@@ -23,7 +26,6 @@ Challenge Parameters:
 * Lock turns: 0,1,2,...
 * Covered/obfuscated necessary moves! Its "black" until it was turned enough times
 * Clear target color (e.g. 0, 1, 2, ...)
-* Clear target pattern
 * Enable/disable rotate
 * Enable/disable mirror
 * Triggered in-between moves (triggered when flipping a tile, triggered after x moves)
@@ -38,7 +40,6 @@ Challenge Parameters:
      * Board Size
      * Lock turns
      * Tile behavior ((x+1)%2, max(x-1,0), (x+99)%100 )
-     * Target Pattern
      * Triggered Moves
 
     -> Emerging difficulty estimation

@@ -11,6 +11,7 @@
 @class FFBoardView;
 @class FFBoardCreatorController;
 
+
 @interface FFBoardPaintView : UIView <UIGestureRecognizerDelegate>
 
 @property (weak, nonatomic) FFBoardCreatorController *delegate;

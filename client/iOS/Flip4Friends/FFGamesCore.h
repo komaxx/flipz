@@ -30,4 +30,6 @@
 - (FFGame *)generateNewHotSeatGame;
 
 - (FFGame *)generateNewChallenge;
+
+- (void)registerGame:(FFGame *)game;
 @end

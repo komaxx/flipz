@@ -36,4 +36,6 @@ typedef enum {
  * of these coords.
  */
 - (NSArray*)buildToFlipCoords;
+
+- (NSInteger)moveSum;
 @end
