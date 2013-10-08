@@ -10,8 +10,9 @@
 #import "FFPatternView.h"
 #import "FFGameViewController.h"
 #import "FFPattern.h"
+#import "FFHistoryStep.h"
 
-#define PATTERN_VIEW_SIZE 54
+#define PATTERN_VIEW_SIZE 60
 
 @interface FFPatternsViewControl ()
 
@@ -21,8 +22,6 @@
 @property (strong, nonatomic) NSMutableDictionary *tmpRemovedCollector;
 
 @property (weak, nonatomic) FFPatternView *nowActivePatternView;
-
-@property (weak, nonatomic) NSString* lastShownPlayerId;
 
 @end
 
@@ -37,6 +36,8 @@
         _scrollView = scrollView;
         self.patternViewsById = [[NSMutableDictionary alloc] initWithCapacity:20];
         self.tmpRemovedCollector = [[NSMutableDictionary alloc] initWithCapacity:20];
+
+        scrollView.backgroundColor = [UIColor clearColor];
     }
 
     return self;
@@ -45,9 +46,21 @@
 - (void)didAppear {
     [[NSNotificationCenter defaultCenter]
             addObserver:self selector:@selector(gameChanged:) name:kFFNotificationGameChanged object:nil];
+    [[NSNotificationCenter defaultCenter]
+            addObserver:self selector:@selector(showOrHideHistory:) name:kFFNotificationHistoryShowStateChanged object:nil];
 
     if (self.secondPlayer) _scrollView.transform = CGAffineTransformMakeRotation((CGFloat) M_PI);
 }
+
+- (void)showOrHideHistory:(NSNotification *)notification {
+    NSNumber *nowHistoryStepsBack = [notification.userInfo objectForKey:kFFNotificationHistoryShowStateChanged_stepsBack];
+    if (nowHistoryStepsBack.integerValue >= 0){
+        [self showHistoryStartingFromStepsBack:(NSUInteger) nowHistoryStepsBack.integerValue];
+    } else {
+        [self hideHistory];
+    }
+}
+
 - (void)didDisappear {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -73,18 +86,16 @@
         return;
     }
 
-    [self updatePatternStatesWithPlayer:[self shownPlayer]];
+    // ONLY necessary to resort the patterns
+    if (_needsScrolling) [self replacePatternsForPlayer:[self shownPlayer]];
+    [self updatePatternStatesWithDoneMoves:[self shownPlayer].doneMoves];
 }
 
-- (void)updatePatternStatesWithPlayer:(FFPlayer *)player {
-    // ONLY necessary to resort the patterns
-    if (_needsScrolling) [self replacePatternsForPlayer:player];
-    // remove me
-
+- (void)updatePatternStatesWithDoneMoves:(NSDictionary *)donePatternIds {
     for (NSString *key in self.patternViewsById) {
         FFPatternView *view = (FFPatternView *) [self.patternViewsById objectForKey:key];
         if (view == self.nowActivePatternView) continue;
-        view.viewState = [player.doneMoves objectForKey:key]== nil ?
+        view.viewState = [donePatternIds objectForKey:key]== nil ?
                 kFFPatternViewStateNormal : kFFPatternViewStateAlreadyPlayed;
     }
 }
@@ -113,10 +124,10 @@
 
     NSInteger xCount = (NSInteger) (self.scrollView.bounds.size.width / PATTERN_VIEW_SIZE);
     CGFloat xPadding = (NSInteger)( (self.scrollView.bounds.size.width - (xCount*PATTERN_VIEW_SIZE)) / (xCount-1) );
-    CGFloat yPadding = 5;
+    CGFloat yPadding = xPadding;
 
     CGFloat x = 0;
-    CGFloat y = 3;
+    CGFloat y = 0;
 
     for (FFPattern *pattern in patterns) {
         NSString *patternId = pattern.Id;
@@ -227,17 +238,19 @@
 }
 
 - (void)showHistoryStartingFromStepsBack:(NSUInteger)stepsBack {
+    [self cancelMove];
+    [self hideHistory];
+
     FFGame *game = [[FFGamesCore instance] gameWithId:self.activeGameId];
 
-    NSString *highlightPatternId = [(FFMove *) [game.moveHistory objectAtIndex:
-            game.moveHistory.count - stepsBack - 1
-    ] Pattern].Id;
-    for (NSString *patternViewId in self.patternViewsById) {
-        if ( ([patternViewId isEqualToString:highlightPatternId])){
-            [(FFPatternView *)[self.patternViewsById objectForKey:patternViewId] setHistoryHighlighted:YES asStepBack:0];
-        } else{
-            [(FFPatternView *)[self.patternViewsById objectForKey:patternViewId] setHistoryHighlighted:NO asStepBack:0];
+    if (stepsBack >= game.history.count){
+        return;
+    } else {
+        FFHistoryStep *historyStep = [game.history objectAtIndex:stepsBack];
+        for (NSString *patternID in historyStep.affectedPatternIDs) {
+            [[self.patternViewsById objectForKey:patternID] setHistoryHighlighted:YES asStepBack:0];
         }
+        [self updatePatternStatesWithDoneMoves:historyStep.doneMoveIds];
     }
 }
 
@@ -245,6 +258,7 @@
     for (NSString *patternViewId in self.patternViewsById) {
         [(FFPatternView *)[self.patternViewsById objectForKey:patternViewId] setHistoryHighlighted:NO asStepBack:0];
     }
+    [self updatePatternStatesWithDoneMoves:[self shownPlayer].doneMoves];
 }
 
 @end

@@ -43,6 +43,7 @@
     self.movePaintView.delegate = self;
 }
 
+
 - (void)moveStarted {
     self.activePatternPanel.hidden = NO;
 }

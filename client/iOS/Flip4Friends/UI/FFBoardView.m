@@ -12,6 +12,8 @@
 #import "FFTileViewMultiStated.h"
 #import "FFPatternGenerator.h"
 #import "FFBoard.h"
+#import "FFHistorySlider.h"
+#import "FFHistoryStep.h"
 
 @interface FFBoardView()
 /**
@@ -21,14 +23,11 @@
 
 @property (copy, nonatomic) NSString *activeGameId;
 
-@property (strong, nonatomic) NSMutableDictionary * historyTileSets;
-@property (strong, nonatomic) NSMutableDictionary * removeCollector;
+@property (strong, nonatomic) NSMutableArray *historyTiles;
 
 @property FFBoard *introBoard;
 
 @end
-
-#define MAX_HISTORY_MOVES 1
 
 @implementation FFBoardView {
     BOOL _introFlipping;
@@ -57,8 +56,7 @@
 - (void)setup {
     self.tileViews = [[NSMutableArray alloc] initWithCapacity:(8*8)];
 
-    self.historyTileSets = [[NSMutableDictionary alloc] initWithCapacity:10];
-    self.removeCollector = [[NSMutableDictionary alloc] initWithCapacity:10];
+    self.historyTiles = [[NSMutableArray alloc] initWithCapacity:10];
 }
 
 - (void)didAppear {
@@ -69,7 +67,10 @@
 
     [[NSNotificationCenter defaultCenter]
             addObserver:self selector:@selector(gameChanged:) name:kFFNotificationGameChanged object:nil];
+    [[NSNotificationCenter defaultCenter]
+            addObserver:self selector:@selector(showOrHideHistory:) name:kFFNotificationHistoryShowStateChanged object:nil];
 }
+
 
 - (void)didDisappear {
     _visible = NO;
@@ -130,52 +131,46 @@
     return _tileSize;
 }
 
+- (void)showOrHideHistory:(NSNotification *)notification {
+    NSNumber *nowHistoryStepsBack = [notification.userInfo objectForKey:kFFNotificationHistoryShowStateChanged_stepsBack];
+    if (nowHistoryStepsBack.integerValue >= 0){
+        [self showHistoryStartingFromStepsBack:(NSUInteger) nowHistoryStepsBack.integerValue];
+    } else {
+        [self hideHistory];
+    }
+}
+
 - (void)showHistoryStartingFromStepsBack:(NSUInteger)startStepsBack {
-    [self.removeCollector removeAllObjects];
-    [self.removeCollector addEntriesFromDictionary:self.historyTileSets];
+    for (UIView *historyTile in self.historyTiles) {
+        [historyTile removeFromSuperview];
+    }
+    [self.historyTiles removeAllObjects];
 
-    NSArray *moves = [[FFGamesCore instance] gameWithId:self.activeGameId].moveHistory;
+    FFGame *game = [[FFGamesCore instance] gameWithId:self.activeGameId];
 
-    int startMoveIndex = moves.count-startStepsBack-1;
-    int endMoveIndex = MAX(-1, startMoveIndex - MAX_HISTORY_MOVES);
-    int backStep = 0;
-    for (NSInteger i = startMoveIndex; i > endMoveIndex; i--){
-        FFMove *nowMove = [moves objectAtIndex:(NSUInteger) i];
-        [self.removeCollector removeObjectForKey:nowMove.Pattern.Id];
+    if (startStepsBack >= game.history.count){
+        [self updateTilesFromBoard:game.Board];
+        NSLog(@"hiding history");
+    } else {
+        FFHistoryStep *historyStep = [game.history objectAtIndex:startStepsBack];
+        [self updateTilesFromBoard:historyStep.board];
 
-        NSArray *tiles = [self.historyTileSets objectForKey:nowMove.Pattern.Id];
-        if (!tiles){
-            // make
-            NSArray *flipCoords = nowMove.FlippedCoords;
-            tiles = [[NSMutableArray alloc] initWithCapacity:flipCoords.count];
-            for (FFCoord *coord in flipCoords) {
-                UIView *tileView = [[UIView alloc] initWithFrame:[self getTileAtX:coord.x andY:coord.y].frame];
-                [(NSMutableArray *) tiles addObject:tileView];
-                [self addSubview:tileView];
-            }
-            [self.historyTileSets setObject:tiles forKey:nowMove.Pattern.Id];
-        }
-        for (UIView *tileView in tiles) {
+        // show the affected tiles
+        for (FFCoord *coord in historyStep.flippedTiles) {
+            UIView *tileView = [[UIView alloc] initWithFrame:[self getTileAtX:coord.x andY:coord.y].frame];
             tileView.backgroundColor =
-                    [UIColor colorWithPatternImage:[FFPatternGenerator createHistoryMoveOverlayPatternForStep:backStep]];
+                    [UIColor colorWithPatternImage:[FFPatternGenerator createHistoryMoveOverlayPatternForStep:0]];
+            tileView.layer.zPosition = 1000;
+            [self.historyTiles addObject:tileView];
+            [self addSubview:tileView];
         }
 
-        backStep++;
+        NSLog(@"showing history with %i flipped tiles", historyStep.flippedTiles.count);
     }
-
-    // remove invisibles
-    for (NSString *key in self.removeCollector) {
-        NSArray *tileSetToRemove = [self.removeCollector objectForKey:key];
-        for (UIView *toRemove in tileSetToRemove) {
-            [toRemove removeFromSuperview];
-        }
-        [self.historyTileSets removeObjectForKey:key];
-    }
-    [self.removeCollector removeAllObjects];
 }
 
 - (void)hideHistory {
-    [self showHistoryStartingFromStepsBack:1000];
+    [self showHistoryStartingFromStepsBack:9999];
 }
 
 /**

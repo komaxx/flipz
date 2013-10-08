@@ -11,6 +11,6 @@
 #import "FFMoveViewControl.h"
 #import "FFHistorySlider.h"
 
-@interface FFTestGameViewController : UIViewController <FFPatternsViewControlDelegate, FFMoveViewControlDelegate, FFHistorySliderProtocol>
+@interface FFTestGameViewController : UIViewController <FFPatternsViewControlDelegate, FFMoveViewControlDelegate>
 
 @end

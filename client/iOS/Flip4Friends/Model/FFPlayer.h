@@ -30,4 +30,6 @@
 - (void)resetWithPatterns:(NSArray *)array;
 
 - (BOOL)allPatternsPlayed;
+
+- (void)clearDoneMoves;
 @end

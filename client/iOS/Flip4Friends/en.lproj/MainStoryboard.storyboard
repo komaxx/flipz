@@ -9,42 +9,37 @@
         <scene sceneID="5">
             <objects>
                 <viewController id="2" customClass="FFViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="3">
+                    <view key="view" contentMode="scaleToFill" id="3" customClass="FFMainBackgroundView">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="Unz-ZS-QJ6" customClass="FFGameViewController">
-                                <rect key="frame" x="0.0" y="20" width="320" height="418"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="460"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" tag="200" contentMode="scaleToFill" id="ida-7u-wt5" userLabel="player1 patterns">
-                                        <rect key="frame" x="10" y="290" width="300" height="128"/>
+                                        <rect key="frame" x="5" y="285" width="270" height="170"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                                     </scrollView>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" tag="201" contentMode="scaleToFill" id="RbW-Fn-Bbc" userLabel="player2 patterns">
-                                        <rect key="frame" x="10" y="0.0" width="300" height="128"/>
+                                        <rect key="frame" x="5" y="0.0" width="270" height="170"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                                     </scrollView>
                                     <scrollView multipleTouchEnabled="YES" tag="60" contentMode="scaleToFill" alwaysBounceVertical="YES" id="3pW-m2-sEf">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="290"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="280"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" id="tGw-Ew-eap" userLabel="background">
-                                                <rect key="frame" x="0.0" y="0.0" width="320" height="290"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="280" height="280"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <color key="backgroundColor" red="0.29803922772407532" green="0.29803922772407532" blue="0.29803922772407532" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="backgroundColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                             </view>
                                             <view opaque="NO" tag="100" contentMode="scaleToFill" id="Jrg-sS-7GL" customClass="FFBoardView">
-                                                <rect key="frame" x="10" y="10" width="270" height="270"/>
+                                                <rect key="frame" x="5" y="5" width="270" height="270"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                             </view>
-                                            <view tag="350" contentMode="scaleToFill" id="VW0-hd-Ij3" userLabel="History Slider" customClass="FFHistorySlider">
-                                                <rect key="frame" x="281" y="10" width="38" height="260"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                            </view>
                                             <view hidden="YES" tag="300" contentMode="scaleToFill" id="Cgm-yF-yug" userLabel="Move View" customClass="FFMoveViewControl">
-                                                <rect key="frame" x="0.0" y="0.0" width="320" height="290"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="300" height="280"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                             </view>
                                         </subviews>
@@ -467,71 +462,36 @@
                                     </view>
                                 </subviews>
                             </view>
-                            <view tag="400" contentMode="scaleToFill" id="emv-7M-Mft" userLabel="challenge footer" customClass="FFChallengeFooter">
-                                <rect key="frame" x="10" y="435" width="300" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <view opaque="NO" tag="400" contentMode="scaleToFill" id="emv-7M-Mft" userLabel="challenge column" customClass="FFChallengeSidebar">
+                                <rect key="frame" x="280" y="0.0" width="40" height="480"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <button opaque="NO" tag="401" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ODT-yP-sc0" userLabel="menu" customClass="FFButton">
-                                        <rect key="frame" x="250" y="0.0" width="50" height="40"/>
+                                    <view contentMode="scaleToFill" id="Ipz-LF-9sK" customClass="FFMenuBackgroundView">
+                                        <rect key="frame" x="0.0" y="20" width="40" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="Futura-CondensedExtraBold" family="Futura" pointSize="17"/>
-                                        <state key="normal" title="[] []">
-                                            <color key="titleColor" red="1" green="0.99997437000274658" blue="0.99999129772186279" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="highlighted">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                    </button>
-                                    <button opaque="NO" tag="402" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="nug-rZ-t1X" userLabel="clear" customClass="FFButton">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="40"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="Futura-CondensedExtraBold" family="Futura" pointSize="17"/>
-                                        <state key="normal" title="@">
-                                            <color key="titleColor" red="1" green="0.99997437" blue="0.99999129769999995" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="highlighted">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                    </button>
-                                    <button opaque="NO" tag="403" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="6Bd-m3-uCZ" userLabel="undo" customClass="FFButton">
-                                        <rect key="frame" x="60" y="0.0" width="50" height="40"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="Futura-CondensedExtraBold" family="Futura" pointSize="17"/>
-                                        <state key="normal" title="undo">
-                                            <color key="titleColor" red="1" green="0.99997437" blue="0.99999129769999995" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="highlighted">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                    </button>
-                                    <button opaque="NO" tag="404" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="tRB-Sf-hSG" userLabel="solve" customClass="FFButton">
-                                        <rect key="frame" x="125" y="0.0" width="50" height="40"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="Futura-CondensedExtraBold" family="Futura" pointSize="17"/>
-                                        <state key="normal" title="solve">
-                                            <color key="titleColor" red="1" green="0.99997437" blue="0.99999129769999995" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="highlighted">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                    </button>
-                                    <button opaque="NO" tag="405" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="R78-Sd-kK7" userLabel="solve" customClass="FFButton">
-                                        <rect key="frame" x="175" y="0.0" width="50" height="40"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="Futura-CondensedExtraBold" family="Futura" pointSize="17"/>
-                                        <state key="normal" title="s&amp;s">
-                                            <color key="titleColor" red="1" green="0.99997437" blue="0.99999129769999995" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="highlighted">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                    </button>
+                                        <subviews>
+                                            <button opaque="NO" tag="401" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ODT-yP-sc0" userLabel="menu">
+                                                <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" name="Futura-CondensedExtraBold" family="Futura" pointSize="23"/>
+                                                <state key="normal" title="X">
+                                                    <color key="titleColor" red="1" green="0.99997437000274658" blue="0.99999129772186279" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="highlighted">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                    </view>
+                                    <view tag="402" contentMode="scaleToFill" id="Lxd-eU-MpY" customClass="FFChallengeHistorySliderView">
+                                        <rect key="frame" x="0.0" y="80" width="40" height="320"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                    </view>
                                 </subviews>
+                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
                             </view>
                             <view hidden="YES" tag="410" contentMode="scaleToFill" id="uWK-mt-eiY" userLabel="vs footer" customClass="FFVersusFooter">
                                 <rect key="frame" x="10" y="435" width="300" height="40"/>
@@ -1069,6 +1029,9 @@
                                         <state key="highlighted">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="cleanTapped:" destination="9Md-YY-QNO" eventType="touchUpInside" id="wYe-cN-wQy"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" tag="403" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="YXi-cW-wCt" userLabel="undo" customClass="FFButton">
                                         <rect key="frame" x="60" y="0.0" width="50" height="40"/>
@@ -1081,6 +1044,9 @@
                                         <state key="highlighted">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="undoTapped:" destination="9Md-YY-QNO" eventType="touchUpInside" id="fHQ-SB-4B6"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" tag="405" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="rKL-KJ-f7N" userLabel="solve" customClass="FFButton">
                                         <rect key="frame" x="175" y="0.0" width="50" height="40"/>

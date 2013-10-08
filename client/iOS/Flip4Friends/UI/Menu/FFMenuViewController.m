@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 FlippyFriends. All rights reserved.
 //
 
+#import "FFHistorySlider.h"
 #import "FFMenuViewController.h"
 #import "FFChallengeMenu.h"
 #import "FFGamesCore.h"
@@ -13,7 +14,7 @@
 #import "FFGamePausedMenu.h"
 #import "FFMainMenu.h"
 #import "FFAutoPlayer.h"
-#import "FFChallengeFooter.h"
+#import "FFChallengeSidebar.h"
 #import "FFVersusFooter.h"
 
 
@@ -34,7 +35,7 @@ typedef enum {
 @property (weak, nonatomic) FFGameFinishedMenu* finishedMenu;
 @property (weak, nonatomic) FFGamePausedMenu* pausedMenu;
 
-@property (weak, nonatomic) FFChallengeFooter *challengeFooter;
+@property (weak, nonatomic) FFChallengeSidebar *challengeSidebar;
 @property (weak, nonatomic) FFVersusFooter* versusFooter;
 
 @property (strong, nonatomic) FFAutoPlayer *tmpAutoPlayer1;
@@ -59,8 +60,8 @@ typedef enum {
     self.pausedMenu = (FFGamePausedMenu *) [self viewWithTag:700];
     self.pausedMenu.delegate = self;
 
-    self.challengeFooter = (FFChallengeFooter *) [self.superview viewWithTag:400];
-    self.challengeFooter.delegate = self;
+    self.challengeSidebar = (FFChallengeSidebar *) [self.superview viewWithTag:400];
+    self.challengeSidebar.delegate = self;
 
     self.versusFooter = (FFVersusFooter *) [self.superview viewWithTag:410];
     self.versusFooter.delegate = self;
@@ -74,7 +75,7 @@ typedef enum {
     self.hidden = state==menuState_gameRunning;
     [self.challengeMenu hide:state != menuState_chooseChallenge];
     [self.pausedMenu hide:state!=menuState_gamePaused];
-    [self showFooter:state==menuState_gameRunning];
+    [self showSidebar:state == menuState_gameRunning];
     [self.finishedMenu hide:state!=menuState_gameFinished];
     self.mainMenu.hidden = state!=menuState_mainMenu;
 
@@ -102,16 +103,17 @@ typedef enum {
     _state = state;
 }
 
-- (void)showFooter:(BOOL)b {
+- (void)showSidebar:(BOOL)b {
     BOOL isChallenge = [[[FFGamesCore instance] gameWithId:self.delegate.activeGameId].Type isEqualToString:kFFGameTypeSingleChallenge];
 
-    self.challengeFooter.hidden = !b || !isChallenge;
+    self.challengeSidebar.hidden = !b || !isChallenge;
     self.versusFooter.hidden = !b || isChallenge;
 }
 
 - (void)didAppear {
     [[NSNotificationCenter defaultCenter]
             addObserver:self selector:@selector(gameChanged:) name:kFFNotificationGameChanged object:nil];
+    [self.challengeSidebar didAppear];
 }
 
 - (void)gameChanged:(NSNotification *)notification {
@@ -133,6 +135,7 @@ typedef enum {
 
 - (void)didDisappear {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self.challengeSidebar didDisappear];
 }
 
 - (void)pauseTapped {
@@ -205,6 +208,7 @@ typedef enum {
         [selectedGame start];
     }
     [self.delegate activateGameWithId:gameId];
+    [self.challengeSidebar setActiveGameWithId:gameId];
 }
 
 - (void)restartGame {

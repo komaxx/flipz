@@ -8,6 +8,12 @@
 
 @class FFMenuViewController;
 
-@interface FFChallengeFooter : UIView
+@interface FFChallengeSidebar : UIView
+
 @property(nonatomic, weak) FFMenuViewController *delegate;
+
+-(void) didAppear;
+-(void) didDisappear;
+
+- (void)setActiveGameWithId:(NSString *)id;
 @end

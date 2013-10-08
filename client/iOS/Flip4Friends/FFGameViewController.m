@@ -14,7 +14,6 @@
 
 @property (weak, nonatomic) FFBoardView *boardView;
 @property (weak, nonatomic) FFMoveViewControl* moveViewControl;
-@property (weak, nonatomic) FFHistorySlider * historySlider;
 
 @property (strong, nonatomic) FFPatternsViewControl* player1PatternsControl;
 @property (strong, nonatomic) FFPatternsViewControl* player2PatternsControl;
@@ -43,11 +42,11 @@
         self.moveViewControl.delegate = self;
         self.moveViewControl.boardView = self.boardView;
 
-        self.historySlider = (FFHistorySlider *)[self viewWithTag:350];
-        self.historySlider.delegate = self;
-        self.historySlider.boardView = self.boardView;
-
-        self.historySlider.hidden = YES;
+//        self.historySlider = (FFHistorySlider *)[self viewWithTag:350];
+//        self.historySlider.delegate = self;
+//        self.historySlider.boardView = self.boardView;
+//
+//        self.historySlider.hidden = YES;
     }
 
     return self;
@@ -58,7 +57,6 @@
     [self.player1PatternsControl didAppear];
     [self.player2PatternsControl didAppear];
     [self.moveViewControl didAppear];
-    [self.historySlider didAppear];
 
     [self updateBoardAndDrawerPosition];
 
@@ -84,11 +82,9 @@
     BOOL centerBoard = !game || game.moveHistory.count < 1;
 //    centerBoard = YES;          //
 
-    self.historySlider.hidden = centerBoard;
-
     [UIView animateWithDuration:0.2 animations:^{
         CGRect frame = self.boardView.frame;
-        frame.origin.x = centerBoard ? 25 : 10;
+        frame.origin.x = centerBoard ? 25 : 5;
         self.boardView.frame = frame;
     }];
 
@@ -117,18 +113,14 @@
         CGRect frame = self.boardView.frame;
         frame.origin.x = 25;
         self.boardView.frame = frame;
-
-        self.historySlider.hidden = YES;
     } else {
 //        CGRect frame = self.gameBoardDrawer.frame;
 //        frame.origin.y = 0;
 //        self.gameBoardDrawer.frame = frame;
 
         CGRect boardFrame = self.boardView.frame;
-        boardFrame.origin.x = 10;
+        boardFrame.origin.x = 5;
         self.boardView.frame = boardFrame;
-
-        self.historySlider.hidden = NO;
     }
 }
 
@@ -149,8 +141,6 @@
     [self.moveViewControl moveFinished];
     self.player1PatternsControl.activeGameId = gameID;
     self.player2PatternsControl.activeGameId = gameID;
-    
-    self.historySlider.activeGameId = gameID;
 
     [self updateBoardAndDrawerPosition];
 }
@@ -191,7 +181,6 @@
     [self.player1PatternsControl didDisappear];
     [self.player2PatternsControl didDisappear];
     [self.moveViewControl didDisappear];
-    [self.historySlider didDisappear];
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -233,20 +222,6 @@
     [self.moveViewControl moveFinished];
     [self.player1PatternsControl cancelMove];
     [self.player2PatternsControl cancelMove];
-}
-
-- (void)showHistoryStartingFromStepsBack:(NSInteger) stepsBack {
-    [self cancelMoveWithPattern:nil];
-
-    [self.boardView showHistoryStartingFromStepsBack:(NSUInteger) stepsBack];
-    [self.player1PatternsControl showHistoryStartingFromStepsBack:(NSUInteger) stepsBack];
-    [self.player2PatternsControl showHistoryStartingFromStepsBack:(NSUInteger) stepsBack];
-}
-
-- (void)hideHistory {
-    [self.boardView hideHistory];
-    [self.player1PatternsControl hideHistory];
-    [self.player2PatternsControl hideHistory];
 }
 
 // calls from child controls

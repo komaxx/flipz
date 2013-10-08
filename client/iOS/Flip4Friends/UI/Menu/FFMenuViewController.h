@@ -19,6 +19,7 @@
 
 
 @interface FFMenuViewController : UIView
+
 @property (weak, nonatomic) id<FFMenuViewControllerDelegate> delegate;
 
 - (void)didLoad;

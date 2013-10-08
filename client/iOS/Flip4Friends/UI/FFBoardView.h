@@ -39,9 +39,6 @@
 
 - (CGFloat)computeTileSize;
 
-- (void)showHistoryStartingFromStepsBack:(NSUInteger)startStepsBack;
-- (void)hideHistory;
-
 /**
 * Should only be called during creation of a new challenge, NEVER for
  * a running game!

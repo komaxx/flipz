@@ -1,30 +1,29 @@
 //
 // Created by Matthias Schicker (matthias@pocketsunited.com)
-// on 7/29/13.
+// on 10/4/13.
 //
 
 
-#import <QuartzCore/QuartzCore.h>
-#import "FFMenuBackgroundView.h"
+#import "FFMainBackgroundView.h"
 
 #define RADIUS 10
 
-@interface FFMenuBackgroundView ()
+@interface FFMainBackgroundView ()
 @end
 
-@implementation FFMenuBackgroundView {
+@implementation FFMainBackgroundView {
 
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        self.opaque = NO;
+        self.opaque = YES;
         self.backgroundColor =
-                [UIColor colorWithHue:0.70 saturation:0.4 brightness:0.4 alpha:0.9];
-        self.layer.cornerRadius = RADIUS;
-        self.layer.borderWidth = RADIUS/2;
-        self.layer.borderColor = [[UIColor colorWithHue:0.70 saturation:0.5 brightness:0.8 alpha:0.3] CGColor];
+                [UIColor colorWithHue:0.20 saturation:0. brightness:0.25 alpha:1];
+//        self.layer.cornerRadius = RADIUS;
+//        self.layer.borderWidth = RADIUS/2;
+//        self.layer.borderColor = [[UIColor colorWithHue:0.70 saturation:0. brightness:0.5 alpha:0.3] CGColor];
         self.layer.masksToBounds = YES;
 
     }
@@ -37,10 +36,15 @@
     CGContextSaveGState(context);
 
     NSArray *colors = @[
-            [UIColor colorWithHue:0.7 saturation:0.8 brightness:0.8 alpha:1],
-            [UIColor colorWithHue:0.7 saturation:0.7 brightness:0.8 alpha:0.9],
-            [UIColor colorWithHue:0.7 saturation:0.6 brightness:0.8 alpha:0.8],
-            [UIColor colorWithHue:0.7 saturation:0.5 brightness:0.8 alpha:0.7],
+            [UIColor colorWithHue:0.4 saturation:0.3 brightness:0.1 alpha:0.275],
+            [UIColor colorWithHue:0.4 saturation:0.3 brightness:0.1 alpha:0.25],
+            [UIColor colorWithHue:0.4 saturation:0.3 brightness:0.1 alpha:0.225],
+            [UIColor colorWithHue:0.4 saturation:0.2 brightness:0.1 alpha:0.2],
+            [UIColor colorWithHue:0.4 saturation:0.2 brightness:0.1 alpha:0.15],
+            [UIColor colorWithHue:0.4 saturation:0.1 brightness:0.1 alpha:0.1],
+            [UIColor colorWithHue:0.4 saturation:0.1 brightness:0.1 alpha:0.075],
+            [UIColor colorWithHue:0.4 saturation:0.1 brightness:0.1 alpha:0.05],
+
 //            [UIColor colorWithHue:0.20 saturation:0.4 brightness:0.4 alpha:1],
     ];
 

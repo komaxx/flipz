@@ -54,7 +54,6 @@
     [self.gameViewController undo];
 }
 
-
 - (void)restartCurrentGame {
     [self.gameViewController selectedGameWithId:self.activeGameId];
 }

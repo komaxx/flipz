@@ -4,32 +4,40 @@
 //
 
 
-#import "FFChallengeFooter.h"
+#import "FFChallengeSidebar.h"
 #import "FFGamesCore.h"
 #import "FFMenuViewController.h"
 #import "FFAutoSolver.h"
+#import "FFChallengeHistorySliderView.h"
 
 
-@implementation FFChallengeFooter {
+@interface FFChallengeSidebar()
+@property (weak, nonatomic) FFChallengeHistorySliderView* historySlider;
+@end
+
+@implementation FFChallengeSidebar {
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
         [(UIButton *) [self viewWithTag:401] addTarget:self action:@selector(pauseTapped) forControlEvents:UIControlEventTouchUpInside];
-        [(UIButton *) [self viewWithTag:402] addTarget:self action:@selector(cleanTapped) forControlEvents:UIControlEventTouchUpInside];
-        [(UIButton *) [self viewWithTag:403] addTarget:self action:@selector(undoTapped) forControlEvents:UIControlEventTouchUpInside];
-        [(UIButton *) [self viewWithTag:404] addTarget:self action:@selector(solveTapped) forControlEvents:UIControlEventTouchUpInside];
-        [(UIButton *) [self viewWithTag:405] addTarget:self action:@selector(solveAndShowTapped) forControlEvents:UIControlEventTouchUpInside];
+        self.historySlider = (FFChallengeHistorySliderView *) [self viewWithTag:402];
     }
 
     return self;
 }
 
-- (void)solveAndShowTapped {
-    FFAutoSolver *solver = [[FFAutoSolver alloc] initWithGameId:[self.delegate.delegate activeGameId]];
-    solver.visualize = YES;
-    [solver solveAsynchronously];
+- (void)didAppear {
+    [self.historySlider didAppear];
+}
+
+- (void)setActiveGameWithId:(NSString *)id {
+    self.historySlider.activeGameId = id;
+}
+
+- (void)didDisappear {
+    [self.historySlider didDisappear];
 }
 
 - (void)solveTapped {

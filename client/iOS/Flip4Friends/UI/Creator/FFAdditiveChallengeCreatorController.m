@@ -195,6 +195,7 @@
     nuPatternView.pattern = move.Pattern;
     nuPatternView.forPlayer2 = NO;
     nuPatternView.viewState = kFFPatternViewStateNormal;
+    [nuPatternView addTarget:self action:@selector(patternTapped:) forControlEvents:UIControlEventTouchUpInside];
     [self.patternsScroller addSubview:nuPatternView];
 
     [self.patternViews addObject:nuPatternView];
@@ -202,6 +203,48 @@
 
     [self.patternView reset];
     self.activePatternPanel.hidden = YES;
+}
+
+- (void)patternTapped:(FFPatternView *)tappedView {
+    // find according move
+    FFMove *tappedMove = nil;
+    NSUInteger foundIndex = 999;
+    for (NSUInteger i = 0; i < self.moves.count; i++){
+        if ([self.patternViews objectAtIndex:i] == tappedView){
+            tappedMove = [self.moves objectAtIndex:i];
+            foundIndex = i;
+            break;
+        }
+    }
+
+    if (!tappedMove){
+        NSLog(@"No matching move found! Aborted.");
+        return;
+    }
+
+    NSInteger tag = (tappedView.tag+1) % 5;
+
+    FFMove *nuMove = nil;
+    if (tag == 0){
+        // remove rotation permission
+        nuMove = [[FFMove alloc]
+                initWithPattern:[[FFPattern alloc]
+                        initWithCoords:tappedMove.Pattern.Coords andAllowRotation:NO]
+                     atPosition:tappedMove.Position
+                 andOrientation:tappedMove.Orientation];
+    } else {
+        nuMove = [[FFMove alloc]
+                initWithPattern:[[FFPattern alloc]
+                        initWithCoords:[tappedMove.Pattern copyForOrientation:(FFOrientation) (tag - 1)].Coords andAllowRotation:YES]
+                     atPosition:tappedMove.Position
+                 andOrientation:(FFOrientation) (4-(tag - 1))%4];
+    }
+
+    [self.moves replaceObjectAtIndex:foundIndex withObject:nuMove];
+    tappedView.pattern = nuMove.Pattern;
+    tappedView.tag = tag;
+
+    [tappedView setNeedsDisplay];
 }
 
 - (void)repositionPatternViews {

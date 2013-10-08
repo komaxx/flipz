@@ -2,3 +2,6 @@
 * flip sound
 * Block access to next level until current solved - or failed 10 times.
 * View: Who's winning in hotseat
+* Hint
+* Undo via history-slider
+* Icon

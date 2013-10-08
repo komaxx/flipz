@@ -9,6 +9,7 @@
 #import "FFGame.h"
 #import "FFPattern.h"
 #import "FFChallengeLoader.h"
+#import "FFHistoryStep.h"
 
 NSString *const kFFNotificationGameChanged = @"ffGameChanged";
 NSString *const kFFNotificationGameChanged_gameId = @"gameId";
@@ -27,6 +28,8 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
 @property(nonatomic, strong, readwrite) FFPlayer *player1;
 @property(nonatomic, strong, readwrite) FFPlayer *player2;
 @property(nonatomic, strong, readwrite) FFPlayer *activePlayer;
+
+@property(nonatomic, strong, readwrite) NSArray *history;
 
 @property(nonatomic, strong, readwrite) NSArray *moveHistory;
 @property(nonatomic, strong, readwrite) NSArray *boardHistory;
@@ -50,12 +53,13 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
         self.Board = [[FFBoard alloc] initWithSize:(NSUInteger) size];
         self.Board.BoardType = kFFBoardType_multiStated_clamped;
 
+        self.history = [[NSMutableArray alloc] initWithCapacity:10];
         self.moveHistory = [[NSMutableArray alloc] initWithCapacity:10];
         self.boardHistory = [[NSMutableArray alloc] initWithCapacity:10];
 
         self.player1 = [[FFPlayer alloc] init];
         self.player1.local = YES;
-        self.player1.id = @"_LocalChallengePlayer_";
+        self.player1.id = @"_unknownPlayer_";
     }
     return self;
 }
@@ -129,7 +133,8 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
     NSArray *flippedCoords = [self.Board doMoveWithCoords:[move buildToFlipCoords]];
     move.FlippedCoords = flippedCoords;
 
-    [self winningPlayer];       // TODO remove
+    [(NSMutableArray *)self.history insertObject:[[FFHistoryStep alloc] initWithMove:move andBoard:self.Board andDoneMoves:player.doneMoves]
+                                         atIndex:0];
 
     [self checkIfGameFinished];
     [self endPlayersTurn];
@@ -139,12 +144,37 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
     return 0;
 }
 
+- (void)goBackInHistory:(NSInteger)stepsBack {
+    if (![self.Type isEqualToString:kFFGameTypeSingleChallenge]) return;
+    if (stepsBack <= 0) {
+        // this state is the same as the currently shown state -> nothing to do.
+        return;
+    } else if (stepsBack >= self.history.count){
+        NSLog(@"ERROR! History stack is too small to go %i steps back!", stepsBack);
+        return;
+    }
+
+    FFHistoryStep *step = [self.history objectAtIndex:(NSUInteger) stepsBack];
+    if (step.type == kFFHistoryStepClear){
+        // go back to the start.
+        self.Board = [[FFBoard alloc] initWithBoard:step.board];
+        [self.player1 clearDoneMoves];
+
+        // add the clear action to the history
+        [(NSMutableArray *)self.history insertObject:[[FFHistoryStep alloc] initCleanStepWithBoard:self.Board] atIndex:0];
+    } else {
+        self.Board = [[FFBoard alloc] initWithBoard:step.board];;
+        self.player1.doneMoves = [[NSMutableDictionary alloc] initWithDictionary:step.doneMoveIds];
+
+        [(NSMutableArray *)self.history insertObject:[[FFHistoryStep alloc] initUndoStepFromStep:step] atIndex:0];
+    }
+
+    [self notifyChange];
+}
+
 - (void)undo {
     if (![self.Type isEqualToString:kFFGameTypeSingleChallenge]) return;
-
     if ([self.moveHistory count] < 1) return;
-
-    if (![self.Type isEqualToString:kFFGameTypeSingleChallenge]) return;
 
     _challengeMoves++;
 
@@ -173,7 +203,7 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
     if (self.Type == kFFGameTypeSingleChallenge){
         if (![self.Board isSingleChromatic]) return;
 
-        [self printGameAsJson];
+        NSLog(@"Took me %i moves", _challengeMoves);
 
         self.gameState = kFFGameState_Finished;
     } else if (self.Type == kFFGameTypeHotSeat){
@@ -182,11 +212,6 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
             self.gameState = kFFGameState_Finished;
         }
     }
-}
-
-- (void)printGameAsJson {
-    NSLog(@"Took me %i moves", _challengeMoves);
-    NSLog(@"{}");
 }
 
 - (void)endPlayersTurn {
@@ -202,6 +227,7 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
 }
 
 - (void)notifyChange {
+    // postpone in same thread?
     [self doNotify];
 }
 
@@ -226,6 +252,7 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
     self.Board = [self.boardHistory objectAtIndex:0];
     [(NSMutableDictionary *) self.player1.doneMoves removeAllObjects];
 
+    [(NSMutableArray *) self.history removeAllObjects];
     [(NSMutableArray *) self.moveHistory removeAllObjects];
     [(NSMutableArray *) self.boardHistory removeAllObjects];
 
@@ -235,6 +262,11 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
 - (void)start {
     if (self.gameState == kFFGameState_NotYetStarted){
         [self generateGame];
+
+        // init the history stack
+        [(NSMutableArray *)self.history removeAllObjects];
+        [(NSMutableArray *)self.history insertObject:[[FFHistoryStep alloc] initCleanStepWithBoard:self.Board]
+                                             atIndex:0];
 
         self.activePlayer = self.player1;
         self.gameState = kFFGameState_Running;
@@ -302,7 +334,9 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
 
     if (self.Type == kFFGameTypeSingleChallenge){
         [self clean];
+
         //  TODO: Maybe re-phrase the puzzle (mirror / rotate it).
+
     } else if (self.Type == kFFGameTypeHotSeat){
         [self generateHotSeatGame];
     }
@@ -371,5 +405,4 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
     self.Board = board;
     [self notifyChange];
 }
-
 @end

@@ -28,6 +28,8 @@
         self.alpha = 0;
         self.opaque = YES;
 
+        self.turnSpeed = 0.5;
+
         self.layer.cornerRadius=3;
         self.backgroundColor = [UIColor whiteColor];
         self.userInteractionEnabled = NO;
@@ -65,18 +67,18 @@
     _currentlyLocked = tile.nowLocked;
 
     if (self.tileType == kFFBoardType_twoStated){
-        [UIView animateWithDuration:1 animations:^{
+        [UIView animateWithDuration:self.turnSpeed animations:^{
             self.backgroundColor = [UIColor colorWithWhite:tile.color%2==0?1:0 alpha:1];
             self.layer.transform = CATransform3DMakeRotation(_currentRotation, 1, 0, 0);
         }];
     } else {
-        [UIView animateWithDuration:1 animations:^{
+        [UIView animateWithDuration:self.turnSpeed animations:^{
             self.backgroundColor = [UIColor colorWithWhite:1.0 - MIN(tile.color/3.0, 1)*0.8  alpha:1];
             self.layer.transform = CATransform3DMakeRotation(_currentRotation, 1, 0, 0);
         }];
     }
 
-    [self performSelector:@selector(updateTileImage) withObject:nil afterDelay:0.5];
+    [self performSelector:@selector(updateTileImage) withObject:nil afterDelay:(self.turnSpeed / 2.0f)];
 }
 
 - (void)updateTileImage {
@@ -94,14 +96,20 @@
     CGMutablePathRef path = CGPathCreateMutable();
 
     if (_currentColor == 1){
+        width = self.bounds.size.width / 3;
+
         CGPathAddRect(path, &CGAffineTransformIdentity,
                 CGRectMake(CGRectGetMidX(self.bounds) - width/2, 0, width, self.bounds.size.height));
     } else if (_currentColor == 2){
+        width = self.bounds.size.width / 5;
+
         CGPathAddRect(path, &CGAffineTransformIdentity,
                 CGRectMake(CGRectGetMidX(self.bounds) - 3*width/2, 0, width, self.bounds.size.height));
         CGPathAddRect(path, &CGAffineTransformIdentity,
                 CGRectMake(CGRectGetMidX(self.bounds) + width/2, 0, width, self.bounds.size.height));
     } else if (_currentColor == 3){
+        width = self.bounds.size.width / 5;
+
         CGPathAddRect(path, &CGAffineTransformIdentity,
                 CGRectMake(CGRectGetMidX(self.bounds) - 3*width/2, 0, width, self.bounds.size.height));
         CGPathAddRect(path, &CGAffineTransformIdentity,
@@ -109,6 +117,8 @@
         CGPathAddRect(path, &CGAffineTransformIdentity,
                 CGRectMake(0, CGRectGetMidY(self.bounds) - width/2, self.bounds.size.height, width));
     } else if (_currentColor == 4){
+        width = self.bounds.size.width / 5;
+
         CGPathAddRect(path, &CGAffineTransformIdentity,
                 CGRectMake(CGRectGetMidX(self.bounds) - 3*width/2, 0, width, self.bounds.size.height));
         CGPathAddRect(path, &CGAffineTransformIdentity,

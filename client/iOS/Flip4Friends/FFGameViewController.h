@@ -14,7 +14,7 @@
 - (NSString *)activeGameId;
 @end
 
-@interface FFGameViewController : UIView <FFPatternsViewControlDelegate, FFHistorySliderProtocol, FFMoveViewControlDelegate>
+@interface FFGameViewController : UIView <FFPatternsViewControlDelegate, FFMoveViewControlDelegate>
 
 @property (weak, nonatomic) id<FFGameViewControllerDelegate> delegate;
 
@@ -29,9 +29,6 @@
 - (void)moveCompletedWithPattern:(FFPattern *)pattern at:(FFCoord *)coord withDirection:(NSInteger)direction;
 
 - (void)cancelMoveWithPattern:(FFPattern *)pattern;
-
-- (void)showHistoryStartingFromStepsBack:(NSInteger)stepsBack;
-- (void)hideHistory;
 
 - (void)gameCleaned;
 

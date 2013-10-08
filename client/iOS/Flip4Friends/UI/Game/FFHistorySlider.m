@@ -13,9 +13,11 @@
 
 #define INTER_STEP_MARGIN 34.0
 
+NSString *const kFFNotificationHistoryShowStateChanged = @"ffHistoryShowChanged";
+NSString *const kFFNotificationHistoryShowStateChanged_stepsBack = @"ffStepsBack";
+
 @implementation FFHistorySlider {
 }
-@synthesize boardView = _boardView;
 @synthesize activeGameId = _activeGameId;
 
 
@@ -31,7 +33,8 @@
 - (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
     NSInteger snapIndex = [self snapIndexForTouch:touch];
     if (snapIndex >= 0){
-        [self.delegate showHistoryStartingFromStepsBack:snapIndex];
+//        [self.delegate showHistoryStartingFromStepsBack:snapIndex];
+        // TODO
         return YES;
     }
     return NO;
@@ -40,14 +43,16 @@
 - (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
     NSInteger snapIndex = [self snapIndexForTouch:touch];
     if (snapIndex >= 0){
-        [self.delegate showHistoryStartingFromStepsBack:snapIndex];
+//        [self.delegate showHistoryStartingFromStepsBack:snapIndex];
+        // TODO
         return YES;
     }
     return NO;
 }
 
 - (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
-    if ([self isTracking]) [self.delegate hideHistory];
+//    if ([self isTracking]) [self.delegate hideHistory];
+    // TODO
 }
 
 - (NSInteger)snapIndexForTouch:(UITouch *)touch {

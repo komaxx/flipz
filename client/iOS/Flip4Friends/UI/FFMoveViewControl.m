@@ -107,10 +107,14 @@
     self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(frame:)];
     self.displayLink.frameInterval = 2;
     [self.displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+
+    [[NSNotificationCenter defaultCenter]
+            addObserver:self selector:@selector(moveFinished) name:kFFNotificationHistoryShowStateChanged object:nil];
 }
 
 - (void)didDisappear {
     [self.displayLink removeFromRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)frame:(CADisplayLink *)displayLink {
@@ -180,7 +184,7 @@
         _downTouchPoint.x -= self.movingPatternRoot.center.x;
         _downTouchPoint.y -= self.movingPatternRoot.center.y;
         CGFloat touchRadius = sqrtf(_downTouchPoint.x*_downTouchPoint.x + _downTouchPoint.y*_downTouchPoint.y);
-        if (self.activePattern.differingOrientations > 1 && ABS(touchRadius - _rotationRingRadius - 10) < 25){           // -10: move the touchable area outwards a bit
+        if (self.activePattern.differingOrientations > 1 && ABS(touchRadius - _rotationRingRadius - 6) < 34){           // -6: move the touchable area outwards a bit
             _downAngle = _nowRotation;
             _downTouchAngle = atan2f(_downTouchPoint.y, _downTouchPoint.x);
             _downDirection = _targetDirection;

@@ -10,6 +10,8 @@
 
 @interface FFTileViewMultiStated : UIView <FFTileView>
 
-@property(nonatomic) FFBoardType tileType;
+@property (nonatomic) FFBoardType tileType;
+
+@property (nonatomic) CGFloat turnSpeed;
 
 @end

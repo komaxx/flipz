@@ -33,9 +33,6 @@
     self.moveViewControl.boardView = self.boardView;
     self.moveViewControl.delegate = self;
     [self.moveViewControl didLoad];
-
-    self.historySlider.boardView = self.boardView;
-    self.historySlider.delegate = self;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -57,6 +54,16 @@
     self.player1PatternsControl.activeGameId = gameID;
 
     self.historySlider.activeGameId = gameID;
+
+    [game start];
+}
+- (IBAction)undoTapped:(id)sender {
+    FFGame *game = [[FFGamesCore instance] gameWithId:[FFCreateChallengeSession tmpGameId]];
+    [game undo];
+}
+- (IBAction)cleanTapped:(id)sender {
+    FFGame *game = [[FFGamesCore instance] gameWithId:[FFCreateChallengeSession tmpGameId]];
+    [game clean];
 }
 
 - (void)gameCleaned {
@@ -109,18 +116,6 @@
 - (void)cancelMoveWithPattern:(FFPattern *)pattern {
     [self.moveViewControl moveFinished];
     [self.player1PatternsControl cancelMove];
-}
-
-- (void)showHistoryStartingFromStepsBack:(NSInteger) stepsBack {
-    [self cancelMoveWithPattern:nil];
-
-    [self.boardView showHistoryStartingFromStepsBack:(NSUInteger) stepsBack];
-    [self.player1PatternsControl showHistoryStartingFromStepsBack:(NSUInteger) stepsBack];
-}
-
-- (void)hideHistory {
-    [self.boardView hideHistory];
-    [self.player1PatternsControl hideHistory];
 }
 
 // calls from child controls

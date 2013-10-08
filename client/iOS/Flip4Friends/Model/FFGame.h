@@ -44,7 +44,6 @@ typedef enum {
 
 
 
-
 @interface FFGame : NSObject
 
 @property (nonatomic, copy, readonly) NSString *Id;
@@ -81,6 +80,7 @@ typedef enum {
 */
 @property (nonatomic) BOOL ruleObfuscateTileState;
 
+@property (nonatomic, strong, readonly) NSArray *history;
 @property (nonatomic, strong, readonly) NSArray *moveHistory;
 @property (nonatomic, strong, readonly) NSArray *boardHistory;
 
@@ -115,4 +115,6 @@ typedef enum {
 - (FFPlayer*)winningPlayer;
 
 - (void)DEBUG_replaceBoardWith:(FFBoard *)board;
+
+- (void)goBackInHistory:(NSInteger)position;
 @end
