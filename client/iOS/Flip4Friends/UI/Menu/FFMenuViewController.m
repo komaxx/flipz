@@ -16,6 +16,7 @@
 #import "FFAutoPlayer.h"
 #import "FFChallengeSidebar.h"
 #import "FFVersusFooter.h"
+#import "FFStorageUtil.h"
 
 
 typedef enum {
@@ -45,6 +46,7 @@ typedef enum {
 
 @implementation FFMenuViewController {
     menuState _state;
+    NSUInteger _currentlyAttemptedChallenge;
 }
 
 - (void)didLoad {
@@ -122,12 +124,16 @@ typedef enum {
 
     FFGame *game = [[FFGamesCore instance] gameWithId:gameID];
     if (_state == menuState_gameRunning && game.gameState==kFFGameState_Finished){
-        if (self.tmpAutoPlayer1){
-            [self.tmpAutoPlayer1 endPlaying];
-            [self.tmpAutoPlayer2 endPlaying];
-            self.tmpAutoPlayer1 = nil;
-            self.tmpAutoPlayer2 = nil;
-        }
+//        if (self.tmpAutoPlayer1){
+//            [self.tmpAutoPlayer1 endPlaying];
+//            [self.tmpAutoPlayer2 endPlaying];
+//            self.tmpAutoPlayer1 = nil;
+//            self.tmpAutoPlayer2 = nil;
+//        }
+
+        // SOLVED! Remember this fine victory
+        [FFStorageUtil setFirstUnsolvedChallengeIndex:_currentlyAttemptedChallenge+2];
+        [self.challengeMenu refreshListCells];
 
         [self changeState:menuState_gameFinished];
     }
@@ -185,6 +191,11 @@ typedef enum {
     FFGame *selectedGame = [[FFGamesCore instance] gameWithId:[self.delegate activeGameId]];
     [selectedGame giveUp];
     [self changeState:menuState_chooseChallenge];
+}
+
+- (void)activateChallengeAtIndex:(NSUInteger)i {
+    _currentlyAttemptedChallenge = i;
+    [self activateGameWithId:[[FFGamesCore instance] challenge:i].Id];
 }
 
 - (void) activateGameWithId:(NSString *)gameId {

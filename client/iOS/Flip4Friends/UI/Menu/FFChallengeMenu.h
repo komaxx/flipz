@@ -14,4 +14,5 @@
 
 - (void)hide:(BOOL)b;
 
+- (void)refreshListCells;
 @end

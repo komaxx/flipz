@@ -7,12 +7,15 @@
 #import "FFChallengeMenu.h"
 #import "FFGamesCore.h"
 #import "FFMenuViewController.h"
+#import "FFAppDelegate.h"
+#import "FFStorageUtil.h"
 
 @interface FFChallengeMenu ()
 @property (weak, nonatomic) UITableView *tableView;
 @end
 
 @implementation FFChallengeMenu {
+    NSInteger _firstUnsolvedIndex;
 }
 @synthesize delegate = _delegate;
 
@@ -43,8 +46,10 @@
     static NSString *identifierContact = @"ChallengeCell";
 
     NSUInteger index = (NSUInteger) indexPath.row;
+    BOOL locked = index >= [FFStorageUtil firstUnsolvedChallengeIndex];
+
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifierContact];
-    [cell setBackgroundColor:[UIColor clearColor]];
+    [cell setBackgroundColor:locked ? [UIColor darkGrayColor] : [UIColor clearColor]];
 
     [cell viewWithTag:index%2==1?1:11].hidden = YES;
     [cell viewWithTag:index%2==1?2:12].hidden = YES;
@@ -68,11 +73,22 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSUInteger index = (NSUInteger) indexPath.row;
 
-    FFGame *game = [[FFGamesCore instance] challenge:(NSUInteger) index];
-    [self.delegate activateGameWithId:game.Id];
+    if (index >= [FFStorageUtil firstUnsolvedChallengeIndex]){
+        // TODO show toast
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    } else {
+        FFGame *game = [[FFGamesCore instance] challenge:(NSUInteger) index];
+        [self.delegate activateGameWithId:game.Id];
+        [self.delegate activateChallengeAtIndex:(NSUInteger)index];
+    }
+}
+
+- (void)refreshListCells {
+    [self.tableView reloadData];
 }
 
 - (void)hide:(BOOL)hidden {
     self.hidden = hidden;
 }
+
 @end

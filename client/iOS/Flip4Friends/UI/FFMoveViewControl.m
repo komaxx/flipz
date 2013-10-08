@@ -94,6 +94,7 @@
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
         shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+
     return YES;
 }
 
@@ -233,12 +234,12 @@
                 _targetDirection = _nowRotationDirection;
             } else {    // flicking?
                 CGPoint velocity = [rec velocityInView:self];
-                if (ABS(_downTouchPoint.x) > ABS(_downTouchPoint.y) && ABS(velocity.y)>400){
+                if (ABS(_downTouchPoint.x) > ABS(_downTouchPoint.y) && ABS(velocity.y)>200){
                     if (velocity.y>0 == _downTouchPoint.x>0)
                         _targetDirection = (_targetDirection+1) % 5;
                     else
                         _targetDirection = (_targetDirection+4) % 5;
-                } else if (ABS(_downTouchPoint.x) < ABS(_downTouchPoint.y) && ABS(velocity.x)>400){
+                } else if (ABS(_downTouchPoint.x) < ABS(_downTouchPoint.y) && ABS(velocity.x)>200){
                     if (velocity.x>0 == _downTouchPoint.y<0)
                         _targetDirection = (_targetDirection+1) % 5;
                     else

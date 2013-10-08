@@ -86,8 +86,6 @@
 
 - (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
     NSInteger undoSteps = _lastNotifiedHistoryPosition;
-    _lastNotifiedHistoryPosition = -1;
-    [self notifyChange];
 
     // check whether this was an undo!
     CGPoint touchPoint = [touch locationInView:self];
@@ -96,6 +94,9 @@
         FFGame *game = [[FFGamesCore instance] gameWithId:self.activeGameId];
         [game goBackInHistory:undoSteps];
     }
+
+    _lastNotifiedHistoryPosition = -1;
+    [self notifyChange];
 }
 
 - (NSInteger)snapIndexForTouch:(UITouch *)touch {
@@ -120,7 +121,6 @@
 - (void)didAppear {
     [[NSNotificationCenter defaultCenter]
             addObserver:self selector:@selector(repositionStepViews) name:kFFNotificationGameChanged object:nil];
-//    addObserver:self selector:@selector(setNeedsDisplay) name:kFFNotificationGameChanged object:nil];
 }
 
 - (void)didDisappear {
@@ -136,10 +136,13 @@
     CGFloat topY = 0;
 
     BOOL needsRepositioning = NO;
+    BOOL containsClearStep = NO;
     [self.positioningTmpArray removeAllObjects];
 
     for (FFHistoryStep *step in history) {
-        if (topY > self.bounds.size.height) break;
+        if (topY > self.bounds.size.height) break;  // done. Anything more would not be on the sceen
+
+        if (step.type == kFFHistoryStepClear) containsClearStep = YES;
 
         if (![self.stepViewsById objectForKey:step.id]){
             needsRepositioning = YES;
@@ -174,7 +177,13 @@
             centerPoint = CGPointMake(centerPoint.x, centerPoint.y + INTER_STEP_MARGIN);
             alpha -= 0.05;
         }
+
+        [self showBottomClearStep:!containsClearStep];
     }
+}
+
+- (void)showBottomClearStep:(BOOL)b {
+    // TODO
 }
 
 - (void)setShapeOfView:(UIView *)view forStep:(FFHistoryStep *)step {
@@ -228,14 +237,5 @@
 
     [shapeLayer setPath:path];
 }
-
-- (UIColor *)colorForMove:(FFMove *)move inGame:(FFGame *)game {
-    if ([game.player1.doneMoves objectForKey:move.Pattern.Id]){
-        return [UIColor player1color];
-    } else {
-        return [UIColor player2color];
-    }
-}
-
 
 @end

@@ -1414,6 +1414,8 @@
     </scenes>
     <resources>
         <image name="black_pattern.png" width="200" height="200"/>
+        <image name="black_pattern.png" width="200" height="200"/>
+        <image name="black_pattern.png" width="200" height="200"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

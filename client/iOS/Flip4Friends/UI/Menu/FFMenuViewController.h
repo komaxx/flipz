@@ -45,4 +45,6 @@
 - (void)goBackToMainMenu;
 
 - (void)hotSeatTapped;
+
+- (void)activateChallengeAtIndex:(NSUInteger)i;
 @end
