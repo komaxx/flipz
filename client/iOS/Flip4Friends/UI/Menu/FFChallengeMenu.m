@@ -9,13 +9,13 @@
 #import "FFMenuViewController.h"
 #import "FFAppDelegate.h"
 #import "FFStorageUtil.h"
+#import "FFToast.h"
 
 @interface FFChallengeMenu ()
 @property (weak, nonatomic) UITableView *tableView;
 @end
 
 @implementation FFChallengeMenu {
-    NSInteger _firstUnsolvedIndex;
 }
 @synthesize delegate = _delegate;
 
@@ -74,7 +74,10 @@
     NSUInteger index = (NSUInteger) indexPath.row;
 
     if (index >= [FFStorageUtil firstUnsolvedChallengeIndex]){
-        // TODO show toast
+
+        FFToast *toast = [FFToast make:NSLocalizedString(@"challenge_not_yet_unlocked", nil)];
+        [toast show];
+
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     } else {
         FFGame *game = [[FFGamesCore instance] challenge:(NSUInteger) index];
@@ -88,7 +91,16 @@
 }
 
 - (void)hide:(BOOL)hidden {
+    if (self.hidden == hidden) return;
+
     self.hidden = hidden;
+    if (!hidden){
+        // just displayed -> focus on last unsolved element
+        NSIndexPath *indexPath = [NSIndexPath
+                indexPathForRow:MAX(0,[FFStorageUtil firstUnsolvedChallengeIndex]-3)
+                      inSection:0];
+        [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+    }
 }
 
 @end

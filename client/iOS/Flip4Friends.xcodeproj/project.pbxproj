@@ -15,6 +15,7 @@
 		B6459415A1D2334F7BE399DA /* FFMenuBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = B645917B4741F38A59553D33 /* FFMenuBackgroundView.m */; };
 		B645945670CABDAEE11908A6 /* FFVersusFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = B6459CB8AA96836D220833B9 /* FFVersusFooter.m */; };
 		B64594770D9FB09BD2C623E2 /* FFCoord.m in Sources */ = {isa = PBXBuildFile; fileRef = B645980C027083820A3C125A /* FFCoord.m */; };
+		B64594B0057064119F23581A /* FFToast.m in Sources */ = {isa = PBXBuildFile; fileRef = B6459C8F068DD2B617B02E89 /* FFToast.m */; };
 		B645956E36D5969BC583EBD3 /* FFGamePausedMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = B6459B062CA7DBD8B592CF76 /* FFGamePausedMenu.m */; };
 		B64595A7D35D6B6DB4F83D0B /* FFMainMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = B645930192944443B4EAC7B1 /* FFMainMenu.m */; };
 		B64595ADA377211E828CC2EE /* FFChallengeMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = B645966D7BB73B2266C7D08E /* FFChallengeMenu.m */; };
@@ -101,6 +102,7 @@
 		B645930192944443B4EAC7B1 /* FFMainMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFMainMenu.m; path = UI/Menu/FFMainMenu.m; sourceTree = "<group>"; };
 		B645937842B29C30EB2ACB94 /* UIColor+FFColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+FFColors.m"; sourceTree = "<group>"; };
 		B6459409CEB4CCFD780373F6 /* random_challenges.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = random_challenges.txt; sourceTree = "<group>"; };
+		B6459435CBE6E77F75045157 /* FFToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFToast.h; path = UI/FFToast.h; sourceTree = "<group>"; };
 		B645943C3F94EFC03E9CC33A /* FFTileViewMultiStated.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFTileViewMultiStated.m; sourceTree = "<group>"; };
 		B6459479A90F3CAE077AA976 /* FFMainBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFMainBackgroundView.h; path = UI/FFMainBackgroundView.h; sourceTree = "<group>"; };
 		B64594D3ECBBC29320959DB4 /* FFStorageUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFStorageUtil.h; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 		B6459C2A558844401ED2183E /* FFMove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFMove.h; sourceTree = "<group>"; };
 		B6459C3BD2389E3D10447784 /* FFMoveViewControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFMoveViewControl.h; path = UI/FFMoveViewControl.h; sourceTree = "<group>"; };
 		B6459C458502A9DFE60822B3 /* FFPatternsViewControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFPatternsViewControl.h; path = UI/FFPatternsViewControl.h; sourceTree = "<group>"; };
+		B6459C8F068DD2B617B02E89 /* FFToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFToast.m; path = UI/FFToast.m; sourceTree = "<group>"; };
 		B6459C9E32AB156486CB063B /* FFHistorySlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFHistorySlider.m; path = UI/Game/FFHistorySlider.m; sourceTree = "<group>"; };
 		B6459CAEC672423F47578B67 /* FFCreateChallengeSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFCreateChallengeSession.h; sourceTree = "<group>"; };
 		B6459CB8AA96836D220833B9 /* FFVersusFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFVersusFooter.m; path = UI/Menu/FFVersusFooter.m; sourceTree = "<group>"; };
@@ -384,6 +387,8 @@
 				B6459531ED810D7E93C0274C /* FFPatternGenerator.h */,
 				B6459CCD47F4667948E447DC /* FFMainBackgroundView.m */,
 				B6459479A90F3CAE077AA976 /* FFMainBackgroundView.h */,
+				B6459C8F068DD2B617B02E89 /* FFToast.m */,
+				B6459435CBE6E77F75045157 /* FFToast.h */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -625,6 +630,7 @@
 				B6459C2EF871B03AAC32992C /* FFMainBackgroundView.m in Sources */,
 				CEC962B717FF2988006F7108 /* FFChallengeHistorySliderView.m in Sources */,
 				B6459EEF6F69D2861CAEBCA3 /* FFStorageUtil.m in Sources */,
+				B64594B0057064119F23581A /* FFToast.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,3 +7,5 @@
 
 "finished_title_congratulations" = "YOU WON";
 "finished_message_you_won" = "Congratulations!";
+"challenge_not_yet_unlocked" = "Not yet unlocked.\nSolve the previous challenges first!";
+"quick_undo_triggered" = "Undo";

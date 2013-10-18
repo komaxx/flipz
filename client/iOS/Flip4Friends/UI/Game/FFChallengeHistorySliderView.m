@@ -13,11 +13,12 @@
 #import "UIColor+FFColors.h"
 #import "FFPattern.h"
 #import "FFHistoryStep.h"
+#import "FFToast.h"
 
 #define INTER_STEP_MARGIN 35.0
 #define STEP_SYMBOL_SIZE 26.0
 
-#define UNDO_THRESHOLD -100
+#define UNDO_THRESHOLD -70
 
 
 @interface FFChallengeHistorySliderView ()
@@ -42,9 +43,29 @@
         self.stepViewsById = [[NSMutableDictionary alloc] initWithCapacity:10];
         self.removeCollector = [[NSMutableDictionary alloc] initWithCapacity:10];
         self.positioningTmpArray = [[NSMutableArray alloc] initWithCapacity:10];
+
+        UISwipeGestureRecognizer *downRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swiped:)];
+        downRecognizer.direction = UISwipeGestureRecognizerDirectionDown;
+        [self addGestureRecognizer:downRecognizer];
     }
 
     return self;
+}
+
+- (void)swiped:(UISwipeGestureRecognizer*)recognizer {
+    FFGame *game = [[FFGamesCore instance] gameWithId:self.activeGameId];
+
+    if (game.history.count < 2) return;         // nothing to undo yet
+
+    NSLog(@"Triggered quick undo");
+    [game goBackInHistory:1];
+
+    _lastNotifiedHistoryPosition = -1;
+    [self notifyChange];
+
+    FFToast *toast = [FFToast make:NSLocalizedString(@"quick_undo_triggered", nil)];
+    toast.disappearTime = 0.75;
+    [toast show];
 }
 
 - (void)setActiveGameId:(NSString *)activeGameId {
@@ -101,6 +122,7 @@
 
 - (NSInteger)snapIndexForTouch:(UITouch *)touch {
     if (!self.activeGameId) return -1;
+
     FFGame *game = [[FFGamesCore instance] gameWithId:self.activeGameId];
     NSInteger historySize = game.history.count;
     if (!game || historySize < 1) return -1;
@@ -148,7 +170,7 @@
             needsRepositioning = YES;
             UIView *stepView = [[UIView alloc] initWithFrame:
                     CGRectMake((self.bounds.size.width- STEP_SYMBOL_SIZE)/2, -100, STEP_SYMBOL_SIZE, STEP_SYMBOL_SIZE)];
-            [self setShapeOfView:stepView forStep:step];
+            [self setShapeForView:stepView forStep:step];
 
             [self addSubview:stepView];
             [self.stepViewsById setObject:stepView forKey:step.id];
@@ -183,10 +205,12 @@
 }
 
 - (void)showBottomClearStep:(BOOL)b {
-    // TODO
+
+    NSLog(@"SHOW CLEAR STEP!");
+
 }
 
-- (void)setShapeOfView:(UIView *)view forStep:(FFHistoryStep *)step {
+- (void)setShapeForView:(UIView *)view forStep:(FFHistoryStep *)step {
     view.userInteractionEnabled = NO;
     view.backgroundColor = [UIColor clearColor];
 

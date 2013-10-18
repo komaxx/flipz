@@ -1,7 +1,24 @@
-* quick rotation gesture (flick on ring, two finger flick)
-* flip sound
-* Block access to next level until current solved [- or failed 10 times]
+Sorted by priority:
+
 * View: Who's winning in hotseat
-* Hint
-* Undo via history-slider
 * Icon
+* Lock on challenge list
+* Tutorial for first level:
+    - "Welcome"
+    - "Goal: Flip all tiles to white"
+    - "Tap a pattern to activate it"
+    - "Drag it where you want to flip tiles"
+    - "Double tap the pattern to make a move"
+* Triggered moves
+* Hint
+* auto-generated levels
+* flip sound
+* quick rotation gesture (flick on ring, two finger flick)
+
+
+
+
+
+DONE
+* Undo via history-slider
+* Block access to next level until current solved [- or failed 10 times]
