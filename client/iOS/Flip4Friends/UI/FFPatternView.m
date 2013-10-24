@@ -172,7 +172,6 @@
 
         CGContextFillRect(c, fillRect);
         CGContextStrokeRect(c, fillRect);
-
     }
 }
 

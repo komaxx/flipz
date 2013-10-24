@@ -44,9 +44,9 @@
         self.removeCollector = [[NSMutableDictionary alloc] initWithCapacity:10];
         self.positioningTmpArray = [[NSMutableArray alloc] initWithCapacity:10];
 
-        UISwipeGestureRecognizer *downRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swiped:)];
-        downRecognizer.direction = UISwipeGestureRecognizerDirectionDown;
-        [self addGestureRecognizer:downRecognizer];
+//        UISwipeGestureRecognizer *downRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swiped:)];
+//        downRecognizer.direction = UISwipeGestureRecognizerDirectionDown;
+//        [self addGestureRecognizer:downRecognizer];
     }
 
     return self;
@@ -116,8 +116,8 @@
         [game goBackInHistory:undoSteps];
     }
 
-    _lastNotifiedHistoryPosition = -1;
-    [self notifyChange];
+//    _lastNotifiedHistoryPosition = -1;
+//    [self notifyChange];
 }
 
 - (NSInteger)snapIndexForTouch:(UITouch *)touch {

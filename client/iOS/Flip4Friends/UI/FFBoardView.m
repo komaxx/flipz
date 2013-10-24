@@ -152,20 +152,20 @@
         [self updateTilesFromBoard:game.Board];
         NSLog(@"hiding history");
     } else {
-        FFHistoryStep *historyStep = [game.history objectAtIndex:startStepsBack];
-        [self updateTilesFromBoard:historyStep.board];
+        [self updateTilesFromBoard:[(FFHistoryStep *)[game.history objectAtIndex:startStepsBack] board]];
 
-        // show the affected tiles
-        for (FFCoord *coord in historyStep.flippedTiles) {
-            UIView *tileView = [[UIView alloc] initWithFrame:[self getTileAtX:coord.x andY:coord.y].frame];
-            tileView.backgroundColor =
-                    [UIColor colorWithPatternImage:[FFPatternGenerator createHistoryMoveOverlayPatternForStep:0]];
-            tileView.layer.zPosition = 1000;
-            [self.historyTiles addObject:tileView];
-            [self addSubview:tileView];
+        if (startStepsBack > 0){
+            FFHistoryStep *nextTilesStep = [game.history objectAtIndex:startStepsBack-1];
+            // show the affected tiles
+            for (FFCoord *coord in nextTilesStep.flippedTiles) {
+                UIView *tileView = [[UIView alloc] initWithFrame:[self getTileAtX:coord.x andY:coord.y].frame];
+                tileView.backgroundColor =
+                        [UIColor colorWithPatternImage:[FFPatternGenerator createHistoryMoveOverlayPatternForStep:0]];
+                tileView.layer.zPosition = 1000;
+                [self.historyTiles addObject:tileView];
+                [self addSubview:tileView];
+            }
         }
-
-        NSLog(@"showing history with %i flipped tiles", historyStep.flippedTiles.count);
     }
 }
 

@@ -1,5 +1,6 @@
 Sorted by priority:
 
+* New History logic
 * View: Who's winning in hotseat
 * Icon
 * Lock on challenge list
