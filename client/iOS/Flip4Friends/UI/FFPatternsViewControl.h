@@ -38,7 +38,4 @@
 
 - (void)activatePatternWithId:(NSString *)patternId;
 
-- (void)showHistoryStartingFromStepsBack:(NSUInteger)i;
-- (void)hideHistory;
-
 @end

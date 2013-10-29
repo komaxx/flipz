@@ -67,8 +67,6 @@
 
     [[NSNotificationCenter defaultCenter]
             addObserver:self selector:@selector(gameChanged:) name:kFFNotificationGameChanged object:nil];
-    [[NSNotificationCenter defaultCenter]
-            addObserver:self selector:@selector(showOrHideHistory:) name:kFFNotificationHistoryShowStateChanged object:nil];
 }
 
 

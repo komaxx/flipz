@@ -47,7 +47,7 @@
 
 - (void)checkIfMyTurn {
     FFGame *game = [[FFGamesCore instance] gameWithId:self.gameId];
-    if (![game.activePlayer.id isEqualToString:self.myPlayerId]){
+    if (![game.ActivePlayer.id isEqualToString:self.myPlayerId]){
         return;    // not my turn
     }
 
@@ -71,9 +71,9 @@
     FFMove *bestMove = nil;
     CGFloat bestScore = -1000;
 
-    FFPlayer *player = game.activePlayer;
+    FFPlayer *player = game.ActivePlayer;
     for (FFPattern *pattern in player.playablePatterns) {
-        if ([player.doneMoves objectForKey:pattern.Id]) continue;       // already played.
+        if ([[game doneMovesForPlayer:player] objectForKey:pattern.Id]) continue;       // already played.
 
         // each orientation
         for (int orientation = 0; orientation < 4; orientation++){

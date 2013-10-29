@@ -6,9 +6,7 @@
 
 #import "FFHistorySlider.h"
 #import "FFGame.h"
-#import "FFGamesCore.h"
 #import "UIColor+FFColors.h"
-#import "FFGameViewController.h"
 
 
 #define INTER_STEP_MARGIN 34.0
@@ -56,22 +54,23 @@ NSString *const kFFNotificationHistoryShowStateChanged_stepsBack = @"ffStepsBack
 }
 
 - (NSInteger)snapIndexForTouch:(UITouch *)touch {
-    if (!self.activeGameId) return -1;
-    FFGame *game = [[FFGamesCore instance] gameWithId:self.activeGameId];
-    NSInteger historySize = game.moveHistory.count;
-    if (!game || historySize < 1) return -1;
-
-    CGPoint touchPoint = [touch locationInView:self];
-    NSInteger index = (NSInteger) (
-            (touchPoint.y +
-                    self.bounds.size.width/2.0 -
-                    INTER_STEP_MARGIN/2.0
-            )
-            / INTER_STEP_MARGIN);
-
-    index = MIN(index, historySize-1);
-
-    return index;
+//    if (!self.activeGameId) return -1;
+//    FFGame *game = [[FFGamesCore instance] gameWithId:self.activeGameId];
+//    NSInteger historySize = game.moveHistory.count;
+//    if (!game || historySize < 1) return -1;
+//
+//    CGPoint touchPoint = [touch locationInView:self];
+//    NSInteger index = (NSInteger) (
+//            (touchPoint.y +
+//                    self.bounds.size.width/2.0 -
+//                    INTER_STEP_MARGIN/2.0
+//            )
+//            / INTER_STEP_MARGIN);
+//
+//    index = MIN(index, historySize-1);
+//
+//    return index;
+    return 0;
 }
 
 - (void)didAppear {
@@ -88,43 +87,43 @@ NSString *const kFFNotificationHistoryShowStateChanged_stepsBack = @"ffStepsBack
 }
 
 - (void)drawRect:(CGRect)rect {
-    if (!self.activeGameId) return;
-    FFGame *game = [[FFGamesCore instance] gameWithId:self.activeGameId];
-    if (!game || game.moveHistory.count < 1) return;
-
-    CGContextRef c = UIGraphicsGetCurrentContext();
-    CGContextSaveGState(c);
-
-    CGContextSetLineWidth(c, 3);
-
-    CGFloat midX = CGRectGetMidX(self.bounds);
-
-    // current point in time
-    CGContextAddEllipseInRect(c, CGRectMake(midX-10, midX-10, 20, 20));
-    CGContextAddEllipseInRect(c, CGRectMake(midX-2, midX-2, 4, 4));
-    CGContextSetStrokeColorWithColor(c, [[UIColor whiteColor] CGColor]);
-    CGContextSetShadowWithColor(c, CGSizeMake(0, 5), 1,
-            [[self colorForMove:[game.moveHistory objectAtIndex:game.moveHistory.count-1] inGame:game] CGColor]);
-    CGContextDrawPath(c, kCGPathStroke);
-
-    // history
-    for (int i = 0; i < (int)(game.moveHistory.count)-1; i++){
-        CGContextAddEllipseInRect(c, CGRectMake(midX-5, midX-5 + (i+1)*INTER_STEP_MARGIN, 10, 10));
-        CGContextSetStrokeColorWithColor(c, [[UIColor colorWithWhite:1 alpha:(1- (i+1)*0.12)] CGColor]);
-        CGContextSetShadowWithColor(c, CGSizeMake(0, 5), 1,
-                [[self colorForMove:[game.moveHistory objectAtIndex:game.moveHistory.count-(i+2)] inGame:game] CGColor]);
-        CGContextDrawPath(c, kCGPathStroke);
-    }
-
-    CGContextRestoreGState(c);
+//    if (!self.activeGameId) return;
+//    FFGame *game = [[FFGamesCore instance] gameWithId:self.activeGameId];
+//    if (!game || game.moveHistory.count < 1) return;
+//
+//    CGContextRef c = UIGraphicsGetCurrentContext();
+//    CGContextSaveGState(c);
+//
+//    CGContextSetLineWidth(c, 3);
+//
+//    CGFloat midX = CGRectGetMidX(self.bounds);
+//
+//    // current point in time
+//    CGContextAddEllipseInRect(c, CGRectMake(midX-10, midX-10, 20, 20));
+//    CGContextAddEllipseInRect(c, CGRectMake(midX-2, midX-2, 4, 4));
+//    CGContextSetStrokeColorWithColor(c, [[UIColor whiteColor] CGColor]);
+//    CGContextSetShadowWithColor(c, CGSizeMake(0, 5), 1,
+//            [[self colorForMove:[game.moveHistory objectAtIndex:game.moveHistory.count-1] inGame:game] CGColor]);
+//    CGContextDrawPath(c, kCGPathStroke);
+//
+//    // history
+//    for (int i = 0; i < (int)(game.moveHistory.count)-1; i++){
+//        CGContextAddEllipseInRect(c, CGRectMake(midX-5, midX-5 + (i+1)*INTER_STEP_MARGIN, 10, 10));
+//        CGContextSetStrokeColorWithColor(c, [[UIColor colorWithWhite:1 alpha:(1- (i+1)*0.12)] CGColor]);
+//        CGContextSetShadowWithColor(c, CGSizeMake(0, 5), 1,
+//                [[self colorForMove:[game.moveHistory objectAtIndex:game.moveHistory.count-(i+2)] inGame:game] CGColor]);
+//        CGContextDrawPath(c, kCGPathStroke);
+//    }
+//
+//    CGContextRestoreGState(c);
 }
 
 - (UIColor *)colorForMove:(FFMove *)move inGame:(FFGame *)game {
-    if ([game.player1.doneMoves objectForKey:move.Pattern.Id]){
-        return [UIColor player1color];
-    } else {
+//    if ([game.player1.doneMoves objectForKey:move.Pattern.Id]){
+//        return [UIColor player1color];
+//    } else {
         return [UIColor player2color];
-    }
+//    }
 }
 
 

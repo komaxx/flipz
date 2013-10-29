@@ -57,10 +57,7 @@
 
     [game start];
 }
-- (IBAction)undoTapped:(id)sender {
-    FFGame *game = [[FFGamesCore instance] gameWithId:[FFCreateChallengeSession tmpGameId]];
-    [game undo];
-}
+
 - (IBAction)cleanTapped:(id)sender {
     FFGame *game = [[FFGamesCore instance] gameWithId:[FFCreateChallengeSession tmpGameId]];
     [game clean];
@@ -84,9 +81,10 @@
 
 - (void)setPatternSelectedForMove:(FFPattern *)pattern fromView:(UIView *)view {
     FFGame* game = [[FFGamesCore instance] gameWithId:[FFCreateChallengeSession tmpGameId]];
-    FFMove *move = [game.activePlayer.doneMoves objectForKey:pattern.Id];
+    FFMove *move = [[game doneMovesForPlayer:game.ActivePlayer] objectForKey:pattern.Id];
     if (move){
         // already moved -> illegal!
+        NSLog(@"This pattern was already moved!");
         return;
     }
 
@@ -107,7 +105,7 @@
     FFGame *activeGame = [[FFGamesCore instance] gameWithId:[FFCreateChallengeSession tmpGameId]];
 
     FFMove *move = [[FFMove alloc] initWithPattern:pattern atPosition:coord andOrientation:(FFOrientation) direction];
-    [activeGame executeMove:move byPlayer:activeGame.activePlayer];
+    [activeGame executeMove:move byPlayer:activeGame.ActivePlayer];
 
     [self.moveViewControl moveFinished];
     [self.player1PatternsControl cancelMove];

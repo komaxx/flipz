@@ -11,6 +11,8 @@
 #import "FFMove.h"
 #import "FFPlayer.h"
 
+@class FFHistoryStep;
+
 
 /**
 * Name of the notification whenever a game changes somehow. Will contain the id of the FFGame
@@ -64,15 +66,6 @@ typedef enum {
 */
 @property (nonatomic, strong, readonly) FFPlayer *player2;
 
-/**
-* Either nil (e.g., at demo games) player1 or player2.
-*/
-@property (nonatomic, readonly) FFPlayer *activePlayer;
-
-/**
-* Guess.
-*/
-@property (nonatomic, strong, readonly) FFBoard *Board;
 
 /**
 * When YES, a tile will only be painted black or white, even if it needs
@@ -81,8 +74,8 @@ typedef enum {
 @property (nonatomic) BOOL ruleObfuscateTileState;
 
 @property (nonatomic, strong, readonly) NSArray *history;
-@property (nonatomic, strong, readonly) NSArray *moveHistory;
-@property (nonatomic, strong, readonly) NSArray *boardHistory;
+
+@property(nonatomic, readwrite) NSUInteger currentHistoryBackSteps;
 
 
 - (id)initWithId:(NSString *)id Type:(NSString * const)type andBoardSize:(NSInteger)size;
@@ -95,9 +88,9 @@ typedef enum {
 */
 - (NSInteger)executeMove:(FFMove *)move byPlayer:(FFPlayer*)player;
 
-- (void)undo;
+- (FFBoard*)Board;
 
-- (void)redo;
+- (FFPlayer*)ActivePlayer;
 
 - (id)initTestChallengeWithId:(NSString *)id1 andBoard:(FFBoard *)board;
 
@@ -107,7 +100,16 @@ typedef enum {
 
 - (void)giveUp;
 
+- (FFHistoryStep *)currentHistoryStep;
+
 - (void)clean;
+
+/**
+* position is measured from the top of the move stack! So undo one move is -1. If a move
+* is executed when the step was set to anything but 0, the position will then be set to 0
+* and all moves on top of that stack element will be discarded.
+*/
+- (void)goBackInHistory:(NSInteger)position;
 
 /**
 * nil/wrong unless in state kFFGameFinished
@@ -116,5 +118,5 @@ typedef enum {
 
 - (void)DEBUG_replaceBoardWith:(FFBoard *)board;
 
-- (void)goBackInHistory:(NSInteger)position;
+- (NSDictionary *)doneMovesForPlayer:(FFPlayer *)player;
 @end

@@ -26,13 +26,20 @@ typedef enum {
 
 @property (strong, nonatomic, readonly) FFBoard *board;
 @property (strong, nonatomic, readonly) NSArray *flippedTiles;
-@property (strong, nonatomic, readonly) NSDictionary *doneMoveIds;
+
+@property (strong, nonatomic) NSString *activePlayerId;
+
+@property (strong, nonatomic, readonly) NSDictionary *doneMovesPlayer1;
+@property (strong, nonatomic, readonly) NSDictionary *doneMovesPlayer2;
+
 @property (strong, nonatomic, readonly) NSArray *affectedPatternIDs;
 @property (nonatomic, readonly) FFHistoryStepType type;
 
+
 - (id)initCleanStepWithBoard:(FFBoard *)board;
 
-- (id)initWithMove:(FFMove *)move andBoard:(FFBoard *)board andDoneMoves:(NSDictionary *)doneMoveIds;
+- (id)initWithMove:(FFMove *)move byPlayer1:(BOOL)byPlayer1 andPreviousStep:(FFHistoryStep *)step;
 
-- (id)initUndoStepFromStep:(FFHistoryStep *)step;
+- (void)DEBUG_replaceBoardWith:(FFBoard *)board;
+
 @end

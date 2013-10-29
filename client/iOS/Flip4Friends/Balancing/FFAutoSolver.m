@@ -63,7 +63,7 @@
 
     NSMutableArray *restPatterns = [[NSMutableArray alloc] initWithCapacity:game.player1.playablePatterns.count];
     for (FFPattern *pattern in game.player1.playablePatterns) {
-        if ([game.player1.doneMoves objectForKey:pattern.Id]) continue;
+        if ([[game doneMovesForPlayer:game.player1] objectForKey:pattern.Id]) continue;
         [restPatterns addObject:pattern];
     }
 
@@ -75,7 +75,7 @@
 
     NSMutableArray *restPatterns = [[NSMutableArray alloc] initWithCapacity:game.player1.playablePatterns.count];
     for (FFPattern *pattern in game.player1.playablePatterns) {
-        if ([game.player1.doneMoves objectForKey:pattern.Id]) continue;
+        if ([[game doneMovesForPlayer:game.player1] objectForKey:pattern.Id]) continue;
         [restPatterns addObject:pattern];
     }
 

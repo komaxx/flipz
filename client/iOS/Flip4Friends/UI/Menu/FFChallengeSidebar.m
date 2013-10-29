@@ -56,8 +56,4 @@
     [game clean];
 }
 
-- (void)undoTapped {
-    [self.delegate.delegate undoTapped];
-}
-
 @end

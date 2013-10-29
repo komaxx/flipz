@@ -207,7 +207,7 @@ typedef enum {
         [self changeState:menuState_gameRunning];
         [selectedGame start];
     } else if (selectedGame.gameState == kFFGameState_Running){
-        if (selectedGame.activePlayer.local){
+        if (selectedGame.ActivePlayer.local){
             [self changeState:menuState_gameRunning];
             [selectedGame start];
         } else {

@@ -8,14 +8,18 @@
 #import "FFBoard.h"
 #import "FFMove.h"
 #import "FFPattern.h"
+#import "FFPlayer.h"
 
 
 @interface FFHistoryStep ()
 @property (nonatomic, readwrite) FFHistoryStepType type;
 @property (strong, nonatomic, readwrite) FFBoard *board;
+
 @property (strong, nonatomic, readwrite) NSArray *flippedTiles;
 @property (strong, nonatomic, readwrite) NSArray *affectedPatternIDs;
-@property (strong, nonatomic, readwrite) NSDictionary *doneMoveIds;
+
+@property (strong, nonatomic, readwrite) NSDictionary *doneMovesPlayer1;
+@property (strong, nonatomic, readwrite) NSDictionary *doneMovesPlayer2;
 @end
 
 @implementation FFHistoryStep {
@@ -34,39 +38,35 @@
     return self;
 }
 
-- (id)initWithMove:(FFMove *)move andBoard:(FFBoard *)board andDoneMoves:(NSDictionary *)doneMoveIds{
-    self = [super init];
+static int nextId;
 
+- (id)initWithMove:(FFMove *)move byPlayer1:(BOOL)player1 andPreviousStep:(FFHistoryStep *)step {
+    self = [super init];
     if (self){
         [self basicInit];
         self.type = kFFHistoryStepMove;
-        self.board = [[FFBoard alloc] initWithBoard:board];
-        self.flippedTiles = [NSArray arrayWithArray:move.FlippedCoords];
-        self.doneMoveIds = [NSDictionary dictionaryWithDictionary:doneMoveIds];
-        self.affectedPatternIDs = @[ move.Pattern.Id ];
-    }
-
-    return self;
-}
-
-static int nextId;
-
-- (id)initUndoStepFromStep:(FFHistoryStep *)step {
-    self = [super init];
-
-    if (self){
-        [self basicInit];
-        self.type = kFFHistoryStepBack;
         self.board = [[FFBoard alloc] initWithBoard:step.board];
-        self.flippedTiles = [NSArray arrayWithArray:step.flippedTiles];
-        self.doneMoveIds = [NSDictionary dictionaryWithDictionary:step.doneMoveIds];
-        self.affectedPatternIDs = step.affectedPatternIDs;
+        self.doneMovesPlayer1 = [NSMutableDictionary dictionaryWithDictionary:step.doneMovesPlayer1];
+        self.doneMovesPlayer2 = [NSMutableDictionary dictionaryWithDictionary:step.doneMovesPlayer2];
+        self.activePlayerId = step.activePlayerId;
+        self.affectedPatternIDs = [NSArray arrayWithArray:step.affectedPatternIDs];
+
+        if (player1) [(NSMutableDictionary *) self.doneMovesPlayer1 setObject:move forKey:move.Pattern.Id];
+        else [(NSMutableDictionary *) self.doneMovesPlayer2 setObject:move forKey:move.Pattern.Id];
+
+        NSArray *flippedCoords = [self.board doMoveWithCoords:[move buildToFlipCoords]];
+        move.FlippedCoords = flippedCoords;
+        self.flippedTiles = flippedCoords;
     }
 
     return self;
 }
 
 - (void)basicInit {
-    _id = [NSString stringWithFormat:@"backStep_%i", nextId++];
+    _id = [NSString stringWithFormat:@"hStep_%i", nextId++];
+}
+
+- (void)DEBUG_replaceBoardWith:(FFBoard *)board {
+    self.board = board;
 }
 @end

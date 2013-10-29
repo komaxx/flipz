@@ -31,6 +31,4 @@
 - (void)cancelMoveWithPattern:(FFPattern *)pattern;
 
 - (void)gameCleaned;
-
-- (void)undo;
 @end

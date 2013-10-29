@@ -13,7 +13,6 @@
 - (NSString *)activeGameId;
 - (void) activateGameWithId:(NSString *)gameId;
 - (void)restartCurrentGame;
-- (void)undoTapped;
 - (void)cleanCurrentGame;
 @end
 

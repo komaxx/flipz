@@ -72,14 +72,14 @@
     }
 
     FFGame *game = [[FFGamesCore instance] gameWithId:changedGameID];
-    if (![game.activePlayer.id isEqualToString:self.lastPlayerId]){
+    if (![game.ActivePlayer.id isEqualToString:self.lastPlayerId]){
         [self updateBoardAndDrawerPosition];
     }
 }
 
 - (void)updateBoardAndDrawerPosition {
     FFGame *game = [[FFGamesCore instance] gameWithId:[self.delegate activeGameId ]];
-    BOOL centerBoard = !game || game.moveHistory.count < 1;
+    BOOL centerBoard = !game || !game.ActivePlayer;
 //    centerBoard = YES;          //
 
     [UIView animateWithDuration:0.2 animations:^{
@@ -88,12 +88,12 @@
         self.boardView.frame = frame;
     }];
 
-    if (!game || !game.activePlayer){
+    if (centerBoard){
         [UIView animateWithDuration:0.4 animations:^{
             self.gameBoardDrawer.center = self.center;
         }];
     } else {
-        if (game.activePlayer == game.player1){
+        if (game.ActivePlayer == game.player1){
             [UIView animateWithDuration:0.4 animations:^{
                 self.gameBoardDrawer.center =
                         CGPointMake(self.center.x, self.gameBoardDrawer.frame.size.height/2);
@@ -149,19 +149,6 @@
     [self selectedGameWithId:[self.delegate activeGameId]];
 }
 
-- (void)undo {
-    FFGame *game = [[FFGamesCore instance] gameWithId:[self.delegate activeGameId]];
-    if (game.moveHistory.count < 1){
-        NSLog(@"can't undo. At starting point.");
-        return;
-    }
-
-    FFMove* undoneMove = [game.moveHistory lastObject];
-    [game undo];
-
-    [self performSelector:@selector(activateUndonePatternWithId:) withObject:undoneMove afterDelay:0.05];
-}
-
 - (void)activateUndonePatternWithId:(FFMove *)undoneMove {
     [self.player1PatternsControl activatePatternWithId:undoneMove.Pattern.Id];
     [self.moveViewControl
@@ -190,13 +177,13 @@
 
 - (void)setPatternSelectedForMove:(FFPattern *)pattern fromView:(UIView *)view {
     FFGame* game = [[FFGamesCore instance] gameWithId:[self.delegate activeGameId]];
-    FFMove *move = [game.activePlayer.doneMoves objectForKey:pattern.Id];
+    FFMove *move = [[game doneMovesForPlayer:game.ActivePlayer] objectForKey:pattern.Id];
     if (move){
         // already moved -> illegal!
         return;
     }
 
-    BOOL player1Active = game.activePlayer==game.player1;
+    BOOL player1Active = game.ActivePlayer==game.player1;
 
     [self.moveViewControl
             startMoveWithPattern:pattern
@@ -211,7 +198,7 @@
     FFGame *activeGame = [[FFGamesCore instance] gameWithId:[self.delegate activeGameId]];
 
     FFMove *move = [[FFMove alloc] initWithPattern:pattern atPosition:coord andOrientation:(FFOrientation) direction];
-    [activeGame executeMove:move byPlayer:activeGame.activePlayer];
+    [activeGame executeMove:move byPlayer:activeGame.ActivePlayer];
 
     [self.moveViewControl moveFinished];
     [self.player1PatternsControl cancelMove];

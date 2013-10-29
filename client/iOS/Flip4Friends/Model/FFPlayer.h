@@ -21,15 +21,6 @@
 * whether a move was already executed or not.
 */
 @property (strong, nonatomic) NSArray *playablePatterns;
-@property (strong, nonatomic) NSDictionary *doneMoves;
-
-- (void)setDoneMove:(FFMove *)move;
-
-- (void)undoMove:(FFMove *)move;
 
 - (void)resetWithPatterns:(NSArray *)array;
-
-- (BOOL)allPatternsPlayed;
-
-- (void)clearDoneMoves;
 @end

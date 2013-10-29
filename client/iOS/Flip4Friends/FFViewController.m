@@ -50,10 +50,6 @@
     [self.gameViewController selectedGameWithId:gameId];
 }
 
-- (void)undoTapped {
-    [self.gameViewController undo];
-}
-
 - (void)restartCurrentGame {
     [self.gameViewController selectedGameWithId:self.activeGameId];
 }
