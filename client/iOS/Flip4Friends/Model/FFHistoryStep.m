@@ -20,6 +20,8 @@
 
 @property (strong, nonatomic, readwrite) NSDictionary *doneMovesPlayer1;
 @property (strong, nonatomic, readwrite) NSDictionary *doneMovesPlayer2;
+
+@property (nonatomic, readwrite) NSUInteger timesReturnedToStep;
 @end
 
 @implementation FFHistoryStep {
@@ -61,6 +63,11 @@ static int nextId;
 
     return self;
 }
+
+- (void)returnedToStep {
+    self.timesReturnedToStep++;
+}
+
 
 - (void)basicInit {
     _id = [NSString stringWithFormat:@"hStep_%i", nextId++];

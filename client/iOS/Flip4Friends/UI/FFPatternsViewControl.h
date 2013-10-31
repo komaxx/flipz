@@ -12,6 +12,8 @@
 @protocol FFPatternsViewControlDelegate
     - (void)cancelMoveWithPattern:(FFPattern*)pattern;
     - (void)setPatternSelectedForMove:(FFPattern*)pattern fromView:(UIView *)view;
+    // when the user has already placed a pattern, make it a move!
+    - (void)executeCurrentMove;
 @end
 
 

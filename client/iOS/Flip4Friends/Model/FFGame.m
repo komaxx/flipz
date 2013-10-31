@@ -26,7 +26,8 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
 @property(nonatomic, strong, readwrite) FFPlayer *player1;
 @property(nonatomic, strong, readwrite) FFPlayer *player2;
 
-@property(nonatomic, strong, readwrite) NSMutableArray *history;       // the current state is always at pos 0!
+@property(nonatomic, readwrite) NSUInteger currentHistoryBackSteps;
+@property(nonatomic, strong, readwrite) NSArray *history;       // the current state is always at pos 0!
 
 @end
 
@@ -129,6 +130,8 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
             [(NSMutableArray *) self.history removeObjectAtIndex:0];
         }
         self.currentHistoryBackSteps = 0;
+
+        [[self currentHistoryStep] returnedToStep];
     }
 
     FFHistoryStep *nuStep = [[FFHistoryStep alloc]

@@ -108,6 +108,13 @@
     self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(frame:)];
     self.displayLink.frameInterval = 2;
     [self.displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+
+    [[NSNotificationCenter defaultCenter]
+            addObserver:self selector:@selector(gameChanged:) name:kFFNotificationGameChanged object:nil];
+}
+
+- (void)gameChanged:(id)gameChanged {
+    [self moveFinished];
 }
 
 - (void)didDisappear {

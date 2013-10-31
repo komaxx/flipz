@@ -75,7 +75,7 @@ typedef enum {
 
 @property (nonatomic, strong, readonly) NSArray *history;
 
-@property(nonatomic, readwrite) NSUInteger currentHistoryBackSteps;
+@property(nonatomic, readonly) NSUInteger currentHistoryBackSteps;
 
 
 - (id)initWithId:(NSString *)id Type:(NSString * const)type andBoardSize:(NSInteger)size;

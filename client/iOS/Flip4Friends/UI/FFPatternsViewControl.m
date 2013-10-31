@@ -9,6 +9,7 @@
 #import "FFGamesCore.h"
 #import "FFPatternView.h"
 #import "FFHistoryStep.h"
+#import "FFToast.h"
 
 #define PATTERN_VIEW_SIZE 60
 
@@ -173,7 +174,12 @@
 
     if ([[game doneMovesForPlayer:self.shownPlayer] objectForKey:view.pattern.Id]){
         NSLog(@"This pattern was already played at this point. Ignore.");
+
         // TODO: Show history pattern!
+        // TODO: Highlight history step when this was played
+
+        FFToast *toast = [FFToast make:NSLocalizedString(@"this_pattern_was_already_played", nil)];
+        [toast show];
 
         return;
     }
@@ -189,8 +195,12 @@
         return;
     }
 
-    [self cancelSelection];
+    [self.delegate executeCurrentMove];
 
+    [self performSelector:@selector(chooseNewPattern:) withObject:view afterDelay:0.001];
+}
+
+- (void)chooseNewPattern:(FFPatternView*)view {
     self.nowActivePatternView = view;
     [view setViewState:kFFPatternViewStateActive];
 

@@ -35,10 +35,14 @@ typedef enum {
 @property (strong, nonatomic, readonly) NSArray *affectedPatternIDs;
 @property (nonatomic, readonly) FFHistoryStepType type;
 
+@property (nonatomic, readonly) NSUInteger timesReturnedToStep;
+
 
 - (id)initCleanStepWithBoard:(FFBoard *)board;
 
 - (id)initWithMove:(FFMove *)move byPlayer1:(BOOL)byPlayer1 andPreviousStep:(FFHistoryStep *)step;
+
+- (void)returnedToStep;
 
 - (void)DEBUG_replaceBoardWith:(FFBoard *)board;
 

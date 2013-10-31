@@ -10,21 +10,19 @@
 
 #import "FFGame.h"
 #import "FFGamesCore.h"
-#import "UIColor+FFColors.h"
-#import "FFPattern.h"
 #import "FFHistoryStep.h"
-#import "FFToast.h"
 
-#define INTER_STEP_MARGIN 35.0
-#define STEP_SYMBOL_SIZE 26.0
-
-#define UNDO_THRESHOLD -70
+#define INTER_STEP_MARGIN 42.0
+#define STEP_SYMBOL_SIZE 28.0
 
 
 @interface FFChallengeHistorySliderView ()
 @property (strong, nonatomic) NSMutableDictionary *stepViewsById;
 @property (strong, nonatomic) NSMutableDictionary *removeCollector;
 @property (strong, nonatomic) NSMutableArray *positioningTmpArray;
+
+@property (weak, nonatomic) UILabel *historyTextField;
+
 @end
 
 
@@ -44,35 +42,37 @@
         self.removeCollector = [[NSMutableDictionary alloc] initWithCapacity:10];
         self.positioningTmpArray = [[NSMutableArray alloc] initWithCapacity:10];
 
-//        UISwipeGestureRecognizer *downRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swiped:)];
-//        downRecognizer.direction = UISwipeGestureRecognizerDirectionDown;
-//        [self addGestureRecognizer:downRecognizer];
+        [self addHistoryView];
     }
 
     return self;
 }
 
-- (void)swiped:(UISwipeGestureRecognizer*)recognizer {
-    FFGame *game = [[FFGamesCore instance] gameWithId:self.activeGameId];
+- (void)addHistoryView {
+    UILabel *field = [[UILabel alloc] initWithFrame:
+            CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height)];
+    field.text = @"HISTORY =>";
+    field.textColor = [UIColor colorWithWhite:1 alpha:0.2];
+    field.layer.shadowColor = [[UIColor blackColor] CGColor];
+    field.layer.shadowOpacity = 1;
+    field.layer.shadowOffset = CGSizeMake(-3, 0);
+    field.layer.shadowRadius = 0;
+    field.font = [UIFont fontWithName:@"Futura-CondensedExtraBold" size:18];
+    [field sizeToFit];
 
-    if (game.history.count < 2) return;         // nothing to undo yet
+    CGPoint center = self.center;
+    center.y = self.bounds.size.height / 3;
+    field.center = center;
 
-    NSLog(@"Triggered quick undo");
-    [game goBackInHistory:1];
-
-    _lastNotifiedHistoryPosition = -1;
-    [self notifyChange];
-
-    FFToast *toast = [FFToast make:NSLocalizedString(@"quick_undo_triggered", nil)];
-    toast.disappearTime = 0.75;
-    [toast show];
+    [field.layer setAffineTransform:CGAffineTransformRotate(CGAffineTransformIdentity, (CGFloat)-M_PI_2)];
+    [self addSubview:field];
+    self.historyTextField = field;
 }
 
 - (void)setActiveGameId:(NSString *)activeGameId {
     _activeGameId = [activeGameId mutableCopy];
     [self repositionStepViews];
 }
-
 
 - (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
     NSInteger snapIndex = [self snapIndexForTouch:touch];
@@ -85,12 +85,6 @@
 }
 
 - (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
-    CGPoint touchPoint = [touch locationInView:self];
-    if (touchPoint.x < 0){
-        // TODO: show activation glow
-        return YES;
-    }
-
     NSInteger snapIndex = [self snapIndexForTouch:touch];
     if (snapIndex >= 0 && snapIndex != _lastNotifiedHistoryPosition){
         _lastNotifiedHistoryPosition = snapIndex;
@@ -100,24 +94,8 @@
 }
 
 - (void)notifyChange {
-    NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:_lastNotifiedHistoryPosition],
-                    kFFNotificationHistoryShowStateChanged_stepsBack, nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:kFFNotificationHistoryShowStateChanged object:nil userInfo:userInfo];
-}
-
-- (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
-    NSInteger undoSteps = _lastNotifiedHistoryPosition;
-
-    // check whether this was an undo!
-    CGPoint touchPoint = [touch locationInView:self];
-    if (touchPoint.x < UNDO_THRESHOLD){
-        NSLog(@"UNDO for history step %i", undoSteps);
-        FFGame *game = [[FFGamesCore instance] gameWithId:self.activeGameId];
-        [game goBackInHistory:undoSteps];
-    }
-
-//    _lastNotifiedHistoryPosition = -1;
-//    [self notifyChange];
+    FFGame *game = [[FFGamesCore instance] gameWithId:self.activeGameId];
+    [game goBackInHistory:_lastNotifiedHistoryPosition];
 }
 
 - (NSInteger)snapIndexForTouch:(UITouch *)touch {
@@ -131,8 +109,7 @@
     NSInteger index = (NSInteger) (
             (touchPoint.y +
                     self.bounds.size.width/2.0 -
-                    INTER_STEP_MARGIN/2.0
-            )
+                    INTER_STEP_MARGIN/2.0)
                     / INTER_STEP_MARGIN);
 
     index = MIN(index, historySize-1);
@@ -153,23 +130,22 @@
     [self.removeCollector removeAllObjects];
     [self.removeCollector addEntriesFromDictionary:self.stepViewsById];
 
-    NSArray *history = [[FFGamesCore instance] gameWithId:self.activeGameId].history;
+    FFGame *game = [[FFGamesCore instance] gameWithId:self.activeGameId];
+    NSArray *history = game.history;
 
     CGFloat topY = 0;
 
-    BOOL needsRepositioning = NO;
-    BOOL containsClearStep = NO;
     [self.positioningTmpArray removeAllObjects];
 
-    for (FFHistoryStep *step in history) {
-        if (topY > self.bounds.size.height) break;  // done. Anything more would not be on the sceen
+    for (NSUInteger i = 0; i < history.count; i++){
+        if (topY > self.bounds.size.height) break;  // done. Anything more would not be on the screen
 
-        if (step.type == kFFHistoryStepClear) containsClearStep = YES;
+        FFHistoryStep *step = [history objectAtIndex:i];
 
         if (![self.stepViewsById objectForKey:step.id]){
-            needsRepositioning = YES;
             UIView *stepView = [[UIView alloc] initWithFrame:
-                    CGRectMake((self.bounds.size.width- STEP_SYMBOL_SIZE)/2, -100, STEP_SYMBOL_SIZE, STEP_SYMBOL_SIZE)];
+                    CGRectMake((self.bounds.size.width- STEP_SYMBOL_SIZE)/2, -100,
+                            STEP_SYMBOL_SIZE, STEP_SYMBOL_SIZE)];
             [self setShapeForView:stepView forStep:step];
 
             [self addSubview:stepView];
@@ -183,31 +159,41 @@
     }
 
     for (NSString *key in self.removeCollector) {
-        [[self.stepViewsById objectForKey:key] removeFromSuperview];
+        UIView *toRemove = [self.stepViewsById objectForKey:key];
         [self.stepViewsById removeObjectForKey:key];
+
+        [UIView animateWithDuration:0.3 animations:^{
+            CGPoint centerPoint = toRemove.center;
+            centerPoint.x += self.bounds.size.width/2;
+            toRemove.center = centerPoint;
+            toRemove.alpha = 0;
+        } completion:^(BOOL finished) {
+            [toRemove removeFromSuperview];
+        }];
     }
 
-    if (needsRepositioning){
-        float alpha = 1;
-        CGPoint centerPoint = CGPointMake(self.bounds.size.width/2 - 4, self.bounds.size.width/2);
-        for (UIView *stepView in self.positioningTmpArray) {
-            [UIView animateWithDuration:0.3 animations:^{
-                stepView.center = centerPoint;
-                stepView.alpha = alpha;
-            }];
+    float alpha = 1;
+    CGPoint centerPoint = CGPointMake(
+//            self.bounds.size.width/2 - 4,
+            self.bounds.size.width/2,
+            self.bounds.size.width/2);
+    for (NSUInteger i = 0; i < self.positioningTmpArray.count; i++){
+        UIView *stepView = [self.positioningTmpArray objectAtIndex:i];
 
-            centerPoint = CGPointMake(centerPoint.x, centerPoint.y + INTER_STEP_MARGIN);
-            alpha -= 0.05;
-        }
+        [UIView animateWithDuration:0.3 animations:^{
+            stepView.center = centerPoint;
+            stepView.alpha = i < game.currentHistoryBackSteps ? alpha/2.0 : alpha;
+        }];
 
-        [self showBottomClearStep:!containsClearStep];
+        centerPoint = CGPointMake(centerPoint.x, centerPoint.y + INTER_STEP_MARGIN);
+        alpha -= 0.05;
     }
-}
 
-- (void)showBottomClearStep:(BOOL)b {
-
-    NSLog(@"SHOW CLEAR STEP!");
-
+    // and position the history text
+    centerPoint.y += self.historyTextField.bounds.size.width/2 - 10;
+    [UIView animateWithDuration:0.3 animations:^{
+        self.historyTextField.center = centerPoint;
+    }];
 }
 
 - (void)setShapeForView:(UIView *)view forStep:(FFHistoryStep *)step {
