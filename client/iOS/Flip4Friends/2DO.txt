@@ -1,8 +1,8 @@
 Sorted by priority:
 
-* New History logic
 * View: Who's winning in hotseat
 * Icon
+* Menu: Replace retry with "next"
 * Lock on challenge list
 * Tutorial for first level:
     - "Welcome"
@@ -21,5 +21,6 @@ Sorted by priority:
 
 
 DONE
+* New History logic
 * Undo via history-slider
 * Block access to next level until current solved [- or failed 10 times]

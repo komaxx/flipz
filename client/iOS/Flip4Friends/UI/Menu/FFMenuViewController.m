@@ -222,6 +222,11 @@ typedef enum {
     [self.challengeSidebar setActiveGameWithId:gameId];
 }
 
+- (void)proceedToNextChallenge {
+    _currentlyAttemptedChallenge++;
+    [self activateGameWithId:[[FFGamesCore instance] challenge:_currentlyAttemptedChallenge].Id];
+}
+
 - (void)restartGame {
     FFGame *selectedGame = [[FFGamesCore instance] gameWithId:[self.delegate activeGameId]];
     [selectedGame start];

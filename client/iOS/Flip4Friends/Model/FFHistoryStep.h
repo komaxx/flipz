@@ -44,6 +44,8 @@ typedef enum {
 
 - (void)returnedToStep;
 
+- (id)initWithStep:(FFHistoryStep *)step;
+
 - (void)DEBUG_replaceBoardWith:(FFBoard *)board;
 
 @end

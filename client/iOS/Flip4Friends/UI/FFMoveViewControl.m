@@ -98,10 +98,16 @@
     return YES;
 }
 
-- (void)doubleTapped:(id)doubleTapped {
+- (void)doubleTapped:(id)unused {
+    if (!self.activePattern) return;
+
     [self.delegate moveCompletedWithPattern:self.activePattern
                                          at:[self computeSnapCoord]
                             withDirection:_targetDirection];
+}
+
+- (void)executeCurrentMove {
+    [self doubleTapped:nil];
 }
 
 - (void)didAppear {
@@ -251,7 +257,18 @@
                 }
             }
         }
+
+        [self checkIfPositionedToWinningPosition];
+
     }
+}
+
+- (void)checkIfPositionedToWinningPosition {
+    if (!self.activePattern) return;
+
+    [self.delegate checkForWinningPositioning:self.activePattern
+                                         at:[self computeSnapCoord]
+                              withDirection:_targetDirection];
 }
 
 - (void)limitMovement {
@@ -344,12 +361,14 @@
 }
 
 - (void)moveFinished {
+    NSLog(@"move finished");
+
     self.activePattern = nil;
 
-    [UIView animateWithDuration:0.2 animations:^{
+    [UIView animateWithDuration:0.1 animations:^{
         self.alpha = 0;
     } completion:^(BOOL finished) {
-        self.hidden = YES;
+        if (finished) self.hidden = YES;
     }];
 }
 
@@ -358,6 +377,8 @@
                andAppearFrom:(UIView *)appearView
                 withRotation:(NSInteger)startDirection
                   forPlayer2:(BOOL)player2{
+
+    NSLog(@"starting move");
 
     self.activePattern = pattern;
     _player2 = player2;

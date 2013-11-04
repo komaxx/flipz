@@ -46,4 +46,6 @@
 - (void)hotSeatTapped;
 
 - (void)activateChallengeAtIndex:(NSUInteger)i;
+
+- (void)proceedToNextChallenge;
 @end

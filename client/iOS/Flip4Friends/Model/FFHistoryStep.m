@@ -43,15 +43,9 @@
 static int nextId;
 
 - (id)initWithMove:(FFMove *)move byPlayer1:(BOOL)player1 andPreviousStep:(FFHistoryStep *)step {
-    self = [super init];
+    self = [self initWithStep:step];
     if (self){
-        [self basicInit];
         self.type = kFFHistoryStepMove;
-        self.board = [[FFBoard alloc] initWithBoard:step.board];
-        self.doneMovesPlayer1 = [NSMutableDictionary dictionaryWithDictionary:step.doneMovesPlayer1];
-        self.doneMovesPlayer2 = [NSMutableDictionary dictionaryWithDictionary:step.doneMovesPlayer2];
-        self.activePlayerId = step.activePlayerId;
-        self.affectedPatternIDs = [NSArray arrayWithArray:step.affectedPatternIDs];
 
         if (player1) [(NSMutableDictionary *) self.doneMovesPlayer1 setObject:move forKey:move.Pattern.Id];
         else [(NSMutableDictionary *) self.doneMovesPlayer2 setObject:move forKey:move.Pattern.Id];
@@ -66,6 +60,21 @@ static int nextId;
 
 - (void)returnedToStep {
     self.timesReturnedToStep++;
+}
+
+- (id)initWithStep:(FFHistoryStep *)step {
+    self = [super init];
+    if (self){
+        [self basicInit];
+        self.type = step.type;
+        self.board = [[FFBoard alloc] initWithBoard:step.board];
+        self.doneMovesPlayer1 = [NSMutableDictionary dictionaryWithDictionary:step.doneMovesPlayer1];
+        self.doneMovesPlayer2 = [NSMutableDictionary dictionaryWithDictionary:step.doneMovesPlayer2];
+        self.activePlayerId = step.activePlayerId;
+        self.affectedPatternIDs = [NSArray arrayWithArray:step.affectedPatternIDs];
+    }
+
+    return self;
 }
 
 

@@ -23,15 +23,15 @@
         FFButton *menuButton = (FFButton *) [self viewWithTag:601];
         [menuButton addTarget:self action:@selector(menuTapped:) forControlEvents:UIControlEventTouchUpInside];
 
-        FFButton *retryButton = (FFButton *) [self viewWithTag:602];
-        [retryButton addTarget:self action:@selector(retryTapped:) forControlEvents:UIControlEventTouchUpInside];
+        FFButton *nextButton = (FFButton *) [self viewWithTag:602];
+        [nextButton addTarget:self action:@selector(nextTapped:) forControlEvents:UIControlEventTouchUpInside];
     }
 
     return self;
 }
 
-- (void)retryTapped:(id)retryTapped {
-    [self.delegate restartGame];
+- (void)nextTapped:(id)retryTapped {
+    [self.delegate proceedToNextChallenge];
 }
 
 - (void)menuTapped:(id)menuTapped {

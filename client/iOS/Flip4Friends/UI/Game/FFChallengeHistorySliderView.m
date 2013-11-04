@@ -119,7 +119,35 @@
 
 - (void)didAppear {
     [[NSNotificationCenter defaultCenter]
-            addObserver:self selector:@selector(repositionStepViews) name:kFFNotificationGameChanged object:nil];
+            addObserver:self selector:@selector(gameChanged) name:kFFNotificationGameChanged object:nil];
+}
+
+- (void)gameChanged {
+    [self repositionStepViews];
+    [self checkForFailedAttempt];
+}
+
+- (void)checkForFailedAttempt {
+    FFGame *game = [[FFGamesCore instance] gameWithId:self.activeGameId];
+
+    if (game.currentHistoryBackSteps==0 && ![game stillSolvable]){
+        NSArray *history = game.history;
+        for (NSUInteger i = 0; i < history.count; i++){
+            FFHistoryStep *step = [history objectAtIndex:i];
+            UIView *stepView = [self.stepViewsById objectForKey:step.id];
+            if (stepView){
+                [self performSelector:@selector(pling:) withObject:stepView afterDelay:i*0.08];
+            }
+        }
+    }
+
+}
+
+- (void)pling:(UIView *)view {
+    [view.layer setAffineTransform:CGAffineTransformMakeScale(1.7, 2)];
+    [UIView animateWithDuration:0.2 animations:^{
+        [view.layer setAffineTransform:CGAffineTransformIdentity];
+    }];
 }
 
 - (void)didDisappear {

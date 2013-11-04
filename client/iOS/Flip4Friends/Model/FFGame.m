@@ -108,20 +108,19 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
     return self;
 }
 
-- (NSInteger)executeMove:(FFMove *)move byPlayer:(FFPlayer *)player {
-    // check, whether the move was legal
-    if (self.gameState == kFFGameState_Finished){
-        NSLog(@"Illegal move: game already finished. Declined.");
-        return -1;
-    } else if (![move isLegalOnBoardWithSize:self.Board.BoardSize]){
-        NSLog(@"Illegal move: outside of boardView. Declined.");
-        return -2;
-    }
+- (BOOL)moveWouldWinChallenge:(FFMove *)move byPlayer:(FFPlayer *)player {
+    int checkScore = [self checkIfValidMove:move byPlayer:player];
+    if (checkScore != 0) return NO;
 
-    if (player != self.ActivePlayer){
-        NSLog(@"Illegal move: not by active player!!");
-        return -3;
-    }
+    FFBoard *boardCopy = [[FFBoard alloc] initWithBoard:[self Board]];
+    [boardCopy doMoveWithCoords:[move buildToFlipCoords]];
+
+    return [boardCopy isInTargetState];
+}
+
+- (NSInteger)executeMove:(FFMove *)move byPlayer:(FFPlayer *)player {
+    int checkScore = [self checkIfValidMove:move byPlayer:player];
+    if (checkScore != 0) return checkScore;
 
     _challengeMoves++;
 
@@ -146,6 +145,22 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
 
     [self notifyChange];
 
+    return 0;
+}
+
+- (int)checkIfValidMove:(FFMove *)move byPlayer:(FFPlayer *)player {
+    if (self.gameState == kFFGameState_Finished){
+        NSLog(@"Illegal move: game already finished. Declined.");
+        return -1;
+    } else if (![move isLegalOnBoardWithSize:self.Board.BoardSize]){
+        NSLog(@"Illegal move: outside of boardView. Declined.");
+        return -2;
+    }
+
+    if (player != self.ActivePlayer){
+        NSLog(@"Illegal move: not by active player!!");
+        return -3;
+    }
     return 0;
 }
 
@@ -176,6 +191,19 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
             self.gameState = kFFGameState_Finished;
         }
     }
+}
+
+- (BOOL)stillSolvable {
+    if (self.Type != kFFGameTypeSingleChallenge) return NO; // only challenges are solvable
+
+    FFHistoryStep *step = [self currentHistoryStep];
+    int restFlips = 0;
+    for (FFPattern *pattern in self.ActivePlayer.playablePatterns){
+        if ([step.doneMovesPlayer1 objectForKey:pattern.Id]) continue;
+        restFlips += pattern.Coords.count;
+    }
+
+    return [step.board computeMinimumRestFlips] <= restFlips;
 }
 
 - (BOOL)allPatternsPlayedForPlayer:(FFPlayer *)player {
@@ -395,4 +423,5 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
     }
     return [self currentHistoryStep].doneMovesPlayer1;
 }
+
 @end

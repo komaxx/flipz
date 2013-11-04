@@ -119,4 +119,8 @@ typedef enum {
 - (void)DEBUG_replaceBoardWith:(FFBoard *)board;
 
 - (NSDictionary *)doneMovesForPlayer:(FFPlayer *)player;
+
+- (BOOL)moveWouldWinChallenge:(FFMove *)move byPlayer:(FFPlayer *)player;
+
+- (BOOL)stillSolvable;
 @end

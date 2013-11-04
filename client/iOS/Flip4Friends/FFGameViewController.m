@@ -7,6 +7,7 @@
 #import "FFGameViewController.h"
 #import "FFGame.h"
 #import "FFGamesCore.h"
+#import "FFToast.h"
 
 @interface FFGameViewController ()
 
@@ -67,8 +68,7 @@
 - (void)gameChanged:(NSNotification *)notification {
     NSString *changedGameID = [notification.userInfo objectForKey:kFFNotificationGameChanged_gameId];
     if (![changedGameID isEqualToString:[self.delegate activeGameId]]) {
-        // ignore. Update for the wrong game (not the active one).
-        return;
+        return;  // ignore. Update for the wrong game (not the active one).
     }
 
     FFGame *game = [[FFGamesCore instance] gameWithId:changedGameID];
@@ -80,7 +80,6 @@
 - (void)updateBoardAndDrawerPosition {
     FFGame *game = [[FFGamesCore instance] gameWithId:[self.delegate activeGameId ]];
     BOOL centerBoard = !game || !game.ActivePlayer;
-//    centerBoard = YES;          //
 
     [UIView animateWithDuration:0.2 animations:^{
         CGRect frame = self.boardView.frame;
@@ -175,6 +174,14 @@
 // //////////////////////////////////////////////////////////////////////////////
 // calls from child controls
 
+/**
+* Called when the user selects a different pattern when previously another pattern
+* was selected.
+*/
+- (void)executeCurrentMove {
+    [self.moveViewControl executeCurrentMove];
+}
+
 - (void)setPatternSelectedForMove:(FFPattern *)pattern fromView:(UIView *)view {
     FFGame* game = [[FFGamesCore instance] gameWithId:[self.delegate activeGameId]];
     FFMove *move = [[game doneMovesForPlayer:game.ActivePlayer] objectForKey:pattern.Id];
@@ -183,14 +190,27 @@
         return;
     }
 
-    BOOL player1Active = game.ActivePlayer==game.player1;
+    [self showFailToastIfNecessaryForGame:game andPattern:pattern];
 
+    BOOL player1Active = game.ActivePlayer==game.player1;
     [self.moveViewControl
             startMoveWithPattern:pattern
                          atCoord:[move Position]
                    andAppearFrom:view
                     withRotation:player1Active ? 0 : 2
                       forPlayer2:!player1Active];
+}
+
+- (void)showFailToastIfNecessaryForGame:(FFGame *)game andPattern:(FFPattern *)pattern {
+    if (game.Type==kFFGameTypeSingleChallenge &&
+            [game doneMovesForPlayer:game.ActivePlayer].count+1 >=
+                    game.ActivePlayer.playablePatterns.count){
+        // this is the last move
+        if ([game.Board computeMinimumRestFlips] > pattern.Coords.count){
+            // not solvable anymore!
+            [[FFToast make:NSLocalizedString(@"you_failed_go_back_by_history", nil)] show];
+        }
+    }
 }
 
 - (void)moveCompletedWithPattern:(FFPattern *)pattern at:(FFCoord *)coord withDirection:(NSInteger)direction {
@@ -204,6 +224,16 @@
     [self.player1PatternsControl cancelMove];
     [self.player2PatternsControl cancelMove];
 }
+
+- (void)checkForWinningPositioning:(FFPattern *)pattern at:(FFCoord *)coord withDirection:(NSInteger)direction {
+    FFGame *activeGame = [[FFGamesCore instance] gameWithId:[self.delegate activeGameId]];
+    FFMove *move = [[FFMove alloc] initWithPattern:pattern atPosition:coord andOrientation:(FFOrientation) direction];
+
+    if ([activeGame moveWouldWinChallenge:move byPlayer:activeGame.ActivePlayer]) {
+        [self moveCompletedWithPattern:pattern at:coord withDirection:direction];
+    }
+}
+
 
 - (void)cancelMoveWithPattern:(FFPattern *)pattern {
     [self.moveViewControl moveFinished];

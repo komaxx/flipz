@@ -79,6 +79,8 @@
     [self updatePatternStatesWithDoneMoves:
             [[[FFGamesCore instance] gameWithId:self.activeGameId] doneMovesForPlayer:self.shownPlayer]];
 
+    [self cancelSelection];
+
     FFGame *game = [[FFGamesCore instance] gameWithId:self.activeGameId];
     if (game.currentHistoryBackSteps > 0){
         for (NSString *patternID in [game currentHistoryStep].affectedPatternIDs) {
@@ -195,9 +197,14 @@
         return;
     }
 
-    [self.delegate executeCurrentMove];
+    if (game.Type == kFFGameTypeSingleChallenge && self.nowActivePatternView){
+        [self.delegate executeCurrentMove];
+        [self performSelector:@selector(chooseNewPattern:) withObject:view afterDelay:0.2];
+    } else {
+        [self chooseNewPattern:view];
+    }
 
-    [self performSelector:@selector(chooseNewPattern:) withObject:view afterDelay:0.001];
+
 }
 
 - (void)chooseNewPattern:(FFPatternView*)view {
