@@ -9,7 +9,7 @@
 #import "UIColor+FFColors.h"
 #import "FFPatternGenerator.h"
 
-#define DEFAULT_PATTERN_SIZE 3
+#define DEFAULT_PATTERN_SIZE 4
 
 @interface FFPatternView ()
 
@@ -104,7 +104,7 @@
     int size = MAX(self.pattern.SizeX, self.pattern.SizeY);
     size = MAX(size, DEFAULT_PATTERN_SIZE);
 
-    CGFloat squareSize = self.bounds.size.width / (size + 2.0);
+    CGFloat squareSize = self.bounds.size.width / (size + 1.0);
 
     [self drawInactiveTilesWithSize:squareSize];
     [self drawRotationRingInRect:rect];
@@ -126,12 +126,14 @@
     CGContextDrawPath(c, kCGPathStroke);
 }
 
-
 - (void)drawInactiveTilesWithSize:(CGFloat)squareSize {
     CGContextRef c = UIGraphicsGetCurrentContext();
 
-    CGFloat xOffset = self.pattern.SizeX%2==0 ? -squareSize/2.0 : 0;
-    CGFloat yOffset = self.pattern.SizeY%2==0 ? -squareSize/2.0 : 0;
+    int size = MAX(self.pattern.SizeX, self.pattern.SizeY);
+    size = MAX(size, DEFAULT_PATTERN_SIZE) + 1;
+
+    CGFloat xOffset = (size-self.pattern.SizeX)%2==0 ? 0 : -squareSize/2.0;
+    CGFloat yOffset = (size-self.pattern.SizeY)%2==0 ? 0 : -squareSize/2.0;
 
     NSInteger count = (NSInteger) ceilf(self.bounds.size.width / squareSize) + 1;
     for (int y = 0; y < count; y ++){
@@ -158,7 +160,8 @@
         CGContextSetFillColorWithColor(c, self.forPlayer2 ? [[UIColor movePattern2Back] CGColor] : [[UIColor movePatternBack] CGColor]);
         CGContextSetStrokeColorWithColor(c, self.forPlayer2 ? [[UIColor movePattern2Border] CGColor] : [[UIColor movePatternBorder] CGColor]);
     }
-    CGContextSetShadowWithColor(c, CGSizeMake(0, 1), 2, [[UIColor blackColor] CGColor]);
+    CGContextSetShadowWithColor(c, CGSizeMake(0, 1), 2, [[UIColor colorWithWhite:0.2 alpha:0.5] CGColor]);
+    CGContextSetLineCap(c, kCGLineCapRound);
     CGContextSetLineWidth(c, 2.5);
 
     CGFloat baseX = (self.bounds.size.width - self.pattern.SizeX*squareSize)/2;

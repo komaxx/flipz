@@ -11,6 +11,7 @@
 #import "FFGame.h"
 #import "FFGamesCore.h"
 #import "FFHistoryStep.h"
+#import "UIColor+FFColors.h"
 
 #define INTER_STEP_MARGIN 42.0
 #define STEP_SYMBOL_SIZE 28.0
@@ -22,12 +23,14 @@
 @property (strong, nonatomic) NSMutableArray *positioningTmpArray;
 
 @property (weak, nonatomic) UILabel *historyTextField;
+@property (weak, nonatomic) UIView *nowThumb;
 
 @end
 
 
 @implementation FFChallengeHistorySliderView {
     NSInteger _lastNotifiedHistoryPosition;
+    CGFloat _interStepDelta;
 }
 @synthesize activeGameId = _activeGameId;
 
@@ -42,13 +45,28 @@
         self.removeCollector = [[NSMutableDictionary alloc] initWithCapacity:10];
         self.positioningTmpArray = [[NSMutableArray alloc] initWithCapacity:10];
 
-        [self addHistoryView];
+        _interStepDelta = INTER_STEP_MARGIN;
+
+        [self addHistoryTextField];
+        [self addNowThumbView];
     }
 
     return self;
 }
 
-- (void)addHistoryView {
+- (void)addNowThumbView {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width,
+            STEP_SYMBOL_SIZE+4)];
+    view.layer.backgroundColor = [[UIColor movePatternBack] CGColor];
+    view.layer.borderColor = [[UIColor movePatternBorder] CGColor];
+    view.layer.cornerRadius = 4;
+    view.layer.borderWidth = 2;
+
+    [self addSubview:view];
+    self.nowThumb = view;
+}
+
+- (void)addHistoryTextField {
     UILabel *field = [[UILabel alloc] initWithFrame:
             CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height)];
     field.text = @"HISTORY =>";
@@ -109,8 +127,8 @@
     NSInteger index = (NSInteger) (
             (touchPoint.y +
                     self.bounds.size.width/2.0 -
-                    INTER_STEP_MARGIN/2.0)
-                    / INTER_STEP_MARGIN);
+                    _interStepDelta/2.0)
+                    / _interStepDelta);
 
     index = MIN(index, historySize-1);
 
@@ -163,11 +181,10 @@
 
     CGFloat topY = 0;
 
+    _interStepDelta = MIN(INTER_STEP_MARGIN, self.bounds.size.height / MAX(1,history.count));
     [self.positioningTmpArray removeAllObjects];
 
     for (NSUInteger i = 0; i < history.count; i++){
-        if (topY > self.bounds.size.height) break;  // done. Anything more would not be on the screen
-
         FFHistoryStep *step = [history objectAtIndex:i];
 
         if (![self.stepViewsById objectForKey:step.id]){
@@ -183,7 +200,7 @@
         }
 
         [self.positioningTmpArray addObject:[self.stepViewsById objectForKey:step.id]];
-        topY += INTER_STEP_MARGIN;
+        topY += _interStepDelta;
     }
 
     for (NSString *key in self.removeCollector) {
@@ -202,7 +219,6 @@
 
     float alpha = 1;
     CGPoint centerPoint = CGPointMake(
-//            self.bounds.size.width/2 - 4,
             self.bounds.size.width/2,
             self.bounds.size.width/2);
     for (NSUInteger i = 0; i < self.positioningTmpArray.count; i++){
@@ -213,9 +229,18 @@
             stepView.alpha = i < game.currentHistoryBackSteps ? alpha/2.0 : alpha;
         }];
 
-        centerPoint = CGPointMake(centerPoint.x, centerPoint.y + INTER_STEP_MARGIN);
+        centerPoint = CGPointMake(centerPoint.x, centerPoint.y + _interStepDelta);
         alpha -= 0.05;
     }
+
+    // position the 'now' thumb
+    CGFloat thumbTargetCenterY = self.bounds.size.width/2
+            + game.currentHistoryBackSteps * _interStepDelta;
+    [UIView animateWithDuration:0.1 animations:^{
+        CGPoint center = self.nowThumb.center;
+        center.y = thumbTargetCenterY;
+        self.nowThumb.center = center;
+    }];
 
     // and position the history text
     centerPoint.y += self.historyTextField.bounds.size.width/2 - 10;

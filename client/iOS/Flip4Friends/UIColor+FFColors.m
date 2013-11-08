@@ -15,23 +15,15 @@
     return [UIColor colorWithHue:(arc4random_uniform(1000) / 1000.0f) saturation:1 brightness:1 alpha:1];
 }
 
-static UIColor *backBasic;
-+ (UIColor *)backgroundBasic { COLOR_MACRO(backBasic, @"333333") }
-static UIColor *backFill1;
-+ (UIColor *)backgroundFill1 { COLOR_MACRO(backFill1, @"666666") }
-static UIColor *backFill2;
-+ (UIColor *)backgroundFill2 { COLOR_MACRO(backFill2, @"999999") }
-
-
     static UIColor *movePatternBack;
-+ (UIColor *)movePatternBack { COLOR_MACRO(movePatternBack, @"3498db66") }
++ (UIColor *)movePatternBack { COLOR_MACRO(movePatternBack, @"532ee566") }
     static UIColor *movePatternBorder;
-+ (UIColor *)movePatternBorder { COLOR_MACRO(movePatternBorder, @"3498dbFF") }
++ (UIColor *)movePatternBorder { COLOR_MACRO(movePatternBorder, @"532ee5FF") }
 
     static UIColor *movePattern2Back;
-+ (UIColor *)movePattern2Back { COLOR_MACRO(movePattern2Back, @"7835ED66") }//2ecc71
++ (UIColor *)movePattern2Back { COLOR_MACRO(movePattern2Back, @"3498db66") }//2ecc71
     static UIColor *movePattern2Border;
-+ (UIColor *)movePattern2Border { COLOR_MACRO(movePattern2Border, @"7835EDFF") }
++ (UIColor *)movePattern2Border { COLOR_MACRO(movePattern2Border, @"3498dbFF") }
 
     static UIColor *movePatternBack_removal;
 + (UIColor *)movePatternBack_removing { COLOR_MACRO(movePatternBack_removal, @"D9525280") }

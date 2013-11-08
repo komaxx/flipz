@@ -361,8 +361,6 @@
 }
 
 - (void)moveFinished {
-    NSLog(@"move finished");
-
     self.activePattern = nil;
 
     [UIView animateWithDuration:0.1 animations:^{
@@ -377,8 +375,6 @@
                andAppearFrom:(UIView *)appearView
                 withRotation:(NSInteger)startDirection
                   forPlayer2:(BOOL)player2{
-
-    NSLog(@"starting move");
 
     self.activePattern = pattern;
     _player2 = player2;
@@ -429,8 +425,8 @@
 
     UIColor *borderColor = _player2 ? [UIColor movePattern2Border] : [UIColor movePatternBorder];
     UIColor *fillColor = _player2 ? [UIColor movePattern2Back] : [UIColor movePatternBack];
-    CGFloat cornerRadius = 18;
-    CGFloat borderWidth = 5;
+    CGFloat cornerRadius = 16;
+    CGFloat borderWidth = 3;
 
     // add the pattern views
     NSMutableArray *coords = [self sortPatternCoordsOfPattern:pattern];
