@@ -20,6 +20,7 @@
 		B64595A7D35D6B6DB4F83D0B /* FFMainMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = B645930192944443B4EAC7B1 /* FFMainMenu.m */; };
 		B64595ADA377211E828CC2EE /* FFChallengeMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = B645966D7BB73B2266C7D08E /* FFChallengeMenu.m */; };
 		B64595B9B5072D416D5547A9 /* FFPattern.m in Sources */ = {isa = PBXBuildFile; fileRef = B6459ACD945C050F35B6DB67 /* FFPattern.m */; };
+		B64595BF85464C007635E6EF /* FFUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B6459C49B2579C17FC507479 /* FFUtil.m */; };
 		B64596554E12012732F35E91 /* FFAutoSolver.m in Sources */ = {isa = PBXBuildFile; fileRef = B6459D6DC49A57483A916B94 /* FFAutoSolver.m */; };
 		B64596C17E21C0298D869550 /* FFCreateChallengeSession.m in Sources */ = {isa = PBXBuildFile; fileRef = B645991F724C0DEE5D3B3C83 /* FFCreateChallengeSession.m */; };
 		B64597CDAEB1F2666B8FFEC5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B645925EB72CA866391B4DD8 /* Localizable.strings */; };
@@ -76,6 +77,8 @@
 		CEDDF26917F1AE4700A15B7A /* FFPatternPaintView.m in Sources */ = {isa = PBXBuildFile; fileRef = CEDDF26817F1AE4700A15B7A /* FFPatternPaintView.m */; };
 		CEE6C37117EA348A0026F2E8 /* FFBoardCreatorController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE6C37017EA348A0026F2E8 /* FFBoardCreatorController.m */; };
 		CEE6C37417EA37E00026F2E8 /* FFBoardPaintView.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE6C37317EA37E00026F2E8 /* FFBoardPaintView.m */; };
+		CEF200501835AE6300C9714D /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = CEF2004E1835AE6300C9714D /* lock.png */; };
+		CEF200511835AE6300C9714D /* lock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEF2004F1835AE6300C9714D /* lock@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +98,7 @@
 		B64590A06DBE66618FB7DAFE /* FFHistoryStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFHistoryStep.m; path = Model/FFHistoryStep.m; sourceTree = "<group>"; };
 		B645917B4741F38A59553D33 /* FFMenuBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFMenuBackgroundView.m; path = UI/Menu/FFMenuBackgroundView.m; sourceTree = "<group>"; };
 		B64591A9811674B95BFF547A /* FFPatternsViewControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFPatternsViewControl.m; path = UI/FFPatternsViewControl.m; sourceTree = "<group>"; };
+		B6459206A080708B7B7C8F0D /* FFUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFUtil.h; sourceTree = "<group>"; };
 		B645925EB72CA866391B4DD8 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = Resources/Localizable.strings; sourceTree = "<group>"; };
 		B64592858C11E8716FFDBDE0 /* FFPatternView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFPatternView.h; path = UI/FFPatternView.h; sourceTree = "<group>"; };
 		B64592BA75A80AF992A6B8A9 /* FFChallengeLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFChallengeLoader.m; sourceTree = "<group>"; };
@@ -131,6 +135,7 @@
 		B6459C2A558844401ED2183E /* FFMove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFMove.h; sourceTree = "<group>"; };
 		B6459C3BD2389E3D10447784 /* FFMoveViewControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFMoveViewControl.h; path = UI/FFMoveViewControl.h; sourceTree = "<group>"; };
 		B6459C458502A9DFE60822B3 /* FFPatternsViewControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFPatternsViewControl.h; path = UI/FFPatternsViewControl.h; sourceTree = "<group>"; };
+		B6459C49B2579C17FC507479 /* FFUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFUtil.m; sourceTree = "<group>"; };
 		B6459C8F068DD2B617B02E89 /* FFToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFToast.m; path = UI/FFToast.m; sourceTree = "<group>"; };
 		B6459C9E32AB156486CB063B /* FFHistorySlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFHistorySlider.m; path = UI/Game/FFHistorySlider.m; sourceTree = "<group>"; };
 		B6459CAEC672423F47578B67 /* FFCreateChallengeSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFCreateChallengeSession.h; sourceTree = "<group>"; };
@@ -206,6 +211,8 @@
 		CEE6C37017EA348A0026F2E8 /* FFBoardCreatorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFBoardCreatorController.m; path = UI/Creator/FFBoardCreatorController.m; sourceTree = "<group>"; };
 		CEE6C37217EA37E00026F2E8 /* FFBoardPaintView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFBoardPaintView.h; path = UI/Creator/FFBoardPaintView.h; sourceTree = "<group>"; };
 		CEE6C37317EA37E00026F2E8 /* FFBoardPaintView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFBoardPaintView.m; path = UI/Creator/FFBoardPaintView.m; sourceTree = "<group>"; };
+		CEF2004E1835AE6300C9714D /* lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lock.png; path = Resources/lock.png; sourceTree = "<group>"; };
+		CEF2004F1835AE6300C9714D /* lock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lock@2x.png"; path = "Resources/lock@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -249,6 +256,8 @@
 			children = (
 				CEBD2C17179F47B0008C0835 /* back_pattern.png */,
 				CEBD2C2717A18032008C0835 /* menu_back_pattern.png */,
+				CEF2004E1835AE6300C9714D /* lock.png */,
+				CEF2004F1835AE6300C9714D /* lock@2x.png */,
 				CEBD2C1B179F50D5008C0835 /* black_pattern.png */,
 				CEBD2C1C179F50D5008C0835 /* white_pattern.png */,
 				CEBD2C18179F47B0008C0835 /* back_pattern@2x.png */,
@@ -337,6 +346,8 @@
 				B6459EAACC344100DB28773C /* FFChallengeLoader.h */,
 				B6459DDCE2D43901FF7D4D99 /* FFStorageUtil.m */,
 				B64594D3ECBBC29320959DB4 /* FFStorageUtil.h */,
+				B6459C49B2579C17FC507479 /* FFUtil.m */,
+				B6459206A080708B7B7C8F0D /* FFUtil.h */,
 			);
 			path = Flip4Friends;
 			sourceTree = "<group>";
@@ -541,6 +552,7 @@
 				CEBBC126176B5FF4006F600E /* Default.png in Resources */,
 				CEBBC128176B5FF4006F600E /* Default@2x.png in Resources */,
 				CEBBC12A176B5FF4006F600E /* Default-568h@2x.png in Resources */,
+				CEF200501835AE6300C9714D /* lock.png in Resources */,
 				CEBBC12D176B5FF4006F600E /* MainStoryboard.storyboard in Resources */,
 				CEBD2C19179F47B0008C0835 /* back_pattern.png in Resources */,
 				CEBD2C1A179F47B0008C0835 /* back_pattern@2x.png in Resources */,
@@ -550,6 +562,7 @@
 				B6459DCEA5DA144487578E2F /* IDEAS.txt in Resources */,
 				B64597CDAEB1F2666B8FFEC5 /* Localizable.strings in Resources */,
 				B6459B39DBEF771B6645742F /* challenges.txt in Resources */,
+				CEF200511835AE6300C9714D /* lock@2x.png in Resources */,
 				B6459D8857D1D1A9DACDC2C3 /* random_challenges.txt in Resources */,
 				B64590023E6D08D9A8F29FDC /* 2DO.txt in Resources */,
 			);
@@ -631,6 +644,7 @@
 				CEC962B717FF2988006F7108 /* FFChallengeHistorySliderView.m in Sources */,
 				B6459EEF6F69D2861CAEBCA3 /* FFStorageUtil.m in Sources */,
 				B64594B0057064119F23581A /* FFToast.m in Sources */,
+				B64595BF85464C007635E6EF /* FFUtil.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

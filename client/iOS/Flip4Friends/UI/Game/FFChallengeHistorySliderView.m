@@ -12,6 +12,7 @@
 #import "FFGamesCore.h"
 #import "FFHistoryStep.h"
 #import "UIColor+FFColors.h"
+#import "FFToast.h"
 
 #define INTER_STEP_MARGIN 42.0
 #define STEP_SYMBOL_SIZE 28.0
@@ -22,7 +23,7 @@
 @property (strong, nonatomic) NSMutableDictionary *removeCollector;
 @property (strong, nonatomic) NSMutableArray *positioningTmpArray;
 
-@property (weak, nonatomic) UILabel *historyTextField;
+@property (weak, nonatomic) UIButton *historyTextField;
 @property (weak, nonatomic) UIView *nowThumb;
 
 @end
@@ -56,26 +57,29 @@
 
 - (void)addNowThumbView {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width,
-            STEP_SYMBOL_SIZE+4)];
-    view.layer.backgroundColor = [[UIColor movePatternBack] CGColor];
-    view.layer.borderColor = [[UIColor movePatternBorder] CGColor];
+            STEP_SYMBOL_SIZE+8)];
+    view.layer.backgroundColor = [[UIColor colorWithHue:0.7 saturation:0.8 brightness:0.8 alpha:1] CGColor];
+    view.layer.borderColor = [[UIColor colorWithHue:0.7 saturation:0.8 brightness:0.8 alpha:0.5] CGColor];
     view.layer.cornerRadius = 4;
-    view.layer.borderWidth = 2;
+    view.layer.borderWidth = 4;
 
     [self addSubview:view];
     self.nowThumb = view;
 }
 
 - (void)addHistoryTextField {
-    UILabel *field = [[UILabel alloc] initWithFrame:
+    UIButton *field = [[UIButton alloc] initWithFrame:
             CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height)];
-    field.text = @"HISTORY =>";
-    field.textColor = [UIColor colorWithWhite:1 alpha:0.2];
+    [field setTitle:@"HISTORY =>" forState:UIControlStateNormal];
+    [field setTitleColor:[UIColor colorWithWhite:1 alpha:0.2] forState:UIControlStateNormal];
+    [field setTitleColor:[UIColor colorWithWhite:1 alpha:0.5] forState:UIControlStateSelected];
+    field.titleLabel.font = [UIFont fontWithName:@"Futura-CondensedExtraBold" size:18];
     field.layer.shadowColor = [[UIColor blackColor] CGColor];
     field.layer.shadowOpacity = 1;
     field.layer.shadowOffset = CGSizeMake(-3, 0);
     field.layer.shadowRadius = 0;
-    field.font = [UIFont fontWithName:@"Futura-CondensedExtraBold" size:18];
+//    field.tintColor = [UIColor whiteColor];
+    [field addTarget:self action:@selector(historyTapped:) forControlEvents:UIControlEventTouchUpInside];
     [field sizeToFit];
 
     CGPoint center = self.center;
@@ -85,6 +89,10 @@
     [field.layer setAffineTransform:CGAffineTransformRotate(CGAffineTransformIdentity, (CGFloat)-M_PI_2)];
     [self addSubview:field];
     self.historyTextField = field;
+}
+
+- (void)historyTapped:(id)historyTapped {
+    [[FFToast make:NSLocalizedString(@"history_explanation", nil)] show];
 }
 
 - (void)setActiveGameId:(NSString *)activeGameId {

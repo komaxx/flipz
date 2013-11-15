@@ -2,36 +2,55 @@
     {
         "__comments":"boardtype 0 = twostated, 1 = multi-clamp, 2 = multi-rollover",
 
-        "level":1,
-        "boardsize":4,
-        "lockmoves":0,
-        "boardtype":0,
-        "patterns": [
-            {   "tiles":3, "distance":2, "rotating":0 },
-            {   "tiles":5, "distance":3, "rotating":0 }
-        ]
-    },
-    {
-        "level":2,
-        "boardsize":4,
-        "lockmoves":0,
-        "boardtype":1,
-        "patterns": [
-            {   "tiles":4, "distance":3, "rotating":1 },
-            {   "tiles":5, "distance":3, "rotating":1 }
-        ]
-    },
-    {
-        "level":3,
         "boardsize":5,
         "lockmoves":0,
-        "boardtype":1,
-        "patterns": [
-            {   "tiles":2, "distance":2, "rotating":1 },
-            {   "tiles":3, "distance":2, "rotating":1 },
-            {   "tiles":4, "distance":3, "rotating":1 },
-            {   "tiles":5, "distance":4, "rotating":1 },
-            {   "tiles":6, "distance":4, "rotating":1 },
+        "boardtype":0,
+        "overlap":false,
+        "patterns":[
+            { "coords":5, "rotating":true, "max_square_size":3 },
+            { "coords":5, "rotating":true, "max_square_size":3 },
+            { "coords":4, "rotating":false, "max_square_size":3 },
+            { "coords":3, "rotating":false, "max_square_size":2 }
+        ]
+    },{
+        "boardsize":6,
+        "lockmoves":0,
+        "boardtype":2,
+        "overlap":true,
+        "patterns":[
+            { "coords":6, "rotating":true, "max_square_size":3 },
+            { "coords":4, "rotating":false, "max_square_size":3 },
+            { "coords":5, "rotating":true, "max_square_size":3 },
+            { "coords":5, "rotating":true, "max_square_size":3 },
+            { "coords":3, "rotating":false, "max_square_size":2 }
+        ]
+    },{
+        "boardsize":7,
+        "lockmoves":0,
+        "boardtype":0,
+        "overlap":false,
+        "patterns":[
+            { "coords":7, "rotating":false, "max_square_size":4 },
+            { "coords":3, "rotating":false, "max_square_size":2 },
+            { "coords":7, "rotating":true, "max_square_size":3 },
+            { "coords":5, "rotating":true, "max_square_size":3 },
+            { "coords":5, "rotating":true, "max_square_size":3 },
+            { "coords":6, "rotating":true, "max_square_size":3 }
+        ]
+    },{
+        "boardsize":6,
+        "lockmoves":1,
+        "boardtype":2,
+        "overlap":true,
+        "patterns":[
+            { "coords":7, "rotating":false, "max_square_size":3 },
+            { "coords":7, "rotating":false, "max_square_size":3 },
+            { "coords":7, "rotating":false, "max_square_size":3 },
+            { "coords":7, "rotating":false, "max_square_size":3 },
+            { "coords":7, "rotating":false, "max_square_size":3 },
+            { "coords":7, "rotating":false, "max_square_size":3 },
+            { "coords":7, "rotating":false, "max_square_size":3 },
+            { "coords":7, "rotating":false, "max_square_size":3 }
         ]
     }
 ]

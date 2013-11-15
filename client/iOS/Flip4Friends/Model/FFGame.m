@@ -60,6 +60,27 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
     return self;
 }
 
+- (id)initGeneratedChallengeWithId:(NSString *)id andBoard:(FFBoard *)board andPatterns:(NSMutableArray *)patterns {
+    self = [super init];
+    if (self){
+        self.Id = id;
+        self.Type = kFFGameTypeSingleChallenge;
+        self.gameState = kFFGameState_NotYetStarted;
+
+        self.history = [[NSMutableArray alloc] initWithCapacity:10];
+
+        self.player1 = [[FFPlayer alloc] init];
+        self.player1.local = YES;
+        self.player1.id = @"autoChallengePlayer";
+        [self.player1 resetWithPatterns:patterns];
+
+        FFHistoryStep *rootHistoryStep = [[FFHistoryStep alloc] initCleanStepWithBoard:board];
+        rootHistoryStep.activePlayerId = self.player1.id;
+        [(NSMutableArray *) self.history addObject:rootHistoryStep];
+    }
+    return self;
+}
+
 - (id)initTestChallengeWithId:(NSString*)id andBoard:(FFBoard *)board{
     self = [super init];
     if (self){
@@ -75,7 +96,6 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
         FFHistoryStep *rootHistoryStep = [[FFHistoryStep alloc] initCleanStepWithBoard:board];
         rootHistoryStep.activePlayerId = self.player1.id;
         [(NSMutableArray *) self.history addObject:rootHistoryStep];
-
     }
     return self;
 }

@@ -2,7 +2,7 @@ Sorted by priority:
 
 * View: Who's winning in hotseat
 * Icon
-* Lock/Solved/Now on challenge list
+* auto-generated levels
 * Tutorial for first level:
     - "Welcome"
     - "Goal: Flip all tiles to white"
@@ -10,7 +10,7 @@ Sorted by priority:
     - "Drag it where you want to flip tiles"
     - "Double tap the pattern to make a move"
 * Triggered moves!
-* auto-generated levels
+* Modify history icon for returned to step
 * Hint
 * flip sound
 * quick rotation gesture (flick on ring, two finger flick)
@@ -20,6 +20,7 @@ Sorted by priority:
 
 
 DONE
+* Lock/Solved/Now on challenge list
 * New History logic
 * Undo via history-slider
 * Block access to next level until current solved [- or failed 10 times]

@@ -98,6 +98,8 @@ typedef enum {
 
 - (void)start;
 
+- (id)initGeneratedChallengeWithId:(NSString *)id andBoard:(FFBoard *)board andPatterns:(NSMutableArray *)patterns;
+
 - (void)giveUp;
 
 - (FFHistoryStep *)currentHistoryStep;

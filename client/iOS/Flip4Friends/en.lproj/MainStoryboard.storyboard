@@ -2,7 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="7VB-D2-L8W">
     <dependencies>
         <deployment defaultVersion="1552" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -101,6 +101,51 @@
                                                                     </subviews>
                                                                     <color key="backgroundColor" red="0.51681870220000004" green="0.73985248800000003" blue="0.5353016853" alpha="1" colorSpace="calibratedRGB"/>
                                                                 </view>
+                                                                <view tag="13" contentMode="scaleToFill" id="nVJ-VE-NLR">
+                                                                    <rect key="frame" x="0.0" y="15" width="180" height="30"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <subviews>
+                                                                        <view alpha="0.49999999999999961" contentMode="scaleToFill" id="Qn3-XF-6q4">
+                                                                            <rect key="frame" x="0.0" y="2" width="180" height="31"/>
+                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                                        </view>
+                                                                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lock.png" id="7Ow-IA-jAW">
+                                                                            <rect key="frame" x="75" y="0.0" width="30" height="30"/>
+                                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                        </imageView>
+                                                                        <view contentMode="scaleToFill" id="48F-WU-qH7">
+                                                                            <rect key="frame" x="10" y="14" width="62" height="3"/>
+                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                            <color key="backgroundColor" red="0.219111532" green="0.018516689539999999" blue="0.7543221712" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        </view>
+                                                                        <view contentMode="scaleToFill" id="c3z-Ku-RfF">
+                                                                            <rect key="frame" x="108" y="14" width="62" height="3"/>
+                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                            <color key="backgroundColor" red="0.21911153197288513" green="0.018516689538955688" blue="0.75432217121124268" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        </view>
+                                                                    </subviews>
+                                                                    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                                </view>
+                                                            </subviews>
+                                                        </tableViewCellContentView>
+                                                    </tableViewCell>
+                                                    <tableViewCell opaque="NO" contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AutoGenCell" rowHeight="60" id="l6g-qZ-fWR">
+                                                        <rect key="frame" x="0.0" y="82" width="180" height="60"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" tableViewCell="l6g-qZ-fWR" id="Grf-E3-rgS">
+                                                            <rect key="frame" x="0.0" y="0.0" width="180" height="60"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <subviews>
+                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="center" text="Random challenge" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="none" minimumFontSize="10" id="HdF-5u-WrS">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="180" height="60"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <fontDescription key="fontDescription" name="Futura-CondensedExtraBold" family="Futura" pointSize="18"/>
+                                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                    <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    <size key="shadowOffset" width="-3" height="4"/>
+                                                                </label>
                                                             </subviews>
                                                         </tableViewCellContentView>
                                                     </tableViewCell>
@@ -1414,6 +1459,7 @@
     </scenes>
     <resources>
         <image name="black_pattern.png" width="200" height="200"/>
+        <image name="lock.png" width="19" height="22"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

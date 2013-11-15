@@ -10,12 +10,6 @@
 
 + (UIColor *)randomColor;
 
-+ (UIColor *)backgroundBasic;
-
-+ (UIColor *)backgroundFill1;
-
-+ (UIColor *)backgroundFill2;
-
 
 + (UIColor *)movePatternBorder;
 

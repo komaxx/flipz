@@ -10,9 +10,7 @@
 
 @interface FFChallengeGenerator : NSObject
 
-@property(nonatomic) NSUInteger numberOfChallenges;
+- (NSUInteger)levelCount;
 
-- (FFGame*) generateRandomForLevel:(NSUInteger)level;
-
-- (FFGame *)generateWithBoardSize:(int)i andOverLapping:(BOOL)lapping andRotation:(BOOL)rotation andLockTurns:(int)lockTurns;
+- (FFGame*)generateChallengeForLevel:(NSUInteger)level;
 @end

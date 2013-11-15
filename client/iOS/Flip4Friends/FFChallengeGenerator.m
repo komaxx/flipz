@@ -9,12 +9,11 @@
 #import "FFGame.h"
 #import "FFPattern.h"
 #import "FFAutoSolver.h"
+#import "FFUtil.h"
 
 
 @implementation FFChallengeGenerator {
-
 }
-@synthesize numberOfChallenges = _numberOfChallenges;
 
 static NSArray *levelDefinitions;
 static NSUInteger creationId;
@@ -32,133 +31,124 @@ static NSUInteger creationId;
     if (levelDefinitions) return;
 
     NSError * error;
-    NSData *data = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"challenges" ofType:@"txt"]];
+    NSData *data = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"random_challenges" ofType:@"txt"]];
     levelDefinitions = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
-
-    self.numberOfChallenges = levelDefinitions.count;
 }
 
 
-- (FFGame*) generateRandomForLevel:(NSUInteger)level {
-    NSLog(@"Challenges: %i", levelDefinitions.count);
+- (NSUInteger)levelCount {
+    [self loadLevelDefinitionsIfNecessary];
+    return levelDefinitions.count;
+}
 
-    NSDictionary *definition = [levelDefinitions objectAtIndex:level];
+- (FFGame*)generateChallengeForLevel:(NSUInteger)level {
+    NSDictionary *def = [levelDefinitions objectAtIndex:CLAMP(level,0,levelDefinitions.count-1)];
 
-    // //////////////////////////////////////////////////////////////////////////////////////////
-    // basic, non-random stuff
-    FFGame *challenge = [[FFGame alloc] initWithId:[NSString stringWithFormat:@"challenge%i_%i", level, creationId++]
-                                              Type:kFFGameTypeSingleChallenge
-                                      andBoardSize:[(NSNumber*)[definition objectForKey:@"boardsize"] intValue]];
-    challenge.Board.lockMoves = [(NSNumber *)[definition objectForKey:@"lockmoves"] intValue];
-    challenge.Board.BoardType = (FFBoardType) [(NSNumber *)[definition objectForKey:@"boardtype"] intValue];
+    NSUInteger boardSize = (NSUInteger) CLAMP( [[def objectForKey:@"boardsize"] intValue], 1, 20);
+    NSUInteger lockMoves = (NSUInteger) CLAMP( [[def objectForKey:@"lockmoves"] intValue], 0, 99);
+    FFBoardType boardType = (FFBoardType) [[def objectForKey:@"boardtype"] intValue];
+    BOOL overlap = [[def objectForKey:@"overlap"] boolValue];
 
+    FFBoard *board = [[FFBoard alloc] initWithSize:boardSize];
+    board.lockMoves = lockMoves;
+    board.BoardType = boardType;
 
-    // //////////////////////////////////////////////////////////////////////////////////////////
-    // Make random patterns.
-    NSArray *patternDefs = [definition objectForKey:@"patterns"];
+    NSArray *patternDefs = [def objectForKey:@"patterns"];
     NSMutableArray *patterns = [[NSMutableArray alloc] initWithCapacity:patternDefs.count];
-
+    BOOL solutionFound = YES;
     for (NSDictionary *patternDef in patternDefs) {
-        FFPattern *pattern = [[FFPattern alloc] initWithRandomCoords:(NSUInteger) [(NSNumber *)[patternDef objectForKey:@"tiles"] intValue]
-                                                     andMaxDistance:(NSUInteger) [(NSNumber *)[patternDef objectForKey:@"distance"] intValue]
-                                                   andAllowRotating:[(NSNumber *)[patternDef objectForKey:@"rotating"] boolValue]];
-        [patterns addObject:pattern];
-    }
+        NSUInteger maxSquareSize = (NSUInteger) MAX([[patternDef objectForKey:@"max_square_size"] intValue], 1);
+        NSUInteger coords = CLAMP([[patternDef objectForKey:@"coords"] intValue], 1, maxSquareSize*maxSquareSize);
+        BOOL rotating = [(NSNumber *)[patternDef objectForKey:@"rotating"] boolValue];
 
-    // //////////////////////////////////////////////////////////////////////////////////////////
-    // Do some random moves from these random patterns
-
-    BOOL difficultyIsOk = NO;
-    while (!difficultyIsOk){
-        for (FFPattern *pattern in patterns) {
-            FFMove *move = [self makeRandomMoveWithPattern:pattern forGame:challenge];
-            [challenge.Board buildGameByFlippingCoords:[move buildToFlipCoords]];
+        BOOL fittingPositionFound = NO;
+        for (int i = 0; i < 10 && !fittingPositionFound; i++){
+            FFPattern *nowRandomPattern = [self makeRandomPatternWithMaxSize:maxSquareSize andCoords:coords andRotating:rotating];
+            fittingPositionFound |= [self fitPattern:nowRandomPattern ontoBoard:board andAllowOverlap:overlap];
+            if (fittingPositionFound) [patterns addObject:nowRandomPattern];
         }
-        [challenge.player1 resetWithPatterns:patterns];
-        [challenge.Board unlock];
-
-//        FFAutoSolver *solver = [[FFAutoSolver alloc] initWithGame:challenge];
-//        [solver solveSynchronously];
-
-        // TODO: estimate difficulty
-
-        difficultyIsOk = YES;
-    }
-
-    return challenge;
-}
-
-- (FFMove *)makeRandomMoveWithPattern:(FFPattern *)pattern forGame:(FFGame *)game {
-    NSUInteger maxX = game.Board.BoardSize - pattern.SizeX;
-    NSUInteger maxY = game.Board.BoardSize - pattern.SizeY;
-
-    FFCoord *movePos = [[FFCoord alloc] initWithX:(ushort)(arc4random()%(maxX+1)) andY:(ushort)(arc4random()%(maxY+1))];
-
-//    TODO
-//    FFOrientation orientation = (FFOrientation) (game.ruleAllowPatternRotation ? arc4random()%4 : 0);
-    FFOrientation orientation = kFFOrientation_0_degrees;
-
-    FFMove *move = [[FFMove alloc] initWithPattern:pattern atPosition:movePos andOrientation:orientation];
-
-    return move;
-}
-
-
-- (FFGame *)generateWithBoardSize:(int)boardSize
-                   andOverLapping:(BOOL)lapping
-                      andRotation:(BOOL)rotation
-                     andLockTurns:(int)lockTurns {
-    static int generatedChallenge = 0;
-
-    // //////////////////////////////////////////////////////////////////////////////////////////
-    // basic, non-random stuff
-    FFGame *challenge = [[FFGame alloc] initWithId:[NSString stringWithFormat:@"generated_challenge_%i", generatedChallenge++]
-                                              Type:kFFGameTypeSingleChallenge andBoardSize:boardSize];
-
-    challenge.Board.lockMoves = lockTurns;
-    challenge.Board.BoardType = kFFBoardType_multiStated_rollover;
-
-
-    // //////////////////////////////////////////////////////////////////////////////////////////
-    // Make random patterns.
-    NSMutableArray *patterns = [[NSMutableArray alloc] initWithCapacity:5];
-
-    NSArray *patternDefs = @[
-            @[[NSNumber numberWithInt:2], [NSNumber numberWithInt:2]],
-            @[[NSNumber numberWithInt:2], [NSNumber numberWithInt:2]],
-            @[[NSNumber numberWithInt:3], [NSNumber numberWithInt:2]],
-            @[[NSNumber numberWithInt:3], [NSNumber numberWithInt:3]],
-            @[[NSNumber numberWithInt:4], [NSNumber numberWithInt:3]],
-            @[[NSNumber numberWithInt:4], [NSNumber numberWithInt:3]],
-            @[[NSNumber numberWithInt:4], [NSNumber numberWithInt:4]],
-    ];
-
-    for (NSArray *def in patternDefs) {
-        FFPattern *pattern = [[FFPattern alloc] initWithRandomCoords:(NSUInteger) [(NSNumber *)[def objectAtIndex:0] intValue]
-                                                      andMaxDistance:(NSUInteger) [(NSNumber *)[def objectAtIndex:1] intValue]
-                                                    andAllowRotating:YES];
-        [patterns addObject:pattern];
-    }
-
-    // //////////////////////////////////////////////////////////////////////////////////////////
-    // Do some random moves from these random patterns
-
-    BOOL difficultyIsOk = NO;
-    while (!difficultyIsOk){
-        for (FFPattern *pattern in patterns) {
-            FFMove *move = [self makeRandomMoveWithPattern:pattern forGame:challenge];
-            [challenge.Board buildGameByFlippingCoords:[move buildToFlipCoords]];
+        if (!fittingPositionFound){
+            solutionFound = NO;
+            break;
         }
-        [challenge.player1 resetWithPatterns:patterns];
-        [challenge.Board unlock];
-
-//        FFAutoSolver *solver = [[FFAutoSolver alloc] initWithGame:challenge];
-//        [solver solveSynchronously];
-
-        // TODO: estimate difficulty
-        difficultyIsOk = YES;
     }
 
-    return challenge;
+    if (!solutionFound){
+        // DAMN! Try again.
+        return [self generateChallengeForLevel:level];
+    }
+
+    [board unlock];
+    NSString *id = [NSString stringWithFormat:@"generated_level%i_%i", level, creationId++];
+    FFGame *generatedChallenge = [[FFGame alloc] initGeneratedChallengeWithId:id
+                                                                     andBoard:board
+                                                                  andPatterns:patterns];
+
+    return generatedChallenge;
 }
+
+- (BOOL)fitPattern:(FFPattern *)pattern ontoBoard:(FFBoard *)board andAllowOverlap:(BOOL)overlap {
+    // first: try some random positions
+
+    FFMove *move;
+
+    BOOL foundValidTarget = NO;
+    for (int i = 0; i < 10 && !foundValidTarget; i++){
+        FFBoard *tmpBoard = [[FFBoard alloc] initWithBoard:board];
+        move = [self makeRandomMoveWithPattern:pattern onBoard:board];
+
+        NSArray *toFlipCoords = [move buildToFlipCoords];
+        [tmpBoard buildGameByFlippingCoords:toFlipCoords];
+
+        if (!overlap){
+            // check if all flipped coords were not flipped again
+            BOOL overlapFound = NO;
+            for (FFCoord *c in toFlipCoords){
+                if ([tmpBoard tileAtX:c.x andY:c.y].color % 2 != 1){
+                    overlapFound = YES;
+                    break;
+                }
+            }
+            if (!overlapFound) foundValidTarget = YES;
+        } else {
+            // overlapping is allowed, so this should always work
+            foundValidTarget = YES;
+        }
+    }
+
+    if (foundValidTarget){
+        // execute the move!
+        [board buildGameByFlippingCoords:[move buildToFlipCoords]];
+    } else {
+        // a more ordered approach: Find by cycling through the possible fields
+        // TODO
+
+    }
+
+    return foundValidTarget;
+}
+
+- (FFMove *)makeRandomMoveWithPattern:(FFPattern *)pattern onBoard:(FFBoard *)board {
+    FFOrientation orientation = (FFOrientation) (arc4random() % pattern.differingOrientations);
+    int maxX = board.BoardSize - orientation%2==0 ? pattern.SizeX : pattern.SizeY;
+    int maxY = board.BoardSize - orientation%2==0 ? pattern.SizeY : pattern.SizeX;
+    return [[FFMove alloc] initWithPattern:pattern
+                                        atPosition:[[FFCoord alloc] initWithX:(ushort) (arc4random() % (maxX+1))
+                                                                         andY:(ushort) (arc4random() % (maxY+1))]
+                                    andOrientation:orientation];
+}
+
+- (FFPattern *)makeRandomPatternWithMaxSize:(NSUInteger)size andCoords:(NSUInteger)coordCount andRotating:(BOOL)rotating {
+    NSMutableArray *coords = [[NSMutableArray alloc] initWithCapacity:coordCount];
+
+    int lastCoordPos = -1;
+    for (int i = 0; i < coordCount; i++){
+        int proceed = arc4random() % (size*size - lastCoordPos - (coordCount-i) - 1) + 1;
+        lastCoordPos += proceed;
+        [coords addObject:[[FFCoord alloc] initWithX:(ushort) (lastCoordPos % size) andY:(ushort) (lastCoordPos / size)]];
+    }
+
+    return [[FFPattern alloc] initWithCoords:coords andAllowRotation:rotating];
+}
+
 @end
