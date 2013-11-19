@@ -41,7 +41,7 @@ extern NSString *const kFFGameTypeHotSeat;
 extern NSString *const kFFGameTypeRemote;
 
 typedef enum {
-    kFFGameState_NotYetStarted, kFFGameState_Running, kFFGameState_Finished
+    kFFGameState_NotYetStarted, kFFGameState_Running, kFFGameState_Won, kFFGameState_Aborted
 } GameState;
 
 

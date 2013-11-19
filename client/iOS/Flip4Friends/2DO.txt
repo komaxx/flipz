@@ -1,8 +1,9 @@
 Sorted by priority:
 
 * View: Who's winning in hotseat
-* Icon
 * auto-generated levels
+* Clean up lock thing
+* Unlock random games
 * Tutorial for first level:
     - "Welcome"
     - "Goal: Flip all tiles to white"
@@ -18,8 +19,8 @@ Sorted by priority:
 
 
 
-
 DONE
+* Icon
 * Lock/Solved/Now on challenge list
 * New History logic
 * Undo via history-slider

@@ -45,7 +45,14 @@
     return generated;
 }
 
-
+- (NSInteger)indexForChallenge:(FFGame *)game {
+    // Ugly, but works
+    for (int i = 0; i < 1000; i++){
+        FFGame* challenge = [self.challengeByNumber objectForKey:[NSNumber numberWithInt:i]];
+        if (challenge && [challenge.Id isEqualToString:game.Id]) return i;
+    }
+    return -1;
+}
 
 - (NSUInteger)challengesCount {
     return [self.loader numberOfChallenges];
@@ -59,6 +66,7 @@
     FFGame *challenge = [self.challengeByNumber objectForKey:[NSNumber numberWithUnsignedInteger:i]];
     if (!challenge){
         challenge = [self.loader loadLevel:i];
+        [self.challengeByNumber setObject:challenge forKey:[NSNumber numberWithUnsignedInteger:i]];
         [self.gamesById setObject:challenge forKey:challenge.Id];
     }
 

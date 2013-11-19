@@ -62,6 +62,7 @@
     view.layer.borderColor = [[UIColor colorWithHue:0.7 saturation:0.8 brightness:0.8 alpha:0.5] CGColor];
     view.layer.cornerRadius = 4;
     view.layer.borderWidth = 4;
+    view.userInteractionEnabled = NO;
 
     [self addSubview:view];
     self.nowThumb = view;
@@ -78,7 +79,6 @@
     field.layer.shadowOpacity = 1;
     field.layer.shadowOffset = CGSizeMake(-3, 0);
     field.layer.shadowRadius = 0;
-//    field.tintColor = [UIColor whiteColor];
     [field addTarget:self action:@selector(historyTapped:) forControlEvents:UIControlEventTouchUpInside];
     [field sizeToFit];
 
@@ -105,9 +105,8 @@
     if (snapIndex >= 0){
         _lastNotifiedHistoryPosition = snapIndex;
         [self notifyChange];
-        return YES;
     }
-    return NO;
+    return YES;
 }
 
 - (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {

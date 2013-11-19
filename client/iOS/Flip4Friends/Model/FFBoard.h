@@ -77,7 +77,7 @@ typedef enum {
 
 - (void)flipTile:(FFTile *)tile;
 
-- (void)buildGameByFlippingCoords:(NSArray *)array;
+- (BOOL)buildGameByFlippingCoords:(NSArray *)array;
 
 - (BOOL)isInTargetState;
 

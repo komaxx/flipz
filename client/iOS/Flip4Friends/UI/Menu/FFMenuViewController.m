@@ -15,8 +15,8 @@
 #import "FFMainMenu.h"
 #import "FFAutoPlayer.h"
 #import "FFChallengeSidebar.h"
-#import "FFVersusFooter.h"
 #import "FFStorageUtil.h"
+#import "FFHotSeatSidebar.h"
 
 
 typedef enum {
@@ -37,7 +37,7 @@ typedef enum {
 @property (weak, nonatomic) FFGamePausedMenu* pausedMenu;
 
 @property (weak, nonatomic) FFChallengeSidebar *challengeSidebar;
-@property (weak, nonatomic) FFVersusFooter* versusFooter;
+@property (weak, nonatomic) FFHotSeatSidebar* hotSeatSidebar;
 
 @property (strong, nonatomic) FFAutoPlayer *tmpAutoPlayer1;
 @property (strong, nonatomic) FFAutoPlayer *tmpAutoPlayer2;
@@ -65,8 +65,8 @@ typedef enum {
     self.challengeSidebar = (FFChallengeSidebar *) [self.superview viewWithTag:400];
     self.challengeSidebar.delegate = self;
 
-    self.versusFooter = (FFVersusFooter *) [self.superview viewWithTag:410];
-    self.versusFooter.delegate = self;
+    self.hotSeatSidebar = (FFHotSeatSidebar *) [self.superview viewWithTag:450];
+    self.hotSeatSidebar.delegate = self;
 
     [self changeState:menuState_mainMenu];
 }
@@ -79,7 +79,7 @@ typedef enum {
     [self.pausedMenu hide:state!=menuState_gamePaused];
     [self showSidebar:state == menuState_gameRunning];
     [self.finishedMenu hide:state!=menuState_gameFinished];
-    self.mainMenu.hidden = state!=menuState_mainMenu;
+    [self.mainMenu hide:state!=menuState_mainMenu];
 
     switch (state){
         case menuState_mainMenu:
@@ -109,13 +109,14 @@ typedef enum {
     BOOL isChallenge = [[[FFGamesCore instance] gameWithId:self.delegate.activeGameId].Type isEqualToString:kFFGameTypeSingleChallenge];
 
     self.challengeSidebar.hidden = !b || !isChallenge;
-    self.versusFooter.hidden = !b || isChallenge;
+    self.hotSeatSidebar.hidden = !b || isChallenge;
 }
 
 - (void)didAppear {
     [[NSNotificationCenter defaultCenter]
             addObserver:self selector:@selector(gameChanged:) name:kFFNotificationGameChanged object:nil];
     [self.challengeSidebar didAppear];
+    [self.hotSeatSidebar didAppear];
 }
 
 - (void)gameChanged:(NSNotification *)notification {
@@ -123,7 +124,7 @@ typedef enum {
     if (![gameID isEqualToString:[self.delegate activeGameId]]) return;     // not the active game. Ignore.
 
     FFGame *game = [[FFGamesCore instance] gameWithId:gameID];
-    if (_state == menuState_gameRunning && game.gameState==kFFGameState_Finished){
+    if (_state == menuState_gameRunning && game.gameState==kFFGameState_Won){
 //        if (self.tmpAutoPlayer1){
 //            [self.tmpAutoPlayer1 endPlaying];
 //            [self.tmpAutoPlayer2 endPlaying];
@@ -132,7 +133,12 @@ typedef enum {
 //        }
 
         // SOLVED! Remember this fine victory
-        [FFStorageUtil setFirstUnsolvedChallengeIndex:_currentlyAttemptedChallenge+2];
+
+        int challengeIndex = [[FFGamesCore instance] indexForChallenge:game];
+
+        if (challengeIndex+1 == [FFStorageUtil firstUnsolvedChallengeIndex]){
+            [FFStorageUtil setFirstUnsolvedChallengeIndex:([FFStorageUtil firstUnsolvedChallengeIndex]+1)];
+        }
         [self.challengeMenu refreshListCells];
 
         [self changeState:menuState_gameFinished];
@@ -142,6 +148,7 @@ typedef enum {
 - (void)didDisappear {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self.challengeSidebar didDisappear];
+    [self.hotSeatSidebar didDisappear];
 }
 
 - (void)pauseTapped {
@@ -220,11 +227,11 @@ typedef enum {
     }
     [self.delegate activateGameWithId:gameId];
     [self.challengeSidebar setActiveGameWithId:gameId];
+    [self.hotSeatSidebar setActiveGameWithId:gameId];
 }
 
 - (void)proceedToNextChallenge {
-    _currentlyAttemptedChallenge++;
-    [self activateGameWithId:[[FFGamesCore instance] challenge:_currentlyAttemptedChallenge].Id];
+    [self activateChallengeAtIndex:_currentlyAttemptedChallenge+1];
 }
 
 - (void)restartGame {

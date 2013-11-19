@@ -23,6 +23,14 @@
     if (self) {
         [(UIButton *) [self viewWithTag:401] addTarget:self action:@selector(pauseTapped) forControlEvents:UIControlEventTouchUpInside];
         self.historySlider = (FFChallengeHistorySliderView *) [self viewWithTag:402];
+        
+        UIButton *solveButton = (UIButton *) [self viewWithTag:775];
+        [solveButton addTarget:self action:@selector(solveTapped) forControlEvents:UIControlEventTouchUpInside];
+        #ifdef DEBUG
+        solveButton.hidden = NO;
+        #else
+        solveButton.hidden = YES;
+        #endif
     }
 
     return self;

@@ -51,7 +51,7 @@
         return;    // not my turn
     }
 
-    if (game.gameState == kFFGameState_Finished){
+    if (game.gameState == kFFGameState_Won){
         return;     // we're done.
     }
 
@@ -114,11 +114,7 @@
 
     // and do it!
     if (bestMove){
-//        [self executeMove:@[bestMove,player]];
-//        [self performSelector:@selector(executeMove:) withObject:@[bestMove,player] afterDelay:0];
-
         [self performSelector:@selector(executeMove:) withObject:@[bestMove,player]];
-//        [self performSelector:@selector(executeMove:) withObject:@[bestMove,player] afterDelay:1];
     } else {
         NSLog(@"ERROR!! no move found!");
     }

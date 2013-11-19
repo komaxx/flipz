@@ -100,6 +100,20 @@
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void)executeCurrentMove {
+    [self.moveViewControl executeCurrentMove];
+}
+
+- (void)checkForWinningPositioning:(FFPattern *)pattern at:(FFCoord *)coord withDirection:(NSInteger)direction {
+    // NO
+//    FFGame *activeGame = [[FFGamesCore instance] gameWithId:[self.delegate activeGameId]];
+//    FFMove *move = [[FFMove alloc] initWithPattern:pattern atPosition:coord andOrientation:(FFOrientation) direction];
+//
+//    if ([activeGame moveWouldWinChallenge:move byPlayer:activeGame.ActivePlayer]) {
+//        [self moveCompletedWithPattern:pattern at:coord withDirection:direction];
+//    }
+}
+
 - (void)moveCompletedWithPattern:(FFPattern *)pattern at:(FFCoord *)coord withDirection:(NSInteger)direction {
     // make sure, we have the freshest one!
     FFGame *activeGame = [[FFGamesCore instance] gameWithId:[FFCreateChallengeSession tmpGameId]];

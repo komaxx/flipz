@@ -51,6 +51,7 @@ static NSUInteger creationId;
 
     // and: patterns
     NSMutableArray *patterns = [[NSMutableArray alloc] initWithCapacity:game.player1.playablePatterns.count];
+    [self shuffle:patterns];
     for (FFPattern *pat in game.player1.playablePatterns) {
         NSMutableDictionary *patDic = [[NSMutableDictionary alloc] initWithCapacity:2];
         [patDic setObject:[NSNumber numberWithBool:(pat.differingOrientations>1)] forKey:@"rotating"];
@@ -73,24 +74,12 @@ static NSUInteger creationId;
     }
     NSString* jsonString =[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     return jsonString;
+}
 
-
-//    {
-//        "level":2,
-//        "lockmoves":0,"boardtype":0,
-//        "boardsize":4,
-//        "boardcolors":[
-//                0,0,0,1,
-//                0,1,1,1,
-//                0,0,1,1,
-//                0,1,1,1
-//        ],
-//        "patterns": [
-//              { "coords":[[1,0],[1,1],[0,2],[1,2]], "rotating":0 },
-//              { "coords":[[0,0],[1,0]], "rotating":0 },
-//              { "coords":[[0,0],[1,0],[2,0]], "rotating":0 },
-//        ],
-//   },
++ (void)shuffle:(NSMutableArray *)array {
+    for (int i = 0; i < array.count; i++){
+        [array exchangeObjectAtIndex:arc4random()%array.count withObjectAtIndex:arc4random()%array.count];
+    }
 }
 
 - (FFGame *)loadLevel:(NSUInteger)level {

@@ -75,7 +75,9 @@
 
 
 - (FFTile *)tileAtX:(NSUInteger)x andY:(NSUInteger)y {
-    return [self.tiles objectAtIndex:(y*self.BoardSize + x)];
+    NSUInteger index = (y*self.BoardSize + x);
+    if (index >= self.tiles.count) return nil;
+    return [self.tiles objectAtIndex:index];
 }
 
 - (void)cleanMonochromaticTo:(NSUInteger)cleanColor {
@@ -127,9 +129,10 @@
     else if (self.BoardType == kFFBoardType_multiStated_rollover) tile.color = (tile.color+99)%100;
 }
 
-- (void)buildGameByFlippingCoords:(NSArray *)coords {
+- (BOOL)buildGameByFlippingCoords:(NSArray *)coords {
     for (FFCoord* c in coords) {
         FFTile *tile = [self tileAtX:c.x andY:c.y];
+        if (!tile) return NO;
         if (tile.unlockTime > self.moveIndex) continue;
 
         if (self.BoardType == kFFBoardType_twoStated){
@@ -142,6 +145,8 @@
     }
     self.moveIndex++;
     [self recomputeNowLocked];
+
+    return YES;
 }
 
 - (void)undoMoveWithCoords:(NSArray *)coords {

@@ -17,6 +17,7 @@ NSString *const kFFGameTypeSingleChallenge = @"gtLocalChallenge";
 NSString *const kFFGameTypeHotSeat = @"gtHotSeat";
 NSString *const kFFGameTypeRemote = @"gtRemote";
 
+
 @interface FFGame ()
 
 @property(nonatomic, readwrite) NSString *const Type;
@@ -169,7 +170,7 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
 }
 
 - (int)checkIfValidMove:(FFMove *)move byPlayer:(FFPlayer *)player {
-    if (self.gameState == kFFGameState_Finished){
+    if (self.gameState == kFFGameState_Won || self.gameState == kFFGameState_Aborted){
         NSLog(@"Illegal move: game already finished. Declined.");
         return -1;
     } else if (![move isLegalOnBoardWithSize:self.Board.BoardSize]){
@@ -204,11 +205,11 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
 
         NSLog(@"Took me %i moves", _challengeMoves);
 
-        self.gameState = kFFGameState_Finished;
+        self.gameState = kFFGameState_Won;
     } else if (self.Type == kFFGameTypeHotSeat){
         if ([self allPatternsPlayedForPlayer:self.player1] && [self allPatternsPlayedForPlayer:self.player1]){
             [self currentHistoryStep].activePlayerId = nil;
-            self.gameState = kFFGameState_Finished;
+            self.gameState = kFFGameState_Won;
         }
     }
 }
@@ -272,12 +273,11 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
         return;
     }
 
-    _challengeMoves++;
 
-
-    for (NSUInteger i = self.history.count-1; i > 0; --i){
-        [(NSMutableArray *) self.history removeObjectAtIndex:i];
+    while (self.history.count > 1){
+        [(NSMutableArray *) self.history removeObjectAtIndex:0];
     }
+    self.currentHistoryBackSteps = 0;
 
     [self notifyChange];
 }
@@ -304,8 +304,7 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
 }
 
 - (void)giveUp {
-    self.gameState = kFFGameState_Finished;
-    [self.Board cleanMonochromaticTo:9];
+    self.gameState = kFFGameState_Aborted;
     [self notifyChange];
 }
 

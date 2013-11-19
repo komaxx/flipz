@@ -28,6 +28,8 @@ static NSUInteger _firstUnsolvedChallengeIndex;;
 
 
 + (void)setFirstUnsolvedChallengeIndex:(NSUInteger)nuIndex {
+    NSLog(@"storing new first unsolved index: %i", nuIndex);
+
     if (nuIndex <= _firstUnsolvedChallengeIndex) return;    // can only be increased!
 
     _firstUnsolvedChallengeIndex = nuIndex;

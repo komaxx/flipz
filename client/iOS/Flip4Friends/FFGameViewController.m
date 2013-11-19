@@ -8,6 +8,7 @@
 #import "FFGame.h"
 #import "FFGamesCore.h"
 #import "FFToast.h"
+#import "FFTutorial.h"
 
 @interface FFGameViewController ()
 
@@ -18,6 +19,9 @@
 
 @property (strong, nonatomic) FFPatternsViewControl* player1PatternsControl;
 @property (strong, nonatomic) FFPatternsViewControl* player2PatternsControl;
+
+@property (weak, nonatomic) FFTutorial *tutorial;
+@property (weak, nonatomic) FFToast *failToast;
 
 @property (copy, nonatomic) NSString *lastPlayerId;
 
@@ -43,11 +47,7 @@
         self.moveViewControl.delegate = self;
         self.moveViewControl.boardView = self.boardView;
 
-//        self.historySlider = (FFHistorySlider *)[self viewWithTag:350];
-//        self.historySlider.delegate = self;
-//        self.historySlider.boardView = self.boardView;
-//
-//        self.historySlider.hidden = YES;
+        self.tutorial = (FFTutorial *) [self viewWithTag:212];
     }
 
     return self;
@@ -71,10 +71,12 @@
         return;  // ignore. Update for the wrong game (not the active one).
     }
 
+
     FFGame *game = [[FFGamesCore instance] gameWithId:changedGameID];
     if (![game.ActivePlayer.id isEqualToString:self.lastPlayerId]){
         [self updateBoardAndDrawerPosition];
     }
+    [self showFailToastIfNecessaryForGame:game];
 }
 
 - (void)updateBoardAndDrawerPosition {
@@ -113,10 +115,6 @@
         frame.origin.x = 25;
         self.boardView.frame = frame;
     } else {
-//        CGRect frame = self.gameBoardDrawer.frame;
-//        frame.origin.y = 0;
-//        self.gameBoardDrawer.frame = frame;
-
         CGRect boardFrame = self.boardView.frame;
         boardFrame.origin.x = 5;
         self.boardView.frame = boardFrame;
@@ -126,6 +124,8 @@
 - (void)selectedGameWithId:(NSString *)gameID{
     FFGame *game = [[FFGamesCore instance] gameWithId:gameID];
     [self.boardView setActiveGame:game];
+    [self.failToast disappear];
+    self.failToast = nil;
 
 //    if ([game.Type isEqualToString:kFFGameTypeSingleChallenge]){
         self.gameBoardDrawer.alwaysBounceVertical = NO;
@@ -140,6 +140,8 @@
     [self.moveViewControl moveFinished];
     self.player1PatternsControl.activeGameId = gameID;
     self.player2PatternsControl.activeGameId = gameID;
+
+    [self.tutorial showForChallenge:game];
 
     [self updateBoardAndDrawerPosition];
 }
@@ -190,8 +192,6 @@
         return;
     }
 
-    [self showFailToastIfNecessaryForGame:game andPattern:pattern];
-
     BOOL player1Active = game.ActivePlayer==game.player1;
     [self.moveViewControl
             startMoveWithPattern:pattern
@@ -201,15 +201,23 @@
                       forPlayer2:!player1Active];
 }
 
-- (void)showFailToastIfNecessaryForGame:(FFGame *)game andPattern:(FFPattern *)pattern {
+- (void)showFailToastIfNecessaryForGame:(FFGame *)game {
     if (game.Type==kFFGameTypeSingleChallenge &&
             [game doneMovesForPlayer:game.ActivePlayer].count+1 >=
                     game.ActivePlayer.playablePatterns.count){
+
         // this is the last move
-        if ([game.Board computeMinimumRestFlips] > pattern.Coords.count){
+        if (![game stillSolvable] && !self.failToast){
             // not solvable anymore!
-            [[FFToast make:NSLocalizedString(@"you_failed_go_back_by_history", nil)] show];
+            FFToast *toast = [FFToast make:NSLocalizedString(@"you_failed_go_back_by_history", nil)];
+            self.failToast = toast;
+            self.failToast.disappearTime = 1000;    // == forever ;)
+
+            [self.failToast show];
         }
+    } else if (self.failToast) {
+        [self.failToast disappear];
+        self.failToast = nil;
     }
 }
 

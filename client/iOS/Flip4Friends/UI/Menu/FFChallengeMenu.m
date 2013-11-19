@@ -102,6 +102,7 @@
             [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         } else {
             FFGame *game = [[FFGamesCore instance] challenge:(NSUInteger) index];
+            [game clean];
             [self.delegate activateGameWithId:game.Id];
             [self.delegate activateChallengeAtIndex:(NSUInteger)index];
         }

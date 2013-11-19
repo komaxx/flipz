@@ -92,6 +92,8 @@
 
     ret.disappearTime = DEFAULT_DISAPPEAR_DELAY;
 
+    NSLog(@"Showing Toast!");
+
     return ret;
 }
 
@@ -152,7 +154,6 @@
     CGPoint nowCenter = self.center;
 
     [UIView animateWithDuration:0.2 animations:^{
-//        self.center = CGPointMake(self.frame.size.width *1.5, nowCenter.y);
         self.center = CGPointMake(nowCenter.x, nowCenter.y + 2*self.bounds.size.height);
         self.alpha = 0;
     } completion:^(BOOL finished) {

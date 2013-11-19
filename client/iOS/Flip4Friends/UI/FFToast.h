@@ -18,6 +18,8 @@
 
 -(void) show;
 
+-(void)disappear;
+
 @end
 
 

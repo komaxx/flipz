@@ -15,7 +15,7 @@
 
 
 @implementation FFMainMenu {
-
+    BOOL _hiding;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -29,6 +29,7 @@
                 addTarget:self action:@selector(buttonGenerate) forControlEvents:UIControlEventTouchUpInside];
 
         self.autoPlayer = [[NSMutableDictionary alloc] initWithCapacity:1000];
+        _hiding = self.hidden;
     }
 
     return self;
@@ -68,17 +69,20 @@
 }
 
 - (void)gameChanged:(NSNotification *)notification {
-    static int whiteWins = 0;
-    static int plays = 0;
-
-//    NSLog(@"gameChanged");
-
     NSString *changedGameID = [notification.userInfo objectForKey:kFFNotificationGameChanged_gameId];
     NSArray *players = [self.autoPlayer objectForKey:changedGameID];
     if (!players) return;  // not waiting for anything anymore!
 
+    [self updateAutoPlayerWithChangedGameId:changedGameID];
+}
+
+- (void)updateAutoPlayerWithChangedGameId:(NSString *)changedGameID {
+    static int whiteWins = 0;
+    static int plays = 0;
+
+    NSArray *players = [self.autoPlayer objectForKey:changedGameID];
     FFGame * game = [[FFGamesCore instance] gameWithId:changedGameID];
-    if (game.gameState == kFFGameState_Finished){
+    if (game.gameState == kFFGameState_Won){
 //        NSLog(@"finished!");
 
         [[players objectAtIndex:1] endPlaying];
@@ -88,7 +92,6 @@
 
         plays++;
         if ([[game winningPlayer].id isEqualToString:game.player1.id]) whiteWins++;
-
 
         if (plays%10 == 0) NSLog(@"Quota: white won %i/%i = %f", whiteWins, plays, (CGFloat)whiteWins/(CGFloat)plays);
     }
@@ -102,5 +105,23 @@
     [self.delegate localChallengeSelected];
 }
 
+- (void)hide:(BOOL)hide {
+    if (hide == _hiding) return;
 
+    CGPoint center = self.center;
+    if (hide){
+        [UIView animateWithDuration:0.2 animations:^{
+            self.center = CGPointMake(-160, center.y);
+        } completion:^(BOOL finished) {
+            if (finished) self.hidden = YES;
+        }];
+    } else {
+        self.hidden = NO;
+        [UIView animateWithDuration:0.2 animations:^{
+            self.center = CGPointMake(160, center.y);
+        }];
+    }
+
+    _hiding = hide;
+}
 @end

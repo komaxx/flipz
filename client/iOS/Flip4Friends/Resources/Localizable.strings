@@ -11,3 +11,10 @@
 "this_pattern_was_already_played" = "This pattern was already played!";
 "you_failed_go_back_by_history" = "FAILED\nTap on the history on the right to try something different!";
 "history_explanation" = "Slide up/down or tap on an icon to go back to a previous move.";
+"tut_1" = "Welcome!";
+"tut_2" = "Goal of the game:\nFlip all tiles to white";
+"tut_3" = "For that:\n\n1. Select a pattern";
+"tut_4" = "2. Move it to a good position\n(use your brain for that)";
+"tut_5" = "3. Double-tap / select the next pattern.\n... and tiles will flip.";
+"tut_6" = "Enjoy the game!";
+

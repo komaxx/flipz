@@ -89,43 +89,66 @@ static NSUInteger creationId;
 
 - (BOOL)fitPattern:(FFPattern *)pattern ontoBoard:(FFBoard *)board andAllowOverlap:(BOOL)overlap {
     // first: try some random positions
-
     FFMove *move;
 
     BOOL foundValidTarget = NO;
+    // first: try some random stuff to keep it interesting
     for (int i = 0; i < 10 && !foundValidTarget; i++){
         FFBoard *tmpBoard = [[FFBoard alloc] initWithBoard:board];
         move = [self makeRandomMoveWithPattern:pattern onBoard:board];
+        foundValidTarget = [self checkMove:move onBoard:tmpBoard withOverlapping:overlap];
+    }
 
-        NSArray *toFlipCoords = [move buildToFlipCoords];
-        [tmpBoard buildGameByFlippingCoords:toFlipCoords];
+    if (!foundValidTarget){
+        // now, a more ordered approach: Find by cycling through the possible fields
+//        for (int o = 0; o < [pattern differingOrientations] && !foundValidTarget; o++){
+        FFOrientation o = kFFOrientation_0_degrees;
 
-        if (!overlap){
-            // check if all flipped coords were not flipped again
-            BOOL overlapFound = NO;
-            for (FFCoord *c in toFlipCoords){
-                if ([tmpBoard tileAtX:c.x andY:c.y].color % 2 != 1){
-                    overlapFound = YES;
-                    break;
+
+            int maxX = board.BoardSize - (o%2==0 ? pattern.SizeX : pattern.SizeY);
+            int maxY = board.BoardSize - (o%2==0 ? pattern.SizeY : pattern.SizeX) ;
+
+            for (int y = 0; y <= maxY && !foundValidTarget; y++){
+                for (int x = 0; x <= maxX && !foundValidTarget; x++){
+                    FFBoard *tmpBoard = [[FFBoard alloc] initWithBoard:board];
+                    move = [[FFMove alloc] initWithPattern:pattern
+                                                        atPosition:[[FFCoord alloc] initWithX:(ushort) x andY:(ushort) y]
+                                                    andOrientation:(FFOrientation) o];
+                    foundValidTarget = [self checkMove:move onBoard:tmpBoard withOverlapping:overlap];
                 }
             }
-            if (!overlapFound) foundValidTarget = YES;
-        } else {
-            // overlapping is allowed, so this should always work
-            foundValidTarget = YES;
-        }
+//        }
     }
 
     if (foundValidTarget){
         // execute the move!
         [board buildGameByFlippingCoords:[move buildToFlipCoords]];
-    } else {
-        // a more ordered approach: Find by cycling through the possible fields
-        // TODO
-
     }
 
     return foundValidTarget;
+}
+
+- (BOOL)checkMove:(FFMove *)move onBoard:(FFBoard *)board withOverlapping:(BOOL)overlap {
+    NSArray *toFlipCoords = [move buildToFlipCoords];
+    if (![board buildGameByFlippingCoords:toFlipCoords]){
+        NSLog(@"Shufuq.");
+        return NO;
+    }
+
+    if (!overlap){
+        // check if all flipped coords were not flipped again
+        BOOL overlapFound = NO;
+        for (FFCoord *c in toFlipCoords){
+            if ([board tileAtX:c.x andY:c.y].color % 2 != 1){
+                overlapFound = YES;
+                break;
+            }
+        }
+        return !overlapFound;
+    } else {
+        // overlapping is allowed, so this should always work
+        return YES;
+    }
 }
 
 - (FFMove *)makeRandomMoveWithPattern:(FFPattern *)pattern onBoard:(FFBoard *)board {
@@ -133,8 +156,8 @@ static NSUInteger creationId;
     int maxX = board.BoardSize - orientation%2==0 ? pattern.SizeX : pattern.SizeY;
     int maxY = board.BoardSize - orientation%2==0 ? pattern.SizeY : pattern.SizeX;
     return [[FFMove alloc] initWithPattern:pattern
-                                        atPosition:[[FFCoord alloc] initWithX:(ushort) (arc4random() % (maxX+1))
-                                                                         andY:(ushort) (arc4random() % (maxY+1))]
+                                        atPosition:[[FFCoord alloc] initWithX:(ushort) (arc4random() % (maxX))
+                                                                         andY:(ushort) (arc4random() % (maxY))]
                                     andOrientation:orientation];
 }
 
