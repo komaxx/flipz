@@ -62,39 +62,16 @@
         self.Coords = [[NSMutableArray alloc] initWithCapacity:count];
         self.rotating = rotating;
 
-        NSUInteger patternArea = (maxDistance+1) * (maxDistance+1);
-
-        if (count > patternArea){
-            NSLog(@"ERROR: Random Pattern can not contain more coords than it's max size! Fallback to smaller maxCount.");
-            count = patternArea;
+        int lastCoordPos = -1;
+        for (int i = 0; i < count; i++){
+            int mod = (maxDistance*maxDistance - lastCoordPos - (count-i) - 1);
+            int proceed = mod>0 ? ( arc4random() % mod + 1) : 1;
+            lastCoordPos += proceed;
+            [(NSMutableArray *)self.Coords
+                    addObject:[[FFCoord alloc] initWithX:(ushort) (lastCoordPos % maxDistance) andY:(ushort) (lastCoordPos / maxDistance)]];
         }
-
-        // TODO CAVEAT: This might take quite long the more the maxDistance square is filled
-        // Solution: If more than half of the square is filled, remove coords instead of filling.
-        // Also: Bit-Mask checks could speed this up enormously.
-        NSUInteger setCount = 0;
-        while (setCount < count){
-            FFCoord *toAdd = [[FFCoord alloc] initWithX:(ushort) (rand()%maxDistance) andY:(ushort) (rand()%maxDistance)];
-
-            BOOL alreadyPartOfThePattern = NO;
-            for (NSUInteger i = 0; i < setCount; i++){
-                if ([[self.Coords objectAtIndex:i] isEqual:toAdd]){
-                    alreadyPartOfThePattern = YES;
-                    break;
-                }
-            }
-
-            if (!alreadyPartOfThePattern){
-                [(NSMutableArray *) self.Coords addObject:toAdd];
-                setCount++;
-            }
-        }
-
         [self trim];
-
-        static NSInteger stId = 0;
-        stId++;
-        self.Id = [NSString stringWithFormat:@"%i", stId];
+        [self makeId];
     }
     return self;
 }

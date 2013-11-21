@@ -19,12 +19,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.opaque = NO;
-        self.backgroundColor =
-                [UIColor colorWithHue:0.20 saturation:0. brightness:0.25 alpha:1];
+        self.backgroundColor = [UIColor colorWithHue:0.20 saturation:0. brightness:0.25 alpha:1];
         self.layer.cornerRadius = RADIUS;
-//        self.layer.borderWidth = RADIUS/2;
-//        self.layer.borderColor = [[UIColor colorWithWhite:1 alpha:1] CGColor];
-//        self.layer.masksToBounds = YES;
     }
 
     return self;
@@ -91,8 +87,6 @@
     [ret addSubview:ret.label];
 
     ret.disappearTime = DEFAULT_DISAPPEAR_DELAY;
-
-    NSLog(@"Showing Toast!");
 
     return ret;
 }

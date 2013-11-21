@@ -26,7 +26,7 @@
         [(UIButton *)[self viewWithTag:12]
                 addTarget:self action:@selector(buttonHotSeatTapped) forControlEvents:UIControlEventTouchUpInside];
         [(UIButton *)[self viewWithTag:13]
-                addTarget:self action:@selector(buttonGenerate) forControlEvents:UIControlEventTouchUpInside];
+                addTarget:self action:@selector(buttonTestRunTapped) forControlEvents:UIControlEventTouchUpInside];
 
         self.autoPlayer = [[NSMutableDictionary alloc] initWithCapacity:1000];
         _hiding = self.hidden;
@@ -36,8 +36,7 @@
 }
 
 - (void)buttonGenerate {
-//    FFGame *game = [[FFGamesCore instance] generateNewChallenge];
-//    [self.delegate activateGameWithId:game.Id];
+    // nothing. Doesn't have to do anything.
 }
 
 - (void)buttonTestRunTapped {
@@ -63,6 +62,8 @@
 
         [player2 startPlaying];
         [player1 startPlaying];
+
+        NSLog(@"Final score: %i / %i", [hotSeatGame scoreForColor:0], [hotSeatGame scoreForColor:1]);
     }
 
     NSLog(@"++++");

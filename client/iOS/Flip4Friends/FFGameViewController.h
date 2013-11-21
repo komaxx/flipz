@@ -10,6 +10,8 @@
 #import "FFHistorySlider.h"
 #import "FFMoveViewControl.h"
 
+@class FFScoreRowsView;
+
 @protocol FFGameViewControllerDelegate <NSObject>
 - (NSString *)activeGameId;
 @end

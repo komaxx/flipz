@@ -1,28 +1,38 @@
 Sorted by priority:
 
-* View: Who's winning in hotseat
-* auto-generated levels
-* Clean up lock thing
+MUST
+* Game finished menu: Random game
+* HotSeat menu
 * Unlock random games
+* auto-generated levels
+* some more levels
+
+CAN
+* Triggered moves!
+* Modify history icon for returned to step
+* Hint
+* Won/lost sounds
+* quick rotation gesture (flick on ring, two finger flick)
+* some more levels
+
+
+
+
+DONE
+* View: Who's winning in hotseat
+* flip sound
+* Game finished menu: HotSeat
 * Tutorial for first level:
     - "Welcome"
     - "Goal: Flip all tiles to white"
     - "Tap a pattern to activate it"
     - "Drag it where you want to flip tiles"
     - "Double tap the pattern to make a move"
-* Triggered moves!
-* Modify history icon for returned to step
-* Hint
-* flip sound
-* quick rotation gesture (flick on ring, two finger flick)
-
-
-
-
-DONE
+* Clean up lock thing
 * Icon
 * Lock/Solved/Now on challenge list
 * New History logic
 * Undo via history-slider
 * Block access to next level until current solved [- or failed 10 times]
 * Menu: Replace retry with "next"
+* some more levels

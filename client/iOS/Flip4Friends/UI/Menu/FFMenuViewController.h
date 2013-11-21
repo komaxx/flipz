@@ -25,8 +25,6 @@
 
 - (void)didAppear;
 
-- (void)activateGameWithId:(NSString *)gameId;
-
 - (void)didDisappear;
 
 - (void)localChallengeSelected;
@@ -45,7 +43,13 @@
 
 - (void)hotSeatTapped;
 
+- (void)startHotSeatGame;
+
 - (void)activateChallengeAtIndex:(NSUInteger)i;
 
+- (void)activateRandomChallengeAtIndex:(NSUInteger)i;
+
 - (void)proceedToNextChallenge;
+
+- (void)anotherRandomChallenge;
 @end

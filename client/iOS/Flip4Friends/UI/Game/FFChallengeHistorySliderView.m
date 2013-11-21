@@ -306,6 +306,7 @@
     }
 
     [shapeLayer setPath:path];
+    CGPathRelease(path);
 }
 
 @end

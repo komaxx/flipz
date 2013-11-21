@@ -120,6 +120,7 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
 
         FFBoard *board = [[FFBoard alloc] initWithSize:(NSUInteger) 6];
         board.BoardType = kFFBoardType_twoStated;
+        board.lockMoves = 2;
         FFHistoryStep *rootHistoryStep = [[FFHistoryStep alloc] initCleanStepWithBoard:board];
         rootHistoryStep.activePlayerId = self.player1.id;
 
@@ -161,12 +162,22 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
 
     [(NSMutableArray *)self.history insertObject:nuStep atIndex:0];
 
+    [self keepHotSeatScore];
+
     [self checkIfGameFinished];
     [self endPlayersTurn];
 
     [self notifyChange];
 
     return 0;
+}
+
+- (void)keepHotSeatScore {
+    if (self.Type != kFFGameTypeHotSeat) return;
+    self.player1.score += [[self Board] scoreForColor:0];
+    self.player2.score += [[self Board] scoreForColor:1];
+
+//    NSLog(@"Combined Score: %i / %i", self.player1.score, self.player2.score);
 }
 
 - (int)checkIfValidMove:(FFMove *)move byPlayer:(FFPlayer *)player {
@@ -207,7 +218,7 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
 
         self.gameState = kFFGameState_Won;
     } else if (self.Type == kFFGameTypeHotSeat){
-        if ([self allPatternsPlayedForPlayer:self.player1] && [self allPatternsPlayedForPlayer:self.player1]){
+        if ([self allPatternsPlayedForPlayer:self.player1] && [self allPatternsPlayedForPlayer:self.player2]){
             [self currentHistoryStep].activePlayerId = nil;
             self.gameState = kFFGameState_Won;
         }
@@ -285,6 +296,8 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
 - (void)start {
     if (self.gameState == kFFGameState_NotYetStarted){
         [self generateGame];
+        self.player1.score = 0;
+        self.player2.score = 0;
 
         [self currentHistoryStep].activePlayerId = self.player1.id;
         self.gameState = kFFGameState_Running;
@@ -294,6 +307,8 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
         NSLog(@"REstarting finished game! %@", self.Id);
 
         [self generateGame];
+        self.player1.score = 0;
+        self.player2.score = 0;
         _challengeMoves = 0;
         self.currentHistoryBackSteps = 0;
         [self currentHistoryStep].activePlayerId = self.player1.id;
@@ -308,20 +323,31 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
     [self notifyChange];
 }
 
+- (NSUInteger)scoreForColor:(int)color {
+    if (color == 0) return self.player1.score;
+    if (color == 1) return self.player2.score;
+    NSLog(@"ununsed color: %i", color);
+    return 0;
+}
+
 - (FFPlayer*)winningPlayer {
     if ([self.Type isEqualToString:kFFGameTypeSingleChallenge]){
         return self.player1;
     }
 
-    NSUInteger scoreWhite = [self.Board scoreForColor:0];
-    NSUInteger scoreBlack = [self.Board scoreForColor:1];
-    if (scoreWhite > scoreBlack){
-        return self.player1;
-    } else if (scoreWhite < scoreBlack){
-        return self.player2;
-    }
+    if (self.player1.score > self.player2.score) return self.player1;
+    if (self.player1.score < self.player2.score) return self.player2;
 
-    // winning condition 1: who has more tiles
+//    NSUInteger scoreWhite = [self.Board scoreForColor:0];
+//    NSUInteger scoreBlack = [self.Board scoreForColor:1];
+//    if (scoreWhite > scoreBlack){
+//        return self.player1;
+//    } else if (scoreWhite < scoreBlack){
+//        return self.player2;
+//    }
+
+    // winning condition 2: who has more tiles
+    //*
     NSUInteger whiteTileCount = [self.Board countTilesWithColor:0];
     NSUInteger blackTileCount = self.Board.BoardSize*self.Board.BoardSize - whiteTileCount;
     if (whiteTileCount > blackTileCount){
@@ -329,7 +355,10 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
     } else if (whiteTileCount < blackTileCount){
         return self.player2;
     }
+    //*/
 
+    // winning condition 3: cluster size
+    /*
     NSUInteger whiteClusterSize = [self.Board computeMaxClusterSizeForColor:0];
     NSUInteger blackClusterSize = [self.Board computeMaxClusterSizeForColor:1];
     if (whiteClusterSize > blackClusterSize){
@@ -337,9 +366,9 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
     } else if (whiteClusterSize < blackClusterSize){
         return self.player2;
     }
+    //*/
 
-//    NSLog(@"Tile counts (w/b): %i/%i", whiteTileCount, blackTileCount);
-//    NSLog(@"Max cluster sizes (w/b): %i/%i", whiteClusterSize, blackClusterSize);
+    NSLog(@"player 1 winning by default");
 
     return self.player1;
 }
@@ -367,33 +396,76 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
 - (void)generateHotSeatGame {
     // make the boardView: random coloring
     [self.Board checker];
+    [self.Board unlock];
 
     // give the players some patterns
     NSMutableArray *player1Patterns = [[NSMutableArray alloc] initWithCapacity:8];
     NSMutableArray *player2Patterns = [[NSMutableArray alloc] initWithCapacity:8];
 
-    for (int i = 0; i < 9; i++){
+    for (int i = 0; i < 8; i++){
+        //*
         NSUInteger maxDistance = 3 + arc4random()%2;
         NSUInteger tileCount = MAX(3,
                     arc4random()%4 + arc4random()%4);
-        tileCount = MIN(tileCount, maxDistance*maxDistance);
+        tileCount = MAX(i,2);
+        // */
 
+        /*
+        NSUInteger maxDistance = 2 + arc4random()%3;
+        NSUInteger tileCount = MAX(2, arc4random()%3 + arc4random()%3);
+        // ~36% */
+
+
+        tileCount = MIN(tileCount, maxDistance*maxDistance);
         FFPattern *p1Pattern = [[FFPattern alloc]
                 initWithRandomCoords:tileCount
                       andMaxDistance:maxDistance
                     andAllowRotating:YES];
-        [player1Patterns addObject:p1Pattern];
 
+        [player1Patterns addObject:p1Pattern];
         [player2Patterns addObject:[[FFPattern alloc] initAsMirroredCloneFrom:p1Pattern]];
     }
 
     // corrections
-    //* give white an extra move
+    /* give white an extra move
     FFPattern *p1Pattern = [[FFPattern alloc] initWithRandomCoords:1 andMaxDistance:4 andAllowRotating:YES];
     [player1Patterns addObject:p1Pattern];
     //*/
 
-    //* balance extra move by weakening another pattern
+    /* strengthen black a bit
+    // last pattern with one extra field
+    FFPattern *pattern = [player2Patterns lastObject];
+    int oldSize = MAX(pattern.SizeX, pattern.SizeY);
+    int nuSize = pattern.Coords.count >= oldSize*oldSize ? (oldSize+1) : oldSize;
+    FFPattern *nuPattern = [[FFPattern alloc] initWithRandomCoords:(pattern.Coords.count+1)
+                                                    andMaxDistance:(NSUInteger) nuSize
+                                                  andAllowRotating:TRUE];
+    [player2Patterns removeObject:pattern];
+    [player2Patterns addObject:nuPattern];
+    //*/
+
+    /* strengthen white a bit
+    FFPattern *pattern = [player1Patterns lastObject];
+    int oldSize = MAX(pattern.SizeX, pattern.SizeY);
+    int nuSize = pattern.Coords.count >= oldSize*oldSize ? (oldSize+1) : oldSize;
+    FFPattern *nuPattern = [[FFPattern alloc] initWithRandomCoords:(pattern.Coords.count+1)
+                                                    andMaxDistance:(NSUInteger) nuSize
+                                                  andAllowRotating:TRUE];
+    [player1Patterns removeObject:pattern];
+    [player1Patterns addObject:nuPattern];
+
+
+    pattern = [player1Patterns objectAtIndex:0];
+    oldSize = MAX(pattern.SizeX, pattern.SizeY);
+    nuSize = pattern.Coords.count >= oldSize*oldSize ? (oldSize+1) : oldSize;
+    nuPattern = [[FFPattern alloc] initWithRandomCoords:(pattern.Coords.count+1)
+                                                    andMaxDistance:(NSUInteger) nuSize
+                                                  andAllowRotating:TRUE];
+    [player1Patterns removeObject:pattern];
+    [player1Patterns addObject:nuPattern];
+    //*/
+
+    /* balance extra move by weakening another pattern
     FFPattern *pattern;
     for (FFPattern *p in player1Patterns) {
         if (p.Coords.count > 2) {
@@ -418,6 +490,13 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
     return [self currentHistoryStep].board;
 }
 
+- (NSDictionary *)doneMovesForPlayer:(FFPlayer *)player {
+    if ([self.player2.id isEqualToString:player.id]){
+        return [self currentHistoryStep].doneMovesPlayer2;
+    }
+    return [self currentHistoryStep].doneMovesPlayer1;
+}
+
 - (FFPlayer *)ActivePlayer {
     NSString* activePlayerId = [self currentHistoryStep].activePlayerId;
     if (!activePlayerId) return nil;
@@ -434,13 +513,6 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
 
     [[self currentHistoryStep] DEBUG_replaceBoardWith:board];
     [self notifyChange];
-}
-
-- (NSDictionary *)doneMovesForPlayer:(FFPlayer *)player {
-    if ([self.player2.id isEqualToString:player.id]){
-        return [self currentHistoryStep].doneMovesPlayer2;
-    }
-    return [self currentHistoryStep].doneMovesPlayer1;
 }
 
 @end

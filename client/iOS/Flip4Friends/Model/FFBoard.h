@@ -67,6 +67,8 @@ typedef enum {
 
 - (NSUInteger)scoreForColor:(int)color;
 
+- (NSUInteger)scoreStraightWithLength:(int)length;
+
 - (NSUInteger)countTilesWithColor:(int)color;
 
 - (NSUInteger)computeMaxClusterSizeForColor:(int)i;

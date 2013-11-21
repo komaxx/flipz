@@ -47,7 +47,8 @@
 
 - (NSInteger)indexForChallenge:(FFGame *)game {
     // Ugly, but works
-    for (int i = 0; i < 1000; i++){
+    int l = [self challengesCount];
+    for (int i = 0; i < l; i++){
         FFGame* challenge = [self.challengeByNumber objectForKey:[NSNumber numberWithInt:i]];
         if (challenge && [challenge.Id isEqualToString:game.Id]) return i;
     }

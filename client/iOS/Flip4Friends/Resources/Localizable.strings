@@ -18,3 +18,9 @@
 "tut_5" = "3. Double-tap / select the next pattern.\n... and tiles will flip.";
 "tut_6" = "Enjoy the game!";
 
+
+"btn_rematch" = "REMATCH";
+"btn_next" = "NEXT";
+"btn_another" = "ANOTHER";
+"hot_seat_start_explanation" = "Play against a friend!\nPoints are given for straight lines of tiles with a player's color. The longer, the more points!";
+"hot_seat_explanation_toast" = "You play WHITE\nDouble-tap to confirm a move.";

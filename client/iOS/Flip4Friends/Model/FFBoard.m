@@ -180,8 +180,58 @@
 }
 
 - (NSUInteger) scoreForColor:(int)color {
-    return [self countTilesWithColor:color];
+//    return [self countTilesWithColor:color];
 //    return [self computeMaxClusterSizeForColor:color];
+    return [self countStraights3andUpForColor:color];
+}
+
+- (NSUInteger)countStraights3andUpForColor:(int)color {
+    NSUInteger ret = 0;
+    int currentRowLength = 0;
+
+    // horizontal straights
+    for (NSUInteger y = 0; y < self.BoardSize; y++){
+        currentRowLength = 0;
+        for (NSUInteger x = 0; x < self.BoardSize; x++){
+            if ([self tileAtX:x andY:y].color == color){
+                // yay, one more :)
+                currentRowLength++;
+            } else { // the straight ended. Score it!
+                ret += [self scoreStraightWithLength:currentRowLength];
+                currentRowLength = 0;
+            }
+        }
+        ret += [self scoreStraightWithLength:currentRowLength];
+    }
+
+    // vertical straights
+    for (NSUInteger x = 0; x < self.BoardSize; x++){
+        currentRowLength = 0;
+        for (NSUInteger y = 0; y < self.BoardSize; y++){
+            if ([self tileAtX:x andY:y].color == color){
+                // yay, one more :)
+                currentRowLength++;
+            } else {
+                ret += [self scoreStraightWithLength:currentRowLength];
+                currentRowLength = 0;
+            }
+        }
+        ret += [self scoreStraightWithLength:currentRowLength];
+    }
+
+//    NSLog(@"Score for %i is %i", color, ret);
+
+    return ret;
+}
+
+- (NSUInteger)scoreStraightWithLength:(int)length {
+    if (length < 3) return 0;
+    if (length == 3) return 1;
+    if (length == 4) return 3;
+    if (length == 5) return 7;
+    if (length == 6) return 11;
+    // high score
+    return 15;
 }
 
 - (NSUInteger)countTilesWithColor:(int)color {

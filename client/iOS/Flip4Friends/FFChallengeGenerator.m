@@ -63,9 +63,17 @@ static NSUInteger creationId;
 
         BOOL fittingPositionFound = NO;
         for (int i = 0; i < 10 && !fittingPositionFound; i++){
-            FFPattern *nowRandomPattern = [self makeRandomPatternWithMaxSize:maxSquareSize andCoords:coords andRotating:rotating];
+            FFPattern *nowRandomPattern =
+            [[FFPattern alloc] initWithRandomCoords:coords andMaxDistance:maxSquareSize andAllowRotating:rotating];
             fittingPositionFound |= [self fitPattern:nowRandomPattern ontoBoard:board andAllowOverlap:overlap];
-            if (fittingPositionFound) [patterns addObject:nowRandomPattern];
+            if (fittingPositionFound){
+                if (rotating){
+                    // pre-rotate randomly
+                    nowRandomPattern = [nowRandomPattern
+                            copyForOrientation:(FFOrientation) (arc4random() % [nowRandomPattern differingOrientations])];
+                }
+                [patterns addObject:nowRandomPattern];
+            }
         }
         if (!fittingPositionFound){
             solutionFound = NO;
@@ -159,19 +167,6 @@ static NSUInteger creationId;
                                         atPosition:[[FFCoord alloc] initWithX:(ushort) (arc4random() % (maxX))
                                                                          andY:(ushort) (arc4random() % (maxY))]
                                     andOrientation:orientation];
-}
-
-- (FFPattern *)makeRandomPatternWithMaxSize:(NSUInteger)size andCoords:(NSUInteger)coordCount andRotating:(BOOL)rotating {
-    NSMutableArray *coords = [[NSMutableArray alloc] initWithCapacity:coordCount];
-
-    int lastCoordPos = -1;
-    for (int i = 0; i < coordCount; i++){
-        int proceed = arc4random() % (size*size - lastCoordPos - (coordCount-i) - 1) + 1;
-        lastCoordPos += proceed;
-        [coords addObject:[[FFCoord alloc] initWithX:(ushort) (lastCoordPos % size) andY:(ushort) (lastCoordPos / size)]];
-    }
-
-    return [[FFPattern alloc] initWithCoords:coords andAllowRotation:rotating];
 }
 
 @end

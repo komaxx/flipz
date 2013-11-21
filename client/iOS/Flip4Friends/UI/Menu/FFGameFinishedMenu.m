@@ -11,6 +11,10 @@
 #import "FFMenuViewController.h"
 #import "FFGamesCore.h"
 
+@interface FFGameFinishedMenu ()
+@property (weak, nonatomic) FFButton* nextRepeatButton;
+@property (nonatomic) SEL nextRepeatButtonAction;
+@end
 
 @implementation FFGameFinishedMenu
 @synthesize delegate = _delegate;
@@ -23,15 +27,15 @@
         FFButton *menuButton = (FFButton *) [self viewWithTag:601];
         [menuButton addTarget:self action:@selector(menuTapped:) forControlEvents:UIControlEventTouchUpInside];
 
-        FFButton *nextButton = (FFButton *) [self viewWithTag:602];
-        [nextButton addTarget:self action:@selector(nextTapped:) forControlEvents:UIControlEventTouchUpInside];
+        self.nextRepeatButton = (FFButton *) [self viewWithTag:602];
+        [self.nextRepeatButton addTarget:self action:@selector(nextTapped:) forControlEvents:UIControlEventTouchUpInside];
     }
 
     return self;
 }
 
 - (void)nextTapped:(id)retryTapped {
-    [self.delegate proceedToNextChallenge];
+    [self.delegate performSelector:self.nextRepeatButtonAction];
 }
 
 - (void)menuTapped:(id)menuTapped {
@@ -46,7 +50,19 @@
         NSString *nuMessage = nil;
         if (game.Type == kFFGameTypeSingleChallenge){
             nuTitle = NSLocalizedString(@"finished_title_success", nil);
-            nuMessage = NSLocalizedString(@"finished_message_challenge_complete", nil);
+            self.transform = CGAffineTransformMakeRotation(0);
+
+            if ([self gameIsRandomChallenge:game]){
+                nuMessage = NSLocalizedString(@"finished_message_challenge_complete", nil);
+                [self.nextRepeatButton setTitle:NSLocalizedString(@"btn_another", nil) forState:UIControlStateNormal];
+                self.nextRepeatButtonAction = @selector(anotherRandomChallenge);
+
+            } else {        // game is manual challenge
+
+                nuMessage = NSLocalizedString(@"finished_message_challenge_complete", nil);
+                [self.nextRepeatButton setTitle:NSLocalizedString(@"btn_next", nil) forState:UIControlStateNormal];
+                self.nextRepeatButtonAction = @selector(proceedToNextChallenge);
+            }
         } else if (game.Type == kFFGameTypeHotSeat){
             nuTitle = NSLocalizedString(@"finished_title_congratulations", nil);
             nuMessage = NSLocalizedString(@"finished_message_you_won", nil);
@@ -56,11 +72,18 @@
             } else {
                 self.transform = CGAffineTransformMakeRotation(0);
             }
+
+            [self.nextRepeatButton setTitle:NSLocalizedString(@"btn_rematch", nil) forState:UIControlStateNormal];
+            self.nextRepeatButtonAction = @selector(rematch);
         }
 
         for (int i = 0; i < 4; i++) ((UILabel *)[self viewWithTag:(610+i)]).text = nuTitle;
         ((UILabel *)[self viewWithTag:(620)]).text = nuMessage;
     }
     self.hidden = nowHidden;
+}
+
+- (BOOL)gameIsRandomChallenge:(FFGame*)game {
+    return [[FFGamesCore instance] indexForChallenge:game] < 0;
 }
 @end

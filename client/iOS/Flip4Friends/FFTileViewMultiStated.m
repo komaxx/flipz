@@ -51,9 +51,12 @@
     return self;
 }
 
-- (void)updateFromTile:(FFTile *)tile {
+- (BOOL)updateFromTile:(FFTile *)tile {
+    BOOL ret = NO;
+
     if (_currentColor != tile.color){
         _currentRotation = (CGFloat) (tile.color%2==1 ? M_PI : 0);
+        ret = YES;
     }
     _currentColor = tile.color;
 
@@ -79,6 +82,7 @@
     }
 
     [self performSelector:@selector(updateTileImage) withObject:nil afterDelay:(self.turnSpeed / 2.0f)];
+    return ret;
 }
 
 - (void)updateTileImage {
@@ -144,6 +148,7 @@
     }
 
     [self.patternLayer setPath:path];
+    CGPathRelease(path);
     self.patternLayer.hidden = NO;
 }
 
@@ -171,6 +176,7 @@
     CGPathAddLineToPoint(path, &CGAffineTransformIdentity, self.bounds.size.width-lineWidth, lineWidth);
 
     [self.lockedLayer setPath:path];
+    CGPathRelease(path);
 }
 
 - (void)removeYourself {

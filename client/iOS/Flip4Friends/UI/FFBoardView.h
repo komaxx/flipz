@@ -15,7 +15,7 @@
 
 
 @protocol FFTileView <NSObject>
-- (void)updateFromTile:(FFTile *)tile;
+- (BOOL)updateFromTile:(FFTile *)tile;
 - (void)removeYourself;
 - (void)positionAt:(CGRect)rect;
 @end

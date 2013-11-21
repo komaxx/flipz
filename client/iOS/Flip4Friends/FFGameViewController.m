@@ -9,6 +9,7 @@
 #import "FFGamesCore.h"
 #import "FFToast.h"
 #import "FFTutorial.h"
+#import "FFScoreRowsView.h"
 
 @interface FFGameViewController ()
 
@@ -16,6 +17,8 @@
 
 @property (weak, nonatomic) FFBoardView *boardView;
 @property (weak, nonatomic) FFMoveViewControl* moveViewControl;
+@property (weak, nonatomic) FFScoreRowsView *scoreRowsView;
+
 
 @property (strong, nonatomic) FFPatternsViewControl* player1PatternsControl;
 @property (strong, nonatomic) FFPatternsViewControl* player2PatternsControl;
@@ -46,6 +49,9 @@
         self.moveViewControl = (FFMoveViewControl *) [self viewWithTag:300];
         self.moveViewControl.delegate = self;
         self.moveViewControl.boardView = self.boardView;
+        
+        self.scoreRowsView = (FFScoreRowsView *) [self viewWithTag:310];
+        self.scoreRowsView.boardView = self.boardView;
 
         self.tutorial = (FFTutorial *) [self viewWithTag:212];
     }
@@ -58,6 +64,7 @@
     [self.player1PatternsControl didAppear];
     [self.player2PatternsControl didAppear];
     [self.moveViewControl didAppear];
+    [self.scoreRowsView didAppear];
 
     [self updateBoardAndDrawerPosition];
 
@@ -70,7 +77,6 @@
     if (![changedGameID isEqualToString:[self.delegate activeGameId]]) {
         return;  // ignore. Update for the wrong game (not the active one).
     }
-
 
     FFGame *game = [[FFGamesCore instance] gameWithId:changedGameID];
     if (![game.ActivePlayer.id isEqualToString:self.lastPlayerId]){
@@ -95,16 +101,16 @@
         }];
     } else {
         if (game.ActivePlayer == game.player1){
-            [UIView animateWithDuration:0.4 animations:^{
+            [UIView animateWithDuration:0.4 delay:0.4 options:0 animations:^{
                 self.gameBoardDrawer.center =
                         CGPointMake(self.center.x, self.gameBoardDrawer.frame.size.height/2);
-            }];
+            } completion:^(BOOL finished) {}];
         } else {
-            [UIView animateWithDuration:0.4 animations:^{
+            [UIView animateWithDuration:0.4 delay:0.4 options:0 animations:^{
                 self.gameBoardDrawer.center =
                         CGPointMake(self.center.x,
                                 self.bounds.size.height - self.gameBoardDrawer.frame.size.height/2);
-            }];
+            } completion:^(BOOL finished) {}];
         }
     }
 
@@ -124,6 +130,7 @@
 - (void)selectedGameWithId:(NSString *)gameID{
     FFGame *game = [[FFGamesCore instance] gameWithId:gameID];
     [self.boardView setActiveGame:game];
+    [self.scoreRowsView setActiveGame:game];
     [self.failToast disappear];
     self.failToast = nil;
 
@@ -169,6 +176,7 @@
     [self.player1PatternsControl didDisappear];
     [self.player2PatternsControl didDisappear];
     [self.moveViewControl didDisappear];
+    [self.scoreRowsView didDisappear];
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }

@@ -4,7 +4,6 @@
 //
 
 
-#import <QuartzCore/QuartzCore.h>
 #import "FFMenuBackgroundView.h"
 
 #define RADIUS 10

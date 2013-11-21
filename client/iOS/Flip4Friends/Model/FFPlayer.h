@@ -22,5 +22,7 @@
 */
 @property (strong, nonatomic) NSArray *playablePatterns;
 
+@property (nonatomic) NSUInteger score;
+
 - (void)resetWithPatterns:(NSArray *)array;
 @end

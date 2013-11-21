@@ -125,4 +125,7 @@ typedef enum {
 - (BOOL)moveWouldWinChallenge:(FFMove *)move byPlayer:(FFPlayer *)player;
 
 - (BOOL)stillSolvable;
+
+- (NSUInteger)scoreForColor:(int)color;
+
 @end

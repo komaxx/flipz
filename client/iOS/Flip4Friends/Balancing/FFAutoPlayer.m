@@ -76,7 +76,7 @@
         if ([[game doneMovesForPlayer:player] objectForKey:pattern.Id]) continue;       // already played.
 
         // each orientation
-        for (int orientation = 0; orientation < 4; orientation++){
+        for (int orientation = 0; orientation < [pattern differingOrientations]; orientation++){
             int xSize = orientation%2==0 ? pattern.SizeX : pattern.SizeY;
             int ySize = orientation%2==0 ? pattern.SizeY : pattern.SizeX;
 
@@ -100,7 +100,7 @@
                         CGFloat nowScore = nowMyScore - nowOtherScore;
                         nowScore = nowScore / (float)pattern.Coords.count;
 
-                        nowScore -= (CGFloat)tstMove.Pattern.Coords.count / 100.0f;
+                        nowScore += (CGFloat)tstMove.Pattern.Coords.count / 100.0f;
 
                         if (nowScore >= bestScore){
                             bestMove = tstMove;

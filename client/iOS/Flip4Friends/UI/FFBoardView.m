@@ -8,31 +8,30 @@
 
 #import "FFBoardView.h"
 #import "FFGamesCore.h"
-#import "FFPattern.h"
 #import "FFTileViewMultiStated.h"
 #import "FFPatternGenerator.h"
-#import "FFBoard.h"
 #import "FFHistorySlider.h"
 #import "FFHistoryStep.h"
+#import "FFSoundServer.h"
 
 @interface FFBoardView()
 /**
 * One-dimensional array of tile-views, constructed when a game is set.
 */
 @property (strong, nonatomic) NSMutableArray* tileViews;
-
 @property (copy, nonatomic) NSString *activeGameId;
-
 @property (strong, nonatomic) NSMutableArray *historyTiles;
-
 @property FFBoard *introBoard;
 
 @end
+
 
 @implementation FFBoardView {
     BOOL _introFlipping;
     CGFloat _tileSize;
     NSUInteger _shownBoardSize;
+
+    BOOL _enableAudio;
 
     BOOL _visible;
 }
@@ -55,7 +54,6 @@
 
 - (void)setup {
     self.tileViews = [[NSMutableArray alloc] initWithCapacity:(8*8)];
-
     self.historyTiles = [[NSMutableArray alloc] initWithCapacity:10];
 }
 
@@ -104,6 +102,7 @@
     }
 
     [self updateTilesFromBoard:board];
+    _enableAudio = YES;
 }
 
 - (void)updateTilesFromBoard:(FFBoard *)board {
@@ -114,11 +113,20 @@
         for (FFTileViewMultiStated *view in self.tileViews) view.tileType = board.BoardType;
     }
 
+    BOOL actuallyFlipped = NO;
     for (NSUInteger y = 0; y < size; y++){
         for (NSUInteger x = 0; x < size; x++){
-            [[self getTileAtX:x andY:y] updateFromTile:[board tileAtX:x andY:y]];
+            actuallyFlipped |= [[self getTileAtX:x andY:y] updateFromTile:[board tileAtX:x andY:y]];
         }
     }
+
+    if (actuallyFlipped){
+        [self playFlipSound];
+    }
+}
+
+- (void)playFlipSound {
+    if (_enableAudio) [[FFSoundServer instance] playFlipSound];
 }
 
 - (NSInteger)boardSize {
@@ -223,6 +231,7 @@
 - (void)startIntroFlipping {
     if (_introFlipping) return;
     _introFlipping = YES;
+    _enableAudio = NO;
 
     self.introBoard = [[FFBoard alloc] initWithSize:6];
     [self.introBoard shuffle];
