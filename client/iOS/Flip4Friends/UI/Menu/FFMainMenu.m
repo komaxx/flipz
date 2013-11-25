@@ -8,6 +8,7 @@
 #import "FFMenuViewController.h"
 #import "FFAutoPlayer.h"
 #import "FFGamesCore.h"
+#import "FFAutoSolver.h"
 
 @interface FFMainMenu ()
 @property (strong) NSMutableDictionary *autoPlayer;
@@ -40,7 +41,21 @@
 }
 
 - (void)buttonTestRunTapped {
-    [self performSelectorInBackground:@selector(testRun) withObject:nil];
+//    [self performSelectorInBackground:@selector(testRun) withObject:nil];
+    [self performSelectorInBackground:@selector(solveGames) withObject:nil];
+}
+
+- (void)solveGames {
+    for (NSUInteger i = 44; i < [[FFGamesCore instance] challengesCount]; i++){
+
+        NSLog(@" ------------ %i ------------", i);
+
+        FFGame* game = [[FFGamesCore instance] challenge:i];
+        FFAutoSolver *solver = [[FFAutoSolver alloc] initWithGame:game];
+        [solver solveSynchronously];
+
+        NSLog(@" //////////// %i ////////////", i);
+    }
 }
 
 - (void)testRun {

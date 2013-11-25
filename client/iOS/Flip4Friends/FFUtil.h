@@ -14,4 +14,5 @@
   })
 
 @interface FFUtil : NSObject
++ (void)shuffle:(NSMutableArray *)array;
 @end

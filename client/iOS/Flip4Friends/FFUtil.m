@@ -10,4 +10,11 @@
 @implementation FFUtil {
 
 }
+
++ (void)shuffle:(NSMutableArray *)array {
+    for (int i = 0; i < array.count; i++){
+        [array exchangeObjectAtIndex:arc4random()%array.count withObjectAtIndex:arc4random()%array.count];
+    }
+}
+
 @end

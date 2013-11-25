@@ -86,6 +86,9 @@ static NSUInteger creationId;
         return [self generateChallengeForLevel:level];
     }
 
+    // mix up the pattern to further obstruct the creating order
+    [FFUtil shuffle:patterns];
+
     [board unlock];
     NSString *id = [NSString stringWithFormat:@"generated_level%i_%i", level, creationId++];
     FFGame *generatedChallenge = [[FFGame alloc] initGeneratedChallengeWithId:id
@@ -101,7 +104,7 @@ static NSUInteger creationId;
 
     BOOL foundValidTarget = NO;
     // first: try some random stuff to keep it interesting
-    for (int i = 0; i < 10 && !foundValidTarget; i++){
+    for (int i = 0; i < 15 && !foundValidTarget; i++){
         FFBoard *tmpBoard = [[FFBoard alloc] initWithBoard:board];
         move = [self makeRandomMoveWithPattern:pattern onBoard:board];
         foundValidTarget = [self checkMove:move onBoard:tmpBoard withOverlapping:overlap];
@@ -109,8 +112,8 @@ static NSUInteger creationId;
 
     if (!foundValidTarget){
         // now, a more ordered approach: Find by cycling through the possible fields
-//        for (int o = 0; o < [pattern differingOrientations] && !foundValidTarget; o++){
-        FFOrientation o = kFFOrientation_0_degrees;
+        for (int o = 0; o < [pattern differingOrientations] && !foundValidTarget; o++){
+//        FFOrientation o = kFFOrientation_0_degrees;
 
 
             int maxX = board.BoardSize - (o%2==0 ? pattern.SizeX : pattern.SizeY);
@@ -125,7 +128,7 @@ static NSUInteger creationId;
                     foundValidTarget = [self checkMove:move onBoard:tmpBoard withOverlapping:overlap];
                 }
             }
-//        }
+        }
     }
 
     if (foundValidTarget){
@@ -164,8 +167,8 @@ static NSUInteger creationId;
     int maxX = board.BoardSize - orientation%2==0 ? pattern.SizeX : pattern.SizeY;
     int maxY = board.BoardSize - orientation%2==0 ? pattern.SizeY : pattern.SizeX;
     return [[FFMove alloc] initWithPattern:pattern
-                                        atPosition:[[FFCoord alloc] initWithX:(ushort) (arc4random() % (maxX))
-                                                                         andY:(ushort) (arc4random() % (maxY))]
+                                        atPosition:[[FFCoord alloc] initWithX:(ushort) (arc4random() % (maxX+1))
+                                                                         andY:(ushort) (arc4random() % (maxY+1))]
                                     andOrientation:orientation];
 }
 

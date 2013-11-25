@@ -34,9 +34,10 @@
             { "coords":7, "rotating":false, "max_square_size":4 },
             { "coords":3, "rotating":false, "max_square_size":2 },
             { "coords":7, "rotating":true, "max_square_size":3 },
+            { "coords":6, "rotating":true, "max_square_size":3 },
             { "coords":5, "rotating":true, "max_square_size":3 },
             { "coords":5, "rotating":true, "max_square_size":3 },
-            { "coords":6, "rotating":true, "max_square_size":3 }
+            { "coords":4, "rotating":true, "max_square_size":3 },
         ]
     },{
         "boardsize":6,
@@ -63,7 +64,21 @@
             { "coords":8, "rotating":true, "max_square_size":4 },
             { "coords":7, "rotating":true, "max_square_size":4 },
             { "coords":7, "rotating":true, "max_square_size":3 },
-            { "coords":7, "rotating":true, "max_square_size":3 }
+            { "coords":7, "rotating":true, "max_square_size":3 },
+            { "coords":4, "rotating":true, "max_square_size":3 },
+            { "coords":3, "rotating":true, "max_square_size":3 }
         ]
-    }
+    },{
+            "boardsize":6,
+            "lockmoves":1,
+            "boardtype":0,
+            "overlap":true,
+            "patterns":[
+                { "coords":6, "rotating":true, "max_square_size":3 },
+                { "coords":5, "rotating":false, "max_square_size":3 },
+                { "coords":4, "rotating":true, "max_square_size":3 },
+                { "coords":4, "rotating":false, "max_square_size":3 },
+                { "coords":3, "rotating":false, "max_square_size":2 }
+            ]
+        }
 ]

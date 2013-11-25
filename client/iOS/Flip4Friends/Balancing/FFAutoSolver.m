@@ -245,7 +245,7 @@
     _recursions++;
 
     if ([board isInTargetState]){
-        NSLog(@"SOLVED!");
+//        NSLog(@"SOLVED!");
         [self.foundSolutions addObject:[[NSMutableArray alloc] initWithArray:moves]];
         return;
     }
@@ -313,15 +313,15 @@
 - (void)solveWithOrderAndData:(NSArray *)data {
     NSUInteger patternsCount = ((NSArray *)[data objectAtIndex:0]).count;
 
-    NSUInteger possibilities = 1;
-    for (int i = patternsCount; i > 0; i--){
-        possibilities = possibilities
-                * i
-                * [self possiblePositionsForPattern:[((NSArray *) [data objectAtIndex:0]) objectAtIndex:(NSUInteger) (i - 1)]
-                                            onBoard:[data objectAtIndex:1]];
-    }
-
-    NSLog(@"Starting. %i possibilities", possibilities);
+//    NSUInteger possibilities = 1;
+//    for (int i = patternsCount; i > 0; i--){
+//        possibilities = possibilities
+//                * i
+//                * [self possiblePositionsForPattern:[((NSArray *) [data objectAtIndex:0]) objectAtIndex:(NSUInteger) (i - 1)]
+//                                            onBoard:[data objectAtIndex:1]];
+//    }
+//
+//    NSLog(@"Starting. %i possibilities", possibilities);
 
     _recursions = 0;
     [self solveOrderedWithRestPatterns:[data objectAtIndex:0]
@@ -373,7 +373,7 @@
     _recursions++;
 
     if ([board isInTargetState]){
-        NSLog(@"SOLVED!");
+//        NSLog(@"SOLVED!");
         [self.foundSolutions addObject:[[NSMutableArray alloc] initWithArray:moves]];
         return;
     }

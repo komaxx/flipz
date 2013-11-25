@@ -65,12 +65,15 @@
             }
         } else if (game.Type == kFFGameTypeHotSeat){
             nuTitle = NSLocalizedString(@"finished_title_congratulations", nil);
-            nuMessage = NSLocalizedString(@"finished_message_you_won", nil);
 
             if ([[game winningPlayer].id isEqualToString:game.player2.id]){
                 self.transform = CGAffineTransformMakeRotation((CGFloat) M_PI);
+                nuMessage = [NSString stringWithFormat:NSLocalizedString(@"finished_message_you_won", nil),
+                                                       [game scoreForColor:1], [game scoreForColor:0]];
             } else {
                 self.transform = CGAffineTransformMakeRotation(0);
+                nuMessage = [NSString stringWithFormat:NSLocalizedString(@"finished_message_you_won", nil),
+                                                       [game scoreForColor:0], [game scoreForColor:1]];
             }
 
             [self.nextRepeatButton setTitle:NSLocalizedString(@"btn_rematch", nil) forState:UIControlStateNormal];

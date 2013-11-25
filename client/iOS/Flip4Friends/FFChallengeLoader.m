@@ -7,6 +7,7 @@
 #import "FFChallengeLoader.h"
 #import "FFGame.h"
 #import "FFPattern.h"
+#import "FFUtil.h"
 
 
 @implementation FFChallengeLoader {
@@ -51,7 +52,7 @@ static NSUInteger creationId;
 
     // and: patterns
     NSMutableArray *patterns = [[NSMutableArray alloc] initWithCapacity:game.player1.playablePatterns.count];
-    [self shuffle:patterns];
+    [FFUtil shuffle:patterns];
     for (FFPattern *pat in game.player1.playablePatterns) {
         NSMutableDictionary *patDic = [[NSMutableDictionary alloc] initWithCapacity:2];
         [patDic setObject:[NSNumber numberWithBool:(pat.differingOrientations>1)] forKey:@"rotating"];
@@ -74,12 +75,6 @@ static NSUInteger creationId;
     }
     NSString* jsonString =[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     return jsonString;
-}
-
-+ (void)shuffle:(NSMutableArray *)array {
-    for (int i = 0; i < array.count; i++){
-        [array exchangeObjectAtIndex:arc4random()%array.count withObjectAtIndex:arc4random()%array.count];
-    }
 }
 
 - (FFGame *)loadLevel:(NSUInteger)level {

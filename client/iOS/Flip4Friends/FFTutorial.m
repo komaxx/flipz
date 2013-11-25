@@ -137,9 +137,18 @@
         UISwipeGestureRecognizer *downSwiper = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(downSwipe)];
         downSwiper.direction = UISwipeGestureRecognizerDirectionDown;
         [self addGestureRecognizer:downSwiper];
+
+        UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)];
+        [self addGestureRecognizer:tapGestureRecognizer];
     }
 
     return self;
+}
+
+- (void)tapped:(UITapGestureRecognizer *)recognizer {
+    NSInteger prevPage = (NSInteger) ((self.scrollView.contentOffset.x + 1) / self.scrollView.bounds.size.width);
+    [self.scrollView setContentOffset:CGPointMake((prevPage+1)*self.scrollView.bounds.size.width, 0)
+                             animated:YES];
 }
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {

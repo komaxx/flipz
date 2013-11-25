@@ -2,12 +2,11 @@ Sorted by priority:
 
 MUST
 * Game finished menu: Random game
-* HotSeat menu
 * Unlock random games
-* auto-generated levels
 * some more levels
 
 CAN
+* fine-tune auto-generated levels
 * Triggered moves!
 * Modify history icon for returned to step
 * Hint
@@ -19,7 +18,8 @@ CAN
 
 
 DONE
-* View: Who's winning in hotseat
+* HotSeat menu
+* View: Who's winning in HotSeat
 * flip sound
 * Game finished menu: HotSeat
 * Tutorial for first level:

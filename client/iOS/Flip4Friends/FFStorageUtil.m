@@ -7,6 +7,7 @@
 #import "FFStorageUtil.h"
 
 #define FIRST_UNSOLVED_CHALLENGE_INDEX_KEY @"firstUnsolvedChallenge"
+#define DEBUG_ALL_ACCESS
 
 @implementation FFStorageUtil {
 }
@@ -19,7 +20,7 @@ static NSUInteger _firstUnsolvedChallengeIndex;;
             (NSUInteger) [[NSUserDefaults standardUserDefaults] integerForKey:FIRST_UNSOLVED_CHALLENGE_INDEX_KEY]);
 
         #ifdef DEBUG_ALL_ACCESS
-        _firstUnsolvedChallenge = 9999;
+        _firstUnsolvedChallengeIndex = 70;
         #endif
     }
 
