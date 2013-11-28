@@ -76,7 +76,9 @@
 
 - (FFTile *)tileAtX:(NSUInteger)x andY:(NSUInteger)y {
     NSUInteger index = (y*self.BoardSize + x);
-    if (index >= self.tiles.count) return nil;
+    if (index >= self.tiles.count){
+        return nil;
+    }
     return [self.tiles objectAtIndex:index];
 }
 

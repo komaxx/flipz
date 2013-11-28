@@ -10,6 +10,14 @@
 @interface FFStorageUtil : NSObject
 
 + (NSUInteger) firstUnsolvedChallengeIndex;
+
 + (void) setFirstUnsolvedChallengeIndex:(NSUInteger)nuIndex;
 
++ (NSUInteger)getTimesPlayedForChallengeLevel:(NSUInteger)level;
+
++ (void)setTimesPlayed:(NSUInteger)timesPlayed forChallengeLevel:(NSUInteger)level;
+
++ (NSUInteger)getTimesWonForChallengeLevel:(NSUInteger)value;
+
++ (void)setTimesWon:(NSUInteger)timesWon forChallengeLevel:(NSUInteger)level;
 @end

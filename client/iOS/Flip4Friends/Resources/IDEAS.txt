@@ -4,13 +4,14 @@
 
 * [other game]: Take 4. The user is must flip exactly 4 tiles in an area of 3x3 until everything is white.
 
-* Auto-reset after a set amount of moves ->
+* Obfuscate tile state: Only shown as black/white but may actually have to be turned more than once.
 
 * Assign challenge stars based on
     + time
     + turns over par/minimum
 
 * -> "Lights out", simple playable patterns, fields trigger moves
+
 
 Compute difficulty:
 * How many obviously valid moves are available (less == easier)

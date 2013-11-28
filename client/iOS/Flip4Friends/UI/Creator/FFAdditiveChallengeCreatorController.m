@@ -301,7 +301,7 @@
 - (IBAction)analyzeTapped:(id)sender {
     FFGame* game = [self makeCurrentGame];
     FFAutoSolver *solver = [[FFAutoSolver alloc] initWithGame:game];
-    [solver solveAsynchronously];
+    [solver solveAsynchronouslyAndAbortWhenFirstFound:NO];
 }
 
 - (IBAction)printTapped:(id)sender {

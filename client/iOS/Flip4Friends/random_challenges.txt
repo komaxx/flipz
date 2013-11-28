@@ -11,7 +11,8 @@
             { "coords":5, "rotating":true, "max_square_size":3 },
             { "coords":4, "rotating":true, "max_square_size":3 },
             { "coords":3, "rotating":false, "max_square_size":2 }
-        ]
+        ],
+        "maxmoves":5
     },{
         "boardsize":6,
         "lockmoves":0,
@@ -24,7 +25,8 @@
             { "coords":5, "rotating":true, "max_square_size":3 },
             { "coords":5, "rotating":true, "max_square_size":3 },
             { "coords":3, "rotating":false, "max_square_size":2 }
-        ]
+        ],
+        "maxmoves":8
     },{
         "boardsize":7,
         "lockmoves":0,
@@ -38,7 +40,8 @@
             { "coords":5, "rotating":true, "max_square_size":3 },
             { "coords":5, "rotating":true, "max_square_size":3 },
             { "coords":4, "rotating":true, "max_square_size":3 },
-        ]
+        ],
+        "maxmoves":8
     },{
         "boardsize":6,
         "lockmoves":1,
@@ -53,7 +56,8 @@
             { "coords":7, "rotating":false, "max_square_size":3 },
             { "coords":7, "rotating":false, "max_square_size":3 },
             { "coords":7, "rotating":false, "max_square_size":3 }
-        ]
+        ],
+        "maxmoves":12
     },{
         "boardsize":8,
         "lockmoves":0,
@@ -67,18 +71,20 @@
             { "coords":7, "rotating":true, "max_square_size":3 },
             { "coords":4, "rotating":true, "max_square_size":3 },
             { "coords":3, "rotating":true, "max_square_size":3 }
-        ]
+        ],
+        "maxmoves":12
     },{
-            "boardsize":6,
-            "lockmoves":1,
-            "boardtype":0,
-            "overlap":true,
-            "patterns":[
-                { "coords":6, "rotating":true, "max_square_size":3 },
-                { "coords":5, "rotating":false, "max_square_size":3 },
-                { "coords":4, "rotating":true, "max_square_size":3 },
-                { "coords":4, "rotating":false, "max_square_size":3 },
-                { "coords":3, "rotating":false, "max_square_size":2 }
-            ]
-        }
+        "boardsize":6,
+        "lockmoves":1,
+        "boardtype":0,
+        "overlap":true,
+        "patterns":[
+            { "coords":6, "rotating":true, "max_square_size":3 },
+            { "coords":5, "rotating":false, "max_square_size":3 },
+            { "coords":4, "rotating":true, "max_square_size":3 },
+            { "coords":4, "rotating":false, "max_square_size":3 },
+            { "coords":3, "rotating":false, "max_square_size":2 }
+        ],
+        "maxmoves":10
+    }
 ]

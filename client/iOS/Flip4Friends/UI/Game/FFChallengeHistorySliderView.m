@@ -11,7 +11,6 @@
 #import "FFGame.h"
 #import "FFGamesCore.h"
 #import "FFHistoryStep.h"
-#import "UIColor+FFColors.h"
 #import "FFToast.h"
 
 #define INTER_STEP_MARGIN 42.0

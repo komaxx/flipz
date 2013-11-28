@@ -165,7 +165,7 @@
     } else {
         self.scrollView.contentSize = CGSizeMake(0, y + PATTERN_VIEW_SIZE);
     }
-
+    self.scrollView.contentOffset = CGPointMake(0, 0);
 
     _needsScrolling = self.scrollView.contentSize.height > CGRectGetHeight(self.scrollView.bounds);
 }

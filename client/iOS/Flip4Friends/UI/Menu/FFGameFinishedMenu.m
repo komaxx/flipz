@@ -10,6 +10,7 @@
 #import "FFButton.h"
 #import "FFMenuViewController.h"
 #import "FFGamesCore.h"
+#import "FFStorageUtil.h"
 
 @interface FFGameFinishedMenu ()
 @property (weak, nonatomic) FFButton* nextRepeatButton;
@@ -49,17 +50,24 @@
         NSString *nuTitle = nil;
         NSString *nuMessage = nil;
         if (game.Type == kFFGameTypeSingleChallenge){
-            nuTitle = NSLocalizedString(@"finished_title_success", nil);
             self.transform = CGAffineTransformMakeRotation(0);
 
-            if ([self gameIsRandomChallenge:game]){
-                nuMessage = NSLocalizedString(@"finished_message_challenge_complete", nil);
+            if ([game isRandomChallenge]){
                 [self.nextRepeatButton setTitle:NSLocalizedString(@"btn_another", nil) forState:UIControlStateNormal];
                 self.nextRepeatButtonAction = @selector(anotherRandomChallenge);
 
-            } else {        // game is manual challenge
-
-                nuMessage = NSLocalizedString(@"finished_message_challenge_complete", nil);
+                if (game.gameState == kFFGameState_Won){
+                    nuTitle = NSLocalizedString(@"finished_title_success", nil);
+                    nuMessage = [NSString stringWithFormat:NSLocalizedString(@"finished_message_challenge_success", nil),
+                                   [self challengesWonSimilarTo:game], [self challengesPlayedSimilarTo:game]];
+                } else {        // the game was lost
+                    nuTitle = NSLocalizedString(@"finished_title_failed", nil);
+                    nuMessage = [NSString stringWithFormat:NSLocalizedString(@"finished_message_challenge_failed", nil),
+                                   [self challengesWonSimilarTo:game], [self challengesPlayedSimilarTo:game]];
+                }
+            } else {        // it's a manual puzzle
+                nuTitle = NSLocalizedString(@"finished_title_success", nil);
+                nuMessage = NSLocalizedString(@"finished_message_puzzle_success", nil);
                 [self.nextRepeatButton setTitle:NSLocalizedString(@"btn_next", nil) forState:UIControlStateNormal];
                 self.nextRepeatButtonAction = @selector(proceedToNextChallenge);
             }
@@ -86,7 +94,12 @@
     self.hidden = nowHidden;
 }
 
-- (BOOL)gameIsRandomChallenge:(FFGame*)game {
-    return [[FFGamesCore instance] indexForChallenge:game] < 0;
+- (int)challengesPlayedSimilarTo:(FFGame *)game {
+    return [FFStorageUtil getTimesPlayedForChallengeLevel:[[game challengeIndex] unsignedIntegerValue]];
 }
+
+- (int)challengesWonSimilarTo:(FFGame *)game {
+    return [FFStorageUtil getTimesWonForChallengeLevel:[[game challengeIndex] unsignedIntegerValue]];
+}
+
 @end

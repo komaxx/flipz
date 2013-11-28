@@ -44,7 +44,6 @@
         [self addSubview:highView];
         self.activeOverlayView = highView;
 
-
         [self setViewState:kFFPatternViewStateAlreadyPlayed];
         [self setViewState:kFFPatternViewStateNormal];
     }

@@ -165,7 +165,7 @@
 
 
 - (int)differingOrientations {
-    if (self.orientations == 0){
+    if (self.orientations == 0){        // == not yet computed
         if (!self.rotating){
             self.orientations = 1;
         } else {

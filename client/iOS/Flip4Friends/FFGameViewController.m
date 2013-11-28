@@ -10,6 +10,7 @@
 #import "FFToast.h"
 #import "FFTutorial.h"
 #import "FFScoreRowsView.h"
+#import "FFRestMovesView.h"
 
 @interface FFGameViewController ()
 
@@ -19,9 +20,11 @@
 @property (weak, nonatomic) FFMoveViewControl* moveViewControl;
 @property (weak, nonatomic) FFScoreRowsView *scoreRowsView;
 
-
 @property (strong, nonatomic) FFPatternsViewControl* player1PatternsControl;
 @property (strong, nonatomic) FFPatternsViewControl* player2PatternsControl;
+
+@property (weak, nonatomic) UIView *challengeFooter;
+@property (weak, nonatomic) FFRestMovesView *restMovesView;
 
 @property (weak, nonatomic) FFTutorial *tutorial;
 @property (weak, nonatomic) FFToast *failToast;
@@ -54,6 +57,9 @@
         self.scoreRowsView.boardView = self.boardView;
 
         self.tutorial = (FFTutorial *) [self viewWithTag:212];
+
+        self.challengeFooter = [self viewWithTag:222];
+        self.restMovesView = (FFRestMovesView *) [self viewWithTag:223];
     }
 
     return self;
@@ -65,6 +71,7 @@
     [self.player2PatternsControl didAppear];
     [self.moveViewControl didAppear];
     [self.scoreRowsView didAppear];
+    [self.restMovesView didAppear];
 
     [self updateBoardAndDrawerPosition];
 
@@ -84,6 +91,7 @@
     }
     [self showFailToastIfNecessaryForGame:game];
 }
+
 
 - (void)updateBoardAndDrawerPosition {
     FFGame *game = [[FFGamesCore instance] gameWithId:[self.delegate activeGameId ]];
@@ -131,6 +139,8 @@
     FFGame *game = [[FFGamesCore instance] gameWithId:gameID];
     [self.boardView setActiveGame:game];
     [self.scoreRowsView setActiveGame:game];
+    [self.restMovesView setActiveGame:game];
+
     [self.failToast disappear];
     self.failToast = nil;
 
@@ -149,6 +159,8 @@
     self.player2PatternsControl.activeGameId = gameID;
 
     [self.tutorial showForChallenge:game];
+
+    self.challengeFooter.hidden = game.Type!=kFFGameTypeSingleChallenge || game.maxChallengeMoves < 1;
 
     [self updateBoardAndDrawerPosition];
 }
@@ -177,6 +189,7 @@
     [self.player2PatternsControl didDisappear];
     [self.moveViewControl didDisappear];
     [self.scoreRowsView didDisappear];
+    [self.restMovesView didDisappear];
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }

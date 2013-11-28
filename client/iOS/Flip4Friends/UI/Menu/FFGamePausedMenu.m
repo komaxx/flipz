@@ -10,21 +10,26 @@
 #import "FFButton.h"
 #import "FFGamesCore.h"
 
+@interface FFGamePausedMenu ()
+@property (weak, nonatomic) FFButton *menuButton;
+@property (weak, nonatomic) FFButton *resumeButton;
+@end
 
-@implementation FFGamePausedMenu {
 
-}
+@implementation FFGamePausedMenu
+
+
 @synthesize delegate = _delegate;
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
 
-        FFButton *menuButton = (FFButton *) [self viewWithTag:701];
-        [menuButton addTarget:self action:@selector(menuTapped:) forControlEvents:UIControlEventTouchUpInside];
+        self.menuButton = (FFButton *) [self viewWithTag:701];
+        [self.menuButton addTarget:self action:@selector(menuTapped:) forControlEvents:UIControlEventTouchUpInside];
 
-        FFButton *resumeButton = (FFButton *) [self viewWithTag:702];
-        [resumeButton addTarget:self action:@selector(resumeTapped:) forControlEvents:UIControlEventTouchUpInside];
+        self.resumeButton = (FFButton *) [self viewWithTag:702];
+        [self.resumeButton addTarget:self action:@selector(resumeTapped:) forControlEvents:UIControlEventTouchUpInside];
     }
 
     return self;
@@ -51,6 +56,12 @@
             self.transform = CGAffineTransformMakeRotation((CGFloat) M_PI / -2.0);
         } else {
             self.transform = CGAffineTransformIdentity;
+        }
+
+        if ([game isRandomChallenge]){
+            [self.menuButton setTitle:NSLocalizedString(@"btn_give_up", nil) forState:UIControlStateNormal];
+        } else {
+            [self.menuButton setTitle:NSLocalizedString(@"btn_menu", nil) forState:UIControlStateNormal];
         }
     }
 

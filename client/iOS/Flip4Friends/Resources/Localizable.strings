@@ -1,12 +1,16 @@
 /****************************************************************************/
 /* Localization file */
 
-
 "finished_title_success" = "SUCCESS";
-"finished_message_challenge_complete" = "You figured it out!";
+"finished_message_puzzle_success" = "You figured it out!";
+"finished_message_challenge_success" = "You figured it out!\nYour success rate so far:\n%i / %i";
+
+"finished_title_failed" = "FAILURE";
+"finished_message_challenge_failed" = "Sorry, you ran out of moves.\nYour success rate so far:\n%i / %i";
 
 "finished_title_congratulations" = "YOU WON";
 "finished_message_you_won" = "Congratulations!\n\nFinal Score: %i / %i";
+
 "challenge_not_yet_unlocked" = "Not yet unlocked.\nSolve the previous challenges first!";
 "this_pattern_was_already_played" = "This pattern was already played!";
 "you_failed_go_back_by_history" = "FAILED\nTap on the history on the right to try something different!";
@@ -22,5 +26,8 @@
 "btn_rematch" = "REMATCH";
 "btn_next" = "NEXT";
 "btn_another" = "ANOTHER";
+"btn_give_up" = "GIVE UP";
+"btn_menu" = "MENU";
+
 "hot_seat_start_explanation" = "Play against a friend!\nPoints are given for straight lines of tiles with a player's color. The longer, the more points!";
 "hot_seat_explanation_toast" = "You play WHITE\nDouble-tap to confirm a move.";

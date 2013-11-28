@@ -8,8 +8,8 @@
 #import "FFBoard.h"
 #import "FFGame.h"
 #import "FFPattern.h"
-#import "FFAutoSolver.h"
 #import "FFUtil.h"
+#import "FFChallengeLoader.h"
 
 
 @implementation FFChallengeGenerator {
@@ -54,6 +54,7 @@ static NSUInteger creationId;
     board.BoardType = boardType;
 
     NSArray *patternDefs = [def objectForKey:@"patterns"];
+    NSUInteger maxMoves = (NSUInteger) CLAMP( [[def objectForKey:@"maxmoves"] intValue], patternDefs.count, 99);
     NSMutableArray *patterns = [[NSMutableArray alloc] initWithCapacity:patternDefs.count];
     BOOL solutionFound = YES;
     for (NSDictionary *patternDef in patternDefs) {
@@ -94,6 +95,11 @@ static NSUInteger creationId;
     FFGame *generatedChallenge = [[FFGame alloc] initGeneratedChallengeWithId:id
                                                                      andBoard:board
                                                                   andPatterns:patterns];
+    generatedChallenge.challengeIndex = @(level);
+    generatedChallenge.maxChallengeMoves = maxMoves;
+
+    NSString *json = [FFChallengeLoader encodeGameAsJson:generatedChallenge];
+    NSLog(@"%@", json);
 
     return generatedChallenge;
 }
@@ -113,9 +119,6 @@ static NSUInteger creationId;
     if (!foundValidTarget){
         // now, a more ordered approach: Find by cycling through the possible fields
         for (int o = 0; o < [pattern differingOrientations] && !foundValidTarget; o++){
-//        FFOrientation o = kFFOrientation_0_degrees;
-
-
             int maxX = board.BoardSize - (o%2==0 ? pattern.SizeX : pattern.SizeY);
             int maxY = board.BoardSize - (o%2==0 ? pattern.SizeY : pattern.SizeX) ;
 
@@ -164,11 +167,12 @@ static NSUInteger creationId;
 
 - (FFMove *)makeRandomMoveWithPattern:(FFPattern *)pattern onBoard:(FFBoard *)board {
     FFOrientation orientation = (FFOrientation) (arc4random() % pattern.differingOrientations);
-    int maxX = board.BoardSize - orientation%2==0 ? pattern.SizeX : pattern.SizeY;
-    int maxY = board.BoardSize - orientation%2==0 ? pattern.SizeY : pattern.SizeX;
+    int maxX = board.BoardSize - ((orientation%2)==0 ? pattern.SizeX : pattern.SizeY);
+    int maxY = board.BoardSize - ((orientation%2)==0 ? pattern.SizeY : pattern.SizeX);
+
     return [[FFMove alloc] initWithPattern:pattern
-                                        atPosition:[[FFCoord alloc] initWithX:(ushort) (arc4random() % (maxX+1))
-                                                                         andY:(ushort) (arc4random() % (maxY+1))]
+                                        atPosition:[[FFCoord alloc] initWithX:(ushort) (arc4random() % (maxX+0))
+                                                                         andY:(ushort) (arc4random() % (maxY+0))]
                                     andOrientation:orientation];
 }
 

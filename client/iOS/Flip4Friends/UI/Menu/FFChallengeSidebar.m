@@ -51,7 +51,8 @@
 - (void)solveTapped {
     FFAutoSolver *solver = [[FFAutoSolver alloc] initWithGameId:[self.delegate.delegate activeGameId]];
     solver.visualize = NO;
-    [solver solveAsynchronously];
+    solver.toastResult = YES;
+    [solver solveAsynchronouslyAndAbortWhenFirstFound:YES];
 }
 
 - (void)pauseTapped {

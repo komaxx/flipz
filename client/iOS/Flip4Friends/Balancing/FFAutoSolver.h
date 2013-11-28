@@ -15,18 +15,15 @@
 @interface FFAutoSolver : NSObject
 
 @property (nonatomic) BOOL visualize;
+@property (atomic) BOOL toastResult;
 
 - (id)initWithGameId:(NSString *)gameId;
 
 - (id)initWithGame:(FFGame *)game;
 
-/**
-* Tries to solve the challenge *from the current state*!
-*/
-- (void)solveAsynchronously;
+- (void)solveAsynchronouslyAndAbortWhenFirstFound:(BOOL)abortWhenFirstFound;
 
-- (void)solveSynchronously;
-
+- (void)solveSynchronouslyAndAbortWhenFirstFound:(BOOL)abortWhenFirstFound;
 
 - (int) findValidPositionsForPattern:(FFPattern *)pattern onBoard:(FFBoard *)board;
 @end

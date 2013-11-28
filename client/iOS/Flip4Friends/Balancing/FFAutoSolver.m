@@ -7,14 +7,20 @@
 #import "FFAutoSolver.h"
 #import "FFGamesCore.h"
 #import "FFPattern.h"
+#import "FFToast.h"
 
 // ///////////////////////////////////////
 // simple little helper class
+
 @interface FFMoveWithPossibilities : NSObject
+
 @property (strong) FFMove* move;
 @property NSUInteger alternatives;
+
 - (id)initWithMove:(FFMove *)move andAlternatives:(NSUInteger)alternatives;
+
 @end
+
 @implementation FFMoveWithPossibilities
 - (id)initWithMove:(FFMove *)m andAlternatives:(NSUInteger)alts {
     self = [super init];
@@ -57,8 +63,7 @@
     return self;
 }
 
-
-- (void)solveAsynchronously {
+- (void)solveAsynchronouslyAndAbortWhenFirstFound:(BOOL)abortWhenFirstFound {
     FFGame *game = self.setGame;
 
     NSMutableArray *restPatterns = [[NSMutableArray alloc] initWithCapacity:game.player1.playablePatterns.count];
@@ -67,10 +72,11 @@
         [restPatterns addObject:pattern];
     }
 
-    [self performSelectorInBackground:@selector(solve:) withObject:@[restPatterns, game.Board]];
+    [self performSelectorInBackground:@selector(solve:)
+                           withObject:@[restPatterns, game.Board, @(abortWhenFirstFound)]];
 }
 
-- (void)solveSynchronously {
+- (void)solveSynchronouslyAndAbortWhenFirstFound:(BOOL)abortWhenFirstFound {
     FFGame *game = self.setGame;
 
     NSMutableArray *restPatterns = [[NSMutableArray alloc] initWithCapacity:game.player1.playablePatterns.count];
@@ -79,35 +85,41 @@
         [restPatterns addObject:pattern];
     }
 
-    [self solve:@[restPatterns, game.Board]];
+    [self solve:@[restPatterns, game.Board, @(abortWhenFirstFound)]];
 }
 
 
-- (void)solve:(NSArray*)data {
+- (BOOL)solve:(NSArray*)data {
+    BOOL ret;
     if (self.setGame.Board.lockMoves < 1){
-        [self solveWithoutOrderWithData:data];
+        ret = [self solveWithoutOrderWithData:data];
     } else {
-        [self solveWithOrderAndData:data];
+        ret = [self solveWithOrderAndData:data];
     }
+
+    if (self.toastResult){
+        [self performSelectorOnMainThread:@selector(showResultToast) withObject:nil waitUntilDone:NO];
+    }
+
+    return ret;
+}
+
+- (void)showResultToast {
+    [[FFToast make:[NSString stringWithFormat:@"Solution found: %@", self.foundSolutions.count > 0 ? @"YES" : @"NO"]] show];
 }
 
 // ////////////////////////////////////////////////////////////////////////////
 // solving without order -> cheaper
 
-- (void)solveWithoutOrderWithData:(NSArray *)patternsAndBoard {
+- (BOOL) solveWithoutOrderWithData:(NSArray *)patternsAndBoard {
     NSUInteger patternsCount = ((NSArray *)[patternsAndBoard objectAtIndex:0]).count;
 
-    NSUInteger possibilities = 1;
-    for (int i = patternsCount-1; i >= 0; i--){
-        possibilities *=
-                [self possiblePositionsForPattern:[((NSArray *) [patternsAndBoard objectAtIndex:0]) objectAtIndex:(NSUInteger)i]
-                                            onBoard:[patternsAndBoard objectAtIndex:1]];
-    }
-
     _recursions = 0;
-    [self solveUnorderedWithRestPatterns:[patternsAndBoard objectAtIndex:0]
+    BOOL solved = [self solveUnorderedWithRestPatterns:[patternsAndBoard objectAtIndex:0]
                               andBoard:[patternsAndBoard objectAtIndex:1]
-                      andPreviousMoves:[[NSMutableArray alloc] initWithCapacity:patternsCount]];
+                      andPreviousMoves:[[NSMutableArray alloc] initWithCapacity:patternsCount]
+                    andAbortWhenSolved:[[patternsAndBoard objectAtIndex:2] boolValue]];
+
     NSLog(@" -- done, %i solutions for unordered case", self.foundSolutions.count);
 
     // now, let's take a look at the results:
@@ -116,6 +128,8 @@
     NSLog(@" -- ... reduced to %i", self.foundSolutions.count);
 
     [self findEasiestUnorderedSolutionOnBoard:[patternsAndBoard objectAtIndex:1]];
+
+    return solved;
 }
 
 - (void)findEasiestUnorderedSolutionOnBoard:(FFBoard*)board {
@@ -241,24 +255,27 @@
     return YES;
 }
 
-- (void)solveUnorderedWithRestPatterns:(NSArray *)patterns andBoard:(FFBoard*)board andPreviousMoves:(NSMutableArray *)moves {
+- (BOOL)solveUnorderedWithRestPatterns:(NSArray *)patterns
+                              andBoard:(FFBoard*)board
+                      andPreviousMoves:(NSMutableArray *)moves
+                    andAbortWhenSolved:(BOOL)abortAfterFirstSolution {
     _recursions++;
 
     if ([board isInTargetState]){
-//        NSLog(@"SOLVED!");
         [self.foundSolutions addObject:[[NSMutableArray alloc] initWithArray:moves]];
-        return;
+        return YES;
     }
 
     if (patterns.count < 1){
-//        NSLog(@"DONE but not solved.");
-        return;
+        return NO;
     }
 
     NSMutableArray *nextLevelPatterns = [[NSMutableArray alloc] initWithArray:patterns];
     FFPattern *myPattern = [nextLevelPatterns objectAtIndex:0];
     [nextLevelPatterns removeObject:myPattern];
     FFBoard *nextLevelBoard = [[FFBoard alloc] initWithBoard:board];
+
+    BOOL solved = NO;
 
     for (int orientation = 0; orientation < [myPattern differingOrientations]; orientation++){
         int xSize = orientation%2==0 ? myPattern.SizeX : myPattern.SizeY;
@@ -300,33 +317,33 @@
                 } // else: nothing to see
 
                 [moves addObject:tstMove];
-                [self solveUnorderedWithRestPatterns:nextLevelPatterns andBoard:nextLevelBoard andPreviousMoves:moves];
+                solved |= [self solveUnorderedWithRestPatterns:nextLevelPatterns
+                                                         andBoard:nextLevelBoard
+                                                 andPreviousMoves:moves
+                                               andAbortWhenSolved:abortAfterFirstSolution];
+
+                if (abortAfterFirstSolution && solved){
+                    return YES;
+                }
+
                 [moves removeObject:tstMove];
             }}
         }
     }
+    return solved;
 }
 
 // ////////////////////////////////////////////////////////////////////////////
 // solving with order (more costly)
 
-- (void)solveWithOrderAndData:(NSArray *)data {
+- (BOOL) solveWithOrderAndData:(NSArray *)data {
     NSUInteger patternsCount = ((NSArray *)[data objectAtIndex:0]).count;
 
-//    NSUInteger possibilities = 1;
-//    for (int i = patternsCount; i > 0; i--){
-//        possibilities = possibilities
-//                * i
-//                * [self possiblePositionsForPattern:[((NSArray *) [data objectAtIndex:0]) objectAtIndex:(NSUInteger) (i - 1)]
-//                                            onBoard:[data objectAtIndex:1]];
-//    }
-//
-//    NSLog(@"Starting. %i possibilities", possibilities);
-
     _recursions = 0;
-    [self solveOrderedWithRestPatterns:[data objectAtIndex:0]
+    BOOL solved = [self solveOrderedWithRestPatterns:[data objectAtIndex:0]
                               andBoard:[data objectAtIndex:1]
-                      andPreviousMoves:[[NSMutableArray alloc] initWithCapacity:patternsCount]];
+                      andPreviousMoves:[[NSMutableArray alloc] initWithCapacity:patternsCount]
+                    andAbortWhenSolved:[[data objectAtIndex:2] boolValue]];
     NSLog(@" -- done, %i solutions, checked %i recursions -- ", self.foundSolutions.count,  _recursions);
 
     // now, let's take a look at the results:
@@ -335,6 +352,8 @@
     NSLog(@" -- ... reduced to %i", self.foundSolutions.count);
 
     [self findEasiestOrderedSolutionOnBoard:[data objectAtIndex:1]];
+
+    return solved;
 }
 
 - (void)findEasiestOrderedSolutionOnBoard:(FFBoard*)board {
@@ -367,24 +386,25 @@
     return ret;
 }
 
-- (void)solveOrderedWithRestPatterns:(NSMutableArray *)patterns
+- (BOOL)solveOrderedWithRestPatterns:(NSMutableArray *)patterns
                             andBoard:(FFBoard *)board
-                    andPreviousMoves:(NSMutableArray *)moves {
+                    andPreviousMoves:(NSMutableArray *)moves
+                  andAbortWhenSolved:(BOOL)abortAfterFirstSolution{
     _recursions++;
 
     if ([board isInTargetState]){
-//        NSLog(@"SOLVED!");
         [self.foundSolutions addObject:[[NSMutableArray alloc] initWithArray:moves]];
-        return;
+        return YES;
     }
 
     if (patterns.count < 1){
-//        NSLog(@"DONE but not solved.");
-        return;
+        return NO;
     }
 
     NSMutableArray *nextLevelPatterns = [[NSMutableArray alloc] initWithArray:patterns];
     FFBoard *nextLevelBoard = [[FFBoard alloc] initWithBoard:board];
+
+    BOOL solved = NO;
 
     for (FFPattern *pattern in patterns) {
         [nextLevelPatterns removeObject:pattern];
@@ -429,7 +449,15 @@
                     } // else: nothing to see
 
                     [moves addObject:tstMove];
-                    [self solveOrderedWithRestPatterns:nextLevelPatterns andBoard:nextLevelBoard andPreviousMoves:moves];
+                    solved |= [self solveOrderedWithRestPatterns:nextLevelPatterns
+                                                        andBoard:nextLevelBoard
+                                                andPreviousMoves:moves
+                                              andAbortWhenSolved:abortAfterFirstSolution];
+
+                    if (abortAfterFirstSolution && solved){
+                        return YES;
+                    }
+
                     [moves removeObject:tstMove];
                 }}
             }
@@ -437,6 +465,8 @@
 
         [nextLevelPatterns addObject:pattern];
     }
+
+    return solved;
 }
 
 - (BOOL)checkWhetherSensibleMove:(NSArray *)flippedCoords

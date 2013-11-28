@@ -16,8 +16,8 @@
 
 @property (copy, nonatomic, readwrite) NSString *activeGameId;
 
-
 @end
+
 
 @implementation FFViewController
 

@@ -25,7 +25,6 @@
 // ////////////////////////////////////////////////////////////////////////
 // StartUp
 
-
 - (id)init {
     self = [super init];
     if (self) {
@@ -46,13 +45,8 @@
 }
 
 - (NSInteger)indexForChallenge:(FFGame *)game {
-    // Ugly, but works
-    int l = [self challengesCount];
-    for (int i = 0; i < l; i++){
-        FFGame* challenge = [self.challengeByNumber objectForKey:[NSNumber numberWithInt:i]];
-        if (challenge && [challenge.Id isEqualToString:game.Id]) return i;
-    }
-    return -1;
+    if (!game.challengeIndex) return -1;
+    return [game.challengeIndex intValue];
 }
 
 - (NSUInteger)challengesCount {

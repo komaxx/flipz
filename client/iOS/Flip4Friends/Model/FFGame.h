@@ -66,16 +66,28 @@ typedef enum {
 */
 @property (nonatomic, strong, readonly) FFPlayer *player2;
 
-
 /**
-* When YES, a tile will only be painted black or white, even if it needs
-* to be turned more than once.
+* All previous states of the game. The last state of the game is simply
+* the last element of this stack.
 */
-@property (nonatomic) BOOL ruleObfuscateTileState;
-
 @property (nonatomic, strong, readonly) NSArray *history;
 
+/**
+* When the current state of the game is called, it's always in respect
+* to this value. If it's 0 calls to Board&co deliver the latest state.
+*/
 @property(nonatomic, readonly) NSUInteger currentHistoryBackSteps;
+
+/**
+* Only used for challenges (randomly created levels). A game is to be considered
+* lost when 'currentChallengeMoves' is >= maxChallengeMoves
+*/
+@property(nonatomic) int maxChallengeMoves;
+
+/**
+* Only set for challenges (not puzzles, hot seat games, ...)
+*/
+@property (strong, nonatomic) NSNumber *challengeIndex;
 
 
 - (id)initWithId:(NSString *)id Type:(NSString * const)type andBoardSize:(NSInteger)size;
@@ -124,8 +136,11 @@ typedef enum {
 
 - (BOOL)moveWouldWinChallenge:(FFMove *)move byPlayer:(FFPlayer *)player;
 
+- (BOOL)isRandomChallenge;
+
 - (BOOL)stillSolvable;
 
 - (NSUInteger)scoreForColor:(int)color;
 
+- (int)challengeMovesPlayed;
 @end

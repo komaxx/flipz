@@ -45,7 +45,7 @@
 
 - (void)startHotSeatGame;
 
-- (void)activateChallengeAtIndex:(NSUInteger)i;
+- (void)activatePuzzleAtIndex:(NSUInteger)i;
 
 - (void)activateRandomChallengeAtIndex:(NSUInteger)i;
 

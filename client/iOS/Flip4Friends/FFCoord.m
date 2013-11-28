@@ -32,4 +32,9 @@
 - (id)copyTranslatedBy:(FFCoord *)t {
     return [[FFCoord alloc] initWithX:(self.x+t.x) andY:(self.y+t.y)];
 }
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%i,%i>", self.x, self.y];
+}
+
 @end

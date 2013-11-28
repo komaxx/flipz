@@ -102,7 +102,7 @@
         } else {
             FFGame *game = [[FFGamesCore instance] challenge:(NSUInteger) index];
             [game clean];
-            [self.delegate activateChallengeAtIndex:(NSUInteger)index];
+            [self.delegate activatePuzzleAtIndex:(NSUInteger) index];
         }
     }
 

@@ -52,7 +52,7 @@
 
         FFGame* game = [[FFGamesCore instance] challenge:i];
         FFAutoSolver *solver = [[FFAutoSolver alloc] initWithGame:game];
-        [solver solveSynchronously];
+        [solver solveSynchronouslyAndAbortWhenFirstFound:NO];
 
         NSLog(@" //////////// %i ////////////", i);
     }

@@ -1,23 +1,25 @@
 Sorted by priority:
 
 MUST
-* Game finished menu: Random game
+* Split main menu to "Puzzles" and "Challenges"
 * Unlock random games
+* Random game: Fail when no possible move left and no undo left
 * some more levels
 
 CAN
-* fine-tune auto-generated levels
-* Triggered moves!
+* fine-tune auto-generated levels: 1,2,3: ok
 * Modify history icon for returned to step
 * Hint
 * Won/lost sounds
 * quick rotation gesture (flick on ring, two finger flick)
+* Random game: Time!
+* Triggered moves!
 * some more levels
 
 
-
-
 DONE
+* Game finished menu: Random game
+* Game pause menu: Random game
 * HotSeat menu
 * View: Who's winning in HotSeat
 * flip sound
