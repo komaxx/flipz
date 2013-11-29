@@ -1,9 +1,8 @@
 Sorted by priority:
 
 MUST
-* Split main menu to "Puzzles" and "Challenges"
-* Unlock random games
-* Random game: Fail when no possible move left and no undo left
+* InAapp purchase: Lock random games and puzzles from level 15
+* Chrashlytics
 * some more levels
 
 CAN
@@ -18,6 +17,10 @@ CAN
 
 
 DONE
+* Challenge list entry
+* Unlock random games
+* Random game: Fail when no possible move left and no undo left
+* Split main menu to "Puzzles" and "Challenges"
 * Game finished menu: Random game
 * Game pause menu: Random game
 * HotSeat menu

@@ -134,7 +134,10 @@
 - (BOOL)buildGameByFlippingCoords:(NSArray *)coords {
     for (FFCoord* c in coords) {
         FFTile *tile = [self tileAtX:c.x andY:c.y];
-        if (!tile) return NO;
+        if (!tile){
+            NSLog(@"Shafuq");
+            return NO;
+        }
         if (tile.unlockTime > self.moveIndex) continue;
 
         if (self.BoardType == kFFBoardType_twoStated){

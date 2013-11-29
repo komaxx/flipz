@@ -23,11 +23,11 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         [(UIButton *)[self viewWithTag:11]
-                addTarget:self action:@selector(buttonChallengeTapped) forControlEvents:UIControlEventTouchUpInside];
+                addTarget:self action:@selector(buttonSelectPuzzleTapped) forControlEvents:UIControlEventTouchUpInside];
         [(UIButton *)[self viewWithTag:12]
-                addTarget:self action:@selector(buttonHotSeatTapped) forControlEvents:UIControlEventTouchUpInside];
+                addTarget:self action:@selector(buttonSelectChallengeTapped) forControlEvents:UIControlEventTouchUpInside];
         [(UIButton *)[self viewWithTag:13]
-                addTarget:self action:@selector(buttonTestRunTapped) forControlEvents:UIControlEventTouchUpInside];
+                addTarget:self action:@selector(buttonHotSeatTapped) forControlEvents:UIControlEventTouchUpInside];
 
         self.autoPlayer = [[NSMutableDictionary alloc] initWithCapacity:1000];
         _hiding = self.hidden;
@@ -36,9 +36,42 @@
     return self;
 }
 
-- (void)buttonGenerate {
-    // nothing. Doesn't have to do anything.
+- (void)buttonSelectChallengeTapped {
+    [self.delegate chooseRandomChallengeSelected];
 }
+
+- (void)buttonSelectPuzzleTapped {
+    [self.delegate choosePuzzleSelected];
+}
+
+- (void)buttonHotSeatTapped {
+    [self.delegate hotSeatTapped];
+}
+
+- (void)hide:(BOOL)hide {
+    if (hide == _hiding) return;
+
+    CGPoint center = self.center;
+    if (hide){
+        [UIView animateWithDuration:0.2 animations:^{
+            self.center = CGPointMake(-160, center.y);
+        } completion:^(BOOL finished) {
+            if (finished) self.hidden = YES;
+        }];
+    } else {
+        self.hidden = NO;
+        [UIView animateWithDuration:0.2 animations:^{
+            self.center = CGPointMake(160, center.y);
+        }];
+    }
+
+    _hiding = hide;
+}
+
+
+// //////////////////////////////////////////////////////////////////////////////
+// teesting stuff
+
 
 - (void)buttonTestRunTapped {
 //    [self performSelectorInBackground:@selector(testRun) withObject:nil];
@@ -46,11 +79,11 @@
 }
 
 - (void)solveGames {
-    for (NSUInteger i = 44; i < [[FFGamesCore instance] challengesCount]; i++){
+    for (NSUInteger i = 44; i < [[FFGamesCore instance] puzzlesCount]; i++){
 
         NSLog(@" ------------ %i ------------", i);
 
-        FFGame* game = [[FFGamesCore instance] challenge:i];
+        FFGame* game = [[FFGamesCore instance] puzzle:i];
         FFAutoSolver *solver = [[FFAutoSolver alloc] initWithGame:game];
         [solver solveSynchronouslyAndAbortWhenFirstFound:NO];
 
@@ -111,33 +144,5 @@
 
         if (plays%10 == 0) NSLog(@"Quota: white won %i/%i = %f", whiteWins, plays, (CGFloat)whiteWins/(CGFloat)plays);
     }
-}
-
-- (void)buttonHotSeatTapped {
-    [self.delegate hotSeatTapped];
-}
-
-- (void)buttonChallengeTapped {
-    [self.delegate localChallengeSelected];
-}
-
-- (void)hide:(BOOL)hide {
-    if (hide == _hiding) return;
-
-    CGPoint center = self.center;
-    if (hide){
-        [UIView animateWithDuration:0.2 animations:^{
-            self.center = CGPointMake(-160, center.y);
-        } completion:^(BOOL finished) {
-            if (finished) self.hidden = YES;
-        }];
-    } else {
-        self.hidden = NO;
-        [UIView animateWithDuration:0.2 animations:^{
-            self.center = CGPointMake(160, center.y);
-        }];
-    }
-
-    _hiding = hide;
 }
 @end

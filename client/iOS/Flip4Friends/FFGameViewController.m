@@ -10,7 +10,7 @@
 #import "FFToast.h"
 #import "FFTutorial.h"
 #import "FFScoreRowsView.h"
-#import "FFRestMovesView.h"
+#import "FFRestUndosView.h"
 
 @interface FFGameViewController ()
 
@@ -24,7 +24,7 @@
 @property (strong, nonatomic) FFPatternsViewControl* player2PatternsControl;
 
 @property (weak, nonatomic) UIView *challengeFooter;
-@property (weak, nonatomic) FFRestMovesView *restMovesView;
+@property (weak, nonatomic) FFRestUndosView *restMovesView;
 
 @property (weak, nonatomic) FFTutorial *tutorial;
 @property (weak, nonatomic) FFToast *failToast;
@@ -59,7 +59,7 @@
         self.tutorial = (FFTutorial *) [self viewWithTag:212];
 
         self.challengeFooter = [self viewWithTag:222];
-        self.restMovesView = (FFRestMovesView *) [self viewWithTag:223];
+        self.restMovesView = (FFRestUndosView *) [self viewWithTag:223];
     }
 
     return self;
@@ -160,7 +160,7 @@
 
     [self.tutorial showForChallenge:game];
 
-    self.challengeFooter.hidden = game.Type!=kFFGameTypeSingleChallenge || game.maxChallengeMoves < 1;
+    self.challengeFooter.hidden = ![game isRandomChallenge];
 
     [self updateBoardAndDrawerPosition];
 }
@@ -247,7 +247,11 @@
     FFGame *activeGame = [[FFGamesCore instance] gameWithId:[self.delegate activeGameId]];
 
     FFMove *move = [[FFMove alloc] initWithPattern:pattern atPosition:coord andOrientation:(FFOrientation) direction];
-    [activeGame executeMove:move byPlayer:activeGame.ActivePlayer];
+    int ret = [activeGame executeMove:move byPlayer:activeGame.ActivePlayer];
+
+    if (ret == -5){
+        [[FFToast make:NSLocalizedString(@"no_undos_left", nil)] show];
+    }
 
     [self.moveViewControl moveFinished];
     [self.player1PatternsControl cancelMove];

@@ -4,13 +4,13 @@
 //
 
 
-#import "FFRestMovesView.h"
+#import "FFRestUndosView.h"
 #import "FFGame.h"
 #import "FFGamesCore.h"
 
 #define DOT_SIZE 16
 
-@interface FFRestMovesView ()
+@interface FFRestUndosView ()
 
 @property (nonatomic, copy) NSString *activeGameId;
 @property (nonatomic, strong) NSMutableArray *dots;
@@ -18,7 +18,7 @@
 @end
 
 
-@implementation FFRestMovesView {
+@implementation FFRestUndosView {
     int _stepsLeft;
     int _maxSteps;
 }
@@ -55,8 +55,8 @@
 }
 
 - (void)updateWithGame:(FFGame *)game {
-    int nuMaxSteps = game.maxChallengeMoves;
-    int nuStepsLeft = nuMaxSteps - [game challengeMovesPlayed];
+    int nuMaxSteps = [game.maxUndos intValue];
+    int nuStepsLeft = [game undosLeft];
 
     if (nuMaxSteps!=_maxSteps || nuStepsLeft!=_stepsLeft){
         _maxSteps = MAX(nuMaxSteps, 0);
@@ -91,8 +91,6 @@
 
         nowCenter.x += xStep;
     }
-
-    NSLog(@"repositioned for %i/%i", _stepsLeft, _maxSteps);
 }
 
 - (UIView *)makeDot {
@@ -122,11 +120,16 @@
 }
 
 - (void)removeDot:(UIView *)toRemove {
-    [UIView animateWithDuration:0.3 animations:^{
+    [UIView animateWithDuration:1 animations:^{
         toRemove.alpha = 0;
 
+        ((CAShapeLayer *) [toRemove.layer.sublayers objectAtIndex:0]).strokeColor
+                = [[UIColor redColor] CGColor];
+
+        toRemove.layer.transform = CATransform3DMakeScale(3, 3, 2);
+
         CGPoint point = toRemove.center;
-        point.y = self.bounds.size.height;
+        point.y = 0;
         toRemove.center = point;
     }];
 }

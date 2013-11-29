@@ -34,6 +34,7 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
 
 @implementation FFGame {
     NSInteger _challengeMoves;
+    NSInteger _doneUndos;
 }
 @synthesize Id = _Id;
 @synthesize Type = _Type;
@@ -61,12 +62,13 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
     return self;
 }
 
-- (id)initGeneratedChallengeWithId:(NSString *)id andBoard:(FFBoard *)board andPatterns:(NSMutableArray *)patterns {
+- (id)initGeneratedChallengeWithId:(NSString *)id andBoard:(FFBoard *)board andPatterns:(NSMutableArray *)patterns andMaxUndos:(NSUInteger)undos {
     self = [super init];
     if (self){
         self.Id = id;
         self.Type = kFFGameTypeSingleChallenge;
         self.gameState = kFFGameState_NotYetStarted;
+        self.maxUndos = @(undos);
 
         self.history = [[NSMutableArray alloc] initWithCapacity:10];
 
@@ -140,13 +142,22 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
     return [boardCopy isInTargetState];
 }
 
+/**
+* @return: 0 when everything worked out, and the move was done.
+* -1, -2, -3 : see checkIfValidMove
+* -5: No undo left (only in random challenges)
+*/
 - (NSInteger)executeMove:(FFMove *)move byPlayer:(FFPlayer *)player {
     int checkScore = [self checkIfValidMove:move byPlayer:player];
     if (checkScore != 0) return checkScore;
 
-    _challengeMoves++;
-
     if (self.currentHistoryBackSteps > 0){
+        if ([self isRandomChallenge] && [self undosLeft] < 1){
+            NSLog(@"Not allowing the move: No undos left?");
+            return -5;
+        }
+
+        _doneUndos++;
         for (int i = 0; i < self.currentHistoryBackSteps; i++){
             [(NSMutableArray *) self.history removeObjectAtIndex:0];
         }
@@ -154,6 +165,8 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
 
         [[self currentHistoryStep] returnedToStep];
     }
+
+    _challengeMoves++;
 
     FFHistoryStep *nuStep = [[FFHistoryStep alloc]
             initWithMove:move
@@ -214,7 +227,10 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
     if (self.Type == kFFGameTypeSingleChallenge){
         if ([self.Board isSingleChromatic]){
             self.gameState = kFFGameState_Won;
-        } else if ([self isRandomChallenge] && _maxChallengeMoves-_challengeMoves <= 0){
+        } else if ([self isRandomChallenge]
+                && [self undosLeft]<=0
+                && [self puzzleMovesLeft] < 2
+                && ![self stillSolvable]){
             self.gameState = kFFGameState_Aborted;
         }
     } else if (self.Type == kFFGameTypeHotSeat){
@@ -225,8 +241,16 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
     }
 }
 
+- (int)puzzleMovesLeft {
+    return self.ActivePlayer.playablePatterns.count - [self doneMovesForPlayer:self.ActivePlayer].count;
+}
+
+- (NSInteger)undosLeft {
+    return [self.maxUndos intValue] - _doneUndos;
+}
+
 - (BOOL)isRandomChallenge {
-    return _maxChallengeMoves > 0;
+    return nil!=_maxUndos;
 }
 
 - (BOOL)stillSolvable {
@@ -385,6 +409,7 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
 
 - (void)generateGame {
     _challengeMoves = 0;
+    _doneUndos = 0;
 
     if (self.Type == kFFGameTypeSingleChallenge){
         [self clean];

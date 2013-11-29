@@ -9,9 +9,9 @@
 
 @interface FFStorageUtil : NSObject
 
-+ (NSUInteger) firstUnsolvedChallengeIndex;
++ (NSUInteger) firstUnsolvedPuzzleIndex;
 
-+ (void) setFirstUnsolvedChallengeIndex:(NSUInteger)nuIndex;
++ (void) setFirstUnsolvedPuzzleIndex:(NSUInteger)nuIndex;
 
 + (NSUInteger)getTimesPlayedForChallengeLevel:(NSUInteger)level;
 

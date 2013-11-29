@@ -9,7 +9,7 @@
 @class FFGame;
 
 
-@interface FFRestMovesView : UIView
+@interface FFRestUndosView : UIView
 
 - (void)didAppear;
 

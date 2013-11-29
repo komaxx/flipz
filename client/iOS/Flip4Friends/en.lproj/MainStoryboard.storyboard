@@ -52,8 +52,8 @@
                                         <rect key="frame" x="0.0" y="508" width="320" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <subviews>
-                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.20000000000000001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MOVES LEFT:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" id="YuC-AR-YMn">
-                                                <rect key="frame" x="5" y="-5" width="100" height="50"/>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.20000000000000001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UNDOs LEFT:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" id="YuC-AR-YMn">
+                                                <rect key="frame" x="5" y="-5" width="102" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" name="Futura-CondensedExtraBold" family="Futura" pointSize="18"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -61,7 +61,7 @@
                                                 <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <size key="shadowOffset" width="0.0" height="-3"/>
                                             </label>
-                                            <view tag="223" contentMode="scaleToFill" id="Tf9-79-HGy" customClass="FFRestMovesView">
+                                            <view tag="223" contentMode="scaleToFill" id="Tf9-79-HGy" customClass="FFRestUndosView">
                                                 <rect key="frame" x="110" y="5" width="200" height="30"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             </view>
@@ -188,18 +188,18 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <view tag="500" contentMode="scaleToFill" id="P97-6n-rzR" userLabel="challenge_select" customClass="FFChallengeMenu">
+                                    <view tag="500" contentMode="scaleToFill" id="P97-6n-rzR" userLabel="puzzle_select" customClass="FFPuzzleSelectMenu">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                                         <subviews>
-                                            <tableView opaque="NO" tag="501" contentMode="scaleToFill" alwaysBounceVertical="YES" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" id="3e8-5R-hhf" userLabel="challenges_listview">
+                                            <tableView opaque="NO" tag="501" contentMode="scaleToFill" alwaysBounceVertical="YES" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" id="3e8-5R-hhf" userLabel="puzzle_listview">
                                                 <rect key="frame" x="70" y="0.0" width="180" height="568"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <color key="backgroundColor" red="0.29803922772407532" green="0.29803922772407532" blue="0.29803922772407532" alpha="1" colorSpace="calibratedRGB"/>
                                                 <inset key="contentInset" minX="0.0" minY="120" maxX="0.0" maxY="120"/>
                                                 <color key="separatorColor" red="0.42961785197257996" green="0.61273407936096191" blue="0.42882987856864929" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                                 <prototypes>
-                                                    <tableViewCell opaque="NO" contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ChallengeCell" rowHeight="60" id="nfl-Vr-OBW">
+                                                    <tableViewCell opaque="NO" contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="PuzzleCell" rowHeight="60" id="nfl-Vr-OBW">
                                                         <rect key="frame" x="0.0" y="22" width="180" height="60"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nfl-Vr-OBW" id="cfM-6V-oap">
@@ -267,32 +267,13 @@
                                                             </subviews>
                                                         </tableViewCellContentView>
                                                     </tableViewCell>
-                                                    <tableViewCell opaque="NO" contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AutoGenCell" rowHeight="60" id="l6g-qZ-fWR">
-                                                        <rect key="frame" x="0.0" y="82" width="180" height="60"/>
-                                                        <autoresizingMask key="autoresizingMask"/>
-                                                        <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" tableViewCell="l6g-qZ-fWR" id="Grf-E3-rgS">
-                                                            <rect key="frame" x="0.0" y="0.0" width="180" height="60"/>
-                                                            <autoresizingMask key="autoresizingMask"/>
-                                                            <subviews>
-                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="center" text="Random challenge" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="none" minimumFontSize="10" id="HdF-5u-WrS">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="180" height="60"/>
-                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                                    <fontDescription key="fontDescription" name="Futura-CondensedExtraBold" family="Futura" pointSize="18"/>
-                                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                    <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                    <size key="shadowOffset" width="-3" height="4"/>
-                                                                </label>
-                                                            </subviews>
-                                                        </tableViewCellContentView>
-                                                    </tableViewCell>
                                                 </prototypes>
                                             </tableView>
-                                            <view contentMode="scaleToFill" id="8f9-Ah-6rS" userLabel="choose_challenge_back" customClass="FFMenuBackgroundView">
+                                            <view contentMode="scaleToFill" id="8f9-Ah-6rS" userLabel="choose_puzzle_back" customClass="FFMenuBackgroundView">
                                                 <rect key="frame" x="0.0" y="20" width="320" height="80"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <subviews>
-                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="CHOOSE YOUR CHALLENGE" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="o8O-KM-52h">
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="CHOOSE YOUR PUZZLE" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="o8O-KM-52h">
                                                         <rect key="frame" x="68" y="14" width="180" height="60"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <fontDescription key="fontDescription" name="Futura-CondensedExtraBold" family="Futura" pointSize="23"/>
@@ -300,7 +281,7 @@
                                                         <nil key="highlightedColor"/>
                                                         <size key="shadowOffset" width="0.0" height="5"/>
                                                     </label>
-                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="CHOOSE YOUR CHALLENGE" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qEz-vw-Fc3">
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="CHOOSE YOUR PUZZLE" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qEz-vw-Fc3">
                                                         <rect key="frame" x="71" y="12" width="180" height="60"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <fontDescription key="fontDescription" name="Futura-CondensedExtraBold" family="Futura" pointSize="23"/>
@@ -308,7 +289,7 @@
                                                         <nil key="highlightedColor"/>
                                                         <size key="shadowOffset" width="0.0" height="5"/>
                                                     </label>
-                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="CHOOSE YOUR CHALLENGE" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ui5-yl-hff">
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="CHOOSE YOUR PUZZLE" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ui5-yl-hff">
                                                         <rect key="frame" x="69" y="10" width="180" height="60"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <fontDescription key="fontDescription" name="Futura-CondensedExtraBold" family="Futura" pointSize="23"/>
@@ -316,7 +297,7 @@
                                                         <nil key="highlightedColor"/>
                                                         <size key="shadowOffset" width="0.0" height="5"/>
                                                     </label>
-                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="CHOOSE YOUR CHALLENGE" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kRL-dD-P8m">
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="CHOOSE YOUR PUZZLE" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kRL-dD-P8m">
                                                         <rect key="frame" x="70" y="8" width="180" height="60"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <fontDescription key="fontDescription" name="Futura-CondensedExtraBold" family="Futura" pointSize="23"/>
@@ -325,6 +306,133 @@
                                                         <size key="shadowOffset" width="0.0" height="5"/>
                                                     </label>
                                                     <button opaque="NO" tag="502" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" id="oDh-6N-hT1">
+                                                        <rect key="frame" x="0.0" y="0.0" width="60" height="81"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <fontDescription key="fontDescription" name="AvenirNextCondensed-Heavy" family="Avenir Next Condensed" pointSize="40"/>
+                                                        <size key="titleShadowOffset" width="0.0" height="6"/>
+                                                        <state key="normal" title="&lt;">
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                            <color key="titleShadowColor" red="0.0" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </state>
+                                                        <state key="selected" backgroundImage="black_pattern.png"/>
+                                                        <state key="highlighted" backgroundImage="black_pattern.png">
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                    </button>
+                                                </subviews>
+                                                <inset key="insetFor6xAndEarlier" minX="0.0" minY="20" maxX="0.0" maxY="-20"/>
+                                            </view>
+                                        </subviews>
+                                    </view>
+                                    <view tag="550" contentMode="scaleToFill" id="FqV-HC-Mun" userLabel="challenge_select" customClass="FFChallengeSelectMenu">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
+                                        <subviews>
+                                            <tableView opaque="NO" tag="501" contentMode="scaleToFill" alwaysBounceVertical="YES" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" id="CtD-29-xe9" userLabel="challenge_listview">
+                                                <rect key="frame" x="70" y="0.0" width="180" height="568"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <color key="backgroundColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                <inset key="contentInset" minX="0.0" minY="120" maxX="0.0" maxY="120"/>
+                                                <color key="separatorColor" red="0.42961785200000002" green="0.61273407940000002" blue="0.42882987859999999" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
+                                                <prototypes>
+                                                    <tableViewCell opaque="NO" contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" rowHeight="60" id="fw3-4M-zJg">
+                                                        <rect key="frame" x="0.0" y="22" width="180" height="60"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fw3-4M-zJg" id="oY3-Br-3tH">
+                                                            <rect key="frame" x="0.0" y="0.0" width="180" height="60"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <subviews>
+                                                                <view tag="1" contentMode="scaleToFill" id="1Tn-aD-EgZ">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <subviews>
+                                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="center" text="5" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="none" minimumFontSize="10" id="jRB-bC-Ss6">
+                                                                            <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                            <fontDescription key="fontDescription" name="Futura-CondensedExtraBold" family="Futura" pointSize="39"/>
+                                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                            <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                            <size key="shadowOffset" width="-3" height="4"/>
+                                                                        </label>
+                                                                    </subviews>
+                                                                    <color key="backgroundColor" red="0.51681870220000004" green="0.73985248800000003" blue="0.5353016853" alpha="1" colorSpace="calibratedRGB"/>
+                                                                </view>
+                                                                <view tag="13" contentMode="scaleToFill" id="glk-gM-5h6">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="180" height="60"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <subviews>
+                                                                        <view alpha="0.5" contentMode="scaleToFill" id="c56-yA-1bd">
+                                                                            <rect key="frame" x="0.0" y="0.0" width="180" height="60"/>
+                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                                        </view>
+                                                                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lock.png" id="hZp-K7-J1F">
+                                                                            <rect key="frame" x="75" y="0.0" width="30" height="60"/>
+                                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                        </imageView>
+                                                                        <view contentMode="scaleToFill" id="qA7-1N-ivG">
+                                                                            <rect key="frame" x="10" y="29" width="62" height="3"/>
+                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                            <color key="backgroundColor" red="0.219111532" green="0.018516689539999999" blue="0.7543221712" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        </view>
+                                                                        <view contentMode="scaleToFill" id="6h2-4A-MwU">
+                                                                            <rect key="frame" x="108" y="29" width="62" height="3"/>
+                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                            <color key="backgroundColor" red="0.219111532" green="0.018516689539999999" blue="0.7543221712" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        </view>
+                                                                    </subviews>
+                                                                    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                                </view>
+                                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Sq4-wQ-CRG" userLabel="text">
+                                                                    <rect key="frame" x="70" y="13" width="100" height="35"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <fontDescription key="fontDescription" name="Futura-CondensedExtraBold" family="Futura" pointSize="22"/>
+                                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                        </tableViewCellContentView>
+                                                    </tableViewCell>
+                                                </prototypes>
+                                            </tableView>
+                                            <view contentMode="scaleToFill" id="a6U-8W-dUT" userLabel="choose_challenge_back" customClass="FFMenuBackgroundView">
+                                                <rect key="frame" x="0.0" y="20" width="320" height="80"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <subviews>
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="CHOOSE YOUR CHALLENGE" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pS8-O4-Zu6">
+                                                        <rect key="frame" x="68" y="14" width="180" height="60"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <fontDescription key="fontDescription" name="Futura-CondensedExtraBold" family="Futura" pointSize="23"/>
+                                                        <color key="textColor" red="0.040932349860000002" green="0.062135953459999997" blue="0.4756017327" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                        <size key="shadowOffset" width="0.0" height="5"/>
+                                                    </label>
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="CHOOSE YOUR CHALLENGE" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9Eq-sg-xL3">
+                                                        <rect key="frame" x="71" y="12" width="180" height="60"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <fontDescription key="fontDescription" name="Futura-CondensedExtraBold" family="Futura" pointSize="23"/>
+                                                        <color key="textColor" red="0.041058979930000003" green="0.062401406469999997" blue="0.59425532820000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                        <size key="shadowOffset" width="0.0" height="5"/>
+                                                    </label>
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="CHOOSE YOUR CHALLENGE" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9lh-Yw-NcE">
+                                                        <rect key="frame" x="69" y="10" width="180" height="60"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <fontDescription key="fontDescription" name="Futura-CondensedExtraBold" family="Futura" pointSize="23"/>
+                                                        <color key="textColor" red="0.036564376209999999" green="0.054906077679999998" blue="0.36395475269999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                        <size key="shadowOffset" width="0.0" height="5"/>
+                                                    </label>
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="CHOOSE YOUR CHALLENGE" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BjM-yg-vam">
+                                                        <rect key="frame" x="70" y="8" width="180" height="60"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <fontDescription key="fontDescription" name="Futura-CondensedExtraBold" family="Futura" pointSize="23"/>
+                                                        <color key="textColor" red="1" green="0.99997437" blue="0.99999129769999995" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                        <size key="shadowOffset" width="0.0" height="5"/>
+                                                    </label>
+                                                    <button opaque="NO" tag="502" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" id="obd-H9-kaG">
                                                         <rect key="frame" x="0.0" y="0.0" width="60" height="81"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <fontDescription key="fontDescription" name="AvenirNextCondensed-Heavy" family="Avenir Next Condensed" pointSize="40"/>
@@ -489,11 +597,11 @@
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" id="hpN-fV-slv" userLabel="challenge" customClass="FFMenuBackgroundView">
+                                            <view contentMode="scaleToFill" id="hpN-fV-slv" userLabel="puzzle" customClass="FFMenuBackgroundView">
                                                 <rect key="frame" x="10" y="52" width="300" height="120"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                 <subviews>
-                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="CHALLENGE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="iy3-ux-ao0">
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="PUZZLE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="iy3-ux-ao0">
                                                         <rect key="frame" x="9" y="48" width="280" height="40"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                         <fontDescription key="fontDescription" name="Futura-CondensedExtraBold" family="Futura" pointSize="30"/>
@@ -501,7 +609,7 @@
                                                         <nil key="highlightedColor"/>
                                                         <size key="shadowOffset" width="0.0" height="5"/>
                                                     </label>
-                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="CHALLENGE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Oqs-Ia-kWt">
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="PUZZLE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Oqs-Ia-kWt">
                                                         <rect key="frame" x="11" y="44" width="280" height="40"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                         <fontDescription key="fontDescription" name="Futura-CondensedExtraBold" family="Futura" pointSize="30"/>
@@ -509,7 +617,7 @@
                                                         <nil key="highlightedColor"/>
                                                         <size key="shadowOffset" width="0.0" height="5"/>
                                                     </label>
-                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="CHALLENGE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qBu-mF-gH3">
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="PUZZLE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qBu-mF-gH3">
                                                         <rect key="frame" x="9" y="42" width="280" height="40"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                         <fontDescription key="fontDescription" name="Futura-CondensedExtraBold" family="Futura" pointSize="30"/>
@@ -517,7 +625,7 @@
                                                         <nil key="highlightedColor"/>
                                                         <size key="shadowOffset" width="0.0" height="5"/>
                                                     </label>
-                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="CHALLENGE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8wt-Ni-xkX">
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="PUZZLE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8wt-Ni-xkX">
                                                         <rect key="frame" x="10" y="40" width="280" height="40"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                         <fontDescription key="fontDescription" name="Futura-CondensedExtraBold" family="Futura" pointSize="30"/>
@@ -539,11 +647,11 @@
                                                     </button>
                                                 </subviews>
                                             </view>
-                                            <view contentMode="scaleToFill" id="y8q-HQ-nFV" userLabel="hot seat" customClass="FFMenuBackgroundView">
+                                            <view contentMode="scaleToFill" id="y8q-HQ-nFV" userLabel="challenge" customClass="FFMenuBackgroundView">
                                                 <rect key="frame" x="10" y="224" width="300" height="120"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                 <subviews>
-                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="VS LOCAL" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fia-ny-14n">
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="CHALLENGE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fia-ny-14n">
                                                         <rect key="frame" x="9" y="48" width="280" height="40"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                         <fontDescription key="fontDescription" name="Futura-CondensedExtraBold" family="Futura" pointSize="30"/>
@@ -551,7 +659,7 @@
                                                         <nil key="highlightedColor"/>
                                                         <size key="shadowOffset" width="0.0" height="5"/>
                                                     </label>
-                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="VS LOCAL" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Mfh-md-Cdu">
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="CHALLENGE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Mfh-md-Cdu">
                                                         <rect key="frame" x="11" y="44" width="280" height="40"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                         <fontDescription key="fontDescription" name="Futura-CondensedExtraBold" family="Futura" pointSize="30"/>
@@ -559,7 +667,7 @@
                                                         <nil key="highlightedColor"/>
                                                         <size key="shadowOffset" width="0.0" height="5"/>
                                                     </label>
-                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="VS LOCAL" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xJp-a6-q8x">
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="CHALLENGE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xJp-a6-q8x">
                                                         <rect key="frame" x="9" y="42" width="280" height="40"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                         <fontDescription key="fontDescription" name="Futura-CondensedExtraBold" family="Futura" pointSize="30"/>
@@ -567,7 +675,7 @@
                                                         <nil key="highlightedColor"/>
                                                         <size key="shadowOffset" width="0.0" height="5"/>
                                                     </label>
-                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="VS LOCAL" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qMR-dK-05Q">
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="CHALLENGE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qMR-dK-05Q">
                                                         <rect key="frame" x="10" y="40" width="280" height="40"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                         <fontDescription key="fontDescription" name="Futura-CondensedExtraBold" family="Futura" pointSize="30"/>
@@ -589,11 +697,11 @@
                                                     </button>
                                                 </subviews>
                                             </view>
-                                            <view contentMode="scaleToFill" id="0jt-sn-hUv" userLabel="generate" customClass="FFMenuBackgroundView">
+                                            <view contentMode="scaleToFill" id="0jt-sn-hUv" userLabel="vs local" customClass="FFMenuBackgroundView">
                                                 <rect key="frame" x="10" y="394" width="300" height="120"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                 <subviews>
-                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="TEST RUN" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="PfT-gS-OT5">
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="HOT SEAT" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="PfT-gS-OT5">
                                                         <rect key="frame" x="9" y="48" width="280" height="40"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                         <fontDescription key="fontDescription" name="Futura-CondensedExtraBold" family="Futura" pointSize="30"/>
@@ -601,7 +709,7 @@
                                                         <nil key="highlightedColor"/>
                                                         <size key="shadowOffset" width="0.0" height="5"/>
                                                     </label>
-                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="TEST RUN" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DyY-C0-rhZ">
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="HOT SEAT" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DyY-C0-rhZ">
                                                         <rect key="frame" x="11" y="44" width="280" height="40"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                         <fontDescription key="fontDescription" name="Futura-CondensedExtraBold" family="Futura" pointSize="30"/>
@@ -609,7 +717,7 @@
                                                         <nil key="highlightedColor"/>
                                                         <size key="shadowOffset" width="0.0" height="5"/>
                                                     </label>
-                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="TEST RUN" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eW0-P1-VMg">
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="HOT SEAT" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eW0-P1-VMg">
                                                         <rect key="frame" x="9" y="42" width="280" height="40"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                         <fontDescription key="fontDescription" name="Futura-CondensedExtraBold" family="Futura" pointSize="30"/>
@@ -617,7 +725,7 @@
                                                         <nil key="highlightedColor"/>
                                                         <size key="shadowOffset" width="0.0" height="5"/>
                                                     </label>
-                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="GENERATE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="LfX-b7-9UI">
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="HOT SEAT" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="LfX-b7-9UI">
                                                         <rect key="frame" x="10" y="40" width="280" height="40"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                         <fontDescription key="fontDescription" name="Futura-CondensedExtraBold" family="Futura" pointSize="30"/>
@@ -636,9 +744,6 @@
                                                         <state key="highlighted" backgroundImage="black_pattern.png">
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
-                                                        <connections>
-                                                            <segue destination="0nj-Zu-jvE" kind="push" id="ehr-6R-rgp"/>
-                                                        </connections>
                                                     </button>
                                                 </subviews>
                                             </view>

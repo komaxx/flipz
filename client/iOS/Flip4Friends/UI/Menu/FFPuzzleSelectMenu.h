@@ -7,12 +7,10 @@
 #import <UIKit/UIKit.h>
 
 @class FFMenuViewController;
-
-@interface FFChallengeMenu : UIView <UITableViewDelegate, UITableViewDataSource>
+@interface FFPuzzleSelectMenu : UIView <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, weak) FFMenuViewController *delegate;
 
 - (void)hide:(BOOL)b;
-
 - (void)refreshListCells;
 @end

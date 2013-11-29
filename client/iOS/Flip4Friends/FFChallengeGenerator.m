@@ -9,7 +9,7 @@
 #import "FFGame.h"
 #import "FFPattern.h"
 #import "FFUtil.h"
-#import "FFChallengeLoader.h"
+#import "FFPuzzleLoader.h"
 
 
 @implementation FFChallengeGenerator {
@@ -54,7 +54,6 @@ static NSUInteger creationId;
     board.BoardType = boardType;
 
     NSArray *patternDefs = [def objectForKey:@"patterns"];
-    NSUInteger maxMoves = (NSUInteger) CLAMP( [[def objectForKey:@"maxmoves"] intValue], patternDefs.count, 99);
     NSMutableArray *patterns = [[NSMutableArray alloc] initWithCapacity:patternDefs.count];
     BOOL solutionFound = YES;
     for (NSDictionary *patternDef in patternDefs) {
@@ -65,7 +64,7 @@ static NSUInteger creationId;
         BOOL fittingPositionFound = NO;
         for (int i = 0; i < 10 && !fittingPositionFound; i++){
             FFPattern *nowRandomPattern =
-            [[FFPattern alloc] initWithRandomCoords:coords andMaxDistance:maxSquareSize andAllowRotating:rotating];
+                    [[FFPattern alloc] initWithRandomCoords:coords andMaxDistance:maxSquareSize andAllowRotating:rotating];
             fittingPositionFound |= [self fitPattern:nowRandomPattern ontoBoard:board andAllowOverlap:overlap];
             if (fittingPositionFound){
                 if (rotating){
@@ -83,6 +82,7 @@ static NSUInteger creationId;
     }
 
     if (!solutionFound){
+        NSLog(@"Failed to generate a challenge. Retrying...");
         // DAMN! Try again.
         return [self generateChallengeForLevel:level];
     }
@@ -91,14 +91,15 @@ static NSUInteger creationId;
     [FFUtil shuffle:patterns];
 
     [board unlock];
+    NSUInteger maxUndos = (NSUInteger) CLAMP( [[def objectForKey:@"maxundos"] intValue], 0, 99);
     NSString *id = [NSString stringWithFormat:@"generated_level%i_%i", level, creationId++];
     FFGame *generatedChallenge = [[FFGame alloc] initGeneratedChallengeWithId:id
                                                                      andBoard:board
-                                                                  andPatterns:patterns];
+                                                                  andPatterns:patterns
+                                                                  andMaxUndos:maxUndos];
     generatedChallenge.challengeIndex = @(level);
-    generatedChallenge.maxChallengeMoves = maxMoves;
 
-    NSString *json = [FFChallengeLoader encodeGameAsJson:generatedChallenge];
+    NSString *json = [FFPuzzleLoader encodeGameAsJson:generatedChallenge];
     NSLog(@"%@", json);
 
     return generatedChallenge;
@@ -112,7 +113,7 @@ static NSUInteger creationId;
     // first: try some random stuff to keep it interesting
     for (int i = 0; i < 15 && !foundValidTarget; i++){
         FFBoard *tmpBoard = [[FFBoard alloc] initWithBoard:board];
-        move = [self makeRandomMoveWithPattern:pattern onBoard:board];
+        move = [self makeRandomMoveWithPattern:pattern onBoard:tmpBoard];
         foundValidTarget = [self checkMove:move onBoard:tmpBoard withOverlapping:overlap];
     }
 
@@ -126,7 +127,7 @@ static NSUInteger creationId;
                 for (int x = 0; x <= maxX && !foundValidTarget; x++){
                     FFBoard *tmpBoard = [[FFBoard alloc] initWithBoard:board];
                     move = [[FFMove alloc] initWithPattern:pattern
-                                                        atPosition:[[FFCoord alloc] initWithX:(ushort) x andY:(ushort) y]
+                                                        atPosition:[[FFCoord alloc] initWithX:(ushort)x andY:(ushort)y]
                                                     andOrientation:(FFOrientation) o];
                     foundValidTarget = [self checkMove:move onBoard:tmpBoard withOverlapping:overlap];
                 }
@@ -170,10 +171,13 @@ static NSUInteger creationId;
     int maxX = board.BoardSize - ((orientation%2)==0 ? pattern.SizeX : pattern.SizeY);
     int maxY = board.BoardSize - ((orientation%2)==0 ? pattern.SizeY : pattern.SizeX);
 
-    return [[FFMove alloc] initWithPattern:pattern
-                                        atPosition:[[FFCoord alloc] initWithX:(ushort) (arc4random() % (maxX+0))
-                                                                         andY:(ushort) (arc4random() % (maxY+0))]
+    ushort x = (ushort) (arc4random() % (maxX+1));
+    ushort y = (ushort) (arc4random() % (maxY+1));
+
+    FFMove *ret = [[FFMove alloc] initWithPattern:pattern
+                                        atPosition:[[FFCoord alloc] initWithX:x andY:y]
                                     andOrientation:orientation];
+    return ret;
 }
 
 @end

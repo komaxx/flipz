@@ -9,7 +9,7 @@
 @class FFGame;
 
 
-@interface FFChallengeLoader : NSObject
+@interface FFPuzzleLoader : NSObject
 
 + (NSString *)encodeGameAsJson:(FFGame *)game;
 

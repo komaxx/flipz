@@ -12,7 +12,8 @@
             { "coords":4, "rotating":true, "max_square_size":3 },
             { "coords":3, "rotating":false, "max_square_size":2 }
         ],
-        "maxmoves":5
+        "maxundos":2,
+        "unlocked_from_puzzle_level":12
     },{
         "boardsize":6,
         "lockmoves":0,
@@ -26,7 +27,8 @@
             { "coords":5, "rotating":true, "max_square_size":3 },
             { "coords":3, "rotating":false, "max_square_size":2 }
         ],
-        "maxmoves":8
+        "maxundos":2,
+        "unlocked_from_puzzle_level":25
     },{
         "boardsize":7,
         "lockmoves":0,
@@ -41,7 +43,8 @@
             { "coords":5, "rotating":true, "max_square_size":3 },
             { "coords":4, "rotating":true, "max_square_size":3 },
         ],
-        "maxmoves":8
+        "maxundos":3,
+        "unlocked_from_puzzle_level":40
     },{
         "boardsize":6,
         "lockmoves":1,
@@ -57,7 +60,8 @@
             { "coords":7, "rotating":false, "max_square_size":3 },
             { "coords":7, "rotating":false, "max_square_size":3 }
         ],
-        "maxmoves":12
+        "maxundos":3,
+        "unlocked_from_puzzle_level":55
     },{
         "boardsize":8,
         "lockmoves":0,
@@ -72,7 +76,8 @@
             { "coords":4, "rotating":true, "max_square_size":3 },
             { "coords":3, "rotating":true, "max_square_size":3 }
         ],
-        "maxmoves":12
+        "maxundos":4,
+        "unlocked_from_puzzle_level":70
     },{
         "boardsize":6,
         "lockmoves":1,
@@ -85,6 +90,7 @@
             { "coords":4, "rotating":false, "max_square_size":3 },
             { "coords":3, "rotating":false, "max_square_size":2 }
         ],
-        "maxmoves":10
+        "maxundos":4,
+        "unlocked_from_puzzle_level":85
     }
 ]

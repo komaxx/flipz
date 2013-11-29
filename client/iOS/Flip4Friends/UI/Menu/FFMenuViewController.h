@@ -27,7 +27,9 @@
 
 - (void)didDisappear;
 
-- (void)localChallengeSelected;
+- (void)choosePuzzleSelected;
+
+- (void)chooseRandomChallengeSelected;
 
 - (void)goBackToMenuAfterFinished;
 

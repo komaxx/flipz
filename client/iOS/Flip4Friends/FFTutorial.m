@@ -176,7 +176,7 @@
         return;
     }
 
-    if (![game.Id isEqualToString:[[FFGamesCore instance] challenge:0].Id]){
+    if (![game.Id isEqualToString:[[FFGamesCore instance] puzzle:0].Id]){
         // tutorial only for the first puzzle!
         self.hidden = YES;
         return;

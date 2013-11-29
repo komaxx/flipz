@@ -12,7 +12,7 @@
 #import "FFPatternView.h"
 #import "FFGamesCore.h"
 #import "FFChallengeCreatorViewController.h"
-#import "FFChallengeLoader.h"
+#import "FFPuzzleLoader.h"
 
 
 @interface FFAdditiveChallengeCreatorController ()
@@ -306,7 +306,7 @@
 
 - (IBAction)printTapped:(id)sender {
     FFGame* game = [self makeCurrentGame];
-    NSString *json = [FFChallengeLoader encodeGameAsJson:game];
+    NSString *json = [FFPuzzleLoader encodeGameAsJson:game];
     NSLog(@"%@", json);
 }
 

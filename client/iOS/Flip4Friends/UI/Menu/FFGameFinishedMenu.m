@@ -62,8 +62,7 @@
                                    [self challengesWonSimilarTo:game], [self challengesPlayedSimilarTo:game]];
                 } else {        // the game was lost
                     nuTitle = NSLocalizedString(@"finished_title_failed", nil);
-                    nuMessage = [NSString stringWithFormat:NSLocalizedString(@"finished_message_challenge_failed", nil),
-                                   [self challengesWonSimilarTo:game], [self challengesPlayedSimilarTo:game]];
+                    nuMessage = [NSString stringWithFormat:NSLocalizedString(@"finished_message_challenge_failed", nil)];
                 }
             } else {        // it's a manual puzzle
                 nuTitle = NSLocalizedString(@"finished_title_success", nil);
@@ -95,11 +94,11 @@
 }
 
 - (int)challengesPlayedSimilarTo:(FFGame *)game {
-    return [FFStorageUtil getTimesPlayedForChallengeLevel:[[game challengeIndex] unsignedIntegerValue]];
+    [FFStorageUtil getTimesPlayedForChallengeLevel:[[game challengeIndex] unsignedIntegerValue]];
 }
 
 - (int)challengesWonSimilarTo:(FFGame *)game {
-    return [FFStorageUtil getTimesWonForChallengeLevel:[[game challengeIndex] unsignedIntegerValue]];
+    [FFStorageUtil getTimesWonForChallengeLevel:[[game challengeIndex] unsignedIntegerValue]];
 }
 
 @end

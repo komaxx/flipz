@@ -79,16 +79,15 @@ typedef enum {
 @property(nonatomic, readonly) NSUInteger currentHistoryBackSteps;
 
 /**
-* Only used for challenges (randomly created levels). A game is to be considered
-* lost when 'currentChallengeMoves' is >= maxChallengeMoves
+* Only used and set for challenges (~randomly created levels).
+* A game is to be considered lost when this is <= 0 and the game can no longer be completed.
 */
-@property(nonatomic) int maxChallengeMoves;
+@property (nonatomic, strong) NSNumber *maxUndos;
 
 /**
 * Only set for challenges (not puzzles, hot seat games, ...)
 */
 @property (strong, nonatomic) NSNumber *challengeIndex;
-
 
 - (id)initWithId:(NSString *)id Type:(NSString * const)type andBoardSize:(NSInteger)size;
 
@@ -110,7 +109,7 @@ typedef enum {
 
 - (void)start;
 
-- (id)initGeneratedChallengeWithId:(NSString *)id andBoard:(FFBoard *)board andPatterns:(NSMutableArray *)patterns;
+- (id)initGeneratedChallengeWithId:(NSString *)id andBoard:(FFBoard *)board andPatterns:(NSMutableArray *)patterns andMaxUndos:(NSUInteger)undos;
 
 - (void)giveUp;
 
@@ -135,6 +134,8 @@ typedef enum {
 - (NSDictionary *)doneMovesForPlayer:(FFPlayer *)player;
 
 - (BOOL)moveWouldWinChallenge:(FFMove *)move byPlayer:(FFPlayer *)player;
+
+- (NSInteger)undosLeft;
 
 - (BOOL)isRandomChallenge;
 

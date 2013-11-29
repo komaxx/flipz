@@ -4,13 +4,13 @@
 //
 
 
-#import "FFChallengeLoader.h"
+#import "FFPuzzleLoader.h"
 #import "FFGame.h"
 #import "FFPattern.h"
 #import "FFUtil.h"
 
 
-@implementation FFChallengeLoader {
+@implementation FFPuzzleLoader {
 
 }
 

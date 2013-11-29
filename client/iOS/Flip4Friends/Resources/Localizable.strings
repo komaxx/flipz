@@ -6,12 +6,13 @@
 "finished_message_challenge_success" = "You figured it out!\nYour success rate so far:\n%i / %i";
 
 "finished_title_failed" = "FAILURE";
-"finished_message_challenge_failed" = "Sorry, you ran out of moves.\nYour success rate so far:\n%i / %i";
+"finished_message_challenge_failed" = "Sorry, no longer solvable and no undo left.";
 
 "finished_title_congratulations" = "YOU WON";
 "finished_message_you_won" = "Congratulations!\n\nFinal Score: %i / %i";
 
-"challenge_not_yet_unlocked" = "Not yet unlocked.\nSolve the previous challenges first!";
+"puzzle_not_yet_unlocked" = "Not yet unlocked.\nSolve the previous puzzles first!";
+"challenge_not_yet_unlockedd" = "Not yet unlocked.\nSolve more puzzles to unlock!";
 "this_pattern_was_already_played" = "This pattern was already played!";
 "you_failed_go_back_by_history" = "FAILED\nTap on the history on the right to try something different!";
 "history_explanation" = "Slide up/down or tap on an icon to go back to a previous move.";
@@ -31,3 +32,6 @@
 
 "hot_seat_start_explanation" = "Play against a friend!\nPoints are given for straight lines of tiles with a player's color. The longer, the more points!";
 "hot_seat_explanation_toast" = "You play WHITE\nDouble-tap to confirm a move.";
+
+"no_undos_left" = "No undo left!";
+"challenge_unlocked" = "A new challenge level was unlocked!";

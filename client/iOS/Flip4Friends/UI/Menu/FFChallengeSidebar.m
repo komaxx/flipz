@@ -26,11 +26,8 @@
         
         UIButton *solveButton = (UIButton *) [self viewWithTag:775];
         [solveButton addTarget:self action:@selector(solveTapped) forControlEvents:UIControlEventTouchUpInside];
-        #ifdef DEBUG
-        solveButton.hidden = NO;
-        #else
+
         solveButton.hidden = YES;
-        #endif
     }
 
     return self;
