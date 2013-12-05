@@ -15,8 +15,18 @@
     self = [super initWithCoder:coder];
     if (self) {
         self.layer.cornerRadius = RADIUS;
+        self.backgroundColor = [UIColor clearColor];
     }
 
+    return self;
+}
+
+- (id)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.layer.cornerRadius = RADIUS;
+        self.backgroundColor = [UIColor clearColor];
+    }
     return self;
 }
 

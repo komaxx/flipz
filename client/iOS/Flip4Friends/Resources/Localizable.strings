@@ -16,13 +16,6 @@
 "this_pattern_was_already_played" = "This pattern was already played!";
 "you_failed_go_back_by_history" = "FAILED\nTap on the history on the right to try something different!";
 "history_explanation" = "Slide up/down or tap on an icon to go back to a previous move.";
-"tut_1" = "Welcome!";
-"tut_2" = "Goal of the game:\nFlip all tiles to white";
-"tut_3" = "For that:\n\n1. Select a pattern";
-"tut_4" = "2. Move it to a good position\n(use your brain for that)";
-"tut_5" = "3. Double-tap / select the next pattern.\n... and tiles will flip.";
-"tut_6" = "Enjoy the game!";
-
 
 "btn_rematch" = "REMATCH";
 "btn_next" = "NEXT";
@@ -35,3 +28,16 @@
 
 "no_undos_left" = "No undo left!";
 "challenge_unlocked" = "A new challenge level was unlocked!";
+
+"tut_0" = "Welcome!$Goal of the game:\nFlip all tiles to white$For that:\n\n1. Select a pattern$2. Move it to a good position\n(use your brain for that)$3. Double-tap / select the next pattern.\n... and tiles will flip.$Enjoy the game!";
+"tut_1" = "Not all tiles are created equally!$Some need to be flipped more than once.";
+"tut_2" = "It's time to turn the tables.\nOr tiles.";
+"tut_3" = "Uhh, locks.\nNow, tiles can not be flipped twice in a row.$... so, the order of your moves is important now!";
+"tut_4" = "Have you seen what happens to white tiles when you flip them?";
+
+"you_get_label" = "Pay once, and you get:\n\n* Access to all puzzles\n* Access to all challenges\n* A warm, fuzzy feeling inside\n\n... now, and for all future updates!";
+"already_paid" = "Hey, I\'ve already paid!";
+"paused_message_single_player" = "You can do it!";
+"paused_message_hot_seat" = "Points per line length:\n";
+
+"feedback_subject_line" = "Feedback for you!";

@@ -1,22 +1,27 @@
 Sorted by priority:
 
+
+
 MUST
-* InAapp purchase: Lock random games and puzzles from level 15
-* Chrashlytics
+* InAapp purchase: Lock random games and puzzles from level 21
+* Flurry Analytics
 * some more levels
 
 CAN
+* Won/lost sounds
+* Disable Sound button
 * fine-tune auto-generated levels: 1,2,3: ok
+* Show double-locked tiles as double-locked
 * Modify history icon for returned to step
 * Hint
-* Won/lost sounds
 * quick rotation gesture (flick on ring, two finger flick)
-* Random game: Time!
 * Triggered moves!
+* Random game: Time!
 * some more levels
 
 
 DONE
+* Feedback button
 * Challenge list entry
 * Unlock random games
 * Random game: Fail when no possible move left and no undo left

@@ -6,15 +6,16 @@
 
 #import "FFTutorial.h"
 #import "FFGame.h"
-#import "FFGamesCore.h"
 
 #define RADIUS 10
 
 @interface FFTutorialMessage : UIView
+
 @property (weak, nonatomic) UILabel *backText;
 @property (weak, nonatomic) UILabel *message;
 @property (weak, nonatomic) UILabel *backIndicator;
 @property (weak, nonatomic) UILabel *nextIndicator;
+
 @end
 
 @implementation FFTutorialMessage
@@ -23,8 +24,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.opaque = NO;
-        self.backgroundColor =
-                [UIColor colorWithHue:0.20 saturation:0. brightness:0.25 alpha:1];
+        self.backgroundColor = [UIColor colorWithHue:0.20 saturation:0. brightness:0.25 alpha:1];
         self.layer.cornerRadius = RADIUS;
 
         CGRect messageRect = CGRectMake(30, 0, frame.size.width-60, frame.size.height);
@@ -55,6 +55,7 @@
         back.backgroundColor = [UIColor clearColor];
         back.shadowOffset = CGSizeMake(0, 3);
         back.shadowColor = [UIColor blackColor];
+        back.userInteractionEnabled = NO;
         self.backIndicator = back;
 
         UILabel *next = [[UILabel alloc] initWithFrame:
@@ -65,6 +66,7 @@
         next.backgroundColor = [UIColor clearColor];
         next.shadowOffset = CGSizeMake(0, 3);
         next.shadowColor = [UIColor blackColor];
+        next.userInteractionEnabled = NO;
         self.nextIndicator = next;
 
         [self addSubview:self.backText];
@@ -129,25 +131,35 @@
         contentScroller.pagingEnabled = YES;
         contentScroller.showsHorizontalScrollIndicator = NO;
         contentScroller.showsVerticalScrollIndicator = NO;
+        contentScroller.userInteractionEnabled = YES;
+        contentScroller.canCancelContentTouches = YES;
+        contentScroller.scrollEnabled = YES;
         [self addSubview:contentScroller];
         self.scrollView = contentScroller;
 
         [self.scrollView setDelegate:self];
 
-        UISwipeGestureRecognizer *downSwiper = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(downSwipe)];
-        downSwiper.direction = UISwipeGestureRecognizerDirectionDown;
-        [self addGestureRecognizer:downSwiper];
+        UIButton *prv = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, self.bounds.size.height)];
+        prv.backgroundColor = [UIColor clearColor];
+        [prv addTarget:self action:@selector(goToPrevious) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:prv];
 
-        UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)];
+        UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(goToNext)];
         [self addGestureRecognizer:tapGestureRecognizer];
     }
 
     return self;
 }
 
-- (void)tapped:(UITapGestureRecognizer *)recognizer {
-    NSInteger prevPage = (NSInteger) ((self.scrollView.contentOffset.x + 1) / self.scrollView.bounds.size.width);
-    [self.scrollView setContentOffset:CGPointMake((prevPage+1)*self.scrollView.bounds.size.width, 0)
+- (void)goToPrevious {
+    NSInteger nowPage = (NSInteger) ((self.scrollView.contentOffset.x + 1) / self.scrollView.bounds.size.width);
+    [self.scrollView setContentOffset:CGPointMake(MAX(0, (nowPage-1)*self.scrollView.bounds.size.width), 0)
+                             animated:YES];
+}
+
+- (void)goToNext {
+    NSInteger nowPage = (NSInteger) ((self.scrollView.contentOffset.x + 1) / self.scrollView.bounds.size.width);
+    [self.scrollView setContentOffset:CGPointMake((nowPage+1)*self.scrollView.bounds.size.width, 0)
                              animated:YES];
 }
 
@@ -165,10 +177,6 @@
     [self disappear];
 }
 
-- (void)downSwipe {
-    [self disappear];
-}
-
 - (void)showForChallenge:(FFGame*)game {
     if (!game){
         if (!self.hidden) self.hidden = YES;
@@ -176,8 +184,9 @@
         return;
     }
 
-    if (![game.Id isEqualToString:[[FFGamesCore instance] puzzle:0].Id]){
-        // tutorial only for the first puzzle!
+    NSArray *tutTexts = [self messagesForGame:game];
+    if (tutTexts.count < 1){
+        // no tutorial defined
         self.hidden = YES;
         return;
     }
@@ -187,11 +196,10 @@
 
     [self removeOldMessages];
 
-    NSArray *tutTexts = [self messagesForGame:game];
-
     CGPoint nowCenter = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
     for (NSUInteger i = 0; i < tutTexts.count; i++){
         FFTutorialMessage *message = [[FFTutorialMessage alloc] initWithFrame:self.bounds];
+        message.userInteractionEnabled = NO;
         message.message.text = [(NSString*)[tutTexts objectAtIndex:i] uppercaseString];
         message.center = nowCenter;
         message.backIndicator.hidden = (i==0);
@@ -231,11 +239,10 @@
 }
 
 - (NSArray *)messagesForGame:(FFGame *)game {
-    return @[
-            NSLocalizedString(@"tut_1", nil), NSLocalizedString(@"tut_2", nil),
-            NSLocalizedString(@"tut_3", nil), NSLocalizedString(@"tut_4", nil),
-            NSLocalizedString(@"tut_5", nil), NSLocalizedString(@"tut_6", nil)
-    ];
+    if (!game.tutorialId) return @[];
+
+    NSString* strings = NSLocalizedString(game.tutorialId, nil);
+    return [strings componentsSeparatedByString:@"$"];
 }
 
 - (void)removeOldMessages {

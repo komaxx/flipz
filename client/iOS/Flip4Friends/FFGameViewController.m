@@ -56,8 +56,6 @@
         self.scoreRowsView = (FFScoreRowsView *) [self viewWithTag:310];
         self.scoreRowsView.boardView = self.boardView;
 
-        self.tutorial = (FFTutorial *) [self viewWithTag:212];
-
         self.challengeFooter = [self viewWithTag:222];
         self.restMovesView = (FFRestUndosView *) [self viewWithTag:223];
     }
@@ -66,6 +64,8 @@
 }
 
 - (void)didAppear {
+    self.tutorial = (FFTutorial *) [self.superview viewWithTag:212];
+
     [self.boardView didAppear];
     [self.player1PatternsControl didAppear];
     [self.player2PatternsControl didAppear];

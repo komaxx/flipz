@@ -13,6 +13,7 @@
 #import "FFGamesCore.h"
 #import "FFChallengeCreatorViewController.h"
 #import "FFPuzzleLoader.h"
+#import "FFToast.h"
 
 
 @interface FFAdditiveChallengeCreatorController ()
@@ -308,7 +309,39 @@
     FFGame* game = [self makeCurrentGame];
     NSString *json = [FFPuzzleLoader encodeGameAsJson:game];
     NSLog(@"%@", json);
+
+    if ([MFMailComposeViewController canSendMail]){
+        NSString *readableBoard = [game.Board makeAsciiBoard];
+
+        // Email Subject
+        NSString *emailTitle = @"New Level for you!";
+        // Email Content
+        NSString *messageBody = [NSString stringWithFormat:@"I just made a level :)\n\nIt looks like this:\n%@\n\nHere is the definition:\n%@", readableBoard, json];
+        // To address
+        NSArray *toRecipents = [NSArray arrayWithObject:@"flipz@poroba.com"];
+
+        MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
+        mc.mailComposeDelegate = self;
+        [mc setSubject:emailTitle];
+        [mc setMessageBody:messageBody isHTML:NO];
+        [mc setToRecipients:toRecipents];
+
+        // Present mail view controller on screen
+        [self presentViewController:mc animated:YES completion:NULL];
+    } else {
+        [[FFToast make:@"Can not send email, sorry"] show];
+    }
 }
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller
+          didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
+    [controller dismissViewControllerAnimated:YES completion:^{}];
+    
+    if (result == MFMailComposeResultSent){
+        [[FFToast make:@"Thank You! :)\nYour level may be part of the next update!"] show];
+    }
+}
+
 
 - (FFGame *)makeCurrentGame {
     FFBoard *boardCopy = [[FFBoard alloc] initWithBoard:self.board];

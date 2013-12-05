@@ -20,4 +20,6 @@
 + (NSUInteger)getTimesWonForChallengeLevel:(NSUInteger)value;
 
 + (void)setTimesWon:(NSUInteger)timesWon forChallengeLevel:(NSUInteger)level;
+
++ (BOOL)isUnlocked;
 @end

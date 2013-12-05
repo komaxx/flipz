@@ -9,6 +9,7 @@
 #import "FFGame.h"
 #import "FFPattern.h"
 #import "FFHistoryStep.h"
+#import "FFAnalytics.h"
 
 NSString *const kFFNotificationGameChanged = @"ffGameChanged";
 NSString *const kFFNotificationGameChanged_gameId = @"gameId";
@@ -157,6 +158,9 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
             return -5;
         }
 
+        [FFAnalytics log:@"UNDO_MOVE" with:[NSDictionary dictionaryWithObjectsAndKeys:
+                self.Id, @"GAME_ID", @(self.currentHistoryBackSteps), @"UNDO_STEPS",nil]];
+
         _doneUndos++;
         for (int i = 0; i < self.currentHistoryBackSteps; i++){
             [(NSMutableArray *) self.history removeObjectAtIndex:0];
@@ -172,6 +176,9 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
             initWithMove:move
                byPlayer1:player==self.player1
          andPreviousStep:[self currentHistoryStep]];
+
+    [FFAnalytics log:@"MOVEMOVE" with:[NSDictionary dictionaryWithObjectsAndKeys:
+            self.Id, @"GAME_ID", @(_challengeMoves), @"OVERALL_MOVES",nil]];
 
     [(NSMutableArray *)self.history insertObject:nuStep atIndex:0];
 
@@ -317,9 +324,15 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
         [(NSMutableArray *) self.history removeObjectAtIndex:0];
     }
     self.currentHistoryBackSteps = 0;
+    self.gameState = kFFGameState_Running;
 
     [self notifyChange];
 }
+
+- (void)setGameState:(GameState)gameState {
+    _gameState = gameState;
+}
+
 
 - (void)start {
     if (self.gameState == kFFGameState_NotYetStarted){
@@ -436,11 +449,10 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
 
     for (int i = 0; i < 8; i++){
         NSUInteger maxDistance = 3 + arc4random()%2;
-        NSUInteger tileCount = MAX(3,
-                    arc4random()%4 + arc4random()%4);
-        tileCount = MAX(i,2);
 
+        NSUInteger tileCount = (NSUInteger) MAX(i,2);
         tileCount = MIN(tileCount, maxDistance*maxDistance);
+
         FFPattern *p1Pattern = [[FFPattern alloc]
                 initWithRandomCoords:tileCount
                       andMaxDistance:maxDistance

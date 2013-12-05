@@ -9,6 +9,8 @@
 #import "FFAutoPlayer.h"
 #import "FFGamesCore.h"
 #import "FFAutoSolver.h"
+#import "Flurry.h"
+#import "FFAnalytics.h"
 
 @interface FFMainMenu ()
 @property (strong) NSMutableDictionary *autoPlayer;
@@ -28,6 +30,8 @@
                 addTarget:self action:@selector(buttonSelectChallengeTapped) forControlEvents:UIControlEventTouchUpInside];
         [(UIButton *)[self viewWithTag:13]
                 addTarget:self action:@selector(buttonHotSeatTapped) forControlEvents:UIControlEventTouchUpInside];
+        [(UIButton *)[self viewWithTag:14]
+                addTarget:self action:@selector(feedbackTapped) forControlEvents:UIControlEventTouchUpInside];
 
         self.autoPlayer = [[NSMutableDictionary alloc] initWithCapacity:1000];
         _hiding = self.hidden;
@@ -36,15 +40,23 @@
     return self;
 }
 
+- (void)feedbackTapped {
+    [FFAnalytics log:@"MAIN_MENU_FEEDBACK_TAPPED"];
+    [self.delegate openFeedbackForm];
+}
+
 - (void)buttonSelectChallengeTapped {
+    [FFAnalytics log:@"MAIN_MENU_CHALLENGE_TAPPED"];
     [self.delegate chooseRandomChallengeSelected];
 }
 
 - (void)buttonSelectPuzzleTapped {
+    [FFAnalytics log:@"MAIN_MENU_PUZZLE_TAPPED"];
     [self.delegate choosePuzzleSelected];
 }
 
 - (void)buttonHotSeatTapped {
+    [FFAnalytics log:@"MAIN_MENU_HOT_SEAT_TAPPED"];
     [self.delegate hotSeatTapped];
 }
 

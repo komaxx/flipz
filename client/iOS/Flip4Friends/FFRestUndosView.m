@@ -8,7 +8,7 @@
 #import "FFGame.h"
 #import "FFGamesCore.h"
 
-#define DOT_SIZE 16
+#define DOT_SIZE 14
 
 @interface FFRestUndosView ()
 
@@ -94,6 +94,7 @@
 }
 
 - (UIView *)makeDot {
+    //*
     CGRect startRec = CGRectMake(-20, self.bounds.size.height + 20, DOT_SIZE, DOT_SIZE);
     UIView *nuDot = [[UIView alloc] initWithFrame:startRec];
 
@@ -112,9 +113,25 @@
     shapeLayer.lineWidth = 4;
     shapeLayer.fillColor = [[UIColor clearColor] CGColor];
     CGPathAddArc(path, &CGAffineTransformIdentity, DOT_SIZE/2, DOT_SIZE/2,
-            DOT_SIZE/2, (CGFloat) M_PI_2*1.2, -(CGFloat) M_PI_2*1.0, YES);
+            DOT_SIZE/2, (CGFloat) M_PI_2*1.2, -(CGFloat) M_PI_2*2.0, YES);
+    CGPathAddLineToPoint(path, &CGAffineTransformIdentity, 0, 0);
+
     [shapeLayer setPath:path];
     CGPathRelease(path);
+    //*/
+
+    /*/
+    UILabel *nuDot = [[UILabel alloc] initWithFrame:CGRectMake(-50, self.bounds.size.height + 20, 50, 26)];
+    nuDot.text = @"UNDO";
+    nuDot.textAlignment = NSTextAlignmentCenter;
+    nuDot.font = [UIFont fontWithName:@"Futura-CondensedExtraBold" size:15];
+    nuDot.textColor = [UIColor whiteColor];
+
+    nuDot.layer.borderColor = [[UIColor whiteColor] CGColor];
+    nuDot.layer.borderWidth = 4;
+    nuDot.layer.cornerRadius = 13;
+    //*/
+
 
     return nuDot;
 }

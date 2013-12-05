@@ -6,8 +6,10 @@
 //  Copyright (c) 2013 FlippyFriends. All rights reserved.
 //
 
+#import <MessageUI/MessageUI.h>
 #import "FFViewController.h"
 #import "FFGamesCore.h"
+#import "FFToast.h"
 
 @interface FFViewController ()
 
@@ -49,6 +51,30 @@
     self.activeGameId = gameId;
     [self.gameViewController selectedGameWithId:gameId];
 }
+
+- (void)gotoStore {
+    NSLog(@"Going to Store!");
+    [self performSegueWithIdentifier:@"storeSegue" sender:self];
+}
+
+- (void)openFeedbackForm {
+    if ([MFMailComposeViewController canSendMail]){
+        MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
+        mc.mailComposeDelegate = self;
+        [mc setSubject:NSLocalizedString(@"feedback_subject_line", nil)];
+        [mc setToRecipients:@[@"flipz@poroba.com"]];
+
+        // Present mail view controller on screen
+        [self presentViewController:mc animated:YES completion:NULL];
+    } else {
+        [[FFToast make:@"This only works with your email account - which is missing :/"] show];
+    }
+}
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
+    [controller dismissViewControllerAnimated:YES completion:nil];
+}
+
 
 - (void)restartCurrentGame {
     [self.gameViewController selectedGameWithId:self.activeGameId];

@@ -49,6 +49,10 @@ typedef enum {
 @interface FFGame : NSObject
 
 @property (nonatomic, copy, readonly) NSString *Id;
+
+/**
+* Started, playing, won, aborted, ...
+*/
 @property (nonatomic, readonly) GameState gameState;
 
 /**
@@ -88,6 +92,13 @@ typedef enum {
 * Only set for challenges (not puzzles, hot seat games, ...)
 */
 @property (strong, nonatomic) NSNumber *challengeIndex;
+
+/**
+* Key of a localized string. Mostly nil, only set for puzzles (!) that
+* introduce something new.
+*/
+@property (copy, nonatomic) NSString *tutorialId;
+
 
 - (id)initWithId:(NSString *)id Type:(NSString * const)type andBoardSize:(NSInteger)size;
 

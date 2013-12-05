@@ -115,6 +115,7 @@
     label.font = [UIFont fontWithName:@"Futura-CondensedExtraBold" size:19];
     label.textColor = [UIColor whiteColor];
     label.textAlignment = NSTextAlignmentCenter;
+    label.backgroundColor = [UIColor clearColor];
 }
 
 - (void)repositionScoreColumnsAndLabelsForScore1:(NSUInteger)p1score andScore2:(NSUInteger)p2score {

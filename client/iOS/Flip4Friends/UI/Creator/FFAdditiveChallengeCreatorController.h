@@ -6,7 +6,8 @@
 
 #import <UIKit/UIKit.h>
 #import "FFPatternPaintView.h"
+#import <MessageUI/MFMailComposeViewController.h>
 
 
-@interface FFAdditiveChallengeCreatorController : UIViewController <UITableViewDataSource, UITableViewDelegate, FFPatternPaintViewDelegate>
+@interface FFAdditiveChallengeCreatorController : UIViewController <UITableViewDataSource, UITableViewDelegate, FFPatternPaintViewDelegate, MFMailComposeViewControllerDelegate>
 @end

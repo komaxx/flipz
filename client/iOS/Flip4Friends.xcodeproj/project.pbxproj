@@ -39,6 +39,7 @@
 		B6459ADFEAF9D6C8DCC50E53 /* FFHistoryStep.m in Sources */ = {isa = PBXBuildFile; fileRef = B64590A06DBE66618FB7DAFE /* FFHistoryStep.m */; };
 		B6459B39DBEF771B6645742F /* challenges.txt in Resources */ = {isa = PBXBuildFile; fileRef = B64594F85CF9B72D613D4509 /* challenges.txt */; };
 		B6459B45660C538B80CA8CD6 /* FFGamesCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B6459D650EE8DD7C7DA947FD /* FFGamesCore.m */; };
+		B6459BC5F4ADE99960BAD35A /* FFAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = B6459DC21FDF4704DE340ACD /* FFAnalytics.m */; };
 		B6459C2EF871B03AAC32992C /* FFMainBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6459CCD47F4667948E447DC /* FFMainBackgroundView.m */; };
 		B6459CABDB773FEA1003F9A8 /* FFAutoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = B6459C1478F69EB6FA43CC9D /* FFAutoPlayer.m */; };
 		B6459D38B5124639F4E20382 /* FFMove.m in Sources */ = {isa = PBXBuildFile; fileRef = B6459DE4CD778D3FBA506044 /* FFMove.m */; };
@@ -55,6 +56,12 @@
 		CEA707EF176B81FA00DD93E9 /* FFBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA707EE176B81FA00DD93E9 /* FFBoard.m */; };
 		CEA707F2176B824D00DD93E9 /* FFTile.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA707F1176B824D00DD93E9 /* FFTile.m */; };
 		CEA7BE6D1847D5AC000CEBBE /* FFChallengeSelectMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA7BE6C1847D5AC000CEBBE /* FFChallengeSelectMenu.m */; };
+		CEA7BE6F18491857000CEBBE /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA7BE6E18491857000CEBBE /* StoreKit.framework */; };
+		CEA7BE7218491969000CEBBE /* FFStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA7BE7118491969000CEBBE /* FFStoreViewController.m */; };
+		CEA7BE74184E50A6000CEBBE /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA7BE73184E50A6000CEBBE /* MessageUI.framework */; };
+		CEA7BE7818509D67000CEBBE /* libFlurry_4.3.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA7BE7718509D67000CEBBE /* libFlurry_4.3.0.a */; };
+		CEA7BE7A18509DA8000CEBBE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA7BE7918509DA8000CEBBE /* SystemConfiguration.framework */; };
+		CEA7BE7C18509DCB000CEBBE /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA7BE7B18509DCB000CEBBE /* Security.framework */; };
 		CEBBC114176B5FF3006F600E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEBBC113176B5FF3006F600E /* UIKit.framework */; };
 		CEBBC116176B5FF3006F600E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEBBC115176B5FF3006F600E /* Foundation.framework */; };
 		CEBBC118176B5FF3006F600E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEBBC117176B5FF3006F600E /* CoreGraphics.framework */; };
@@ -135,6 +142,7 @@
 		B64594F85CF9B72D613D4509 /* challenges.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = challenges.txt; sourceTree = "<group>"; };
 		B6459531ED810D7E93C0274C /* FFPatternGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFPatternGenerator.h; path = Balancing/FFPatternGenerator.h; sourceTree = "<group>"; };
 		B64595F0D80949657164B473 /* FFTutorial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFTutorial.h; sourceTree = "<group>"; };
+		B64595FEF330DAB4B56896B0 /* FFAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFAnalytics.h; sourceTree = "<group>"; };
 		B645966D7BB73B2266C7D08E /* FFPuzzleSelectMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFPuzzleSelectMenu.m; path = UI/Menu/FFPuzzleSelectMenu.m; sourceTree = "<group>"; };
 		B64596D04506AEA255CEF567 /* FFChallengeSidebar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFChallengeSidebar.m; path = UI/Menu/FFChallengeSidebar.m; sourceTree = "<group>"; };
 		B64596EC2E4374A83A77390B /* FFAdditiveChallengeCreatorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFAdditiveChallengeCreatorController.m; path = UI/Creator/FFAdditiveChallengeCreatorController.m; sourceTree = "<group>"; };
@@ -175,6 +183,7 @@
 		B6459D6DC49A57483A916B94 /* FFAutoSolver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFAutoSolver.m; sourceTree = "<group>"; };
 		B6459DAC856480E0DD1B2ECE /* FFChallengeGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFChallengeGenerator.m; sourceTree = "<group>"; };
 		B6459DB96A4A3E13496445A2 /* FFMenuBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFMenuBackgroundView.h; path = UI/Menu/FFMenuBackgroundView.h; sourceTree = "<group>"; };
+		B6459DC21FDF4704DE340ACD /* FFAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFAnalytics.m; sourceTree = "<group>"; };
 		B6459DDCE2D43901FF7D4D99 /* FFStorageUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFStorageUtil.m; sourceTree = "<group>"; };
 		B6459DE4CD778D3FBA506044 /* FFMove.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFMove.m; sourceTree = "<group>"; };
 		B6459DE572DE26764278AEFA /* FFAutoPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFAutoPlayer.h; sourceTree = "<group>"; };
@@ -198,6 +207,14 @@
 		CEA707F1176B824D00DD93E9 /* FFTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFTile.m; path = Model/FFTile.m; sourceTree = "<group>"; };
 		CEA7BE6B1847D5AC000CEBBE /* FFChallengeSelectMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFChallengeSelectMenu.h; path = UI/Menu/FFChallengeSelectMenu.h; sourceTree = "<group>"; };
 		CEA7BE6C1847D5AC000CEBBE /* FFChallengeSelectMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFChallengeSelectMenu.m; path = UI/Menu/FFChallengeSelectMenu.m; sourceTree = "<group>"; };
+		CEA7BE6E18491857000CEBBE /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		CEA7BE7018491969000CEBBE /* FFStoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFStoreViewController.h; path = UI/FFStoreViewController.h; sourceTree = "<group>"; };
+		CEA7BE7118491969000CEBBE /* FFStoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFStoreViewController.m; path = UI/FFStoreViewController.m; sourceTree = "<group>"; };
+		CEA7BE73184E50A6000CEBBE /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		CEA7BE7618509D67000CEBBE /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
+		CEA7BE7718509D67000CEBBE /* libFlurry_4.3.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_4.3.0.a; sourceTree = "<group>"; };
+		CEA7BE7918509DA8000CEBBE /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		CEA7BE7B18509DCB000CEBBE /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		CEBBC110176B5FF3006F600E /* Flip4Friends.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flip4Friends.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEBBC113176B5FF3006F600E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		CEBBC115176B5FF3006F600E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -262,9 +279,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEA7BE7C18509DCB000CEBBE /* Security.framework in Frameworks */,
+				CEA7BE7A18509DA8000CEBBE /* SystemConfiguration.framework in Frameworks */,
+				CEA7BE74184E50A6000CEBBE /* MessageUI.framework in Frameworks */,
 				CED0075D183BC78500611C91 /* AudioToolbox.framework in Frameworks */,
 				CEA592EF1780663000DD6F86 /* QuartzCore.framework in Frameworks */,
 				CEBBC114176B5FF3006F600E /* UIKit.framework in Frameworks */,
+				CEA7BE6F18491857000CEBBE /* StoreKit.framework in Frameworks */,
+				CEA7BE7818509D67000CEBBE /* libFlurry_4.3.0.a in Frameworks */,
 				CEBBC116176B5FF3006F600E /* Foundation.framework in Frameworks */,
 				CEBBC118176B5FF3006F600E /* CoreGraphics.framework in Frameworks */,
 			);
@@ -343,6 +365,16 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
+		CEA7BE7518509D67000CEBBE /* Flurry */ = {
+			isa = PBXGroup;
+			children = (
+				CEA7BE7618509D67000CEBBE /* Flurry.h */,
+				CEA7BE7718509D67000CEBBE /* libFlurry_4.3.0.a */,
+			);
+			name = Flurry;
+			path = Flip4Friends/Flurry;
+			sourceTree = "<group>";
+		};
 		CEBBC107176B5FF3006F600E = {
 			isa = PBXGroup;
 			children = (
@@ -351,6 +383,7 @@
 				CEBBC13D176B5FF4006F600E /* Flip4FriendsTests */,
 				CEBBC112176B5FF3006F600E /* Frameworks */,
 				CEBBC111176B5FF3006F600E /* Products */,
+				CEA7BE7518509D67000CEBBE /* Flurry */,
 			);
 			sourceTree = "<group>";
 		};
@@ -366,6 +399,10 @@
 		CEBBC112176B5FF3006F600E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CEA7BE7B18509DCB000CEBBE /* Security.framework */,
+				CEA7BE7918509DA8000CEBBE /* SystemConfiguration.framework */,
+				CEA7BE73184E50A6000CEBBE /* MessageUI.framework */,
+				CEA7BE6E18491857000CEBBE /* StoreKit.framework */,
 				CED0075C183BC78500611C91 /* AudioToolbox.framework */,
 				CEBBC113176B5FF3006F600E /* UIKit.framework */,
 				CEBBC115176B5FF3006F600E /* Foundation.framework */,
@@ -400,6 +437,8 @@
 				B64594D3ECBBC29320959DB4 /* FFStorageUtil.h */,
 				B6459C49B2579C17FC507479 /* FFUtil.m */,
 				B6459206A080708B7B7C8F0D /* FFUtil.h */,
+				B6459DC21FDF4704DE340ACD /* FFAnalytics.m */,
+				B64595FEF330DAB4B56896B0 /* FFAnalytics.h */,
 			);
 			path = Flip4Friends;
 			sourceTree = "<group>";
@@ -456,6 +495,8 @@
 				B6459E427B54CC498CBF155A /* FFSoundServer.h */,
 				B64599EE312B5F4FE8D66B39 /* FFGrayBackedLabel.m */,
 				B645994959EC5CE98C545413 /* FFGrayBackedLabel.h */,
+				CEA7BE7018491969000CEBBE /* FFStoreViewController.h */,
+				CEA7BE7118491969000CEBBE /* FFStoreViewController.m */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -590,6 +631,11 @@
 				TargetAttributes = {
 					CEBBC10F176B5FF3006F600E = {
 						DevelopmentTeam = M4G35422X3;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -693,6 +739,7 @@
 				B6459DEBC48BCB5E872C6F2E /* FFPatternView.m in Sources */,
 				CEC3940317F304C3007B1C67 /* FFTestGameViewController.m in Sources */,
 				B64591D5C16C0A7F919A5600 /* FFPatternsViewControl.m in Sources */,
+				CEA7BE7218491969000CEBBE /* FFStoreViewController.m in Sources */,
 				B64598F2532A41B1462E4036 /* FFMoveViewControl.m in Sources */,
 				B6459EAE7A86A4CB2BC3AA9B /* UIColor+FFColors.m in Sources */,
 				CEBD2C2617A16D5B008C0835 /* FFMenuViewController.m in Sources */,
@@ -729,6 +776,7 @@
 				B64590653DA66EBC369DDB18 /* FFScoreRowsView.m in Sources */,
 				B64591BBDC0C30A0F975BBB8 /* FFHotSeatMenu.m in Sources */,
 				B645980ECD8460E1A010403A /* FFRestUndosView.m in Sources */,
+				B6459BC5F4ADE99960BAD35A /* FFAnalytics.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -843,6 +891,10 @@
 				GCC_PREFIX_HEADER = "Flip4Friends/Flip4Friends-Prefix.pch";
 				INFOPLIST_FILE = "Flip4Friends/Flip4Friends-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/matthiasschicker/F4F/Flip4Friends/client/iOS/Flip4Friends/Flurry,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
@@ -858,6 +910,10 @@
 				GCC_PREFIX_HEADER = "Flip4Friends/Flip4Friends-Prefix.pch";
 				INFOPLIST_FILE = "Flip4Friends/Flip4Friends-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/matthiasschicker/F4F/Flip4Friends/client/iOS/Flip4Friends/Flurry,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;

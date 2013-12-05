@@ -11,6 +11,8 @@
 #import "FFMenuViewController.h"
 #import "FFGamesCore.h"
 #import "FFStorageUtil.h"
+#import "Flurry.h"
+#import "FFAnalytics.h"
 
 @interface FFGameFinishedMenu ()
 @property (weak, nonatomic) FFButton* nextRepeatButton;
@@ -73,7 +75,8 @@
         } else if (game.Type == kFFGameTypeHotSeat){
             nuTitle = NSLocalizedString(@"finished_title_congratulations", nil);
 
-            if ([[game winningPlayer].id isEqualToString:game.player2.id]){
+            BOOL player2Won = [[game winningPlayer].id isEqualToString:game.player2.id];
+            if (player2Won){
                 self.transform = CGAffineTransformMakeRotation((CGFloat) M_PI);
                 nuMessage = [NSString stringWithFormat:NSLocalizedString(@"finished_message_you_won", nil),
                                                        [game scoreForColor:1], [game scoreForColor:0]];
@@ -82,6 +85,13 @@
                 nuMessage = [NSString stringWithFormat:NSLocalizedString(@"finished_message_you_won", nil),
                                                        [game scoreForColor:0], [game scoreForColor:1]];
             }
+
+            [FFAnalytics log:@"HOT_SEAT_GAME_FINISHED"
+                        with:[NSDictionary dictionaryWithObjectsAndKeys:
+                      @(player2Won),@"BLACK_WON",
+                      @([game scoreForColor:0]),@"WHITE_SCORE",
+                      @([game scoreForColor:1]),@"BLACK_SCORE", nil
+              ]];
 
             [self.nextRepeatButton setTitle:NSLocalizedString(@"btn_rematch", nil) forState:UIControlStateNormal];
             self.nextRepeatButtonAction = @selector(rematch);
@@ -94,11 +104,11 @@
 }
 
 - (int)challengesPlayedSimilarTo:(FFGame *)game {
-    [FFStorageUtil getTimesPlayedForChallengeLevel:[[game challengeIndex] unsignedIntegerValue]];
+    return [FFStorageUtil getTimesPlayedForChallengeLevel:[[game challengeIndex] unsignedIntegerValue]];
 }
 
 - (int)challengesWonSimilarTo:(FFGame *)game {
-    [FFStorageUtil getTimesWonForChallengeLevel:[[game challengeIndex] unsignedIntegerValue]];
+    return [FFStorageUtil getTimesWonForChallengeLevel:[[game challengeIndex] unsignedIntegerValue]];
 }
 
 @end

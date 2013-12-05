@@ -16,6 +16,7 @@
 @end
 
 @implementation FFPuzzleSelectMenu {
+    BOOL _previoulsyShown;
 }
 @synthesize delegate = _delegate;
 
@@ -83,13 +84,12 @@
     if (index >= [FFStorageUtil firstUnsolvedPuzzleIndex]){
         FFToast *toast = [FFToast make:NSLocalizedString(@"puzzle_not_yet_unlocked", nil)];
         [toast show];
-
-        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     } else {
         FFGame *game = [[FFGamesCore instance] puzzle:(NSUInteger) index];
         [game clean];
         [self.delegate activatePuzzleAtIndex:(NSUInteger) index];
     }
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (void)refreshListCells {
@@ -101,11 +101,16 @@
 
     self.hidden = hidden;
     if (!hidden){
-        // just displayed -> focus on last unsolved element
-        NSIndexPath *indexPath = [NSIndexPath
-                indexPathForRow:MAX(0,[FFStorageUtil firstUnsolvedPuzzleIndex]-3)
-                      inSection:0];
-        [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+
+
+        if (!_previoulsyShown){
+            // just displayed -> focus on last unsolved element
+            NSIndexPath *indexPath = [NSIndexPath
+                    indexPathForRow:MAX(0,[FFStorageUtil firstUnsolvedPuzzleIndex]-3)
+                          inSection:0];
+            [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+            _previoulsyShown = YES;
+        }
     }
 }
 

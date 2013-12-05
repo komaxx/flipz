@@ -94,4 +94,6 @@ typedef enum {
 - (void)clampTiles;
 
 - (void)addColorsToArray:(NSMutableArray *)array;
+
+- (NSString*)makeAsciiBoard;
 @end

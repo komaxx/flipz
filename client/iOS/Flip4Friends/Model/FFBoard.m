@@ -349,4 +349,36 @@
         [array addObject:[NSNumber numberWithInt:tile.color]];
     }
 }
+
+- (NSString*)makeAsciiBoard {
+    NSString *ret = @"";
+    for (NSUInteger y = 0; y < self.BoardSize; y++){
+        for (NSUInteger x = 0; x < self.BoardSize; x++){
+            ret = [ret stringByAppendingString:
+                    [NSString stringWithFormat:@"%@",
+                                    [self asciiColorFor:[self tileAtX:x andY:y].color]]];
+        }
+        ret = [ret stringByAppendingString:@"\n"];
+    }
+
+    return ret;
+}
+
+- (NSString*)asciiColorFor:(NSInteger)color {
+    if (self.BoardType == kFFBoardType_twoStated){
+        if (color == 0) return @"_";
+        return @"X";
+    } else {
+        switch (color){
+            case 0: return @"_";
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6: return [NSString stringWithFormat:@"%i", color];
+        }
+    }
+    return @"?";
+}
 @end

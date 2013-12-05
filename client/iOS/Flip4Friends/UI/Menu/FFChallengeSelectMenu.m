@@ -84,11 +84,10 @@
     if (locked){
         FFToast *toast = [FFToast make:NSLocalizedString(@"challenge_not_yet_unlockedd", nil)];
         [toast show];
-
-        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     } else {
         [self.delegate activateRandomChallengeAtIndex:index];
     }
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (void)refreshListCells {

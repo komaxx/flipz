@@ -7,12 +7,14 @@
 //
 
 #import "FFAppDelegate.h"
+#import "Flurry.h"
+#import "FFAnalytics.h"
 
 @implementation FFAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
-
+    [FFAnalytics appDidLoad];
+    
     return YES;
 }
 							

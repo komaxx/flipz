@@ -236,7 +236,7 @@
         }];
 
         centerPoint = CGPointMake(centerPoint.x, centerPoint.y + _interStepDelta);
-        alpha -= 0.05;
+        alpha -= 0.08;
     }
 
     // position the 'now' thumb

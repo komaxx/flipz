@@ -86,6 +86,8 @@ static NSUInteger creationId;
     challenge.Board.lockMoves = [(NSNumber *)[definition objectForKey:@"lockmoves"] intValue];
     challenge.Board.BoardType = (FFBoardType) [(NSNumber *)[definition objectForKey:@"boardtype"] intValue];
 
+    challenge.tutorialId = [definition objectForKey:@"tutorial"];
+
     // //////////////////////////////////////////////////////////////////////////////////////////
     // load boardView
     NSArray *colors = [definition objectForKey:@"boardcolors"];

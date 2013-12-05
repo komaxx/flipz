@@ -7,9 +7,12 @@
 #import "FFStorageUtil.h"
 #import "FFGamesCore.h"
 
+#define UNLOCKED_KEY @"unlocked"
 #define FIRST_UNSOLVED_CHALLENGE_INDEX_KEY @"firstUnsolvedChallenge"
 #define CHALLENGE_TIMES_PLAYED_KEY @"challengeTimesPlayed_%i"
 #define CHALLENGE_TIMES_WON_KEY @"challengeTimesWon_%i"
+
+//#define DEBUG_ALL_ACCESS 1
 
 @implementation FFStorageUtil {
 }
@@ -17,7 +20,27 @@
 static NSUInteger _firstUnsolvedChallengeIndex;
 static NSMutableDictionary *_challengeTimesPlayed;
 static NSMutableDictionary *_challengeTimesWon;
+static NSNumber *unlocked;
 
+
++ (BOOL)isUnlocked {
+    #ifdef DEBUG_ALL_ACCESS
+    return YES;
+    #endif
+
+    if (!unlocked){
+        unlocked = @([[NSUserDefaults standardUserDefaults] boolForKey:UNLOCKED_KEY]);
+    }
+    return [unlocked boolValue];
+}
+
++ (void)unlockThisAwesomeFantasmagon {
+    unlocked = @(YES);
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:UNLOCKED_KEY];
+}
+
+//////////////////////////////////////////////////////////////////
+// challenge times played.
 
 + (NSUInteger)firstUnsolvedPuzzleIndex {
     if (_firstUnsolvedChallengeIndex < 1){
@@ -25,7 +48,7 @@ static NSMutableDictionary *_challengeTimesWon;
             (NSUInteger) [[NSUserDefaults standardUserDefaults] integerForKey:FIRST_UNSOLVED_CHALLENGE_INDEX_KEY]);
 
         #ifdef DEBUG_ALL_ACCESS
-        _firstUnsolvedChallengeIndex = 10;
+        _firstUnsolvedChallengeIndex = 70;
         #endif
     }
 
@@ -40,7 +63,6 @@ static NSMutableDictionary *_challengeTimesWon;
                                                forKey:FIRST_UNSOLVED_CHALLENGE_INDEX_KEY];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
-
 
 //////////////////////////////////////////////////////////////////
 // challenge times played.

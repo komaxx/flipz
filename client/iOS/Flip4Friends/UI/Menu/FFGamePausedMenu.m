@@ -9,10 +9,12 @@
 #import "FFMenuViewController.h"
 #import "FFButton.h"
 #import "FFGamesCore.h"
+#import "FFAnalytics.h"
 
 @interface FFGamePausedMenu ()
 @property (weak, nonatomic) FFButton *menuButton;
 @property (weak, nonatomic) FFButton *resumeButton;
+@property (weak, nonatomic) UILabel *message;
 @end
 
 
@@ -30,6 +32,8 @@
 
         self.resumeButton = (FFButton *) [self viewWithTag:702];
         [self.resumeButton addTarget:self action:@selector(resumeTapped:) forControlEvents:UIControlEventTouchUpInside];
+
+        self.message = (UILabel *) [self viewWithTag:705];
     }
 
     return self;
@@ -51,11 +55,26 @@
 
 - (void)hide:(BOOL)b {
     if (!b && self.hidden){
+        [FFAnalytics log:@"SHOW_PAUSE_MENU"];
+
         FFGame *game = [[FFGamesCore instance] gameWithId:self.delegate.delegate.activeGameId];
         if (game && [game.Type isEqualToString:kFFGameTypeHotSeat]){
             self.transform = CGAffineTransformMakeRotation((CGFloat) M_PI / -2.0);
+            NSString *nuTxt = NSLocalizedString(@"paused_message_hot_seat", nil);
+            for (int i = 3; i <= 6; i++){
+                nuTxt = [NSString stringWithFormat:@"%@%i■ → %ipt", nuTxt, i, [game.Board scoreStraightWithLength:i]];
+
+                if (i%2 == 0){
+                    nuTxt = [NSString stringWithFormat:@"%@\n", nuTxt];
+                } else {
+                    nuTxt = [NSString stringWithFormat:@"%@     ", nuTxt];
+                }
+            }
+
+            self.message.text = nuTxt;
         } else {
             self.transform = CGAffineTransformIdentity;
+            self.message.text = NSLocalizedString(@"paused_message_single_player", nil);
         }
 
         if ([game isRandomChallenge]){
