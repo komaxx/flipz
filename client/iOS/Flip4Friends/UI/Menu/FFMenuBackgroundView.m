@@ -40,7 +40,6 @@
             [UIColor colorWithHue:0.7 saturation:0.7 brightness:0.8 alpha:0.9],
             [UIColor colorWithHue:0.7 saturation:0.6 brightness:0.8 alpha:0.8],
             [UIColor colorWithHue:0.7 saturation:0.5 brightness:0.8 alpha:0.7],
-//            [UIColor colorWithHue:0.20 saturation:0.4 brightness:0.4 alpha:1],
     ];
 
     int count = MIN(colors.count, (NSInteger)(self.bounds.size.height/(2* RADIUS)/2));
@@ -65,6 +64,20 @@
         CGContextSetFillColorWithColor(context, [(UIColor *)[colors objectAtIndex:i] CGColor]);
         CGContextFillPath(context);
     }
+
+    // add center row?
+    int rows = (NSInteger)(self.bounds.size.height/(2*RADIUS));
+    if (count < colors.count && rows%2==1){
+        circleRect.origin.x = 0;
+        circleRect.origin.y = count*2* RADIUS;
+        for (int x = 0; x <= rect.size.width; x+=2*RADIUS){
+            CGContextAddEllipseInRect(context, circleRect);
+            circleRect.origin.x = x;
+        }
+        CGContextSetFillColorWithColor(context, [(UIColor *)[colors objectAtIndex:count] CGColor]);
+        CGContextFillPath(context);
+    }
+
 
     CGContextRestoreGState(context);
 }

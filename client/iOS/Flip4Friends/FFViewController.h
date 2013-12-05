@@ -12,7 +12,7 @@
 
 @class FFGame;
 
-@interface FFViewController : UIViewController <FFGameViewControllerDelegate, FFMenuViewControllerDelegate>
+@interface FFViewController : UIViewController <FFGameViewControllerDelegate, FFMenuViewControllerDelegate, MFMailComposeViewControllerDelegate>
 
 @property (copy, nonatomic, readonly) NSString *activeGameId;
 
