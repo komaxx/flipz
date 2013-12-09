@@ -28,4 +28,5 @@ extern NSString *const FFStoreDataHandlerNotification;
 - (void)fetchBasicData;
 - (void)unlockNow;
 
+- (void)restorePreviousTransactions;
 @end

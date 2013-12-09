@@ -3,17 +3,14 @@ Sorted by priority:
 
 
 MUST
-* InAapp purchase:
-    * Lock random games and puzzles from level 21
-    * Store screen
+* Disable Sound button
+* Loading image
 * Flurry Analytics
 * Support website
 * some more levels
 
 
 CAN
-* Disable Sound button
-* Loading image
 * Localize to German
 * Game Center possibilities
 * Won/lost sounds
@@ -28,6 +25,10 @@ CAN
 
 
 DONE
+* InAapp purchase:
+    * Lock random games and puzzles from level 21
+    * Store screen
+    * Restore
 * Feedback button
 * Challenge list entry
 * Unlock random games

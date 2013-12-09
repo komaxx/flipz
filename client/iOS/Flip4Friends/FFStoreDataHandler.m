@@ -167,4 +167,10 @@ NSString *const FFStoreDataHandlerNotification = @"StoreDataHandlerNotification"
     [[NSNotificationCenter defaultCenter] postNotificationName:FFStoreDataHandlerNotification object:nil userInfo:nil];
 }
 
+- (void)restorePreviousTransactions {
+    [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
+
+    self.unlockingState = kFFUnlockingState_Unlocking;
+    [self notifyChange];
+}
 @end

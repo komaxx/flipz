@@ -159,6 +159,7 @@
 
 - (IBAction)alreadyUnlockedButton:(id)sender {
     [FFAnalytics log:@"STORE_ALREADY_UNLOCKED_TAPPED"];
+    [[self dataHandler] restorePreviousTransactions];
 }
 
 - (IBAction)unlockButtonTapped:(id)sender {
