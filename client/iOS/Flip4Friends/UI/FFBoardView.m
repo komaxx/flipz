@@ -230,6 +230,7 @@
 
 - (void)startIntroFlipping {
     if (_introFlipping) return;
+
     _introFlipping = YES;
     _enableAudio = NO;
 

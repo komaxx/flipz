@@ -4,7 +4,6 @@ Sorted by priority:
 
 MUST
 * Disable Sound button
-* Loading image
 * Flurry Analytics
 * Support website
 * some more levels
@@ -13,6 +12,7 @@ MUST
 CAN
 * Localize to German
 * Game Center possibilities
+* Loading image
 * Won/lost sounds
 * fine-tune auto-generated levels: 1,2,3: ok
 * Show double-locked tiles as double-locked

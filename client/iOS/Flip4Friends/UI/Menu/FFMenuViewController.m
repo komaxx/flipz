@@ -322,6 +322,7 @@ typedef enum {
 }
 
 - (void)anotherRandomChallenge {
+    [FFAnalytics log:@"CHALLENGE_ANOTHER_TAPPED"];
     [self activateRandomChallengeAtIndex:_currentRandomChallenge];
 }
 

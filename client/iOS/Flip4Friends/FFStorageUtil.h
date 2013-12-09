@@ -24,4 +24,8 @@
 + (BOOL)isUnlocked;
 
 + (void)unlockThisAwesomeFantasmagon;
+
++ (void)setSoundDisabled:(BOOL)b;
+
++ (BOOL)isSoundDisabled;
 @end

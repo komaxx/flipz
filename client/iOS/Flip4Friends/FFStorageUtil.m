@@ -11,6 +11,7 @@
 #define FIRST_UNSOLVED_CHALLENGE_INDEX_KEY @"firstUnsolvedChallenge"
 #define CHALLENGE_TIMES_PLAYED_KEY @"challengeTimesPlayed_%i"
 #define CHALLENGE_TIMES_WON_KEY @"challengeTimesWon_%i"
+#define SOUND_DISABLED_KEY @"sound_disabled"
 
 //#define DEBUG_ALL_ACCESS 1
 
@@ -21,6 +22,8 @@ static NSUInteger _firstUnsolvedChallengeIndex;
 static NSMutableDictionary *_challengeTimesPlayed;
 static NSMutableDictionary *_challengeTimesWon;
 static NSNumber *unlocked;
+
+static BOOL soundIsDisabled;
 
 
 + (BOOL)isUnlocked {
@@ -130,4 +133,20 @@ static NSNumber *unlocked;
     }
 }
 
+//////////////////////////////////////////////////////////////////
+// sound on or off
+
++ (void)setSoundDisabled:(BOOL)b {
+    soundIsDisabled = b;
+    [[NSUserDefaults standardUserDefaults] setBool:b forKey:SOUND_DISABLED_KEY];
+}
+
+static BOOL readSoundDisabledFromDisk;
++ (BOOL)isSoundDisabled {
+    if (!readSoundDisabledFromDisk){
+        soundIsDisabled = [[NSUserDefaults standardUserDefaults] boolForKey:SOUND_DISABLED_KEY];
+        readSoundDisabledFromDisk = YES;
+    }
+    return soundIsDisabled;
+}
 @end

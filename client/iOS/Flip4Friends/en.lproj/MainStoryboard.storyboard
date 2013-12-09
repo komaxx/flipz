@@ -767,6 +767,14 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                             </button>
+                                            <button opaque="NO" tag="15" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="2WY-rP-5Js" userLabel="sound_on_off">
+                                                <rect key="frame" x="280" y="440" width="40" height="40"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <state key="normal" image="sound_on.png">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                            </button>
                                         </subviews>
                                     </view>
                                     <view hidden="YES" tag="750" contentMode="scaleToFill" id="VOL-tU-YPl" userLabel="hotSeatMenu" customClass="FFHotSeatMenu">
@@ -1567,6 +1575,7 @@
     <resources>
         <image name="black_pattern.png" width="200" height="200"/>
         <image name="lock.png" width="19" height="22"/>
+        <image name="sound_on.png" width="30" height="32"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

@@ -6,6 +6,7 @@
 
 #import <AudioToolbox/AudioToolbox.h>
 #import "FFSoundServer.h"
+#import "FFStorageUtil.h"
 
 @interface FFSoundServer ()
 @property CFURLRef flipUrl;
@@ -28,7 +29,7 @@
 }
 
 - (void)playFlipSound {
-    AudioServicesPlaySystemSound (self.flipId);
+    if (![FFStorageUtil isSoundDisabled]) AudioServicesPlaySystemSound (self.flipId);
 }
 
 // //////////////////////////////////////////////////////////////////////

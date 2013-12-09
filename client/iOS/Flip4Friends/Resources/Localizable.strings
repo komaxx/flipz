@@ -43,7 +43,7 @@
 "feedback_subject_line" = "Feedback for you!";
 
 "dialog_title_could_not_access_store" = "Dang! Retry?";
-"dialog_could_not_access_store" = "Could not reach the store :(\nTry again?";
+"dialog_could_not_access_store" = "Could not reach the store :(\nIs your internet connection working?";
 "cancel" = "Cancel";
 "try_again" = "Try again";
 "btn_unlock_now" = "%@\nUNLOCK NOW";

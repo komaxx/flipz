@@ -11,9 +11,11 @@
 #import "FFAutoSolver.h"
 #import "Flurry.h"
 #import "FFAnalytics.h"
+#import "FFStorageUtil.h"
 
 @interface FFMainMenu ()
 @property (strong) NSMutableDictionary *autoPlayer;
+@property (weak, nonatomic) UIButton *soundOnOffButton;
 @end
 
 
@@ -33,11 +35,26 @@
         [(UIButton *)[self viewWithTag:14]
                 addTarget:self action:@selector(feedbackTapped) forControlEvents:UIControlEventTouchUpInside];
 
+        self.soundOnOffButton = (UIButton *)[self viewWithTag:15];
+        [self.soundOnOffButton addTarget:self action:@selector(soundOnOffTapped) forControlEvents:UIControlEventTouchUpInside];
+
         self.autoPlayer = [[NSMutableDictionary alloc] initWithCapacity:1000];
         _hiding = self.hidden;
     }
 
     return self;
+}
+
+- (void)soundOnOffTapped {
+    BOOL wasDisabled = [FFStorageUtil isSoundDisabled];
+    [FFStorageUtil setSoundDisabled:!wasDisabled];
+
+    [self updateDisableSoundButton];
+}
+
+- (void)updateDisableSoundButton {
+    UIImage *nuPic = [UIImage imageNamed:[FFStorageUtil isSoundDisabled] ? @"sound_off.png" : @"sound_on.png"];
+    [self.soundOnOffButton setImage:nuPic forState:UIControlStateNormal];
 }
 
 - (void)feedbackTapped {
@@ -72,6 +89,7 @@
         }];
     } else {
         self.hidden = NO;
+        [self updateDisableSoundButton];
         [UIView animateWithDuration:0.2 animations:^{
             self.center = CGPointMake(160, center.y);
         }];
