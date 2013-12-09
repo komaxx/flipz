@@ -14,7 +14,7 @@
 + (void)appDidLoad {
     NSLog(@"Logging initialized.");
 
-    [Flurry setDebugLogEnabled:YES];
+//    [Flurry setDebugLogEnabled:YES];
 
     [Flurry setCrashReportingEnabled:YES];
     [Flurry startSession:@"PFNPNQ45HRB6WCVBJQF3"];

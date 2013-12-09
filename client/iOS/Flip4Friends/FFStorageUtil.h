@@ -22,4 +22,6 @@
 + (void)setTimesWon:(NSUInteger)timesWon forChallengeLevel:(NSUInteger)level;
 
 + (BOOL)isUnlocked;
+
++ (void)unlockThisAwesomeFantasmagon;
 @end

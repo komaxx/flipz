@@ -41,3 +41,14 @@
 "paused_message_hot_seat" = "Points per line length:\n";
 
 "feedback_subject_line" = "Feedback for you!";
+
+"dialog_title_could_not_access_store" = "Dang! Retry?";
+"dialog_could_not_access_store" = "Could not reach the store :(\nTry again?";
+"cancel" = "Cancel";
+"try_again" = "Try again";
+"btn_unlock_now" = "%@\nUNLOCK NOW";
+"thank_you_message" = "THANK YOU!\n\nEnjoy the Game :)";
+
+"dialog_title_unlocking_failed" = "Transaction failed >_<";
+"dialog_unlocking_failed" = "Something went wrong :(\nYou won't be charged for that but the game is not unlocked either.";
+"thats_some_bullshit" = "Awww. That sucks!";

@@ -25,6 +25,7 @@
 		B64595B255EF69B6A039FC45 /* FFSoundServer.m in Sources */ = {isa = PBXBuildFile; fileRef = B6459964F21A00A133115CF0 /* FFSoundServer.m */; };
 		B64595B9B5072D416D5547A9 /* FFPattern.m in Sources */ = {isa = PBXBuildFile; fileRef = B6459ACD945C050F35B6DB67 /* FFPattern.m */; };
 		B64595BF85464C007635E6EF /* FFUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B6459C49B2579C17FC507479 /* FFUtil.m */; };
+		B645963B4CD6B24D57D5B100 /* FFStoreDataHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B64597C193B4767440DD8559 /* FFStoreDataHandler.m */; };
 		B64596554E12012732F35E91 /* FFAutoSolver.m in Sources */ = {isa = PBXBuildFile; fileRef = B6459D6DC49A57483A916B94 /* FFAutoSolver.m */; };
 		B64596C17E21C0298D869550 /* FFCreateChallengeSession.m in Sources */ = {isa = PBXBuildFile; fileRef = B645991F724C0DEE5D3B3C83 /* FFCreateChallengeSession.m */; };
 		B64597706BFD80213718D3DA /* FFHotSeatSidebar.m in Sources */ = {isa = PBXBuildFile; fileRef = B645970313013BA1417922A3 /* FFHotSeatSidebar.m */; };
@@ -142,6 +143,7 @@
 		B64594F85CF9B72D613D4509 /* challenges.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = challenges.txt; sourceTree = "<group>"; };
 		B6459531ED810D7E93C0274C /* FFPatternGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFPatternGenerator.h; path = Balancing/FFPatternGenerator.h; sourceTree = "<group>"; };
 		B64595F0D80949657164B473 /* FFTutorial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFTutorial.h; sourceTree = "<group>"; };
+		B64595F6BE139A4E292D3500 /* FFStoreDataHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFStoreDataHandler.h; sourceTree = "<group>"; };
 		B64595FEF330DAB4B56896B0 /* FFAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFAnalytics.h; sourceTree = "<group>"; };
 		B645966D7BB73B2266C7D08E /* FFPuzzleSelectMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFPuzzleSelectMenu.m; path = UI/Menu/FFPuzzleSelectMenu.m; sourceTree = "<group>"; };
 		B64596D04506AEA255CEF567 /* FFChallengeSidebar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFChallengeSidebar.m; path = UI/Menu/FFChallengeSidebar.m; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 		B64597235911B27104BD689A /* FFRestUndosView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFRestUndosView.m; sourceTree = "<group>"; };
 		B645974FD0AC315D6039709A /* FFCoord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFCoord.h; sourceTree = "<group>"; };
 		B64597BFD80A832854364428 /* FFHotSeatStateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFHotSeatStateView.m; sourceTree = "<group>"; };
+		B64597C193B4767440DD8559 /* FFStoreDataHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFStoreDataHandler.m; sourceTree = "<group>"; };
 		B645980C027083820A3C125A /* FFCoord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFCoord.m; sourceTree = "<group>"; };
 		B6459871B8EF6DDEC7B6C3E5 /* FFMainMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFMainMenu.h; path = UI/Menu/FFMainMenu.h; sourceTree = "<group>"; };
 		B645991F724C0DEE5D3B3C83 /* FFCreateChallengeSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFCreateChallengeSession.m; sourceTree = "<group>"; };
@@ -497,6 +500,8 @@
 				B645994959EC5CE98C545413 /* FFGrayBackedLabel.h */,
 				CEA7BE7018491969000CEBBE /* FFStoreViewController.h */,
 				CEA7BE7118491969000CEBBE /* FFStoreViewController.m */,
+				B64597C193B4767440DD8559 /* FFStoreDataHandler.m */,
+				B64595F6BE139A4E292D3500 /* FFStoreDataHandler.h */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -630,7 +635,7 @@
 				ORGANIZATIONNAME = FlippyFriends;
 				TargetAttributes = {
 					CEBBC10F176B5FF3006F600E = {
-						DevelopmentTeam = M4G35422X3;
+						DevelopmentTeam = 2CVU9AA4FB;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
 								enabled = 1;
@@ -777,6 +782,7 @@
 				B64591BBDC0C30A0F975BBB8 /* FFHotSeatMenu.m in Sources */,
 				B645980ECD8460E1A010403A /* FFRestUndosView.m in Sources */,
 				B6459BC5F4ADE99960BAD35A /* FFAnalytics.m in Sources */,
+				B645963B4CD6B24D57D5B100 /* FFStoreDataHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -885,8 +891,8 @@
 		CEBBC149176B5FF4006F600E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Matthias Schicker (XD7PEZJ2GD)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Matthias Schicker (XD7PEZJ2GD)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Flip4Friends/Flip4Friends-Prefix.pch";
 				INFOPLIST_FILE = "Flip4Friends/Flip4Friends-Info.plist";
@@ -896,7 +902,7 @@
 					/Users/matthiasschicker/F4F/Flip4Friends/client/iOS/Flip4Friends/Flurry,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "8875F42B-24FE-47E1-8ECC-3518DE13DE89";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -904,8 +910,8 @@
 		CEBBC14A176B5FF4006F600E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Matthias Schicker (XD7PEZJ2GD)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Matthias Schicker (XD7PEZJ2GD)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Flip4Friends/Flip4Friends-Prefix.pch";
 				INFOPLIST_FILE = "Flip4Friends/Flip4Friends-Info.plist";
@@ -915,7 +921,7 @@
 					/Users/matthiasschicker/F4F/Flip4Friends/client/iOS/Flip4Friends/Flurry,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "8875F42B-24FE-47E1-8ECC-3518DE13DE89";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

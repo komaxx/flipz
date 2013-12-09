@@ -9,12 +9,20 @@
 #import "FFAppDelegate.h"
 #import "Flurry.h"
 #import "FFAnalytics.h"
+#import "FFStoreDataHandler.h"
+
+@interface FFAppDelegate ()
+@property (readwrite, strong, nonatomic) FFStoreDataHandler* dataHandler;
+@end
 
 @implementation FFAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [FFAnalytics appDidLoad];
-    
+
+    self.dataHandler = [[FFStoreDataHandler alloc] init];
+    [self.dataHandler fetchBasicData];
+
     return YES;
 }
 							

@@ -161,6 +161,9 @@ typedef enum {
                     @([FFStorageUtil getTimesWonForChallengeLevel:level]),@"TIMES_WON",
                     @([FFStorageUtil getTimesPlayedForChallengeLevel:level]),@"TIMES_PLAYED", nil
             ]];
+        } else {
+            [FFAnalytics log:@"PUZZLE_WON" with:[NSDictionary dictionaryWithObjectsAndKeys:
+                    @(_currentlyAttemptedPuzzle),@"LEVEL", nil]];
         }
 
         [self changeState:menuState_gameFinished];
