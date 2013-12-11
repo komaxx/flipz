@@ -3,8 +3,6 @@ Sorted by priority:
 
 
 MUST
-* Disable Sound button
-* Flurry Analytics
 * Support website
 * some more levels
 
@@ -25,6 +23,9 @@ CAN
 
 
 DONE
+* Flurry Analytics
+* Disable Sound button
+* Move tic sound
 * InAapp purchase:
     * Lock random games and puzzles from level 21
     * Store screen

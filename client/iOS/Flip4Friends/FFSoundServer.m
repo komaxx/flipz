@@ -9,8 +9,13 @@
 #import "FFStorageUtil.h"
 
 @interface FFSoundServer ()
+
 @property CFURLRef flipUrl;
 @property SystemSoundID flipId;
+
+@property CFURLRef ticUrl;
+@property SystemSoundID ticId;
+
 @end
 
 
@@ -21,8 +26,10 @@
     self = [super init];
     if (self) {
         self.flipUrl = (__bridge CFURLRef) [[NSBundle mainBundle] URLForResource: @"flip" withExtension: @"aiff"];
+        self.ticUrl = (__bridge CFURLRef) [[NSBundle mainBundle] URLForResource: @"tic" withExtension: @"aiff"];
 
         AudioServicesCreateSystemSoundID ( self.flipUrl, &_flipId);
+        AudioServicesCreateSystemSoundID ( self.ticUrl, &_ticId);
     }
 
     return self;
@@ -30,6 +37,10 @@
 
 - (void)playFlipSound {
     if (![FFStorageUtil isSoundDisabled]) AudioServicesPlaySystemSound (self.flipId);
+}
+
+- (void)playTicSound {
+    if (![FFStorageUtil isSoundDisabled]) AudioServicesPlaySystemSound (self.ticId);
 }
 
 // //////////////////////////////////////////////////////////////////////

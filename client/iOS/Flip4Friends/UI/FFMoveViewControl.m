@@ -10,6 +10,8 @@
 #import "FFGameViewController.h"
 #import "UIColor+FFColors.h"
 #import "FFGame.h"
+#import "FFStorageUtil.h"
+#import "FFSoundServer.h"
 
 #define TWO_PI (2*M_PI)
 
@@ -27,6 +29,8 @@
 @property (strong, nonatomic) NSMutableArray *patternViews;
 
 @property (strong, nonatomic) CADisplayLink *displayLink;
+
+@property (strong, nonatomic) FFCoord *lastSnapCoord;
 
 @end
 
@@ -62,6 +66,7 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         self.patternViews = [[NSMutableArray alloc] initWithCapacity:10];
+        self.lastSnapCoord = [[FFCoord alloc] initWithX:100 andY:100];
     }
 
     return self;
@@ -315,9 +320,19 @@
     CGFloat tileSize = [self.boardView computeTileSize];
     FFCoord *snapCoord = [self computeSnapCoord];
 
+    // play sound if necessary
+    if (![FFStorageUtil isSoundDisabled]){
+        if (self.lastSnapCoord.x != snapCoord.x || self.lastSnapCoord.y != snapCoord.y){
+            [[FFSoundServer instance] playTicSound];
+
+            self.lastSnapCoord.x = snapCoord.x;
+            self.lastSnapCoord.y = snapCoord.y;
+        } // else: not moved, no sound necessary
+    }
+
     CGPoint snapPoint = CGPointMake(snapCoord.x * tileSize, snapCoord.y * tileSize);
 
-    // and back to the real coordinate system based on t    he BoardView
+    // and back to the real coordinate system based on the BoardView
     BOOL toppled = _targetDirection %2 == 1;
     NSInteger width = toppled ? self.activePattern.SizeY : self.activePattern.SizeX;
     NSInteger height = toppled ? self.activePattern.SizeX : self.activePattern.SizeY;

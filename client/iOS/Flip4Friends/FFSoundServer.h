@@ -11,4 +11,6 @@
 + (FFSoundServer *)instance;
 
 - (void)playFlipSound;
+
+- (void)playTicSound;
 @end
