@@ -51,14 +51,13 @@
         "boardtype":2,
         "overlap":true,
         "patterns":[
-            { "coords":7, "rotating":false, "max_square_size":3 },
-            { "coords":7, "rotating":false, "max_square_size":3 },
-            { "coords":7, "rotating":false, "max_square_size":3 },
-            { "coords":7, "rotating":false, "max_square_size":3 },
-            { "coords":7, "rotating":false, "max_square_size":3 },
-            { "coords":7, "rotating":false, "max_square_size":3 },
-            { "coords":7, "rotating":false, "max_square_size":3 },
-            { "coords":7, "rotating":false, "max_square_size":3 }
+            { "coords":9, "rotating":false, "max_square_size":3 },
+            { "coords":9, "rotating":false, "max_square_size":3 },
+            { "coords":9, "rotating":false, "max_square_size":3 },
+            { "coords":9, "rotating":false, "max_square_size":3 },
+            { "coords":9, "rotating":false, "max_square_size":3 },
+            { "coords":9, "rotating":false, "max_square_size":3 },
+            { "coords":8, "rotating":false, "max_square_size":3 }
         ],
         "maxundos":3,
         "unlocked_from_puzzle_level":55

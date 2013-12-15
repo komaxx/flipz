@@ -7,7 +7,6 @@
 #import "FFPuzzleSelectMenu.h"
 #import "FFGamesCore.h"
 #import "FFMenuViewController.h"
-#import "FFAppDelegate.h"
 #import "FFStorageUtil.h"
 #import "FFToast.h"
 
@@ -97,11 +96,10 @@
 }
 
 - (void)hide:(BOOL)hidden {
-    if (self.hidden == hidden) return;
+//    if (self.hidden == hidden) return;
 
     self.hidden = hidden;
     if (!hidden){
-
 
         if (!_previoulsyShown){
             // just displayed -> focus on last unsolved element

@@ -43,6 +43,10 @@
     self.movePaintView.delegate = self;
 }
 
+- (void)movePainting:(UISwipeGestureRecognizerDirection)direction {
+    // TODO
+}
+
 
 - (void)moveStarted {
     self.activePatternPanel.hidden = NO;

@@ -11,7 +11,6 @@
 #import "FFMenuViewController.h"
 #import "FFGamesCore.h"
 #import "FFStorageUtil.h"
-#import "Flurry.h"
 #import "FFAnalytics.h"
 
 @interface FFGameFinishedMenu ()

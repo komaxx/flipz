@@ -22,7 +22,7 @@
 #import "FFAnalytics.h"
 
 
-#define FIRST_PUZZLE_TO_UNLOCK 21
+#define FIRST_PUZZLE_TO_UNLOCK 23
 #define FIRST_CHALLENGE_TO_UNLOCK 1
 
 
@@ -318,7 +318,13 @@ typedef enum {
 
 - (void)proceedToNextChallenge {
     NSUInteger nextIndex = _currentlyAttemptedPuzzle + 1;
+
+    if (nextIndex >= [FFGamesCore instance].puzzlesCount){
+        [FFAnalytics log:@"GAME_WON"];
+        [self changeState:menuState_mainMenu];
+    } else {
         [self activatePuzzleAtIndex:nextIndex];
+    }
 }
 
 - (void)anotherRandomChallenge {

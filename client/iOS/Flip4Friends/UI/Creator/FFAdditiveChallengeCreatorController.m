@@ -14,6 +14,7 @@
 #import "FFChallengeCreatorViewController.h"
 #import "FFPuzzleLoader.h"
 #import "FFToast.h"
+#import "FFAnalytics.h"
 
 
 @interface FFAdditiveChallengeCreatorController ()
@@ -62,6 +63,12 @@
 
     [self.flipTypeTable selectRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0] animated:NO scrollPosition:(UITableViewScrollPosition) 0];
 }
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [FFAnalytics log:@"CREATOR_OPENED"];
+}
+
 
 // ////////////////////////////////////////////////////////////////////////////////
 // basic parameters panel
@@ -297,12 +304,14 @@
     [self makeAndRegisterGame];
 
     [self performSegueWithIdentifier:@"additiveTestSegue" sender:self];
+    [FFAnalytics log:@"CREATOR_PLAY_CREATED_GAME_TAPPED"];
 }
 
 - (IBAction)analyzeTapped:(id)sender {
     FFGame* game = [self makeCurrentGame];
     FFAutoSolver *solver = [[FFAutoSolver alloc] initWithGame:game];
     [solver solveAsynchronouslyAndAbortWhenFirstFound:NO];
+    [FFAnalytics log:@"CREATOR_ANALYZE_TAPPES"];
 }
 
 - (IBAction)printTapped:(id)sender {
@@ -331,6 +340,8 @@
     } else {
         [[FFToast make:@"Can not send email, sorry"] show];
     }
+
+    [FFAnalytics log:@"CREATOR_PRINT_TAPPED"];
 }
 
 - (void)mailComposeController:(MFMailComposeViewController *)controller
@@ -341,7 +352,6 @@
         [[FFToast make:@"Thank You! :)\nYour level may be part of the next update!"] show];
     }
 }
-
 
 - (FFGame *)makeCurrentGame {
     FFBoard *boardCopy = [[FFBoard alloc] initWithBoard:self.board];

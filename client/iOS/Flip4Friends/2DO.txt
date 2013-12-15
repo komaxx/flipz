@@ -1,18 +1,14 @@
 Sorted by priority:
 
 
-
 MUST
-* Support website
-* some more levels
 
 
 CAN
+* fine-tune auto-generated levels: 1,2,3: ok
 * Localize to German
 * Game Center possibilities
-* Loading image
 * Won/lost sounds
-* fine-tune auto-generated levels: 1,2,3: ok
 * Show double-locked tiles as double-locked
 * Modify history icon for returned to step
 * Hint
@@ -23,6 +19,8 @@ CAN
 
 
 DONE
+* Support website
+* Loading image
 * Flurry Analytics
 * Disable Sound button
 * Move tic sound

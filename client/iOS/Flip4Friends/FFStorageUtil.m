@@ -14,6 +14,8 @@
 #define SOUND_DISABLED_KEY @"sound_disabled"
 
 //#define DEBUG_ALL_ACCESS 1
+//#define DEBUG_UNLOCK
+
 
 @implementation FFStorageUtil {
 }
@@ -27,7 +29,7 @@ static BOOL soundIsDisabled;
 
 
 + (BOOL)isUnlocked {
-    #ifdef DEBUG_ALL_ACCESS
+    #ifdef DEBUG_UNLOCK
     return YES;
     #endif
 
@@ -51,7 +53,7 @@ static BOOL soundIsDisabled;
             (NSUInteger) [[NSUserDefaults standardUserDefaults] integerForKey:FIRST_UNSOLVED_CHALLENGE_INDEX_KEY]);
 
         #ifdef DEBUG_ALL_ACCESS
-        _firstUnsolvedChallengeIndex = 70;
+        _firstUnsolvedChallengeIndex = 100;
         #endif
     }
 
