@@ -111,16 +111,20 @@ NSString *const FFStoreDataHandlerNotification = @"StoreDataHandlerNotification"
         switch (transaction.transactionState) {
             case SKPaymentTransactionStatePurchased:
                 [self completeTransaction:transaction];
-                break;
+                return;
             case SKPaymentTransactionStateFailed:
                 [self failedTransaction:transaction];
-                break;
+                return;
             case SKPaymentTransactionStateRestored:
                 [self restoreTransaction:transaction];
+                return;
             default:
                 break;
         }
     };
+
+    self.unlockingState = kFFUnlockingState_NotStarted;
+    [self notifyChange];
 }
 
 - (void)failedTransaction:(SKPaymentTransaction *)transaction {
