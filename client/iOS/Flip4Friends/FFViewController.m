@@ -8,10 +8,10 @@
 
 #import <MessageUI/MessageUI.h>
 #import "FFViewController.h"
-#import "FFGamesCore.h"
 #import "FFToast.h"
+#import "FFStorageUtil.h"
 
-@interface FFViewController ()
+@interface FFViewController () <UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet FFGameViewController *gameViewController;
 @property (weak, nonatomic) IBOutlet FFMenuViewController *menuViewController;
@@ -99,4 +99,5 @@
 
     [super viewDidUnload];
 }
+
 @end

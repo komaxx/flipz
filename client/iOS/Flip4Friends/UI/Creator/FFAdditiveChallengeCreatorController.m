@@ -151,6 +151,7 @@
                 tile.color = oTile.color;
                 tile.unlockTime = oTile.unlockTime;
                 tile.nowLocked = oTile.nowLocked;
+                tile.doubleLocked = oTile.doubleLocked;
             }
         }
     }

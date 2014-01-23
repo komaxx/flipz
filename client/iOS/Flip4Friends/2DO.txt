@@ -2,23 +2,34 @@ Sorted by priority:
 
 
 MUST
+* Store: Nicht ganzer deutscher Text sichtbar
+* Hab' schon bezahlt (hat aber nicht) -> bleibt hängen in "unlocking"
+* Won/lost sounds
 
 
 CAN
 * fine-tune auto-generated levels: 1,2,3: ok
-* Localize to German
-* Game Center possibilities
-* Won/lost sounds
-* Show double-locked tiles as double-locked
+* say what level was just started.
 * Modify history icon for returned to step
-* Hint
+* 5 new levels
+* Tutorial "Flip more than once" -> longer
+* Update tutorial 1: Pull from board to deselect pattern
 * quick rotation gesture (flick on ring, two finger flick)
 * Triggered moves!
+* Hint
+* Game Center possibilities
 * Random game: Time!
 * some more levels
 
 
-DONE
+DONE v1.1
+* Rate/Feedback dialog: Do you enjoy the app? YES->please rate / NO->feedback form
+* Typo: Hab' schon bezahlt
+* Show double-locked tiles as double-locked
+
+
+DONE v1.0
+* Localize to German
 * Support website
 * Loading image
 * Flurry Analytics

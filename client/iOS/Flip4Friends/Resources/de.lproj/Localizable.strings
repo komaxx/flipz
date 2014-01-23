@@ -1,0 +1,77 @@
+/****************************************************************************/
+/* Localization file */
+
+"finished_title_success" = "ERFOLG";
+"finished_message_puzzle_success" = "Du hast das Rätsel gelöst!";
+"finished_message_challenge_success" = "Du hast das Rätsel gelöst!\nDeine Erfolgsquote bisher:\n%i / %i";
+
+"finished_title_failed" = "FEHLSCHLAG";
+"finished_message_challenge_failed" = "Das Rätsel ist nicht mehr lösbar und es sind keine UNDOs mehr übrig.";
+
+"finished_title_congratulations" = "SIEG!";
+"finished_message_you_won" = "Glückwunsch!\n\nPunktestand am Ende:\n%i / %i";
+
+"puzzle_not_yet_unlocked" = "Noch nicht freigeschalten.\nLöse zuerst die vorausgehenden Puzzles!";
+"challenge_not_yet_unlockedd" = "Noch nicht freigeschalten.\nLöse mehr Puzzles zum Freischalten!";
+"this_pattern_was_already_played" = "Dieses Muster hast Du schon platziert!";
+"you_failed_go_back_by_history" = "FEHLGESCHLAGEN\nTippe auf die HISTORY rechts und probiere was anderes!";
+"history_explanation" = "Streiche nach oben/unten um zu früheren Zügen zurückzukehren.";
+
+"btn_rematch" = "REMATCH";
+"btn_next" = "WEITER";
+"btn_another" = "NOCH EINS";
+"btn_give_up" = "AUFGEBEN";
+"btn_menu" = "MENU";
+
+"hot_seat_start_explanation" = "Spiele gegen einen Freund!\nEs gibt Punkte für gerade Linien einer Farbe. Je länger, desto mehr Punkte!";
+"hot_seat_explanation_toast" = "Du spielst WEISS\nTippe doppelt um einen Zug auszuführen!";
+
+"no_undos_left" = "Keine UNDOs übrig";
+"challenge_unlocked" = "Du hast eine neue Herausforderung freigeschaltet!";
+
+"tut_0" = "Willkommen!$Ziel des Spiels:\nFlippe alle Kacheln zu weiss$So geht's:\n\n1. Wähle ein Muster$2. Bewege es an eine gute Stelle\n(hier hilft Hirn)$3. Tippe doppelt / wähle das nächste Muster.\n... und Kacheln flippen.$Viel Spaß mit dem Spiel!";
+"tut_1" = "Nicht alle Kacheln sind gleich!$Manche müssen mehr als einmal geflipped werden.";
+"tut_2" = "Es wird Zeit den Spieß umzudrehen!\nOder halt nur die Muster.";
+"tut_3" = "Uhh, Schlösser.\nJetzt können Kacheln nicht zweimal in Folge geflipped werden.$... die Reihenfolge deiner Züge ist jetzt also wichtig!";
+"tut_4" = "Jetzt sind die Kacheln für 2 Züge gesperrt!";
+"tut_5" = "Hast Du gesehen, was passiert, wenn Du eine weisse Kachel flippst?";
+"won" = "Herzlichen Glückwunsch!\nDu hast es geschafft!$Hier ist Dein Stern :)$Jetzt viel Spaß noch mit den Herausforderungnen   Now, try the challenges, and expect more levels in a soon(ish) update!";
+
+"you_get_label" = "Nur einmal zahlen, und Du kriegst:\n\n* Zugang zu allen Puzzles\n* Zugang zu allen Herausforderungen\n* Ein freundliches Dankeschön\n\n... jetzt, und für alle zukünftigen updates!";
+"already_paid" = "Hey, ich hab\' schon bezahlt!";
+"paused_message_single_player" = "Du schaffst es!";
+"paused_message_hot_seat" = "Punkte pro Linien-Länge:\n";
+
+"feedback_subject_line" = "Feedback für Dich!";
+
+"dialog_title_could_not_access_store" = "Mist, das hat nicht geklappt! Nochmal?";
+"dialog_could_not_access_store" = "Konnte den Apple Store nocht erreichen :(\nFunktioniert Deine Netzverbindung?";
+"cancel" = "Abbrechen";
+"try_again" = "Noch ein Versuch";
+"btn_unlock_now" = "%@\nJETZT FREISCHALTEN";
+"thank_you_message" = "DANKESCHÖN!\n\nViel Spaß mit dem Spiel :)";
+
+"dialog_title_unlocking_failed" = "Die Transaktion ist gescheitert >_<";
+"dialog_unlocking_failed" = "Etwas ist schief gelaufen :(\nDu musst nichts bezahlen, aber das Spiel wurde auch nicht freigeschalten.";
+"thats_some_bullshit" = "Na super!";
+
+"cheat_dialog_title" = "Mogeln?";
+"cheat_dialog_message" = "Gib' hier Deinen Cheat Code ein:";
+"cheat_code_placeholder" = "Cheat Code";
+"btn_cheat" = "Mogeln!";
+"toast_all_free_puzzles" = "Alle kostenlosen Puzzles sind jetzt verfügbar!";
+"toast_next_level_unlockcheated" = "Nächstes Level freigeschaltet";
+"toast_all_levels_unlockcheated" = "Du wilder cheater.";
+
+"rate_request_dialog_title" = "?";
+"rate_request_dialog_message" = "Gefällt Dir Flipz?";
+"dont_like_it_dialog_title" = ":'(";
+"dont_like_it_dialog_message" = "Kann ich was besser machen?";
+"like_it_dialog_title" = ":)";
+"like_it_dialog_message" = "Bitte bewerte das Spiel im App Store!";
+"no" = "Nein";
+"yes" = "Ja";
+"later" = "Später";
+"dont_ask_again" = "Nein und frag' nicht nochmal";
+"feedback" = "Feedback";
+"rate_it" = "Bewerten";

@@ -13,6 +13,7 @@
 
 @property (strong, nonatomic) CAShapeLayer *patternLayer;
 @property (strong, nonatomic) CAShapeLayer *lockedLayer;
+@property (strong, nonatomic) CAShapeLayer *doubleLockedLayer;
 
 @end
 
@@ -20,6 +21,7 @@
     NSInteger _currentColor;
     CGFloat _currentRotation;
     BOOL _currentlyLocked;
+    BOOL _currentlyDoubleLocked;
 }
 
 - (id)initWithFrame:(CGRect)frame {
@@ -39,6 +41,12 @@
         self.lockedLayer.lineCap = @"round";
         [self.layer addSublayer:self.lockedLayer];
         self.lockedLayer.hidden = YES;
+
+        self.doubleLockedLayer = [[CAShapeLayer alloc] init];
+        self.doubleLockedLayer.strokeColor = [[UIColor colorWithRed:1 green:0 blue:0 alpha:0.5] CGColor];
+        self.doubleLockedLayer.lineCap = @"round";
+        [self.layer addSublayer:self.doubleLockedLayer];
+        self.doubleLockedLayer.hidden = YES;
 
         self.patternLayer = [[CAShapeLayer alloc] init];
         self.patternLayer.fillColor = [[UIColor colorWithWhite:0 alpha:0.4] CGColor];
@@ -64,10 +72,21 @@
         [UIView animateWithDuration:0.3 animations:^{
             self.lockedLayer.lineWidth = 0;
         } completion:^(BOOL finished) {
-            if (_currentlyLocked) self.lockedLayer.hidden = YES;
+            if (!_currentlyLocked) self.lockedLayer.hidden = YES;
         }];
     }
     _currentlyLocked = tile.nowLocked;
+
+
+    if (_currentlyDoubleLocked && !tile.doubleLocked){
+        [UIView animateWithDuration:0.3 animations:^{
+            self.doubleLockedLayer.lineWidth = 0;
+        } completion:^(BOOL finished) {
+            if (!_currentlyDoubleLocked) self.doubleLockedLayer.hidden = YES;
+        }];
+    }
+    _currentlyDoubleLocked = tile.doubleLocked;
+
 
     if (self.tileType == kFFBoardType_twoStated){
         [UIView animateWithDuration:self.turnSpeed animations:^{
@@ -90,8 +109,12 @@
     if (_currentlyLocked){
         self.lockedLayer.lineWidth = width;
     }
+    if (_currentlyDoubleLocked){
+        self.doubleLockedLayer.lineWidth = width;
+    }
 
     self.lockedLayer.hidden = !_currentlyLocked;
+    self.doubleLockedLayer.hidden = !_currentlyDoubleLocked;
     if (_currentColor == 0 || self.tileType == kFFBoardType_twoStated){
         self.patternLayer.hidden = YES;
         return;
@@ -163,10 +186,12 @@
 }
 
 - (void)resetLockedLayer {
-    CGMutablePathRef path = CGPathCreateMutable();
-
     CGFloat lineWidth = self.bounds.size.width / 6;
     self.lockedLayer.lineWidth = lineWidth;
+    self.doubleLockedLayer.lineWidth = lineWidth;
+
+    // single locked
+    CGMutablePathRef path = CGPathCreateMutable();
 
     CGPathMoveToPoint(path, &CGAffineTransformIdentity, lineWidth, lineWidth);
     CGPathAddLineToPoint(path, &CGAffineTransformIdentity,
@@ -176,6 +201,18 @@
     CGPathAddLineToPoint(path, &CGAffineTransformIdentity, self.bounds.size.width-lineWidth, lineWidth);
 
     [self.lockedLayer setPath:path];
+    CGPathRelease(path);
+
+    // >= double locked
+    path = CGPathCreateMutable();
+
+    CGPathMoveToPoint(path, &CGAffineTransformIdentity, self.bounds.size.width/2, lineWidth);
+    CGPathAddLineToPoint(path, &CGAffineTransformIdentity, self.bounds.size.width/2, self.bounds.size.height-lineWidth);
+
+    CGPathMoveToPoint(path, &CGAffineTransformIdentity, lineWidth, self.bounds.size.height/2);
+    CGPathAddLineToPoint(path, &CGAffineTransformIdentity, self.bounds.size.width-lineWidth, self.bounds.size.height/2);
+
+    [self.doubleLockedLayer setPath:path];
     CGPathRelease(path);
 }
 

@@ -54,3 +54,24 @@
 "dialog_title_unlocking_failed" = "Transaction failed >_<";
 "dialog_unlocking_failed" = "Something went wrong :(\nYou won't be charged for that but the game is not unlocked either.";
 "thats_some_bullshit" = "Awww. That sucks!";
+
+"cheat_dialog_title" = "Cheat?";
+"cheat_dialog_message" = "Enter your cheat code here:";
+"cheat_code_placeholder" = "Cheat Code";
+"btn_cheat" = "Cheat!";
+"toast_all_free_puzzles" = "All free puzzles were unlocked!";
+"toast_next_level_unlockcheated" = "Next level unlocked";
+"toast_all_levels_unlockcheated" = "You dirty cheater ;)";
+
+"rate_request_dialog_title" = "?";
+"rate_request_dialog_message" = "Do you like Flipz?";
+"dont_like_it_dialog_title" = ":'(";
+"dont_like_it_dialog_message" = "Feedback, maybe?";
+"like_it_dialog_title" = ":)";
+"like_it_dialog_message" = "Rate it, maybe?";
+"no" = "No";
+"yes" = "Yes";
+"later" = "Later";
+"dont_ask_again" = "No, don't ask again";
+"feedback" = "Feedback";
+"rate_it" = "Rate it";

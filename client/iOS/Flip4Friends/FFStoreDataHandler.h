@@ -12,7 +12,10 @@ typedef enum {
 } LoadingState;
 
 typedef enum {
-    kFFUnlockingState_NotStarted, kFFUnlockingState_Unlocking, kFFUnlockingState_Unlocked, kFFUnlockingState_Failed
+    kFFUnlockingState_NotStarted,
+    kFFUnlockingState_Unlocking,
+    kFFUnlockingState_Unlocked,
+    kFFUnlockingState_Failed
 } UnlockingState;
 
 extern NSString *const FFStoreDataHandlerNotification;

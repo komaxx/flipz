@@ -25,6 +25,10 @@
 #define FIRST_PUZZLE_TO_UNLOCK 23
 #define FIRST_CHALLENGE_TO_UNLOCK 1
 
+#define CHEAT_CODE_UNLOCK_ALL_FREE_PUZZLES @"gimme frees"
+#define CHEAT_CODE_UNLOCK_NEXT_LEVEL @"das ist zu schwer"
+#define CHEAT_CODE_UNLOCK_ALL @"ich will nur den stern"
+
 
 typedef enum {
     menuState_unset,
@@ -352,4 +356,17 @@ typedef enum {
 // sub-menu calls
 // ////////////////////////////////////////////////////////////
 
+- (void)cheatWithCode:(NSString *)code {
+    NSLog(@"Testing cheat code %@", code);
+    if ([code isEqualToString:CHEAT_CODE_UNLOCK_ALL_FREE_PUZZLES]){
+        [FFStorageUtil setFirstUnsolvedPuzzleIndex:MAX(FIRST_PUZZLE_TO_UNLOCK+1, [FFStorageUtil firstUnsolvedPuzzleIndex])];
+        [[FFToast make:NSLocalizedString(@"toast_all_free_puzzles", nil)] show];
+    } else if ([code isEqualToString:CHEAT_CODE_UNLOCK_NEXT_LEVEL]){
+        [FFStorageUtil setFirstUnsolvedPuzzleIndex:[FFStorageUtil firstUnsolvedPuzzleIndex]+1];
+        [[FFToast make:NSLocalizedString(@"toast_next_level_unlockcheated", nil)] show];
+    } else if ([code isEqualToString:CHEAT_CODE_UNLOCK_ALL]){
+        [FFStorageUtil setFirstUnsolvedPuzzleIndex:[[FFGamesCore instance] puzzlesCount]];
+        [[FFToast make:NSLocalizedString(@"toast_all_levels_unlockcheated", nil)] show];
+    }
+}
 @end

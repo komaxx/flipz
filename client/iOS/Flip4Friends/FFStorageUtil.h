@@ -9,7 +9,7 @@
 
 @interface FFStorageUtil : NSObject
 
-+ (NSUInteger) firstUnsolvedPuzzleIndex;
++ (NSUInteger)firstUnsolvedPuzzleIndex;
 
 + (void) setFirstUnsolvedPuzzleIndex:(NSUInteger)nuIndex;
 
@@ -28,4 +28,13 @@
 + (void)setSoundDisabled:(BOOL)b;
 
 + (BOOL)isSoundDisabled;
+
++ (double)getLastAppBackgroundTime;
++ (void)setLastAppBackgroundTime:(double)lastTime;
+
++ (int)getAppTimesOpened;
++ (void)setTimesAppOpened:(int)nuTimesOpened;
+
++ (BOOL)rateRequestDialogFinished;
++ (void)setRateRequestDialogFinished;
 @end

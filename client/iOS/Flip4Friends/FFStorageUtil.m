@@ -12,6 +12,9 @@
 #define CHALLENGE_TIMES_PLAYED_KEY @"challengeTimesPlayed_%i"
 #define CHALLENGE_TIMES_WON_KEY @"challengeTimesWon_%i"
 #define SOUND_DISABLED_KEY @"sound_disabled"
+#define LAST_APP_BACKGROUND_KEY @"last_background"
+#define TIMES_APP_OPENED_KEY @"times_app_opened"
+#define RATING_DIALOG_FINISHED @"rating_dialog_finished"
 
 //#define DEBUG_ALL_ACCESS 1
 //#define DEBUG_UNLOCK
@@ -151,4 +154,32 @@ static BOOL readSoundDisabledFromDisk;
     }
     return soundIsDisabled;
 }
+
+//////////////////////////////////////////////////////////////////
+// request rating dialog
+
++ (double)getLastAppBackgroundTime {
+    return [[NSUserDefaults standardUserDefaults] doubleForKey:LAST_APP_BACKGROUND_KEY];
+}
+
++ (void)setLastAppBackgroundTime:(double)time {
+    [[NSUserDefaults standardUserDefaults] setDouble:time forKey:LAST_APP_BACKGROUND_KEY];
+}
+
++ (int)getAppTimesOpened {
+    return [[NSUserDefaults standardUserDefaults] integerForKey:TIMES_APP_OPENED_KEY];
+}
+
++ (void)setTimesAppOpened:(int)nuTimesOpened {
+    [[NSUserDefaults standardUserDefaults] setInteger:nuTimesOpened forKey:TIMES_APP_OPENED_KEY];
+}
+
++ (BOOL)rateRequestDialogFinished {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:RATING_DIALOG_FINISHED];
+}
+
++ (void)setRateRequestDialogFinished {
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:RATING_DIALOG_FINISHED];
+}
+
 @end

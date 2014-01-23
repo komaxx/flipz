@@ -16,6 +16,7 @@
 - (void)duplicateStateFrom:(FFTile *)source {
     self.marked = source.marked;
     self.nowLocked = source.nowLocked;
+    self.doubleLocked = source.doubleLocked;
     self.unlockTime = source.unlockTime;
     self.color = source.color;
 }

@@ -27,9 +27,9 @@
 		B64595BF85464C007635E6EF /* FFUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B6459C49B2579C17FC507479 /* FFUtil.m */; };
 		B645963B4CD6B24D57D5B100 /* FFStoreDataHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = B64597C193B4767440DD8559 /* FFStoreDataHandler.m */; };
 		B64596554E12012732F35E91 /* FFAutoSolver.m in Sources */ = {isa = PBXBuildFile; fileRef = B6459D6DC49A57483A916B94 /* FFAutoSolver.m */; };
+		B64596B6B6272F0C656DF90C /* FFCheatButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B6459CD07A3A530EC25B509E /* FFCheatButton.m */; };
 		B64596C17E21C0298D869550 /* FFCreateChallengeSession.m in Sources */ = {isa = PBXBuildFile; fileRef = B645991F724C0DEE5D3B3C83 /* FFCreateChallengeSession.m */; };
 		B64597706BFD80213718D3DA /* FFHotSeatSidebar.m in Sources */ = {isa = PBXBuildFile; fileRef = B645970313013BA1417922A3 /* FFHotSeatSidebar.m */; };
-		B64597CDAEB1F2666B8FFEC5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B645925EB72CA866391B4DD8 /* Localizable.strings */; };
 		B645980102D932D93CC16027 /* FFGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6459955E7244639B7EC9634 /* FFGameViewController.m */; };
 		B645980ECD8460E1A010403A /* FFRestUndosView.m in Sources */ = {isa = PBXBuildFile; fileRef = B64597235911B27104BD689A /* FFRestUndosView.m */; };
 		B64598179D5141C36DF7EA8C /* FFGrayBackedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = B64599EE312B5F4FE8D66B39 /* FFGrayBackedLabel.m */; };
@@ -57,6 +57,7 @@
 		CE3032451856446E00393767 /* sound_off.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3032431856446E00393767 /* sound_off.png */; };
 		CE3032461856446E00393767 /* sound_off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CE3032441856446E00393767 /* sound_off@2x.png */; };
 		CE65AC461857DDDC00985EE1 /* tic.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CE65AC451857DDDC00985EE1 /* tic.aiff */; };
+		CE970D5F186F039400966327 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CE970D61186F039400966327 /* Localizable.strings */; };
 		CEA592EF1780663000DD6F86 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA592EE1780663000DD6F86 /* QuartzCore.framework */; };
 		CEA707E9176B817700DD93E9 /* FFGame.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA707E8176B817700DD93E9 /* FFGame.m */; };
 		CEA707EF176B81FA00DD93E9 /* FFBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA707EE176B81FA00DD93E9 /* FFBoard.m */; };
@@ -127,12 +128,12 @@
 		B645907DFA5712C41B855D1E /* FFChallengeSidebar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFChallengeSidebar.h; path = UI/Menu/FFChallengeSidebar.h; sourceTree = "<group>"; };
 		B64590A06DBE66618FB7DAFE /* FFHistoryStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFHistoryStep.m; path = Model/FFHistoryStep.m; sourceTree = "<group>"; };
 		B64591359C605F86FB954A2B /* FFScoreRowsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFScoreRowsView.m; sourceTree = "<group>"; };
+		B645914330FCDBA937B73893 /* FFCheatButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFCheatButton.h; sourceTree = "<group>"; };
 		B645917B4741F38A59553D33 /* FFMenuBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFMenuBackgroundView.m; path = UI/Menu/FFMenuBackgroundView.m; sourceTree = "<group>"; };
 		B64591A9811674B95BFF547A /* FFPatternsViewControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFPatternsViewControl.m; path = UI/FFPatternsViewControl.m; sourceTree = "<group>"; };
 		B64591B4AEA2FD5839AF1158 /* FFHotSeatStateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFHotSeatStateView.h; sourceTree = "<group>"; };
 		B6459206A080708B7B7C8F0D /* FFUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFUtil.h; sourceTree = "<group>"; };
 		B645924F29AF9F0A1BABF52A /* FFHotSeatSidebar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFHotSeatSidebar.h; sourceTree = "<group>"; };
-		B645925EB72CA866391B4DD8 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = Resources/Localizable.strings; sourceTree = "<group>"; };
 		B64592858C11E8716FFDBDE0 /* FFPatternView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFPatternView.h; path = UI/FFPatternView.h; sourceTree = "<group>"; };
 		B64592BA75A80AF992A6B8A9 /* FFPuzzleLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFPuzzleLoader.m; sourceTree = "<group>"; };
 		B6459300E7486AC52035208E /* FFPatternView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFPatternView.m; path = UI/FFPatternView.m; sourceTree = "<group>"; };
@@ -184,6 +185,7 @@
 		B6459C9E32AB156486CB063B /* FFHistorySlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFHistorySlider.m; path = UI/Game/FFHistorySlider.m; sourceTree = "<group>"; };
 		B6459CAEC672423F47578B67 /* FFCreateChallengeSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFCreateChallengeSession.h; sourceTree = "<group>"; };
 		B6459CCD47F4667948E447DC /* FFMainBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFMainBackgroundView.m; path = UI/FFMainBackgroundView.m; sourceTree = "<group>"; };
+		B6459CD07A3A530EC25B509E /* FFCheatButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFCheatButton.m; sourceTree = "<group>"; };
 		B6459D1EEF3DCE63E03D9ABC /* FFRestUndosView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFRestUndosView.h; sourceTree = "<group>"; };
 		B6459D225449F4C8338A1617 /* IDEAS.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = IDEAS.txt; path = Resources/IDEAS.txt; sourceTree = "<group>"; };
 		B6459D650EE8DD7C7DA947FD /* FFGamesCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFGamesCore.m; sourceTree = "<group>"; };
@@ -211,6 +213,11 @@
 		CE3032431856446E00393767 /* sound_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sound_off.png; path = Resources/sound_off.png; sourceTree = "<group>"; };
 		CE3032441856446E00393767 /* sound_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "sound_off@2x.png"; path = "Resources/sound_off@2x.png"; sourceTree = "<group>"; };
 		CE65AC451857DDDC00985EE1 /* tic.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = tic.aiff; path = Resources/tic.aiff; sourceTree = "<group>"; };
+		CE970D5D186F036F00966327 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CE970D5E186F036F00966327 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CE970D60186F039400966327 /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		CE970D62186F039800966327 /* de */ = {isa = PBXFileReference; lastKnownFileType = file; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		CE970D63186F158400966327 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = de; path = de.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		CEA592EE1780663000DD6F86 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		CEA707E7176B817700DD93E9 /* FFGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFGame.h; path = Model/FFGame.h; sourceTree = "<group>"; };
 		CEA707E8176B817700DD93E9 /* FFGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFGame.m; path = Model/FFGame.m; sourceTree = "<group>"; };
@@ -445,7 +452,7 @@
 				B6459BA8F7AFCEE5A996C0FD /* FFGamesCore.h */,
 				CEBD2C2E17A55AF7008C0835 /* FFButton.h */,
 				CEBD2C2F17A55AF7008C0835 /* FFButton.m */,
-				B645925EB72CA866391B4DD8 /* Localizable.strings */,
+				CE970D61186F039400966327 /* Localizable.strings */,
 				B64595DC4E2AF1961957788F /* Balancing */,
 				B6459F47F325D6BFF958A060 /* FFChallengeGenerator.h */,
 				B6459DAC856480E0DD1B2ECE /* FFChallengeGenerator.m */,
@@ -457,6 +464,8 @@
 				B6459206A080708B7B7C8F0D /* FFUtil.h */,
 				B6459DC21FDF4704DE340ACD /* FFAnalytics.m */,
 				B64595FEF330DAB4B56896B0 /* FFAnalytics.h */,
+				B6459CD07A3A530EC25B509E /* FFCheatButton.m */,
+				B645914330FCDBA937B73893 /* FFCheatButton.h */,
 			);
 			path = Flip4Friends;
 			sourceTree = "<group>";
@@ -665,6 +674,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				de,
 			);
 			mainGroup = CEBBC107176B5FF3006F600E;
 			productRefGroup = CEBBC111176B5FF3006F600E /* Products */;
@@ -705,7 +715,7 @@
 				CEBD2C2817A18032008C0835 /* menu_back_pattern.png in Resources */,
 				CED00751183A65E300611C91 /* appicon@2x.png in Resources */,
 				B6459DCEA5DA144487578E2F /* IDEAS.txt in Resources */,
-				B64597CDAEB1F2666B8FFEC5 /* Localizable.strings in Resources */,
+				CE970D5F186F039400966327 /* Localizable.strings in Resources */,
 				B6459B39DBEF771B6645742F /* challenges.txt in Resources */,
 				CE3032451856446E00393767 /* sound_off.png in Resources */,
 				CEF200511835AE6300C9714D /* lock@2x.png in Resources */,
@@ -803,6 +813,7 @@
 				B645980ECD8460E1A010403A /* FFRestUndosView.m in Sources */,
 				B6459BC5F4ADE99960BAD35A /* FFAnalytics.m in Sources */,
 				B645963B4CD6B24D57D5B100 /* FFStoreDataHandler.m in Sources */,
+				B64596B6B6272F0C656DF90C /* FFCheatButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -825,10 +836,21 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		CE970D61186F039400966327 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CE970D60186F039400966327 /* en */,
+				CE970D62186F039800966327 /* de */,
+			);
+			name = Localizable.strings;
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		CEBBC11C176B5FF4006F600E /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				CEBBC11D176B5FF4006F600E /* en */,
+				CE970D5D186F036F00966327 /* de */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -837,6 +859,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				CEBBC12C176B5FF4006F600E /* en */,
+				CE970D63186F158400966327 /* de */,
 			);
 			name = MainStoryboard.storyboard;
 			sourceTree = "<group>";
@@ -845,6 +868,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				CEBBC141176B5FF4006F600E /* en */,
+				CE970D5E186F036F00966327 /* de */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -881,6 +905,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "8875F42B-24FE-47E1-8ECC-3518DE13DE89";
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -906,6 +931,7 @@
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "8875F42B-24FE-47E1-8ECC-3518DE13DE89";
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

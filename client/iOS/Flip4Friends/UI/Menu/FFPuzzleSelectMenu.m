@@ -9,8 +9,9 @@
 #import "FFMenuViewController.h"
 #import "FFStorageUtil.h"
 #import "FFToast.h"
+#import "FFCheatButton.h"
 
-@interface FFPuzzleSelectMenu ()
+@interface FFPuzzleSelectMenu () <UIAlertViewDelegate>
 @property (weak, nonatomic) UITableView *tableView;
 @end
 
@@ -32,9 +33,36 @@
                    action:@selector(backToMainMenuTapped)
          forControlEvents:UIControlEventTouchUpInside];
 
+        [(FFCheatButton *) [self viewWithTag:504] addTarget:self andAction:@selector(cheatUnlock)];
+
         self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"menu_back_pattern.png"]];
     }
     return self;
+}
+
+- (void)cheatUnlock {
+    UIAlertView * alert = [[UIAlertView alloc]
+            initWithTitle:NSLocalizedString(@"cheat_dialog_title", nil) message:NSLocalizedString(@"cheat_dialog_message", nil)
+                 delegate:self
+        cancelButtonTitle:NSLocalizedString(@"cancel", nil)
+        otherButtonTitles:NSLocalizedString(@"btn_cheat", nil), nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput; 
+    alert.delegate = self;
+    UITextField * alertTextField = [alert textFieldAtIndex:0];
+    alertTextField.tag = 123;
+    alertTextField.keyboardType = UIKeyboardTypeAlphabet;
+    alertTextField.placeholder = NSLocalizedString(@"cheat_code_placeholder", nil);
+
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex != alertView.cancelButtonIndex){
+        NSString *enteredCheatCode = [[alertView textFieldAtIndex:0] text];
+        [self.delegate cheatWithCode:enteredCheatCode];
+
+        [self.tableView reloadData];
+    }
 }
 
 - (void)backToMainMenuTapped {
@@ -104,7 +132,7 @@
         if (!_previoulsyShown){
             // just displayed -> focus on last unsolved element
             NSIndexPath *indexPath = [NSIndexPath
-                    indexPathForRow:MAX(0,[FFStorageUtil firstUnsolvedPuzzleIndex]-3)
+                    indexPathForRow:MAX(1,[FFStorageUtil firstUnsolvedPuzzleIndex]-3)
                           inSection:0];
             [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
             _previoulsyShown = YES;

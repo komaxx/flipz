@@ -21,6 +21,7 @@ NSString *const FFStoreDataHandlerNotification = @"StoreDataHandlerNotification"
 
 
 
+
 @implementation FFStoreDataHandler
 
 - (id)init {
@@ -134,12 +135,13 @@ NSString *const FFStoreDataHandlerNotification = @"StoreDataHandlerNotification"
         NSLog(@"Transaction error: %@", transaction.error.localizedDescription);
 
         [Flurry logError:@"STORE_PAYMENT_FAILED" message:@":(" error:transaction.error];
+        self.unlockingState = kFFUnlockingState_Failed;
     } else {
         [FFAnalytics log:@"STORE_PAYMENT_CANCELLED"];
+        self.unlockingState = kFFUnlockingState_NotStarted;
     }
 
     [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
-    self.unlockingState = kFFUnlockingState_Failed;
     [self notifyChange];
 }
 

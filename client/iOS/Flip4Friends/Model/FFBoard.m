@@ -88,6 +88,7 @@
         tile.marked = 0;
         tile.unlockTime = 0;
         tile.nowLocked = NO;
+        tile.doubleLocked = NO;
     }
 }
 
@@ -173,7 +174,10 @@
 }
 
 - (void)recomputeNowLocked {
-    for (FFTile *tile in self.tiles) tile.nowLocked = tile.unlockTime > self.moveIndex;
+    for (FFTile *tile in self.tiles){
+        tile.nowLocked = tile.unlockTime > self.moveIndex;
+        tile.doubleLocked = tile.unlockTime > self.moveIndex+1;
+    }
 }
 
 - (BOOL)isSingleChromatic {

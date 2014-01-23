@@ -23,6 +23,11 @@
 @property (nonatomic) BOOL nowLocked;
 
 /**
+* Only to be set by the boardView!
+*/
+@property (nonatomic) BOOL doubleLocked;
+
+/**
 * For core internal use (e.g., cluster finding). Not to be used by any other thing but
 * the FFBoard.
 */

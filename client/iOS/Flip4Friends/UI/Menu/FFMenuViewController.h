@@ -58,4 +58,6 @@
 - (void)anotherRandomChallenge;
 
 - (void)openFeedbackForm;
+
+- (void)cheatWithCode:(NSString *)code;
 @end
