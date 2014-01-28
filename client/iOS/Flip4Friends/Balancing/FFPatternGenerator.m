@@ -44,7 +44,7 @@
     static NSMutableArray *cache = nil;
     if (!cache){
         cache = [[NSMutableArray alloc] initWithCapacity:5];
-        int MAX_STEPS = 4;
+        int MAX_STEPS = 6;
 
         for (int i = 0; i < MAX_STEPS; i++){
             CGRect rect = CGRectMake(0, 0, 16, 16);
@@ -53,7 +53,7 @@
             CGContextRef c = UIGraphicsGetCurrentContext();
 
             // actual drawing
-            CGContextSetLineWidth(c, 2.3 - i*0.8);
+            CGContextSetLineWidth(c, 3);
 
             if (i%2==0){
                 for (int x = -16 + (i*2); x <= 16; x += 8){
@@ -67,16 +67,18 @@
                 }
             }
 
-
-            UIColor *stepColor = [UIColor colorWithHue:(0.0 + i*90.0/360.0)
+            UIColor *stepColor = [UIColor colorWithHue:(i*60.0/360.0)
                        saturation:0.9
-                       brightness:0.8
-                            alpha:0.8 - i*0.15];
+                       brightness:0.9
+                            alpha:0.8 - i*0.1];
             CGContextSetStrokeColorWithColor(c, [stepColor CGColor]);
 
             CGContextSetShadowWithColor(c, CGSizeMake(0, 1), 0.5,
                     [[UIColor colorWithWhite:0.1 alpha:0.2] CGColor]);
             CGContextDrawPath(c, kCGPathStroke);
+
+            CGContextSetFillColorWithColor(c, [[UIColor colorWithHue:(i*60.0/360.0) saturation:0.8 brightness:0.8 alpha:0.4] CGColor]);
+            CGContextFillRect(c, rect);
 
             // done
             [cache addObject:UIGraphicsGetImageFromCurrentImageContext()];

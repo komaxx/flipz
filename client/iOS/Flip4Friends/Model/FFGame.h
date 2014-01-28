@@ -99,6 +99,12 @@ typedef enum {
 */
 @property (copy, nonatomic) NSString *tutorialId;
 
+/**
+* Contains all hints available for the game (puzzle only).
+*/
+@property (strong, nonatomic) NSArray *hints;
+
+
 
 - (id)initWithId:(NSString *)id Type:(NSString * const)type andBoardSize:(NSInteger)size;
 
@@ -155,4 +161,8 @@ typedef enum {
 - (NSUInteger)scoreForColor:(int)color;
 
 - (int)challengeMovesPlayed;
+
+- (BOOL)isHintAvailable;
+
+- (void)activateHint;
 @end

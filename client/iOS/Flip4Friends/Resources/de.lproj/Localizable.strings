@@ -30,14 +30,18 @@
 "challenge_unlocked" = "Du hast eine neue Herausforderung freigeschaltet!";
 
 "tut_0" = "Willkommen!$Ziel des Spiels:\nFlippe alle Kacheln zu weiss$So geht's:\n\n1. Wähle ein Muster$2. Bewege es an eine gute Stelle\n(hier hilft Hirn)$3. Tippe doppelt / wähle das nächste Muster.\n... und Kacheln flippen.$Viel Spaß mit dem Spiel!";
-"tut_1" = "Nicht alle Kacheln sind gleich!$Manche müssen mehr als einmal geflipped werden.";
-"tut_2" = "Es wird Zeit den Spieß umzudrehen!\nOder halt nur die Muster.";
+"tut_0_1" = "Das falsche Muster gewählt?$Ziehe es vom Spielbrett um die Auswahl rückgängig zu machen.";
+"tut_0_2" = "Wenn Du mal festhängst:\nAlle 12 Züge wird ein Hinweis freigeschaltet!$Aber Du schaffst es auch ohne :)";
+"tut_1" = "Hier sind nicht alle Kacheln gleich!$Manche müssen mehr als einmal geflipped werden bis sie weiss sind!";
+"tut_2" = "Es wird Zeit den Spieß umzudrehen!\nBeziehungsweise: die Muster ;)$Drücke dazu auf den Ring um ein aktives Muster;$Oder: Drehe das Muster mit zwei Fingern!";
 "tut_3" = "Uhh, Schlösser.\nJetzt können Kacheln nicht zweimal in Folge geflipped werden.$... die Reihenfolge deiner Züge ist jetzt also wichtig!";
 "tut_4" = "Jetzt sind die Kacheln für 2 Züge gesperrt!";
 "tut_5" = "Hast Du gesehen, was passiert, wenn Du eine weisse Kachel flippst?";
 "won" = "Herzlichen Glückwunsch!\nDu hast es geschafft!$Hier ist Dein Stern :)$Jetzt viel Spaß noch mit den Herausforderungnen   Now, try the challenges, and expect more levels in a soon(ish) update!";
 
-"you_get_label" = "Nur einmal zahlen, und Du kriegst:\n\n* Zugang zu allen Puzzles\n* Zugang zu allen Herausforderungen\n* Ein freundliches Dankeschön\n\n... jetzt, und für alle zukünftigen updates!";
+"hint_0" = "Tipp: Starte oben rechts!";
+
+"you_get_label" = "Nur einmal zahlen, und Du kriegst:\n* Alle Puzzles\n* Alle Herausforderungen\n* Ein freundliches Dankeschön\n\n... jetzt, und für alle zukünftigen updates!";
 "already_paid" = "Hey, ich hab\' schon bezahlt!";
 "paused_message_single_player" = "Du schaffst es!";
 "paused_message_hot_seat" = "Punkte pro Linien-Länge:\n";
@@ -75,3 +79,9 @@
 "dont_ask_again" = "Nein und frag' nicht nochmal";
 "feedback" = "Feedback";
 "rate_it" = "Bewerten";
+
+"now_level_strip" = "Level %i";
+
+"challenge_explainer_node" = "Herausforderungen werden automatisch immer neu generiert!\nDer Spaß hört nie auf :)";
+
+"hint_not_yet_available" = "Sorry, es ist noch kein Hinweis verfügbar.\nProbier's erst noch ein wenig!";

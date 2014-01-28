@@ -13,4 +13,8 @@
 - (void)playFlipSound;
 
 - (void)playTicSound;
+
+- (void)playWonSound;
+
+- (void)playLostSound;
 @end

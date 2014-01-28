@@ -12,6 +12,7 @@
 #import "FFGamesCore.h"
 #import "FFStorageUtil.h"
 #import "FFAnalytics.h"
+#import "FFSoundServer.h"
 
 @interface FFGameFinishedMenu ()
 @property (weak, nonatomic) FFButton* nextRepeatButton;
@@ -59,6 +60,7 @@
 
                 if (game.gameState == kFFGameState_Won){
                     nuTitle = NSLocalizedString(@"finished_title_success", nil);
+                    [[FFSoundServer instance] playWonSound];
                     nuMessage = [NSString stringWithFormat:NSLocalizedString(@"finished_message_challenge_success", nil),
                                    [self challengesWonSimilarTo:game], [self challengesPlayedSimilarTo:game]];
                 } else {        // the game was lost
@@ -67,12 +69,14 @@
                 }
             } else {        // it's a manual puzzle
                 nuTitle = NSLocalizedString(@"finished_title_success", nil);
+                [[FFSoundServer instance] playWonSound];
                 nuMessage = NSLocalizedString(@"finished_message_puzzle_success", nil);
                 [self.nextRepeatButton setTitle:NSLocalizedString(@"btn_next", nil) forState:UIControlStateNormal];
                 self.nextRepeatButtonAction = @selector(proceedToNextChallenge);
             }
         } else if (game.Type == kFFGameTypeHotSeat){
             nuTitle = NSLocalizedString(@"finished_title_congratulations", nil);
+            [[FFSoundServer instance] playWonSound];
 
             BOOL player2Won = [[game winningPlayer].id isEqualToString:game.player2.id];
             if (player2Won){

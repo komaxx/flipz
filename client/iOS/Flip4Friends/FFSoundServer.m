@@ -4,17 +4,13 @@
 //
 
 
-#import <AudioToolbox/AudioToolbox.h>
+#import <AVFoundation/AVFoundation.h>
 #import "FFSoundServer.h"
 #import "FFStorageUtil.h"
 
 @interface FFSoundServer ()
 
-@property CFURLRef flipUrl;
-@property SystemSoundID flipId;
-
-@property CFURLRef ticUrl;
-@property SystemSoundID ticId;
+@property (strong, nonatomic) NSDictionary *players;
 
 @end
 
@@ -25,22 +21,51 @@
 - (id)init {
     self = [super init];
     if (self) {
-        self.flipUrl = (__bridge CFURLRef) [[NSBundle mainBundle] URLForResource: @"flip" withExtension: @"aiff"];
-        self.ticUrl = (__bridge CFURLRef) [[NSBundle mainBundle] URLForResource: @"tic" withExtension: @"aiff"];
+        NSMutableDictionary *p = [[NSMutableDictionary alloc] initWithCapacity:4];
 
-        AudioServicesCreateSystemSoundID ( self.flipUrl, &_flipId);
-        AudioServicesCreateSystemSoundID ( self.ticUrl, &_ticId);
+        [self addPlayer:@"flip" to:p];
+        [self addPlayer:@"tic" to:p];
+        [self addPlayer:@"won" to:p];
+        [self addPlayer:@"lost" to:p];
+
+        self.players = p;
     }
 
     return self;
 }
 
+- (void)addPlayer:(NSString *)soundFileName to:(NSMutableDictionary *)playersDict {
+    NSString *path =[[NSBundle mainBundle] pathForResource:soundFileName ofType:@"aiff"];
+    NSURL *url = [NSURL fileURLWithPath:path];
+    AVAudioPlayer *player = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:NULL];
+    [player setVolume:1.0];
+
+    [playersDict setObject:player forKey:soundFileName];
+}
+
+
 - (void)playFlipSound {
-    if (![FFStorageUtil isSoundDisabled]) AudioServicesPlaySystemSound (self.flipId);
+    [self play:@"flip"];
 }
 
 - (void)playTicSound {
-    if (![FFStorageUtil isSoundDisabled]) AudioServicesPlaySystemSound (self.ticId);
+    [self play:@"tic"];
+}
+
+- (void)playWonSound {
+    [self play:@"won"];
+}
+
+- (void)playLostSound {
+    [self play:@"lost"];
+}
+
+
+- (void)play:(NSString *)soundFileName {
+    if ([FFStorageUtil isSoundDisabled]) return;
+
+    AVAudioPlayer *player = [self.players objectForKey:soundFileName];
+    [player play];
 }
 
 // //////////////////////////////////////////////////////////////////////

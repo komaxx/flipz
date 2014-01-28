@@ -3,6 +3,7 @@
 // on 9/11/13.
 //
 
+#define MAX_HINTS 4
 
 #import "FFAutoSolver.h"
 #import "FFGamesCore.h"
@@ -93,14 +94,43 @@
     BOOL ret;
     if (self.setGame.Board.lockMoves < 1){
         ret = [self solveWithoutOrderWithData:data];
+        [self printHintsOrdered:true];
     } else {
         ret = [self solveWithOrderAndData:data];
+        [self printHintsOrdered:false];
     }
 
     if (self.toastResult){
         [self performSelectorOnMainThread:@selector(showResultToast) withObject:nil waitUntilDone:NO];
     }
 
+    return ret;
+}
+
+- (void)printHintsOrdered:(bool)ordered {
+    NSString *ret = @"";
+
+    if (self.foundSolutions.count > 0){
+        NSArray *solution = [self.foundSolutions objectAtIndex:0];
+        int hintCount = MIN(MAX_HINTS, solution.count);
+        for (NSUInteger i = 0; i < hintCount; i++){
+            NSString *coordsString = [self printCoordsForMove:[solution objectAtIndex:i]];
+            ret = [NSString stringWithFormat:@"%@[%@]",ret,coordsString];
+            if (i+1<hintCount) ret = [ret stringByAppendingString:@","];
+        }
+    }
+
+    NSLog(@",\"hints\":[%@]", ret);
+}
+
+- (NSString*)printCoordsForMove:(FFMove*)move {
+    NSString *ret = @"";
+    NSArray *toFlipCoords = move.buildToFlipCoords;
+    for (NSUInteger i = 0; i < toFlipCoords.count; i++){
+        FFCoord *c = [toFlipCoords objectAtIndex:i];
+        ret = [NSString stringWithFormat:@"%@[%i,%i]", ret, c.x, c.y];
+        if (i+1<toFlipCoords.count) ret = [ret stringByAppendingString:@","];
+    }
     return ret;
 }
 
@@ -475,7 +505,7 @@
 
     // anything awry already?
     for (FFCoord *coord in flippedCoords) {
-        if ([board tileAtX:coord.x andY:coord.y].color > 30){
+        if ([board tileAtX:coord.x andY:coord.y].color > 20){
 //            NSLog(@"aborted. flipped to unsolvable tile.");
             return NO;
         }
@@ -485,10 +515,6 @@
     NSUInteger minRestFlips = [board computeMinimumRestFlips];
     NSUInteger flipsLeft = 0;
     for (FFPattern *pattern in restPatterns) flipsLeft += pattern.Coords.count;
-
-    if (minRestFlips > flipsLeft){
-//        NSLog(@"aborted. Not enough pattern tiles left to flip erverything.");
-    }
 
     return flipsLeft >= minRestFlips;
 }

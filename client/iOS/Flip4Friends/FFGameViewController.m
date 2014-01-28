@@ -11,6 +11,7 @@
 #import "FFTutorial.h"
 #import "FFScoreRowsView.h"
 #import "FFRestUndosView.h"
+#import "FFSoundServer.h"
 
 @interface FFGameViewController ()
 
@@ -231,6 +232,7 @@
         if (![game stillSolvable] && !self.failToast){
             // not solvable anymore!
             FFToast *toast = [FFToast make:NSLocalizedString(@"you_failed_go_back_by_history", nil)];
+            [[FFSoundServer instance] playLostSound];
             self.failToast = toast;
             self.failToast.disappearTime = 1000;    // == forever ;)
 

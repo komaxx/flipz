@@ -52,8 +52,12 @@
     [self.gameViewController selectedGameWithId:gameId];
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
+
 - (void)gotoStore {
-    NSLog(@"Going to Store!");
     [self performSegueWithIdentifier:@"storeSegue" sender:self];
 }
 

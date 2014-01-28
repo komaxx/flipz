@@ -15,6 +15,7 @@
 #define LAST_APP_BACKGROUND_KEY @"last_background"
 #define TIMES_APP_OPENED_KEY @"times_app_opened"
 #define RATING_DIALOG_FINISHED @"rating_dialog_finished"
+#define LAST_SKIP_TIME_KEY @"last_skip_time"
 
 //#define DEBUG_ALL_ACCESS 1
 //#define DEBUG_UNLOCK
@@ -180,6 +181,10 @@ static BOOL readSoundDisabledFromDisk;
 
 + (void)setRateRequestDialogFinished {
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:RATING_DIALOG_FINISHED];
+}
+
++ (double)getLastSkipTime {
+    return [[NSUserDefaults standardUserDefaults] doubleForKey:LAST_SKIP_TIME_KEY];
 }
 
 @end

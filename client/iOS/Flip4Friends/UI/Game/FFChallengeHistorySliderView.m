@@ -164,7 +164,6 @@
             }
         }
     }
-
 }
 
 - (void)pling:(UIView *)view {

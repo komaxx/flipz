@@ -10,6 +10,7 @@
 #import "FFPattern.h"
 #import "FFHistoryStep.h"
 #import "FFAnalytics.h"
+#import "FFHint.h"
 
 NSString *const kFFNotificationGameChanged = @"ffGameChanged";
 NSString *const kFFNotificationGameChanged_gameId = @"gameId";
@@ -17,6 +18,8 @@ NSString *const kFFNotificationGameChanged_gameId = @"gameId";
 NSString *const kFFGameTypeSingleChallenge = @"gtLocalChallenge";
 NSString *const kFFGameTypeHotSeat = @"gtHotSeat";
 NSString *const kFFGameTypeRemote = @"gtRemote";
+
+#define HINT_FREQUENCY 12
 
 
 @interface FFGame ()
@@ -192,6 +195,32 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
     return 0;
 }
 
+- (BOOL)isHintAvailable {
+    for (FFHint* hint in self.hints){
+        if (!hint.active){
+//            NSLog(@"Challenge moves yet: %i",_challengeMoves);
+            return _challengeMoves > HINT_FREQUENCY;
+        }
+    }
+
+//    NSLog(@"No inactive hint left");
+
+    return NO;
+}
+
+- (void)activateHint {
+    for (FFHint* hint in self.hints){
+        if (!hint.active){
+            hint.active = YES;
+
+            _challengeMoves = 0;
+
+            [self notifyChange];
+            return;
+        }
+    }
+}
+
 - (void)keepHotSeatScore {
     if (self.Type != kFFGameTypeHotSeat) return;
     self.player1.score += [[self Board] scoreForColor:0];
@@ -343,7 +372,7 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
         [self currentHistoryStep].activePlayerId = self.player1.id;
         self.gameState = kFFGameState_Running;
     } else if (self.gameState == kFFGameState_Running){
-        NSLog(@"Can not start running game. ignored.");
+//        NSLog(@"Can not start running game. ignored.");
     } else {
         NSLog(@"REstarting finished game! %@", self.Id);
 
@@ -423,6 +452,10 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
 - (void)generateGame {
     _challengeMoves = 0;
     _doneUndos = 0;
+
+    for (FFHint *hint in self.hints){
+        hint.active = NO;
+    }
 
     if (self.Type == kFFGameTypeSingleChallenge){
         [self clean];

@@ -99,6 +99,12 @@
 
     self.hidden = hidden;
     [self refreshListCells];
+
+    if (!hidden){
+        FFToast*explainToast = [FFToast make:NSLocalizedString(@"challenge_explainer_node", nil)];
+        explainToast.disappearTime = 3.5;
+        [explainToast show];
+    }
 }
 
 @end

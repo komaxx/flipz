@@ -20,6 +20,7 @@
 #import "FFToast.h"
 #import "FFChallengeSelectMenu.h"
 #import "FFAnalytics.h"
+#import "FFLevelStrip.h"
 
 
 #define FIRST_PUZZLE_TO_UNLOCK 23
@@ -274,6 +275,9 @@ typedef enum {
     } else {
         _currentlyAttemptedPuzzle = i;
         [self activateGameWithId:[[FFGamesCore instance] puzzle:i].Id];
+
+        [[FFLevelStrip make:(i+1)] show];
+
 
         [FFAnalytics log:@"PUZZLE_START"
                     with:[NSDictionary dictionaryWithObjectsAndKeys:@(_currentlyAttemptedPuzzle+1),@"PUZZLE", nil]];

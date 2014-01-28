@@ -8,6 +8,7 @@
 #import "FFGame.h"
 #import "FFPattern.h"
 #import "FFUtil.h"
+#import "FFHint.h"
 
 
 @implementation FFPuzzleLoader {
@@ -117,6 +118,26 @@ static NSUInteger creationId;
         [patterns addObject:loadedPattern];
     }
     [challenge.player1 resetWithPatterns:patterns];
+
+
+    // //////////////////////////////////////////////////////////////////////////////////////////
+    // load hints
+    NSArray *hintDefs = [definition objectForKey:@"hints"];
+    NSMutableArray *hints = [[NSMutableArray alloc] initWithCapacity:3];
+
+    for (NSArray *coordDefs in hintDefs){
+        NSMutableArray *coords = [[NSMutableArray alloc] initWithCapacity:coordDefs.count];
+        for (NSArray *coord in coordDefs) {
+            [coords addObject:
+                    [[FFCoord alloc] initWithX:(ushort) [(NSNumber *) [coord objectAtIndex:0] integerValue]
+                                          andY:(ushort) [(NSNumber *) [coord objectAtIndex:1] integerValue]]
+            ];
+        }
+
+        FFHint *loadedHint = [[FFHint alloc] initWithCoords:coords];
+        [hints addObject:loadedHint];
+    }
+    challenge.hints = hints;
 
     return challenge;
 }

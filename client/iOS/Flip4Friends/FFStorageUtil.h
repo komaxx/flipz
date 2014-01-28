@@ -37,4 +37,6 @@
 
 + (BOOL)rateRequestDialogFinished;
 + (void)setRateRequestDialogFinished;
+
++ (NSTimeInterval)getLastSkipTime;
 @end

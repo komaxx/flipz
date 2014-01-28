@@ -13,6 +13,7 @@
 #import "FFHistorySlider.h"
 #import "FFHistoryStep.h"
 #import "FFSoundServer.h"
+#import "FFHint.h"
 
 @interface FFBoardView()
 /**
@@ -20,7 +21,7 @@
 */
 @property (strong, nonatomic) NSMutableArray* tileViews;
 @property (copy, nonatomic) NSString *activeGameId;
-@property (strong, nonatomic) NSMutableArray *historyTiles;
+@property (strong, nonatomic) NSMutableArray *hintTiles;
 @property FFBoard *introBoard;
 
 @end
@@ -54,7 +55,7 @@
 
 - (void)setup {
     self.tileViews = [[NSMutableArray alloc] initWithCapacity:(8*8)];
-    self.historyTiles = [[NSMutableArray alloc] initWithCapacity:10];
+    self.hintTiles = [[NSMutableArray alloc] initWithCapacity:12];
 }
 
 - (void)didAppear {
@@ -91,6 +92,7 @@
     FFBoard *board = game.Board;
 
     if (![game.Id isEqualToString:self.activeGameId] || game.Board.BoardSize != _shownBoardSize){
+        [self removeAllHintTiles];
         self.activeGameId = game.Id;
         [self updateTileCountFromBoard:board];
     }
@@ -102,6 +104,7 @@
     }
 
     [self updateTilesFromBoard:board];
+    [self updateHintsFromGame:game];
     _enableAudio = YES;
 }
 
@@ -137,46 +140,40 @@
     return _tileSize;
 }
 
-- (void)showOrHideHistory:(NSNotification *)notification {
-    NSNumber *nowHistoryStepsBack = [notification.userInfo objectForKey:kFFNotificationHistoryShowStateChanged_stepsBack];
-    if (nowHistoryStepsBack.integerValue >= 0){
-        [self showHistoryStartingFromStepsBack:(NSUInteger) nowHistoryStepsBack.integerValue];
-    } else {
-        [self hideHistory];
-    }
-}
+- (void)updateHintsFromGame:(FFGame *)game {
+    int hintIndex = 0;
+    for (FFHint* hint in game.hints){
+        if (!hint.active) continue;
+        for (FFCoord* coord in hint.coords){
+            CGRect frame = [self getTileAtX:coord.x andY:coord.y].frame;
+            frame.size.width *= 0.4f;
+            frame.size.height *= 0.4f;
 
-- (void)showHistoryStartingFromStepsBack:(NSUInteger)startStepsBack {
-    for (UIView *historyTile in self.historyTiles) {
-        [historyTile removeFromSuperview];
-    }
-    [self.historyTiles removeAllObjects];
+            if (hintIndex%2==1) frame.origin.x += 2*frame.size.width;
+            if (hintIndex > 3) frame.origin.y += frame.size.height;
+            else if (hintIndex>1) frame.origin.y +=  2*frame.size.height;
 
-    FFGame *game = [[FFGamesCore instance] gameWithId:self.activeGameId];
-
-    if (startStepsBack >= game.history.count){
-        [self updateTilesFromBoard:game.Board];
-        NSLog(@"hiding history");
-    } else {
-        [self updateTilesFromBoard:[(FFHistoryStep *)[game.history objectAtIndex:startStepsBack] board]];
-
-        if (startStepsBack > 0){
-            FFHistoryStep *nextTilesStep = [game.history objectAtIndex:startStepsBack-1];
-            // show the affected tiles
-            for (FFCoord *coord in nextTilesStep.flippedTiles) {
-                UIView *tileView = [[UIView alloc] initWithFrame:[self getTileAtX:coord.x andY:coord.y].frame];
-                tileView.backgroundColor =
-                        [UIColor colorWithPatternImage:[FFPatternGenerator createHistoryMoveOverlayPatternForStep:0]];
-                tileView.layer.zPosition = 1000;
-                [self.historyTiles addObject:tileView];
-                [self addSubview:tileView];
-            }
+            UILabel *tileView = [[UILabel alloc] initWithFrame:frame];
+            tileView.text = [NSString stringWithFormat:@"%i", (hintIndex+1)];
+            tileView.textAlignment = NSTextAlignmentCenter;
+            tileView.font = [UIFont fontWithName:@"Futura-CondensedExtraBold" size:12];
+            tileView.shadowColor = [UIColor whiteColor];
+            tileView.shadowOffset = CGSizeMake(1, 2);
+            tileView.backgroundColor =
+                    [UIColor colorWithPatternImage:[FFPatternGenerator createHistoryMoveOverlayPatternForStep:hintIndex]];
+            tileView.layer.zPosition = 1000;
+            [self.hintTiles addObject:tileView];
+            [self addSubview:tileView];
         }
+        hintIndex++;
     }
 }
 
-- (void)hideHistory {
-    [self showHistoryStartingFromStepsBack:9999];
+- (void)removeAllHintTiles {
+    for (UIView *hintTile in self.hintTiles) {
+        [hintTile removeFromSuperview];
+    }
+    [self.hintTiles removeAllObjects];
 }
 
 /**
@@ -236,6 +233,8 @@
 
     self.introBoard = [[FFBoard alloc] initWithSize:6];
     [self.introBoard shuffle];
+
+    [self removeAllHintTiles];
 
     for (FFTileViewMultiStated *view in self.tileViews) view.tileType = kFFBoardType_twoStated;
 

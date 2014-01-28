@@ -26,4 +26,6 @@
 - (void)solveSynchronouslyAndAbortWhenFirstFound:(BOOL)abortWhenFirstFound;
 
 - (int) findValidPositionsForPattern:(FFPattern *)pattern onBoard:(FFBoard *)board;
+
+- (id)printCoordsForMove;
 @end

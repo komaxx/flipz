@@ -310,7 +310,11 @@
 
 - (NSUInteger)computeMinimumRestFlips {
     NSUInteger ret = 0;
-    for (FFTile *tile in self.tiles) ret += tile.color;
+    for (FFTile *tile in self.tiles){
+        ret += tile.color;
+        if (tile.color > 0 && tile.nowLocked) ret++;
+        if (tile.color > 0 && tile.doubleLocked) ret++;
+    }
     return ret;
 }
 

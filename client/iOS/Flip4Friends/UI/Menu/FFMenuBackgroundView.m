@@ -18,18 +18,32 @@
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        self.opaque = NO;
-        self.backgroundColor =
-                [UIColor colorWithHue:0.70 saturation:0.4 brightness:0.4 alpha:0.9];
-        self.layer.cornerRadius = RADIUS;
-        self.layer.borderWidth = RADIUS/2;
-        self.layer.borderColor = [[UIColor colorWithHue:0.70 saturation:0.5 brightness:0.8 alpha:0.3] CGColor];
-        self.layer.masksToBounds = YES;
-
+        [self basicStyling];
     }
 
     return self;
 }
+
+- (id)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self basicStyling];
+    }
+
+    return self;
+}
+
+- (void)basicStyling {
+    self.opaque = NO;
+    self.backgroundColor =
+            [UIColor colorWithHue:0.70 saturation:0.4 brightness:0.4 alpha:0.9];
+    self.layer.cornerRadius = RADIUS;
+    self.layer.borderWidth = RADIUS/2;
+    self.layer.borderColor = [[UIColor colorWithHue:0.70 saturation:0.5 brightness:0.8 alpha:0.3] CGColor];
+    self.layer.masksToBounds = YES;
+}
+
+
 
 - (void)drawRect:(CGRect)rect {
     CGContextRef context = UIGraphicsGetCurrentContext();

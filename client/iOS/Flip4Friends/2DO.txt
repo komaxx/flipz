@@ -2,27 +2,34 @@ Sorted by priority:
 
 
 MUST
-* Store: Nicht ganzer deutscher Text sichtbar
 * Hab' schon bezahlt (hat aber nicht) -> bleibt hängen in "unlocking"
-* Won/lost sounds
 
 
 CAN
+* hint (missing for 84)
 * fine-tune auto-generated levels: 1,2,3: ok
-* say what level was just started.
-* Modify history icon for returned to step
-* 5 new levels
-* Tutorial "Flip more than once" -> longer
-* Update tutorial 1: Pull from board to deselect pattern
 * quick rotation gesture (flick on ring, two finger flick)
 * Triggered moves!
-* Hint
+* algorithm for moves until hint
+* Update tutorial 1: Pull from board to deselect pattern
+* 5 new levels
 * Game Center possibilities
-* Random game: Time!
+* Random game: Display played time!
 * some more levels
 
 
+
 DONE v1.1
+* Won/lost sounds
+* Hints
+* Hint analytics
+* 3 new levels
+* Test: App Store link from rating dialog
+* Tutorial "Flip more than once" -> longer
+* Change the status bar text color for iOS7
+* Challenge explain toast
+* Store: Nicht ganzer deutscher Text sichtbar
+* say what level was just started.
 * Rate/Feedback dialog: Do you enjoy the app? YES->please rate / NO->feedback form
 * Typo: Hab' schon bezahlt
 * Show double-locked tiles as double-locked

@@ -10,6 +10,9 @@
 #import "FFButton.h"
 #import "FFGamesCore.h"
 #import "FFAnalytics.h"
+#import "FFStorageUtil.h"
+
+#define SKIP_DELAY 60*12
 
 @interface FFGamePausedMenu ()
 @property (weak, nonatomic) FFButton *menuButton;
@@ -37,6 +40,10 @@
     }
 
     return self;
+}
+
+- (void)skipTapped:(id)skipTapped {
+
 }
 
 - (void)resumeTapped:(id)retryTapped {
