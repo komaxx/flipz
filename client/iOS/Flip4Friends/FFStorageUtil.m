@@ -18,7 +18,7 @@
 #define LAST_SKIP_TIME_KEY @"last_skip_time"
 
 //#define DEBUG_ALL_ACCESS 1
-//#define DEBUG_UNLOCK
+#define DEBUG_UNLOCK
 
 
 @implementation FFStorageUtil {

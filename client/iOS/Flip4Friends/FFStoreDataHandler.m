@@ -6,7 +6,6 @@
 
 #import <StoreKit/StoreKit.h>
 #import "FFStoreDataHandler.h"
-#import "Flurry.h"
 #import "FFStorageUtil.h"
 #import "FFAnalytics.h"
 
@@ -62,20 +61,20 @@ NSString *const FFStoreDataHandlerNotification = @"StoreDataHandlerNotification"
     NSLog(@"Request did fial with error: %@", error.localizedDescription);
     self.basicDataRequest = nil;
 
-    [Flurry
-            logError:@"STORE_ERROR"
-             message:@"basic product request failed"
-           error:error];
+//    [Flurry
+//            logError:@"STORE_ERROR"
+//             message:@"basic product request failed"
+//           error:error];
     self.basicLoadingState = kFFLoadingState_Failed;
     [self notifyChange];
 }
 
 - (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
     if (!response.products || response.products.count != 1){
-        [Flurry
-                logError:@"STORE_ERROR"
-                 message:[NSString stringWithFormat:@"Unexpected SKProduct count: %i", response.products.count]
-               exception:nil];
+//        [Flurry
+//                logError:@"STORE_ERROR"
+//                 message:[NSString stringWithFormat:@"Unexpected SKProduct count: %i", response.products.count]
+//               exception:nil];
         self.product = nil;
     } else {
         self.product = [response.products objectAtIndex:0];
@@ -134,7 +133,7 @@ NSString *const FFStoreDataHandlerNotification = @"StoreDataHandlerNotification"
     if (transaction.error.code != SKErrorPaymentCancelled) {
         NSLog(@"Transaction error: %@", transaction.error.localizedDescription);
 
-        [Flurry logError:@"STORE_PAYMENT_FAILED" message:@":(" error:transaction.error];
+        //[Flurry logError:@"STORE_PAYMENT_FAILED" message:@":(" error:transaction.error];
         self.unlockingState = kFFUnlockingState_Failed;
     } else {
         [FFAnalytics log:@"STORE_PAYMENT_CANCELLED"];

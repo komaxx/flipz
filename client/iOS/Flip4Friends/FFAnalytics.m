@@ -5,7 +5,7 @@
 
 
 #import "FFAnalytics.h"
-#import "Flurry.h"
+
 
 
 
@@ -19,8 +19,8 @@
     #endif
 
 
-    [Flurry setCrashReportingEnabled:YES];
-    [Flurry startSession:@"PFNPNQ45HRB6WCVBJQF3"];
+//    [Flurry setCrashReportingEnabled:YES];
+//    [Flurry startSession:@"PFNPNQ45HRB6WCVBJQF3"];
 }
 
 + (void)log:(NSString *)event {
@@ -28,7 +28,7 @@
     NSLog(@"Logging event: %@", event);
     #endif
 
-    [Flurry logEvent:event];
+//    [Flurry logEvent:event];
 }
 
 + (void)log:(NSString *)event with:(NSDictionary *)data {
@@ -36,7 +36,7 @@
     NSLog(@"Logging event: %@ with data: %@", event, data);
     #endif
 
-    [Flurry logEvent:event withParameters:data];
+//    [Flurry logEvent:event withParameters:data];
 }
 
 @end

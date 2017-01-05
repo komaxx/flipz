@@ -15,7 +15,7 @@
 - (id)init {
     self = [super init];
     if (self) {
-        self.playablePatterns = [[NSArray alloc] initWithObjects:nil];
+        self.playablePatterns = @[];
     }
 
     return self;

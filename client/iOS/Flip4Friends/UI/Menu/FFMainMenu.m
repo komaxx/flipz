@@ -9,7 +9,6 @@
 #import "FFAutoPlayer.h"
 #import "FFGamesCore.h"
 #import "FFAutoSolver.h"
-#import "Flurry.h"
 #import "FFAnalytics.h"
 #import "FFStorageUtil.h"
 

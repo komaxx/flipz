@@ -68,10 +68,8 @@
 		CEA707EF176B81FA00DD93E9 /* FFBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA707EE176B81FA00DD93E9 /* FFBoard.m */; };
 		CEA707F2176B824D00DD93E9 /* FFTile.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA707F1176B824D00DD93E9 /* FFTile.m */; };
 		CEA7BE6D1847D5AC000CEBBE /* FFChallengeSelectMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA7BE6C1847D5AC000CEBBE /* FFChallengeSelectMenu.m */; };
-		CEA7BE6F18491857000CEBBE /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA7BE6E18491857000CEBBE /* StoreKit.framework */; };
 		CEA7BE7218491969000CEBBE /* FFStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA7BE7118491969000CEBBE /* FFStoreViewController.m */; };
 		CEA7BE74184E50A6000CEBBE /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA7BE73184E50A6000CEBBE /* MessageUI.framework */; };
-		CEA7BE7818509D67000CEBBE /* libFlurry_4.3.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA7BE7718509D67000CEBBE /* libFlurry_4.3.0.a */; };
 		CEA7BE7A18509DA8000CEBBE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA7BE7918509DA8000CEBBE /* SystemConfiguration.framework */; };
 		CEA7BE7C18509DCB000CEBBE /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA7BE7B18509DCB000CEBBE /* Security.framework */; };
 		CEBBC114176B5FF3006F600E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEBBC113176B5FF3006F600E /* UIKit.framework */; };
@@ -85,11 +83,8 @@
 		CEBBC12A176B5FF4006F600E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBBC129176B5FF4006F600E /* Default-568h@2x.png */; };
 		CEBBC12D176B5FF4006F600E /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEBBC12B176B5FF4006F600E /* MainStoryboard.storyboard */; };
 		CEBBC130176B5FF4006F600E /* FFViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBBC12F176B5FF4006F600E /* FFViewController.m */; };
-		CEBBC138176B5FF4006F600E /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEBBC137176B5FF4006F600E /* SenTestingKit.framework */; };
 		CEBBC139176B5FF4006F600E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEBBC113176B5FF3006F600E /* UIKit.framework */; };
 		CEBBC13A176B5FF4006F600E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEBBC115176B5FF3006F600E /* Foundation.framework */; };
-		CEBBC142176B5FF4006F600E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEBBC140176B5FF4006F600E /* InfoPlist.strings */; };
-		CEBBC145176B5FF4006F600E /* Flip4FriendsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBBC144176B5FF4006F600E /* Flip4FriendsTests.m */; };
 		CEBBC151176B776E006F600E /* FFBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBBC150176B776E006F600E /* FFBoardView.m */; };
 		CEBD2C19179F47B0008C0835 /* back_pattern.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBD2C17179F47B0008C0835 /* back_pattern.png */; };
 		CEBD2C1A179F47B0008C0835 /* back_pattern@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEBD2C18179F47B0008C0835 /* back_pattern@2x.png */; };
@@ -225,7 +220,6 @@
 		CE3032441856446E00393767 /* sound_off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "sound_off@2x.png"; path = "Resources/sound_off@2x.png"; sourceTree = "<group>"; };
 		CE65AC451857DDDC00985EE1 /* tic.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = tic.aiff; path = Resources/tic.aiff; sourceTree = "<group>"; };
 		CE970D5D186F036F00966327 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		CE970D5E186F036F00966327 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CE970D60186F039400966327 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CE970D62186F039800966327 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CE970D63186F158400966327 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = de; path = de.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
@@ -238,12 +232,9 @@
 		CEA707F1176B824D00DD93E9 /* FFTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFTile.m; path = Model/FFTile.m; sourceTree = "<group>"; };
 		CEA7BE6B1847D5AC000CEBBE /* FFChallengeSelectMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFChallengeSelectMenu.h; path = UI/Menu/FFChallengeSelectMenu.h; sourceTree = "<group>"; };
 		CEA7BE6C1847D5AC000CEBBE /* FFChallengeSelectMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFChallengeSelectMenu.m; path = UI/Menu/FFChallengeSelectMenu.m; sourceTree = "<group>"; };
-		CEA7BE6E18491857000CEBBE /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		CEA7BE7018491969000CEBBE /* FFStoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFStoreViewController.h; path = UI/FFStoreViewController.h; sourceTree = "<group>"; };
 		CEA7BE7118491969000CEBBE /* FFStoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFStoreViewController.m; path = UI/FFStoreViewController.m; sourceTree = "<group>"; };
 		CEA7BE73184E50A6000CEBBE /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		CEA7BE7618509D67000CEBBE /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
-		CEA7BE7718509D67000CEBBE /* libFlurry_4.3.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_4.3.0.a; sourceTree = "<group>"; };
 		CEA7BE7918509DA8000CEBBE /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		CEA7BE7B18509DCB000CEBBE /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		CEBBC110176B5FF3006F600E /* Flip4Friends.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flip4Friends.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -262,12 +253,7 @@
 		CEBBC12C176B5FF4006F600E /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		CEBBC12E176B5FF4006F600E /* FFViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FFViewController.h; sourceTree = "<group>"; };
 		CEBBC12F176B5FF4006F600E /* FFViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FFViewController.m; sourceTree = "<group>"; };
-		CEBBC136176B5FF4006F600E /* Flip4FriendsTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Flip4FriendsTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		CEBBC137176B5FF4006F600E /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		CEBBC13F176B5FF4006F600E /* Flip4FriendsTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Flip4FriendsTests-Info.plist"; sourceTree = "<group>"; };
-		CEBBC141176B5FF4006F600E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		CEBBC143176B5FF4006F600E /* Flip4FriendsTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Flip4FriendsTests.h; sourceTree = "<group>"; };
-		CEBBC144176B5FF4006F600E /* Flip4FriendsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Flip4FriendsTests.m; sourceTree = "<group>"; };
+		CEBBC136176B5FF4006F600E /* Flip4FriendsTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = Flip4FriendsTests.octest; path = Flip4FriendsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEBBC14F176B776E006F600E /* FFBoardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFBoardView.h; path = UI/FFBoardView.h; sourceTree = "<group>"; };
 		CEBBC150176B776E006F600E /* FFBoardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFBoardView.m; path = UI/FFBoardView.m; sourceTree = "<group>"; };
 		CEBD2C17179F47B0008C0835 /* back_pattern.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = back_pattern.png; path = Resources/back_pattern.png; sourceTree = "<group>"; };
@@ -316,8 +302,6 @@
 				CEA7BE74184E50A6000CEBBE /* MessageUI.framework in Frameworks */,
 				CEA592EF1780663000DD6F86 /* QuartzCore.framework in Frameworks */,
 				CEBBC114176B5FF3006F600E /* UIKit.framework in Frameworks */,
-				CEA7BE6F18491857000CEBBE /* StoreKit.framework in Frameworks */,
-				CEA7BE7818509D67000CEBBE /* libFlurry_4.3.0.a in Frameworks */,
 				CEBBC116176B5FF3006F600E /* Foundation.framework in Frameworks */,
 				CEBBC118176B5FF3006F600E /* CoreGraphics.framework in Frameworks */,
 			);
@@ -327,7 +311,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CEBBC138176B5FF4006F600E /* SenTestingKit.framework in Frameworks */,
 				CEBBC139176B5FF4006F600E /* UIKit.framework in Frameworks */,
 				CEBBC13A176B5FF4006F600E /* Foundation.framework in Frameworks */,
 			);
@@ -405,25 +388,13 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
-		CEA7BE7518509D67000CEBBE /* Flurry */ = {
-			isa = PBXGroup;
-			children = (
-				CEA7BE7618509D67000CEBBE /* Flurry.h */,
-				CEA7BE7718509D67000CEBBE /* libFlurry_4.3.0.a */,
-			);
-			name = Flurry;
-			path = Flip4Friends/Flurry;
-			sourceTree = "<group>";
-		};
 		CEBBC107176B5FF3006F600E = {
 			isa = PBXGroup;
 			children = (
 				CEA592EE1780663000DD6F86 /* QuartzCore.framework */,
 				CEBBC119176B5FF4006F600E /* Flip4Friends */,
-				CEBBC13D176B5FF4006F600E /* Flip4FriendsTests */,
 				CEBBC112176B5FF3006F600E /* Frameworks */,
 				CEBBC111176B5FF3006F600E /* Products */,
-				CEA7BE7518509D67000CEBBE /* Flurry */,
 			);
 			sourceTree = "<group>";
 		};
@@ -443,12 +414,10 @@
 				CEA7BE7B18509DCB000CEBBE /* Security.framework */,
 				CEA7BE7918509DA8000CEBBE /* SystemConfiguration.framework */,
 				CEA7BE73184E50A6000CEBBE /* MessageUI.framework */,
-				CEA7BE6E18491857000CEBBE /* StoreKit.framework */,
 				CED0075C183BC78500611C91 /* AudioToolbox.framework */,
 				CEBBC113176B5FF3006F600E /* UIKit.framework */,
 				CEBBC115176B5FF3006F600E /* Foundation.framework */,
 				CEBBC117176B5FF3006F600E /* CoreGraphics.framework */,
-				CEBBC137176B5FF4006F600E /* SenTestingKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -496,25 +465,6 @@
 				CEBBC125176B5FF4006F600E /* Default.png */,
 				CEBBC127176B5FF4006F600E /* Default@2x.png */,
 				CEBBC129176B5FF4006F600E /* Default-568h@2x.png */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		CEBBC13D176B5FF4006F600E /* Flip4FriendsTests */ = {
-			isa = PBXGroup;
-			children = (
-				CEBBC143176B5FF4006F600E /* Flip4FriendsTests.h */,
-				CEBBC144176B5FF4006F600E /* Flip4FriendsTests.m */,
-				CEBBC13E176B5FF4006F600E /* Supporting Files */,
-			);
-			path = Flip4FriendsTests;
-			sourceTree = "<group>";
-		};
-		CEBBC13E176B5FF4006F600E /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				CEBBC13F176B5FF4006F600E /* Flip4FriendsTests-Info.plist */,
-				CEBBC140176B5FF4006F600E /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -664,7 +614,7 @@
 			name = Flip4FriendsTests;
 			productName = Flip4FriendsTests;
 			productReference = CEBBC136176B5FF4006F600E /* Flip4FriendsTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -673,6 +623,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = FF;
+				LastTestingUpgradeCheck = 0700;
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = FlippyFriends;
 				TargetAttributes = {
@@ -680,7 +631,7 @@
 						DevelopmentTeam = 2CVU9AA4FB;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -749,7 +700,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CEBBC142176B5FF4006F600E /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -843,7 +793,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CEBBC145176B5FF4006F600E /* Flip4FriendsTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -886,15 +835,6 @@
 			name = MainStoryboard.storyboard;
 			sourceTree = "<group>";
 		};
-		CEBBC140176B5FF4006F600E /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				CEBBC141176B5FF4006F600E /* en */,
-				CE970D5E186F036F00966327 /* de */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -923,7 +863,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "8875F42B-24FE-47E1-8ECC-3518DE13DE89";
 				SDKROOT = iphoneos;
@@ -949,7 +889,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "8875F42B-24FE-47E1-8ECC-3518DE13DE89";
 				SDKROOT = iphoneos;
@@ -961,18 +901,18 @@
 		CEBBC149176B5FF4006F600E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Matthias Schicker (XD7PEZJ2GD)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Matthias Schicker (XD7PEZJ2GD)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Flip4Friends/Flip4Friends-Prefix.pch";
 				INFOPLIST_FILE = "Flip4Friends/Flip4Friends-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/matthiasschicker/F4F/Flip4Friends/client/iOS/Flip4Friends/Flurry,
+					Users/matthiasschicker/play/Flip4Friends/client/iOS/Flip4Friends/Flurry,
 				);
 				PRODUCT_NAME = Flip4Friends;
-				PROVISIONING_PROFILE = "8875F42B-24FE-47E1-8ECC-3518DE13DE89";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -980,18 +920,18 @@
 		CEBBC14A176B5FF4006F600E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Matthias Schicker (XD7PEZJ2GD)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Matthias Schicker (XD7PEZJ2GD)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Flip4Friends/Flip4Friends-Prefix.pch";
 				INFOPLIST_FILE = "Flip4Friends/Flip4Friends-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/matthiasschicker/F4F/Flip4Friends/client/iOS/Flip4Friends/Flurry,
+					Users/matthiasschicker/play/Flip4Friends/client/iOS/Flip4Friends/Flurry,
 				);
 				PRODUCT_NAME = Flip4Friends;
-				PROVISIONING_PROFILE = "8875F42B-24FE-47E1-8ECC-3518DE13DE89";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -1003,13 +943,13 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Flip4Friends/Flip4Friends-Prefix.pch";
 				INFOPLIST_FILE = "Flip4FriendsTests/Flip4FriendsTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
 		};
@@ -1020,13 +960,13 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Flip4Friends/Flip4Friends-Prefix.pch";
 				INFOPLIST_FILE = "Flip4FriendsTests/Flip4FriendsTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
 		};
