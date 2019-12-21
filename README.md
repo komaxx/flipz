@@ -1,4 +1,4 @@
-![Screenshot](/scrsh_invdr.jpg?raw=true "Screenshot 1") ![Screenshot](/scrsh_list.jpg?raw=true "Screenshot 2")
+![Screenshot](/scrsh_invdr.jpg?raw=true "Screenshot 1") ![Screenshot](/scrsh_list.jpg?raw=true "Screenshot 2") ![Screenshot](/scrsh_tut.jpg?raw=true "Screenshot 3") ![Screenshot](/scrsh_vs.jpg?raw=true "Screenshot 4")
 # Flipz
 
 Flipz is a puzzle game for iOS where you put patterns on a grid to flip tiles. 
