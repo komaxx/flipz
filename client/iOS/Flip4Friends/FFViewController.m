@@ -56,11 +56,6 @@
     return UIStatusBarStyleLightContent;
 }
 
-
-- (void)gotoStore {
-    [self performSegueWithIdentifier:@"storeSegue" sender:self];
-}
-
 - (void)openFeedbackForm {
     if ([MFMailComposeViewController canSendMail]){
         MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];

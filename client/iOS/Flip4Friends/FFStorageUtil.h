@@ -9,7 +9,7 @@
 
 @interface FFStorageUtil : NSObject
 
-+ (NSUInteger)firstUnsolvedPuzzleIndex;
++ (NSInteger)firstUnsolvedPuzzleIndex;
 
 + (void) setFirstUnsolvedPuzzleIndex:(NSUInteger)nuIndex;
 
@@ -20,10 +20,6 @@
 + (NSUInteger)getTimesWonForChallengeLevel:(NSUInteger)value;
 
 + (void)setTimesWon:(NSUInteger)timesWon forChallengeLevel:(NSUInteger)level;
-
-+ (BOOL)isUnlocked;
-
-+ (void)unlockThisAwesomeFantasmagon;
 
 + (void)setSoundDisabled:(BOOL)b;
 

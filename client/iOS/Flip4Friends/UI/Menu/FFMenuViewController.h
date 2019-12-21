@@ -14,7 +14,6 @@
 - (void) activateGameWithId:(NSString *)gameId;
 - (void)restartCurrentGame;
 - (void)cleanCurrentGame;
-- (void)gotoStore;
 - (void)openFeedbackForm;
 @end
 

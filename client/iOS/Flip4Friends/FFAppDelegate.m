@@ -8,8 +8,6 @@
 
 #import <MessageUI/MessageUI.h>
 #import "FFAppDelegate.h"
-#import "FFAnalytics.h"
-#import "FFStoreDataHandler.h"
 #import "FFStorageUtil.h"
 #import "FFToast.h"
 
@@ -19,20 +17,10 @@
 
 
 @interface FFAppDelegate () <UIAlertViewDelegate>
-@property (readwrite, strong, nonatomic) FFStoreDataHandler* dataHandler;
 @end
 
 @implementation FFAppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [FFAnalytics appDidLoad];
-
-    self.dataHandler = [[FFStoreDataHandler alloc] init];
-    [self.dataHandler fetchBasicData];
-
-    return YES;
-}
-							
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
@@ -86,8 +74,6 @@
         cancelButtonTitle:NSLocalizedString(@"no", nil)
         otherButtonTitles:NSLocalizedString(@"yes", nil), nil];
     [rateRequestDialog show];
-
-    [FFAnalytics log:@"RATE_DIALOG_SHOWN"];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -103,7 +89,6 @@
                                   NSLocalizedString(@"dont_ask_again", nil),
                                   nil];
             [dontLikeItDialog show];
-            [FFAnalytics log:@"RATE_DIALOG_LIKE_NO"];
         } else {
             // YES, like it :)
             UIAlertView *likeItDialog = [[UIAlertView alloc]
@@ -115,7 +100,6 @@
                                   NSLocalizedString(@"dont_ask_again", nil),
                                   nil];
             [likeItDialog show];
-            [FFAnalytics log:@"RATE_DIALOG_LIKE_YES"];
         }
     } else if ([alertView.title isEqualToString:NSLocalizedString(@"dont_like_it_dialog_title", nil)]){
         if (buttonIndex == 0){
@@ -124,7 +108,6 @@
             [self openFeedbackForm];
         } else {
             [self neverShowRateDialogAgain];
-            [FFAnalytics log:@"RATE_DIALOG_NEVER_AGAIN"];
         }
     } else if ([alertView.title isEqualToString:NSLocalizedString(@"like_it_dialog_title", nil)]){
         if (buttonIndex == 0){
@@ -148,7 +131,6 @@
 }
 
 - (void)showRateDialogLaterAgain {
-    [FFAnalytics log:@"RATE_DIALOG_LATER"];
     [FFStorageUtil setTimesAppOpened:0];
 }
 

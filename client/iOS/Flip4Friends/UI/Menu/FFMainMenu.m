@@ -9,7 +9,6 @@
 #import "FFAutoPlayer.h"
 #import "FFGamesCore.h"
 #import "FFAutoSolver.h"
-#import "FFAnalytics.h"
 #import "FFStorageUtil.h"
 
 @interface FFMainMenu ()
@@ -57,22 +56,18 @@
 }
 
 - (void)feedbackTapped {
-    [FFAnalytics log:@"MAIN_MENU_FEEDBACK_TAPPED"];
     [self.delegate openFeedbackForm];
 }
 
 - (void)buttonSelectChallengeTapped {
-    [FFAnalytics log:@"MAIN_MENU_CHALLENGE_TAPPED"];
     [self.delegate chooseRandomChallengeSelected];
 }
 
 - (void)buttonSelectPuzzleTapped {
-    [FFAnalytics log:@"MAIN_MENU_PUZZLE_TAPPED"];
     [self.delegate choosePuzzleSelected];
 }
 
 - (void)buttonHotSeatTapped {
-    [FFAnalytics log:@"MAIN_MENU_HOT_SEAT_TAPPED"];
     [self.delegate hotSeatTapped];
 }
 

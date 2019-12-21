@@ -10,7 +10,6 @@
 #import "FFAutoSolver.h"
 #import "FFChallengeHistorySliderView.h"
 #import "FFToast.h"
-#import "FFAnalytics.h"
 
 
 @interface FFChallengeSidebar()
@@ -54,10 +53,8 @@
 //    [solver solveAsynchronouslyAndAbortWhenFirstFound:YES];
 
     if ([game isHintAvailable]){
-        [FFAnalytics log:@"HINT_ACTIVATED"];
         [game activateHint];
     } else {
-        [FFAnalytics log:@"HINT_DENIED"];
         [[FFToast make:NSLocalizedString(@"hint_not_yet_available", nil)] show];
     }
 }

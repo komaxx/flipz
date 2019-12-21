@@ -9,7 +9,6 @@
 #import "FFGame.h"
 #import "FFPattern.h"
 #import "FFHistoryStep.h"
-#import "FFAnalytics.h"
 #import "FFHint.h"
 
 NSString *const kFFNotificationGameChanged = @"ffGameChanged";
@@ -161,9 +160,6 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
             return -5;
         }
 
-        [FFAnalytics log:@"UNDO_MOVE" with:[NSDictionary dictionaryWithObjectsAndKeys:
-                self.Id, @"GAME_ID", @(self.currentHistoryBackSteps), @"UNDO_STEPS",nil]];
-
         _doneUndos++;
         for (int i = 0; i < self.currentHistoryBackSteps; i++){
             [(NSMutableArray *) self.history removeObjectAtIndex:0];
@@ -179,9 +175,6 @@ NSString *const kFFGameTypeRemote = @"gtRemote";
             initWithMove:move
                byPlayer1:player==self.player1
          andPreviousStep:[self currentHistoryStep]];
-
-    [FFAnalytics log:@"MOVEMOVE" with:[NSDictionary dictionaryWithObjectsAndKeys:
-            self.Id, @"GAME_ID", @(_challengeMoves), @"OVERALL_MOVES",nil]];
 
     [(NSMutableArray *)self.history insertObject:nuStep atIndex:0];
 

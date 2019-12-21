@@ -9,7 +9,6 @@
 #import "FFMenuViewController.h"
 #import "FFButton.h"
 #import "FFGamesCore.h"
-#import "FFAnalytics.h"
 #import "FFStorageUtil.h"
 
 #define SKIP_DELAY 60*12
@@ -62,8 +61,6 @@
 
 - (void)hide:(BOOL)b {
     if (!b && self.hidden){
-        [FFAnalytics log:@"SHOW_PAUSE_MENU"];
-
         FFGame *game = [[FFGamesCore instance] gameWithId:self.delegate.delegate.activeGameId];
         if (game && [game.Type isEqualToString:kFFGameTypeHotSeat]){
             self.transform = CGAffineTransformMakeRotation((CGFloat) M_PI / -2.0);

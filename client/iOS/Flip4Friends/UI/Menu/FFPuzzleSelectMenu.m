@@ -16,7 +16,7 @@
 @end
 
 @implementation FFPuzzleSelectMenu {
-    BOOL _previoulsyShown;
+    BOOL _previouslyShown;
 }
 @synthesize delegate = _delegate;
 
@@ -129,13 +129,13 @@
     self.hidden = hidden;
     if (!hidden){
 
-        if (!_previoulsyShown){
+        if (!_previouslyShown){
             // just displayed -> focus on last unsolved element
             NSIndexPath *indexPath = [NSIndexPath
                     indexPathForRow:MAX(1,[FFStorageUtil firstUnsolvedPuzzleIndex]-3)
                           inSection:0];
             [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
-            _previoulsyShown = YES;
+            _previouslyShown = YES;
         }
     }
 }

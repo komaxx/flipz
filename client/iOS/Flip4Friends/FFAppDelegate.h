@@ -9,11 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <MessageUI/MessageUI.h>
 
-@class FFStoreDataHandler;
 
 @interface FFAppDelegate : UIResponder <UIApplicationDelegate, MFMailComposeViewControllerDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-@property (readonly, strong, nonatomic) FFStoreDataHandler* dataHandler;
 
 @end
