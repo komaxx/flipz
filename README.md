@@ -1,10 +1,13 @@
-![Screenshot](/scrsh_invdr.jpg?raw=true "Screenshot 1") ![Screenshot](/scrsh_list.jpg?raw=true "Screenshot 2") ![Screenshot](/scrsh_tut.jpg?raw=true "Screenshot 3") ![Screenshot](/scrsh_vs.jpg?raw=true "Screenshot 4")
 # Flipz
 
 Flipz is a puzzle game for iOS where you put patterns on a grid to flip tiles. 
 Includes lots of game mechanics (multi-flip, rotating patterns, time-blocked), a multi-player mode, 100 hand-crafted levels, tutorials, an automatic level generator, and a level editor.
 
 Here's the official homepage: [Flipz](https://poroba.com/flip/flipz.php)
+
+## Screenshots
+
+![Screenshot](/scrsh_invdr.jpg?raw=true "Screenshot 1") ![Screenshot](/scrsh_list.jpg?raw=true "Screenshot 2") ![Screenshot](/scrsh_tut.jpg?raw=true "Screenshot 3") ![Screenshot](/scrsh_vs.jpg?raw=true "Screenshot 4")
 
 ## Usage
 
